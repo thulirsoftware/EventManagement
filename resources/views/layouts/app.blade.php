@@ -19,6 +19,23 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+
+    <style type="text/css">
+        #app{
+            margin-top:20px;
+        }
+    </style>
+
+    
+
 </head>
 <body>
     <div id="app">
@@ -47,38 +64,52 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+    <ul class="nav navbar-nav navbar-right">
+        <!-- Authentication Links -->
+        @if (Auth::guest())
+            
+            <li><a href="{{ route('register') }}" style="color:black;background-color: orange;padding:10px;border-radius: 5px">Membership</a></li>
+            <li><a href="{{ url('/nonMemberTicket') }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Events</a></li>
+            <li><a href="{{ route('register') }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Sign Up</a></li>
+            <li><a href="{{ route('login') }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Sign In</a></li>
+        @else
 
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
+        <li><a href="{{ url("users/logout") }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Sign Out</a></li>
+            {{-- <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                </ul>
+            </li> --}}
+        @endif
+    </ul>
                 </div>
             </div>
         </nav>
 
-        @yield('content')
+       {{--  @yield('content') --}}
+    </div>
+
+    <div class="col-md-12">
+    @if (Auth::user())
+    @include('layouts.sidebar')
+    @endif
+    <div style="margin-top:70px;">
+    @yield('content')
+    </div>
     </div>
 
     <!-- Scripts -->

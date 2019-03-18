@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use App\Member;
+use App\FamilyMember;
+
 class RegisterController extends Controller
 {
     /*
@@ -62,10 +65,93 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+    $membershipExpiry = date('Y-m-d', strtotime('+1 years'));
+
+        $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
+        
+        $userId=$user[0]['id'];
+
+        $tagDvId='TDV'.sprintf("%07d", ++$userId);
+
+        $member = Member::create([
+            'firstName' => $data['name'],
+            'lastName' => $data['lastName'],
+            'primaryEmail' => $data['email'],
+            'secondaryEmail' => "", 
+            'tagDvId' => $tagDvId,
+            'gender' => $data['gender'],
+            'dob' => $data['dob'],
+            'maritalStatus' => $data['maritalStatus'],
+            'phoneNo1' => $data['phoneNo1'],
+            'phoneNo2' => $data['spousePhoneNo'],
+            'addressLine1' => $data['address1'],
+            'addressLine2' => "",
+            'country' => "",
+            'state' => "",
+            'zipCode' => $data['zipCode'],
+            'membershipType' => $data['membershipType'],
+            'membershipExpiryDate' => $membershipExpiry,
+        ]);
+
+
+        if($data['spouseName'] != ""){
+        $familyMember = FamilyMember::create([
+            'tagDvId' => $tagDvId,
+            'firstName' => $data['spouseName'],
+            'lastName' => "",
+            'relationshipType' => "", 
+            'phoneNo' => $data['spousePhoneNo'],
+            'dob' => "",
+            'schoolName' => "",
+        ]);
+    }   
+
+    if($data['firstChildName'] != ""){
+        $familyMember = FamilyMember::create([
+            'tagDvId' => $tagDvId,
+            'firstName' => $data['firstChildName'],
+            'lastName' => "",
+            'relationshipType' => "", 
+            'phoneNo' => "",
+            'dob' => "",
+            'schoolName' => $data['child1SchoolName'],
+        ]);
+    } 
+
+    if($data['secondChildName'] != ""){
+        $familyMember = FamilyMember::create([
+            'tagDvId' => $tagDvId,
+            'firstName' => $data['secondChildName'],
+            'lastName' => "",
+            'relationshipType' => "", 
+            'phoneNo' => "",
+            'dob' => "",
+            'schoolName' => $data['child2SchoolName'],
+        ]);
+    } 
+
+    if($data['thirdChildName'] != ""){
+        $familyMember = FamilyMember::create([
+            'tagDvId' => $tagDvId,
+            'firstName' => $data['thirdChildName'],
+            'lastName' => "",
+            'relationshipType' => "", 
+            'phoneNo' => "",
+            'dob' => "",
+            'schoolName' => $data['child3SchoolName'],
+        ]);
+    }   
+
+
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'user_type' => $data['userType'],
+            'tagDvId' => $tagDvId,
             'password' => bcrypt($data['password']),
         ]);
+
     }
 }
