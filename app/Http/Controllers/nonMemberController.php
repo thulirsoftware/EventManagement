@@ -10,15 +10,23 @@ use DB;
 use App\NonMember;
 use App\TicketPurchase;
 use App\TicketPurchaseDetail;
+use Session;
 
 class nonMemberController extends Controller
 {
+    
+
+
     public function nonMemberTicket()
     {
-    	$baseurl = Storage::url('upload/events/');
-    	$events = Event::all()->toArray();
+     	$events = Event::all()->toArray();
+    
+        $baseurl = "/events/";
+    	
         return view('nonMemberTicket',compact('baseurl','events'));
     }
+
+
 
     public function nonMemberBuyTicket($id)
     {
@@ -26,55 +34,44 @@ class nonMemberController extends Controller
 
         return view('nonMemberBuyTicket',compact('nonMemberTickets'));
     }
+    
 
+    
     public function nonMemberBuyTicketPost(Request $request)
     {
 
-        $nonMember = new nonMember;
-        $nonMember->firstName = $request->firstName;
-        $nonMember->lastName = $request->lastName;
-        $nonMember->email = $request->email;
-        $nonMember->phoneNo = $request->phoneNo;
-        $nonMember->save();
-
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $email = $request->email;
+        $phoneNo = $request->phoneNo;
+        $tagDvId = $request->tagDvId;
+        $eventId = $request->eventId;
+        $eventName = $request->eventName;
+        $memberType = $request->memberType;
+        $ticketQty = $request->ticketQty;
+        $ticketType = $request->ticketType;
+        $ticketPrice = $request->ticketPrice;
 
         $ticketCount = count($request->ticketType);
 
-        $totalAmount = "";
+        $totalAmount = 0;
         $allData = $request->all();
 
         for($i=0; $i<$ticketCount; $i++){
-          
-          $totalAmount += $allData['ticketQty'][$i] * $allData['ticketPrice'][$i];        
+        $totalAmount += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
         } 
+        
+        if ($totalAmount < 1) {
+            return redirect()->back()->with('Error', 'Total ticket quantity must be greater than 1!');
+        }
+        
+        //dd($totalAmount);
+        $request['totalAmount'] = $totalAmount;
 
+        // Session Put
+        $sessionData = $request->all();
+        Session::put('EventTicket',$sessionData);
 
-            $ticketPurchase = new TicketPurchase;
-            $ticketPurchase->name = $allData['firstName'].$allData['lastName'];
-            $ticketPurchase->email = $allData['email'];
-            $ticketPurchase->memberType = $allData['memberType'];
-            $ticketPurchase->tagDvId =$allData['tagDvId'];
-            $ticketPurchase->eventId = $allData['eventId'];
-            $ticketPurchase->eventName = $allData['eventName'];
-            $ticketPurchase->totalAmount = $totalAmount;
-            $ticketPurchase->paymentStatus = "PEND";
-            $ticketPurchase->paymentId = "";
-            $ticketPurchase->save();
-
-        $lastInsert = TicketPurchase::whereRaw('id = (select max(`id`) from purchased_tickets)')->get();
-            
-        $lastInsertId = $lastInsert[0]['id'];
-
-            for($i=0; $i<$ticketCount; $i++){
-
-                $ticketPurchaseDetail = new TicketPurchaseDetail;
-                $ticketPurchaseDetail->ticketId =$lastInsertId;
-                $ticketPurchaseDetail->ticketType =$allData['ticketType'][$i];
-                $ticketPurchaseDetail->ticketQty = $allData['ticketQty'][$i];
-                $ticketPurchaseDetail->ticketAmount = $allData['ticketQty'][$i] * $allData['ticketPrice'][$i];
-                $ticketPurchaseDetail->save();
-                    
-            }    
-        return redirect()->back();
+        return view('nonMemberTicketView',compact('ticketQty','ticketType','ticketPrice','sessionData'));
     }
 }

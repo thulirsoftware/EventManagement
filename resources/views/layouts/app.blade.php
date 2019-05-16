@@ -8,7 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- <title>{{ config('app.name', 'TAGDV') }}</title> --}}
+
+    <title>TagDv</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -30,7 +32,7 @@
 
     <style type="text/css">
         #app{
-            margin-top:20px;
+            margin-top:0px;
         }
     </style>
 
@@ -39,7 +41,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-static-top" style="background-color:#f3f4c6;padding:20px">
             <div class="container">
                 <div class="navbar-header">
 
@@ -53,7 +55,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="https://tagdv.org/wp-content/uploads/2018/08/TAGDV.jpg" style="width: 200px;height: 80px;margin-top: -30px">
                     </a>
                 </div>
 
@@ -68,7 +70,7 @@
         <!-- Authentication Links -->
         @if (Auth::guest())
             
-            <li><a href="{{ route('register') }}" style="color:black;background-color: orange;padding:10px;border-radius: 5px">Membership</a></li>
+            <!--<li><a href="{{ route('register') }}" style="color:black;background-color: orange;padding:10px;border-radius: 5px">Membership</a></li>-->
             <li><a href="{{ url('/nonMemberTicket') }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Events</a></li>
             <li><a href="{{ route('register') }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Sign Up</a></li>
             <li><a href="{{ route('login') }}" style="color:black;background-color: orange;padding:10px;margin-left:30px;border-radius: 5px">Sign In</a></li>

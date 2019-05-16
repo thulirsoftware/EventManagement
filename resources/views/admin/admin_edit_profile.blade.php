@@ -16,8 +16,8 @@ p{
 }
 </style>
 
-<div class="col-md-offset-1 col-md-12">
-<center><p>Edit Profile</p></center>
+<div class="col-md-offset-3 col-md-8" style="background-color:#f3f4c6">
+<center><p style="padding-top:15px">Edit Profile</p></center>
   <form method="post" action="">
     <div class="col-md-6">
       <div class="input-group col-md-offset-6 col-md-6">
@@ -67,7 +67,7 @@ p{
       <button type="button" id="formButton2">Family</button> -->
     </div>
 
-    <div class="col-md-12 bottom">
+    <div class="col-md-12 bottom" style="padding-bottom:25px">
         <center>
         	<input type="submit" name="submit" value="Update" style="background-color: brown;color:yellow;padding:8px">
         	<a href="{{ URL::previous() }}" class="btn btn-info" style="margin-left: 50px;background-color: brown;color:yellow">Cancel</a>	

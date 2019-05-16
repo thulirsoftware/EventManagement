@@ -31,8 +31,7 @@
         margin-bottom: 30px;
     }
 </style>
-<center><p class="top1">Admin Add Events Screen 2</p></center>
-<div class=" col-md-offset-3 col-md-8" style="background-color: #f2edb5;">
+<div class=" col-md-offset-3 col-md-8" style="background-color: #f2edb5;margin-bottom:50px">
   <center><p class="top">Add Tickets</p></center>
   
 
@@ -118,31 +117,32 @@
 <div class="panel-body">
   <table class="table">
     <thead>
-      <tr>
-        <th>SI.No</th>
-        <th>Event Id</th>
-        <th>Event Name</th>
-        <th>Age Group</th>
-        <th>Member Type</th>
-        <th>Food Type</th>
-        <th>Date Range</th>
-        <th>Ticket Price</th>
+      <tr style="background-color:brown;">
+        <th style="text-align:center;color:white;border:1px solid grey">SI.No</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Event Id</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Event Name</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Age Group</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Member Type</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Food Type</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Date Range</th>
+        <th style="tAdd Memberext-align:center;color:white;border:1px solid grey">Ticket Price</th>
+        <th style="text-align:center;color:white;border:1px solid grey">Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody style="background-color:#FFBD9B">
     <?php $i = 1 ?>  
         @foreach($eventTicket as $ticket)
           <tr>
            
-            <td>{{ $i++ }}</td>
-            <td>{{ $ticket['eventId'] }}</td>
-            <td>{{ $ticket['eventName'] }}</td>
-            <td>{{ $ticket['ageGroup'] }}</td>
-            <td>{{ $ticket['memberType'] }}</td>
-            <td>{{ $ticket['foodType'] }}</td>
-            <td>{{ $ticket['dateRange'] }}</td>
-            <td>{{ $ticket['ticketPrice'] }}</td>
-            <td><a href="/admin/eventTicketDelete/{{ $ticket['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $i++ }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['eventId'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['eventName'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['ageGroup'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['memberType'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['foodType'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['dateRange'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold">{{ $ticket['ticketPrice'] }}</td>
+            <td style="text-align:center;color:black;border:1px solid grey;font-weight:bold"><a href="/admin/eventTicketDelete/{{ $ticket['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
           </tr>
         @endforeach

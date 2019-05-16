@@ -10,13 +10,20 @@ use App\EventTicket;
 use Auth;
 use App\TicketPurchase;
 use App\TicketPurchaseDetail;
+use Session;
+use DB;
+use App\User;
+use Carbon\Carbon;
+
 
 class MemberController extends Controller
 {
  
     public function memberTickets()
     {
-        $baseurl = Storage::url('upload/events/');
+        
+        $baseurl = "/events/";
+        
         $events = Event::all()->toArray();
         return view('user.memberTickets',compact('baseurl','events'));
     }
@@ -25,67 +32,120 @@ class MemberController extends Controller
     {
         $memberTickets = EventTicket::where('eventId',"=", $id)->where('memberType',"=", 'member')->get();
 
-        $user = Auth::user();
-
-        return view('user.memberBuyTicket',compact('memberTickets','user'));
+        $member = Auth::user()->email;
+        $user = Member::where('primaryEmail',$member)->get();
+        $todayDate =Carbon::now()->toDateString();
+        return view('user.memberBuyTicket',compact('memberTickets','user','todayDate'));
     }
 
     public function memberBuyTicketPost(Request $request)
     {
 
-    $ticketCount = count($request->ticketType);
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $email = $request->email;
+        $phoneNo = $request->phoneNo;
+        $tagDvId = $request->tagDvId;
+        $eventId = $request->eventId;
+        $eventName = $request->eventName;
+        $memberType = $request->memberType;
+        $ticketQty = $request->ticketQty;
+        $ticketType = $request->ticketType;
+        $ticketPrice = $request->ticketPrice;
 
-    $allData = $request->all();
+        $ticketCount = count($request->ticketType);
 
-    $totalAmount = "";
-
-    for($i=0; $i<$ticketCount; $i++){
-      
-      $totalAmount += $allData['ticketQty'][$i] * $allData['ticketPrice'][$i];        
-    } 
-
-            $ticketPurchase = new TicketPurchase;
-            $ticketPurchase->name = $allData['name'];
-            $ticketPurchase->email = $allData['email'];
-            $ticketPurchase->memberType = $allData['memberType'];
-            $ticketPurchase->tagDvId =$allData['tagDvId'];
-            $ticketPurchase->eventId = $allData['eventId'];
-            $ticketPurchase->eventName = $allData['eventName'];
-            $ticketPurchase->totalAmount = $totalAmount;
-            $ticketPurchase->paymentStatus = "PEND";
-            $ticketPurchase->paymentId = "";
-            $ticketPurchase->save();
-
-    $lastInsert = TicketPurchase::whereRaw('id = (select max(`id`) from purchased_tickets)')->get();
-
-    $lastInsertId = $lastInsert[0]['id'];
+        $totalAmount = 0;
+        $allData = $request->all();
 
         for($i=0; $i<$ticketCount; $i++){
+        $totalAmount += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
+        } 
+        
+        if ($totalAmount < 1) {
+            return redirect()->back()->with('Error', 'Total ticket quantity must be greater than 1!');
+        }
 
-            $ticketPurchaseDetail = new TicketPurchaseDetail;
-            $ticketPurchaseDetail->ticketId =$lastInsertId;
-            $ticketPurchaseDetail->ticketType =$allData['ticketType'][$i];
-            $ticketPurchaseDetail->ticketQty = $allData['ticketQty'][$i];
-            $ticketPurchaseDetail->ticketAmount = $allData['ticketQty'][$i] * $allData['ticketPrice'][$i];
-            $ticketPurchaseDetail->save();
-                
-        }       
+        $request['totalAmount'] = $totalAmount;
 
-        return redirect()->back();
+        // Session Put
+        $sessionData = $request->all();
+        Session::put('EventTicket',$sessionData);
+
+        return view('user.memberTicketView',compact('ticketQty','ticketType','ticketPrice','sessionData'));
     }
 
 
+    public function membership()
+    {  
+        $email = Auth::user()->email;
+        $member = Member::where('primaryEmail',$email)->first();
+        $membershipExist = $member->membershipExpiryDate;
 
-    
+        if($membershipExist == null || $membershipExist == ""){
+            $membership = DB::table('membership_configs')->where('membership_code','!=',"AMR")->where('is_visible','yes')->get()->toArray();
+        }else{
+            $membership = DB::table('membership_configs')->where('membership_code','!=',"AM")->where('is_visible','yes')->get()->toArray();
+        }
+        
+
+        return view('user.membership',compact('membership'));
+    }
 
 
+    public function membershipPost(Request $request)
+    {
 
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $email = $request->email;
+        $phoneNo = $request->phoneNo;
+        $membershipType = $request->membershipType;
 
+    $membershipDetails = DB::table('membership_configs')->where('membership_code',$request->membershipType)->get()->toArray();
+        //dd($totalAmount);
+        $request['membership_code'] = $membershipDetails[0]->membership_code;
+        $request['membership_desc'] = $membershipDetails[0]->membership_desc;
+        $request['membership_amount'] = $membershipDetails[0]->membership_amount;
+        $request['tagDvId'] = Auth::user()->tagDvid;
 
+        // Session Put
+        $membershipData = $request->all();
+        Session::put('Membership',$membershipData);
 
+        return view('user.membershipView',compact('membershipData'));
+    }
 
+    public function editProfile()
+    {
+        $user = Auth::user()->email;
+        $member = Member::where('primaryEmail',$user)->first();
+        return view('user.editProfile',compact('member'));
+    }
 
+    public function editProfilePost(Request $request)
+    {
 
+        $member = Member::where('primaryEmail',$request->email)->update([
+            // 'firstName' => $request->firstName,
+            'phoneNo1' => $request->mobile,
+            'gender' => $request->gender,
+            'addressLine1' => $request->address1,
+            'addressLine2' => $request->address2,
+            // 'country' => $request->country,
+            'state' => $request->state,
+            'zipCode' => $request->zipCode,
+            // 'lastName' => $request->lastName,
+            'maritalStatus' => $request->marital,
+            'dob' => $request->dob,
+        ]);
+
+        $member = User::where('email',$request->email)->update([
+            'name' => $request->firstName,
+        ]);
+       
+        return redirect()->back();
+    }
 
 
 
@@ -106,10 +166,7 @@ class MemberController extends Controller
         {
             return view('user.renew_membership');
         }
-        public function edit_profile()
-        {
-            return view('user.edit_profile');
-        }
+        
        
         public function edit_members()
         {

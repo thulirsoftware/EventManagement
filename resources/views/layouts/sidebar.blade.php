@@ -133,7 +133,7 @@ body {
 }
 .navbar{ margin-bottom: 0; }
 .navbar-default {
-    background-color: #feffc9;
+    background-color: brown;
     border-color: #feffc9;
     position: fixed;
   top: 0;
@@ -233,6 +233,8 @@ background-color: #fff;
 .dropdown {
     position: relative;
     display: inline-block;
+    background-color:white;
+    border:1px solid brown;
 }
 
 .dropdown-content {
@@ -264,20 +266,39 @@ background-color: #fff;
 
       <div class="menu-list">
               
-              <li data-toggle="collapse" data-target="#locations" class="collapsed">
-              <a href="{{ url('user_home') }}"><i class="fa fa-area-chart fa-lg"></i> Home </a></li>
 
+<?php 
+$email = Auth::user()->email;
+$member = App\Member::where('primaryEmail',$email)->first();
+$membershipExpiryDate = $member->membershipExpiryDate;
+$today =Carbon\Carbon::now()->toDateString();
+?>
+              
+              {{-- <li data-toggle="collapse" data-target="#locations" class="collapsed">
+              <a href="{{ url('user_home') }}"><i class="fa fa-area-chart fa-lg"></i> Home </a></li> --}}
+              
+              @if($membershipExpiryDate != null || $membershipExpiryDate != "")
               <li data-toggle="collapse" data-target="#notifications" class="collapsed">
               <a href="{{ url('familyMembers') }}"><i class="fa fa-bell fa-lg"></i> Family Members </a></li>
+              @endif
 
+              @if($membershipExpiryDate  != null || $membershipExpiryDate != "")
               <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
               <a href="{{ url('memberTickets') }}"><i class="fa fa-bullhorn fa-lg"></i> Purchase Event Tickets </a></li>
-              
+              @endif
+
+              @if($membershipExpiryDate != null || $membershipExpiryDate != "")
               <li data-toggle="collapse" data-target="#aos" class="collapsed">
-              <a href="{{ url('edit_profile') }}"><i class="fa fa-eye fa-lg"></i> Edit Profile </a></li>
+              <a href="{{ url('editProfile') }}"><i class="fa fa-eye fa-lg"></i> Edit Profile </a></li>
+              @endif
               
+              @if($member->membershipType != 'LM' )
               <li data-toggle="collapse" data-target="#poll" class="collapsed">
-              <a href="{{ url('renew_membership') }}"><i class="fa fa-hand-o-up fa-lg"></i> Renew Membership </a></li>
+              <a href="{{ url('membership') }}"><i class="fa fa-hand-o-up fa-lg"></i> Membership </a></li>
+              @endif
+
+              {{-- <li data-toggle="collapse" data-target="#poll" class="collapsed">
+              <a href="{{ url('renew_membership') }}"><i class="fa fa-hand-o-up fa-lg"></i> Renew Membership </a></li> --}}
               
               <li data-toggle="collapse" data-target="#aos" class="collapsed">
               <a href="{{ url('users/logout') }}"><i class="fa fa-info-circle fa-lg"></i> Logout </a></li>

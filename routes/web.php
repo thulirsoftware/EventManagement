@@ -1,23 +1,21 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
     return view('welcome');
 });
 
+
+//  Non Member Event
 Route::get('/nonMemberTicket','nonMemberController@nonMemberTicket');
 Route::get('/nonMemberBuyTicket/{id}','nonMemberController@nonMemberBuyTicket');
 Route::post('/nonMemberBuyTicketPost', 'nonMemberController@nonMemberBuyTicketPost');
+Route::get('/nonMemberTicketView','nonMemberController@nonMemberTicketView');
+Route::get('/execute-payment', 'PaymentController@execute');
+
+Route::post('nonMemberEventPaymentCreate', 'PaymentController@nonMemberEventPaymentCreate')->name('nonMemberEventPaymentCreate');
+Route::get('nonMemberEventPaymentExecute', 'PaymentController@nonMemberEventPaymentExecute');
+
+
 
 Auth::routes();
 
@@ -30,10 +28,15 @@ Route::get('/familyEdit/{id}', 'FamilyMemberController@familyEdit');
 Route::post('/familyUpdate','FamilyMemberController@familyUpdate');
 Route::get('/familyDelete/{id}','FamilyMemberController@familyDelete');
 
+
+
+
 Route::get('/memberTickets','MemberController@memberTickets');
 Route::get('/memberBuyTicket/{id}','MemberController@memberBuyTicket');
 Route::post('/memberBuyTicketPost', 'MemberController@memberBuyTicketPost');
-
+Route::get('/memberTicketView','MemberController@memberTicketView');
+Route::post('memberEventPaymentCreate', 'PaymentController@memberEventPaymentCreate')->name('memberEventPaymentCreate');
+Route::get('memberEventPaymentExecute','PaymentController@memberEventPaymentExecute');
 
 
 
@@ -42,7 +45,20 @@ Route::get('/purchase_event_tickets','MemberController@purchase_event_tickets');
 Route::get('/edit_members','MemberController@edit_members');
 Route::get('/user_home','MemberController@user_home');
 Route::get('/renew_membership','MemberController@renew_membership');
-Route::get('/edit_profile','MemberController@edit_profile');
+Route::get('/editProfile','MemberController@editProfile');
+Route::post('/editProfilePost','MemberController@editProfilePost');
+
+
+
+Route::get('/membership','MemberController@membership');
+Route::post('/membershipPost', 'MemberController@membershipPost');
+Route::post('membershipPaymentCreate', 'PaymentController@membershipPaymentCreate')->name('membershipPaymentCreate');
+Route::get('membershipPaymentExecute','PaymentController@membershipPaymentExecute');
+
+
+
+
+
 
 
 
@@ -88,5 +104,25 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/editEventTicket/{id}','AdminController@editEventTicket');
 
   Route::get('/memberDetails','AdminController@memberDetails');
+
+
+  Route::get('/editMember/{id}','AdminController@editMember');
+  Route::post('/editMemberUpdate','AdminController@editMemberUpdate');
+
+
+  Route::get('/manageSchool','AdminController@manageSchool');
+  Route::get('/addSchool', 'AdminController@addSchool');
+  Route::post('/addSchoolPost', 'AdminController@addSchoolPost');
+  Route::get('/schoolEdit/{id}', 'AdminController@schoolEdit');
+  Route::post('/schoolUpdate','AdminController@schoolUpdate');
+  Route::get('/schoolDelete/{id}','AdminController@schoolDelete');
+
+  Route::get('/manageMembership','AdminController@manageMembership');
+  Route::get('/addMembership', 'AdminController@addMembership');
+  Route::post('/addMembershipPost', 'AdminController@addMembershipPost');
+  Route::get('/membershipEdit/{id}', 'AdminController@membershipEdit');
+  Route::post('/membershipUpdate','AdminController@membershipUpdate');
+  Route::get('/membershipDelete/{id}','AdminController@membershipDelete');
+
 
 });

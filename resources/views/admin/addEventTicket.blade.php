@@ -7,25 +7,25 @@
         margin-top:15px;
     }
     .top{
-        font-size: 25px;
+        font-size: 20px;
         font-weight: bold;
         color:brown;
         margin-top: 30px;
         margin-bottom: 20px;
     }
     .top1{
-        font-size: 30px;
+        font-size: 20px;
         font-weight: bold;
         color:grey;
         margin-top: 30px;
     }
     .text{
-      font-size: 20px;
+      font-size: 15px;
         font-weight: bold;
         color:brown;
     }
     .bottom{
-        font-size: 20px;
+        font-size: 15px;
         font-weight: bold;
         color:black;
         margin-bottom: 30px;

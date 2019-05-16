@@ -8,14 +8,14 @@
 }
 
 .para1{
-    margin-top:50px;
-    font-size: 25px;
+    margin-top:30px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .para2{
     margin-top:10px;
-    font-size: 20px;
+    font-size: 14px;
 }
 .button{
     padding:10px;
@@ -35,10 +35,18 @@
     $noOfEvents = count($events);
   ?>
 
+  @if(session()->has('Event'))
+    <div class="col-md-offset-6 col-md-6" style="margin-bottom:70px">
+      <div class="alert alert-success">
+          {{ session()->get('Event') }}
+      </div>
+      </div>
+  @endif
+
   @for($i=0; $i<$noOfEvents; $i++)
-      <div class="col-md-offset-2 col-md-10" style="margin-bottom:100px">
-      <div class="col-md-6">
-      <img src="{{ $baseurl }}/{{ $events[$i]['eventFlyer'] }}" width="50%" height=70%" class="image" alt=""/>
+      <div class="col-md-offset-2 col-md-12" style="margin-bottom:100px;">
+      <div class="col-md-4">
+      <img src="{{ $baseurl }}/{{ $events[$i]['eventFlyer'] }}" width="300px" height=250px" class="image" alt=""/>
       </div>
       <div class="col-md-6">
             <p class="para1">Event Name : {{ $events[$i]['eventName'] }}</p>

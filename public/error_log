@@ -1,0 +1,1 @@
+[29-Apr-2019 14:31:07 UTC] PHP Fatal error:  Can't use function return value in write context in /home/iyarkai/public_html/tagdv/app/Http/Controllers/nonMemberController.php on line 116

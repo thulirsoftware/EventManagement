@@ -52,6 +52,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
+            'phoneNo1' => 'required|max:10|min:10',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -66,7 +67,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-    $membershipExpiry = date('Y-m-d', strtotime('+1 years'));
+    //$membershipExpiry = date('Y-m-d', strtotime('+1 years'));
 
         $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
         
@@ -86,12 +87,12 @@ class RegisterController extends Controller
             'phoneNo1' => $data['phoneNo1'],
             'phoneNo2' => $data['spousePhoneNo'],
             'addressLine1' => $data['address1'],
-            'addressLine2' => "",
+            'addressLine2' => $data['address2'],
             'country' => "",
-            'state' => "",
+            'state' => $data['state'],
             'zipCode' => $data['zipCode'],
-            'membershipType' => $data['membershipType'],
-            'membershipExpiryDate' => $membershipExpiry,
+            'membershipType' => "",
+            'membershipExpiryDate' => "",
         ]);
 
 

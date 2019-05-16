@@ -4,11 +4,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Purchase Ticket</div>
+        <div class="col-md-7 col-md-offset-2">
+            <div class="panel">
 
-               <div class="panel-body">
+              @if(session()->has('Error'))
+                  <div class="alert alert-success">
+                      {{ session()->get('Error') }}
+                  </div>
+              @endif
+
+                <div class="panel-heading" style="background-color:brown;color:white;font-size:18px;font-weight:bold">Purchase Ticket</div>
+
+               <div class="panel-body" style="background-color:#f3f4c6">
                   <form class="form-horizontal" action="{{ url('nonMemberBuyTicketPost') }}" method="POST">
                       {{ csrf_field() }}
 
@@ -19,37 +26,37 @@
                 ?>
 
 
-            <div class="form-group">
-              <label class="control-label col-sm-3" for="firstName">First Name:</label>
+            <div class="form-group" style="padding-top:15px">
+              <label class="control-label col-md-3 col-md-offset-2" for="firstName">First Name:</label>
              
-              <div class="col-sm-3">
+              <div class="col-md-5">
                 <input type="text" class="form-control" id="firstName" placeholder="" name="firstName" required>
               </div>
 
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-3" for="lastName">Last Name:</label>
+              <label class="control-label col-sm-3 col-md-offset-2" for="lastName">Last Name:</label>
              
-              <div class="col-sm-3">
+              <div class="col-sm-5">
                 <input type="text" class="form-control" id="lastName" placeholder="" name="lastName" required>
               </div>
 
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-3" for="email">Email:</label>
+              <label class="control-label col-sm-3 col-md-offset-2" for="email">Email:</label>
              
-              <div class="col-sm-3">
+              <div class="col-sm-5">
                 <input type="email" class="form-control" id="email" placeholder="" name="email" required>
               </div>
 
             </div>
 
             <div class="form-group">
-              <label class="control-label col-sm-3" for="phoneNo">Phone No:</label>
+              <label class="control-label col-sm-3 col-md-offset-2" for="phoneNo">Phone No:</label>
              
-              <div class="col-sm-3">
+              <div class="col-sm-5">
                 <input type="text" class="form-control" id="phoneNo" placeholder="" name="phoneNo" required>
               </div>
 
@@ -57,8 +64,8 @@
 
 
             <div class="form-group" style="display: none">
-              <label class="control-label col-sm-3" for="phoneNo">TagDvId No:</label>
-              <div class="col-sm-3">
+              <label class="control-label col-sm-3 col-md-offset-2" for="phoneNo">TagDvId No:</label>
+              <div class="col-sm-5">
                 <input type="text" class="form-control" id="tagDvId" placeholder="" name="tagDvId" value="NM" required readonly="">
               </div>
             </div>
@@ -71,9 +78,9 @@
 
             @for($i=0; $i<$tickets; $i++)
               <div class="form-group">
-                <label class="control-label col-sm-3" for="">{{ $nonMemberTickets[$i]['ageGroup'] }}-{{ $nonMemberTickets[$i]['foodType'] }} ({{ "$".$nonMemberTickets[$i]['ticketPrice'] }}):</label>
+                <label class="control-label col-sm-3 col-md-offset-2" for="">{{ $nonMemberTickets[$i]['ageGroup'] }}-{{ $nonMemberTickets[$i]['foodType'] }} ({{ "$".$nonMemberTickets[$i]['ticketPrice'] }}):</label>
 
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                   <input type="number" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketQty[]" price="{{$nonMemberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
                 </div>
 
@@ -91,9 +98,9 @@
             @endfor
 
                   <div class="form-group">        
-                    <div class="col-sm-offset-3 col-sm-4">
-                      <button type="submit" class="btn btn-default" name="submit">Submit</button>
-                      <a class="btn btn-default btn-close" href="{{ url('admin/manageAdmin') }}">Cancel</a>
+                    <div class="col-md-offset-4 col-sm-4">
+                      <button type="submit" class="btn btn-lg btn-default btn-primary" name="submit">Submit</button>
+                      <a class="btn btn-lg btn-default btn-primary" href="{{ redirect()->getUrlGenerator()->previous() }}">Cancel</a>
                     </div>
 
                   </div>

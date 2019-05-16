@@ -40,8 +40,7 @@
     	border-radius: 5px;
     }
 </style>
-<center><p class="top1">Admin Add Events Screen 1</p></center>
-<div class=" col-md-offset-4 col-md-6" style="background-color: #f2edb5;">
+<div class=" col-md-offset-4 col-md-6" style="background-color: #f2edb5;margin-bottom:50px">
   <center><p class="top">Add Event</p></center>
   <form method="post" action="{{ url('admin/eventUpdate') }}" enctype="multipart/form-data">
 
@@ -89,8 +88,8 @@
           	<input class="col-md-6" type="time" name="eventTime" value="{{ $event['eventTime'] }}">
       	</div>
 
-      <div class="col-md-offset-6 col-md-12 bottom" >
-          <center><a href="/admin/addEventTicket"><button type="submit"  class="next btn btn-default" name="submit">Submit</button></a></center>
+      <div class="col-md-offset-2 col-md-12 bottom" >
+          <center><a href="/admin/addEventTicket"><button type="submit"  class="next btn btn-default btn-lg" name="submit">Submit</button></a></center>
       </div>
 
 </div>

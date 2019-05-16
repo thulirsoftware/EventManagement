@@ -10,6 +10,10 @@ use Hash;
 use Storage;
 use DB;
 use App\Member;
+use File;
+use App\User;
+use App\School;
+use App\MembershipConfig;
 
 class AdminController extends Controller
 {
@@ -129,28 +133,48 @@ class AdminController extends Controller
 
     public function addEventPost(Request $request)
     {   
-        //dd($request->all());
-       if($request->eventFlyer != "" || $request->eventFlyer != null){
+        
+        
+     if ($request->hasFile('eventFlyer')){  
+         
+     $file = $request->file('eventFlyer');
+     
+     $extension = $file->getClientOriginalExtension(); 
+     
+     $fileName = time().'.'.$extension;
+     
+     $path = public_path().'/events';
+     
+     $uplaod = $file->move($path,$fileName);
+     
+     }
+        
+        
+    //   if($request->eventFlyer != "" || $request->eventFlyer != null){
 
-       $filename=$request->eventFlyer->getClientOriginalName('public/upload');
+    //   $filename=$request->eventFlyer->getClientOriginalName('public/upload');
 
-       $extension=$request->eventFlyer->getClientOriginalExtension('public/upload');
+    //   $extension=$request->eventFlyer->getClientOriginalExtension('public/upload');
 
-       $flyerName=bin2hex(openssl_random_pseudo_bytes(5));
+    //   $flyerName=bin2hex(openssl_random_pseudo_bytes(5));
 
-       if($extension!=''){
-           $flyerName.=".".$extension;
-       }
+    //   if($extension!=''){
+    //       $flyerName.=".".$extension;
+    //   }
 
-       $request->eventFlyer->storeAs('/public/upload/events',$flyerName);
-       }
+    //   $request->eventFlyer->storeAs('/public/upload/events',$flyerName);
+    //   }
+       
+       
+       
+       
 
         $event = new Event;
         $event->eventName = $request->eventName;
         $event->eventDescription = $request->eventDescription;
 
         if($request->eventFlyer != "" || $request->eventFlyer != null){
-        $event->eventFlyer = $flyerName;
+        $event->eventFlyer = $fileName;
         }else{
              $event->eventFlyer = $request->eventFlyer;
         }
@@ -162,6 +186,102 @@ class AdminController extends Controller
         $event->save();
 
         return redirect(url('admin/addEventTicket'));
+    }
+    
+    public function eventUpdate(Request $request)
+    {
+
+     $event = Event::find($request->id);
+        
+     if ($request->hasFile('eventFlyer')){  
+         
+      $deleteFlyer = public_path().'/events/'.$event->eventFlyer;
+
+        if(File::exists($deleteFlyer)) {
+        File::delete($deleteFlyer);
+        }
+    
+     $file = $request->file('eventFlyer');
+     
+     $extension = $file->getClientOriginalExtension(); 
+     
+     $fileName = time().'.'.$extension;
+     
+     $path = public_path().'/events';
+     
+     $uplaod = $file->move($path,$fileName);
+     
+     }
+
+        // if($request->eventFlyer != "" || $request->eventFlyer != null){
+
+        // Storage::delete('public/upload/events/'.$event->eventFlyer);
+
+        // $filename=$request->eventFlyer->getClientOriginalName('public/upload');
+
+        // $extension=$request->eventFlyer->getClientOriginalExtension('public/upload');
+
+        // $flyerName=bin2hex(openssl_random_pseudo_bytes(5));
+
+        // if($extension!=''){
+        //     $flyerName.=".".$extension;
+        // }
+
+        // $request->eventFlyer->storeAs('/public/upload/events',$flyerName);
+        // }
+
+
+
+
+        $event = Event::find($request->id);
+
+            $event->eventName = $request->eventName;
+            $event->eventDescription = $request->eventDescription;
+
+            if($request->eventFlyer != "" || $request->eventFlyer != null){
+            $event->eventFlyer = $fileName;
+            }else{
+                 $event->eventFlyer = $request->eventFlyer;
+            }
+
+            $event->eventDate = $request->eventDate;
+            $event->eventTime = $request->eventTime;
+            $event->eventLocation = $request->eventLocation;
+            $event->eventLocationLink = $request->eventLocationLink;
+
+            if($event->save()){
+
+               return redirect('/admin/manageEvent');
+            
+            }else{
+
+                return redirect('/admin/manageEvent');
+            }
+    }
+    
+    public function eventDelete($id)
+    {
+        $event = Event::find($id);
+
+        if($event->eventFlyer != "" || $event->eventFlyer != null){
+
+            Storage::delete('public/upload/events/'.$event->eventFlyer);
+        }
+
+        $eventTicket = DB::table('event_tickets')->where('eventId',$id)->get();
+
+        if($eventTicket != "" || $eventTicket != null){
+            $eventTicket = DB::table('event_tickets')->where('eventId',$id)->delete();
+        }
+
+        if($event->delete()){
+
+            return redirect()->back();
+
+        }else{
+            
+            return redirect()->back();
+        }
     }
 
     public function addEventTicket()
@@ -189,6 +309,7 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
+    
 
     public function eventTicketDelete($id)
     {
@@ -210,30 +331,7 @@ class AdminController extends Controller
         return view('admin.manageEvent',compact('events'));
     }
 
-    public function eventDelete($id)
-    {
-        $event = Event::find($id);
-
-        if($event->eventFlyer != "" || $event->eventFlyer != null){
-
-            Storage::delete('public/upload/events/'.$event->eventFlyer);
-        }
-
-        $eventTicket = DB::table('event_tickets')->where('eventId',$id)->get();
-
-        if($eventTicket != "" || $eventTicket != null){
-            $eventTicket = DB::table('event_tickets')->where('eventId',$id)->delete();
-        }
-
-        if($event->delete()){
-
-            return redirect()->back();
-
-        }else{
-            
-            return redirect()->back();
-        }
-    }
+    
 
     public function editEventTicket($id)
     {   
@@ -250,56 +348,7 @@ class AdminController extends Controller
             return view('admin.eventEditForm',$event);
         }
 
-        public function eventUpdate(Request $request)
-        {
-
-            $event = Event::find($request->id);
-
-            if($request->eventFlyer != "" || $request->eventFlyer != null){
-
-            Storage::delete('public/upload/events/'.$event->eventFlyer);
-
-            $filename=$request->eventFlyer->getClientOriginalName('public/upload');
-
-            $extension=$request->eventFlyer->getClientOriginalExtension('public/upload');
-
-            $flyerName=bin2hex(openssl_random_pseudo_bytes(5));
-
-            if($extension!=''){
-                $flyerName.=".".$extension;
-            }
-
-            $request->eventFlyer->storeAs('/public/upload/events',$flyerName);
-            }
-
-
-
-
-            $event = Event::find($request->id);
-
-                $event->eventName = $request->eventName;
-                $event->eventDescription = $request->eventDescription;
-
-                if($request->eventFlyer != "" || $request->eventFlyer != null){
-                $event->eventFlyer = $flyerName;
-                }else{
-                     $event->eventFlyer = $request->eventFlyer;
-                }
-
-                $event->eventDate = $request->eventDate;
-                $event->eventTime = $request->eventTime;
-                $event->eventLocation = $request->eventLocation;
-                $event->eventLocationLink = $request->eventLocationLink;
-
-                if($event->save()){
-
-                   return redirect('/admin/manageEvent');
-                
-                }else{
-
-                    return redirect('/admin/manageEvent');
-                }
-        }
+        
 
         public function memberDetails()
         {
@@ -308,4 +357,151 @@ class AdminController extends Controller
             return view('admin.memberDetails',compact('members'));
         }
 
+
+
+        public function editMember($id)
+        {
+
+            $member = Member::where('id',$id)->first();
+            $user = User::where('email',$member->primaryEmail)->first();
+
+            return view('user.editMember',compact('member','user'));
+        }
+
+        public function editMemberUpdate(Request $request)
+        {
+
+            $member = Member::where('id',$request->memberId)->update([
+                'firstName' => $request->firstName,
+                'primaryEmail' => $request->email,
+                'lastName' => $request->lastName,
+            ]);
+
+            $user = User::where('id',$request->userId)->update([
+                'name' => $request->firstName,
+                'email' => $request->email,
+            ]);
+           
+            return redirect()->back();
+        }
+
+
+        public function manageSchool()
+        {
+            $schools = School::all();
+            return view('admin.manageSchool', compact('schools'));
+        }
+
+
+        public function addSchool()
+        {
+            return view('admin.addSchoolForm');
+        }
+
+        public function addSchoolPost(Request $request)
+        {
+            $school = new School;
+            $school->name = $request->schoolName;
+            $school->save();
+
+            return redirect('admin/manageSchool');
+        }
+
+        public function schoolEdit($id)
+        {
+            $school = School::where('id',$id)->first();
+
+            return view('admin.editSchoolForm',compact('school'));
+        }
+
+        public function schoolUpdate(Request $request)
+        {
+
+            $school = School::where('id',$request->schoolId)->update([
+                'name' => $request->schoolName,
+            ]);
+
+            return redirect('/admin/manageSchool');
+        }
+
+
+        public function schoolDelete($id)
+        {
+            $school = School::find($id);
+
+            if($school->delete()){
+
+                return redirect()->back();
+
+            }else{
+                
+                return redirect()->back();
+            }
+        }
+
+
+
+
+        public function manageMembership()
+        {
+            $memberships = MembershipConfig::all();
+
+            return view('admin.manageMembership', compact('memberships'));
+        }
+
+
+        public function addMembership()
+        {
+            return view('admin.addMembershipForm');
+        }
+
+        public function addMembershipPost(Request $request)
+        {
+            $membership = new MembershipConfig;
+            $membership->membership_code = $request->membershipCode;
+            $membership->membership_desc = $request->description;
+            $membership->membership_amount = $request->amount;
+            $membership->is_visible = $request->isVisible;
+            $membership->open_date = $request->openDate;
+            $membership->closing_date = $request->closeDate;
+            $membership->save();
+
+            return redirect('admin/manageMembership');
+        }
+
+        public function membershipEdit($id)
+        {
+            $membership = MembershipConfig::where('id',$id)->first();
+
+            return view('admin.editMembershipForm',compact('membership'));
+        }
+
+        public function membershipUpdate(Request $request)
+        {
+            $membership = MembershipConfig::where('id',$request->membershipId)->update([
+                'membership_code' => $request->membershipCode,
+                'membership_desc' => $request->description,
+                'membership_amount' => $request->amount,
+                'is_visible' => $request->isVisible,
+                'open_date' => $request->openDate,
+                'closing_date' => $request->closeDate,
+            ]);
+
+            return redirect('/admin/manageMembership');
+        }
+
+
+        public function membershipDelete($id)
+        {
+            $membership = MembershipConfig::find($id);
+
+            if($membership->delete()){
+
+                return redirect()->back();
+
+            }else{
+                
+                return redirect()->back();
+            }
+        }
 }

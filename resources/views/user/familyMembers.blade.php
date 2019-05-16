@@ -3,15 +3,15 @@
 @section('content')
 <style>
 th{
-	padding:15px;
-	font-size: 20px;
+	padding:25px;
+	font-size: 17px;
 	font-weight: bold;
 	color:brown;
 	text-align: center;
 }
 td{
 	padding:15px;
-	font-size: 16px;
+	font-size: 14px;
 	color:black;
 }
 </style>
@@ -24,7 +24,7 @@ td{
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
-<div class="container col-md-offset-4 col-md-8">
+<div class="container col-md-offset-4 col-md-8" style="margin-top:-50px">
 
 
   <?php
@@ -40,9 +40,9 @@ td{
     
       <!-- Modal content-->
       <div class="modal-content" style="">
-        <div class="modal-header" style="background-color: #ff6100;color:black">
-          <button type="button" class="close" data-dismiss="modal"><span style="color:black;font-size: 30px;">&times;</span></button>
-          <h4 class="modal-title">Add Family Members</h4>
+        <div class="modal-header" style="background-color: #ff6100;color:black;margin-bottom:15px">
+          <button type="button" class="close" data-dismiss="modal"><span style="color:black;font-size: 16px;">&times;</span></button>
+          <h5 class="modal-title">Add Family Members</h5>
         </div>
         
        
@@ -63,7 +63,20 @@ td{
 
          <div class="col-md-offset-2 col-md-3">DOB</div><div class="col-md-3"><input type="date" name="dob"></div><br><br>
 
-         <div class="col-md-offset-2 col-md-3">School Name:</div><div class="col-md-3"><input type="text" name="schoolName"></div><br><br><br><br>
+
+    <?php 
+        $schools = App\School::pluck('name');
+    ?>
+
+         <div class="col-md-offset-2 col-md-3">School Name:</div><div class="col-md-3">
+          {{-- <input type="text" name="schoolName"> --}}
+          <select name="schoolName" style="width: 150px;height: 30px;border-radius: 4px;background-color: white" required="">
+            <option value="">None</option>
+            @foreach($schools as $key => $school)
+              <option value="{{ $school }}">{{ $school }}</option>
+            @endforeach
+          </select>
+        </div><br><br><br><br>
 
          <div class="col-md-offset-5"><input type="submit" style="background-color: #ff6100;color:black;padding:7px" name="submit"></div>
 
@@ -83,33 +96,33 @@ td{
 
 
 
-<div class="col-md-offset-3 col-md-9" style="background-color: #f2edb5">
+<div class="col-md-offset-3 col-md-9">
 	<div style="background-color:#f2edb5;color:brown">
-	  <table width="100%">
-		 <thead>
-			<th>SI.No</th>
-      <th>First Name</th>
-			<th>Last Name</th>
-			<th>Relationship</th>
-			<th>Phone No</th>
-			<th>DOB</th>
-			<th>School Name</th>
-      <th>Edit</th>
-      <th>Delete</th>
+	  <table width="100%" style="border:1px solid grey" >
+		 <thead style="background-color:brown;font-weight:bold;text-align:center;height:30%;border:1px solid grey">
+			<th style="color:white;padding:15px;border:1px solid grey">SI.No</th>
+            <th style="color:white;border:1px solid grey;text-align:center">First Name</th>
+			<th style="color:white;border:1px solid grey;text-align:center">Last Name</th>
+			<th style="color:white;border:1px solid grey;text-align:center">Relationship</th>
+			<th style="color:white;border:1px solid grey;text-align:center">Phone No</th>
+			<th style="color:white;border:1px solid grey;text-align:center">DOB</th>
+			<th style="color:white;border:1px solid grey;text-align:center">School Name</th>
+            <th style="color:white;border:1px solid grey;text-align:center">Edit</th>
+            <th style="color:white;border:1px solid grey;text-align:center">Delete</th>
 		 </thead>
 		 <tbody>
 <?php $i=1; ?> 
         @foreach($familyMembers as $family)
           <tr>
-            <td>{{ $i++ }}</td>
-            <td>{{ $family['firstName'] }}</td>
-            <td>{{ $family['lastName'] }}</td>
-            <td>{{ $family['relationshipType'] }}</td>
-            <td>{{ $family['phoneNo'] }}</td>
-            <td>{{ $family['dob'] }}</td>
-            <td>{{ $family['schoolName'] }}</td>
-            <td><a href="/familyEdit/{{ $family['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
-            <td><a href="/familyDelete/{{ $family['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $i++ }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['firstName'] }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['lastName'] }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['relationshipType'] }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['phoneNo'] }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['dob'] }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['schoolName'] }}</td>
+            <td style="padding:15px;border:1px solid grey;text-align:center"><a href="/familyEdit/{{ $family['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
+            <td style="padding:15px;border:1px solid grey;text-align:center"><a href="/familyDelete/{{ $family['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
           </tr>
         @endforeach
 

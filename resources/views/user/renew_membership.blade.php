@@ -4,15 +4,15 @@
 <style>
 .heading
 {
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: bold;
 	color:brown;
 }
 .top{
-	margin-top: 70px;
+	margin-top: 40px;
 }
 .top1{
-	padding-top: 40px;
+	padding-top: 30px;
 }
 .bg{
 	background-color:#f2edb5;
