@@ -61,7 +61,8 @@ td{
 
          <div class="col-md-offset-2 col-md-3">PhoneNo:</div><div class="col-md-3"><input type="text" name="phoneNo"></div><br><br>
 
-         <div class="col-md-offset-2 col-md-3">DOB</div><div class="col-md-3"><input type="date" name="dob"></div><br><br>
+         <div class="col-md-offset-2 col-md-3">DOB Day in DD</div><div class="col-md-3"><input type="text" id="dobDate" maxlength="2" name="dobDate"></div><span style="color: red" id="errmsgDate" ></span><br><br>
+         <div class="col-md-offset-2 col-md-3">DOB Month in MM</div><div class="col-md-3"><input type="text" id="dobMonth" name="dobMonth" maxlength="2"></div><span style="color: red" id="errmsgMonth"></span><br><br>
 
 
     <?php 
@@ -134,7 +135,25 @@ td{
 
 
 
+<script type="text/javascript">
+  $(document).ready(function () {
 
+  $("#dobDate").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsgDate").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+
+  $("#dobMonth").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsgMonth").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+
+});
+</script>
 
 
 

@@ -67,6 +67,16 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
+        $dateLength = strlen($data['dobDate']);
+        $monthLength = strlen($data['dobMonth']);
+        if($dateLength == 1){
+            $data['dobDate'] = "0".$data['dobDate'];
+        }
+        if($monthLength == 1){
+            $data['dobMonth'] = "0".$data['dobMonth'];
+        }
+
+        $data['dob'] = $data['dobDate']."/".$data['dobMonth'];
     //$membershipExpiry = date('Y-m-d', strtotime('+1 years'));
 
         $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();

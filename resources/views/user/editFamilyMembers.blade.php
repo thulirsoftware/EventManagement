@@ -41,10 +41,25 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label class="control-label col-sm-3 col-md-offset-1" for="dob">DOB:</label>
                     <div class="col-sm-5 col-md-offset-0">
                       <input type="date" class="form-control" id="dob" placeholder="Enter Name" name="dob" value="{{ $family['dob']}}">
+                    </div>
+                  </div> --}}
+
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-3 col-md-offset-1" for="dobDate">DOB Day in DD:</label>
+                    <div class="col-sm-5 col-md-offset-0">
+                      <input type="text" class="form-control" id="dobDate" placeholder="" maxlength="2" name="dobDate" value="{{ $family['day']}}"><span id="errmsgDate" style="color:red"></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-3 col-md-offset-1" for="dobMonth">DOB Month in MM:</label>
+                    <div class="col-sm-5 col-md-offset-0">
+                      <input type="text" class="form-control" id="dobMonth" placeholder="" maxlength="2"  name="dobMonth" value="{{ $family['month']}}"><span id="errmsgMonth" style="color:red"></span>
                     </div>
                   </div>
 
@@ -60,14 +75,10 @@
                     <select name="schoolName" style="width: 320px;height: 30px;border-radius: 4px;background-color: white" required="">
                       <option value="">None</option>
                       @foreach($schools as $key => $school)
-                        <option value="{{ $school }}">{{ $school }}</option>
+                        <option value="{{ $school }}" <?= ($school == $family['schoolName'])?'selected':''  ?> >{{ $school }}</option>
                       @endforeach
                     </select>
-                  </div>
-
-                    {{-- <div class="col-sm-5 col-md-offset-0">
-                      <input type="text" class="form-control" id="schoolName" placeholder="Enter Name" name="schoolName" value="{{ $family['schoolName']}}">
-                    </div> --}}
+                  </div>  
                   </div>
 
                   <div class="form-group" style="padding-top:25px">        
@@ -83,4 +94,25 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+  $("#dobDate").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsgDate").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+
+  $("#dobMonth").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsgMonth").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+
+});
+</script>
 @endsection
