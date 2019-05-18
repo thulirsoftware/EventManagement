@@ -195,7 +195,7 @@ $email = Auth::user()->email;
                 );
         
 
-        return redirect(url("http://localhost:8000/membership"))->with('Membership', 'Payment Success!');
+        return redirect(url("http://localhost:8000/membership"))->with('Membership', 'Payment Success! Your membership details sent to your mail.');
 
         }else{
             return redirect(url("http://localhost:8000/membership"))->with('Membership', 'Payment Failed!..Please Try Again Later...');
@@ -367,7 +367,7 @@ $email = Auth::user()->email;
             $payment->paymentDate =Carbon::now()->toDateString();
             $payment->save();
 
-        return redirect(url("http://localhost:8000/memberTickets"))->with('Event', 'Payment Success!');
+        return redirect(url("http://localhost:8000/memberTickets"))->with('Event', 'Payment Success! Event ticket purchase details are sent to your mail.');
 
         }else{
             return redirect(url("http://localhost:8000/memberTickets"))->with('Event', 'Payment Failed!..Please Try Again Later...');
@@ -545,7 +545,7 @@ $email = Auth::user()->email;
             $payment->paymentDate =Carbon::now()->toDateString();
             $payment->save();
 
-        return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Success!');
+        return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Success! Event ticket purchase details are sent to your mail.');
 
         }else{
             return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');

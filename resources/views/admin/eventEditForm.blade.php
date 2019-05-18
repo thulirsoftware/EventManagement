@@ -41,7 +41,7 @@
     }
 </style>
 <div class=" col-md-offset-4 col-md-6" style="background-color: #f2edb5;margin-bottom:50px">
-  <center><p class="top">Add Event</p></center>
+  <center><p class="top">Update Event</p></center>
   <form method="post" action="{{ url('admin/eventUpdate') }}" enctype="multipart/form-data">
 
     {{ csrf_field() }}
@@ -89,7 +89,9 @@
       	</div>
 
       <div class="col-md-offset-2 col-md-12 bottom" >
-          <center><a href="/admin/addEventTicket"><button type="submit"  class="next btn btn-default btn-lg" name="submit">Submit</button></a></center>
+          <center><a href="/admin/addEventTicket"><button type="submit"  class="next btn btn-default btn-lg" name="submit">Submit</button></a>
+          <a class="next btn btn-default btn-lg" href="{{ url('admin/manageEvent') }}">Cancel</a>
+        </center>
       </div>
 
 </div>

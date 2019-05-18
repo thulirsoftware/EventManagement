@@ -88,7 +88,8 @@
       	</div>
 
       <div class="col-md-offset-2 col-md-12 bottom" >
-          <center><a href="/admin/addEventTicket"><button type="submit"  class="next btn btn-default btn-lg" name="submit">Submit</button></a></center>
+          <center><a href="/admin/addEventTicket"><button type="submit"  class="next btn btn-default btn-lg" name="submit">Submit</button></a>
+          <a class="next btn btn-default btn-lg" href="{{ url('admin/manageEvent') }}">Cancel</a></center>
       </div>
 
 </div>

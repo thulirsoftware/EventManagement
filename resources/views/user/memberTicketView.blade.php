@@ -22,13 +22,18 @@
 
 
                   @for($i=0; $i<$count; $i++)
+
+                  <?php 
+                  $amount = ($sessionData['ticketQty'][$i]) * ($sessionData['ticketPrice'][$i]); 
+                  ?>
+
                     <div class="row" style="border-bottom: 1px solid #DDD;margin-top: 20px;">
                         <div class="col-sm-7 col-md-7 col-lg-7">
                            <h4>{{ $sessionData['ticketType'][$i] }}</h4>
                            <h4>Qty : {{ $sessionData['ticketQty'][$i] }} </h4>
                         </div>
                         <div class="col-sm-5 col-md-5 col-lg-5" style="text-align: center;word-spacing: 3px;">
-                           <h4>Price ${{ $sessionData['ticketPrice'][$i] }}.00</h4>
+                           <h4>Price ${{ $amount }}.00</h4>
                         </div>
                     </div>
                   @endfor

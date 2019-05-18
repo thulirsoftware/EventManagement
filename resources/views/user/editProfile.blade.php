@@ -114,7 +114,7 @@ p{
     <div class="col-md-12 bottom" style="padding-bottom:25px">
         <center>
         	<input type="submit" name="submit" value="Update" style="background-color: brown;color:yellow;padding:8px">
-        	<a href="{{ url("user_home") }}" class="btn btn-info" style="margin-left: 50px;background-color: brown;color:yellow">Cancel</a>	
+        	<a href="{{ url("memberTickets") }}" class="btn btn-info" style="margin-left: 50px;background-color: brown;color:yellow">Cancel</a>	
         </center>
     </div>
   </form>

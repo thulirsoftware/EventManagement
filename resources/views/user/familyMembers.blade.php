@@ -1,8 +1,7 @@
 @extends('layouts.user')
-
 @section('content')
 <style>
-th{
+/*th{
 	padding:25px;
 	font-size: 17px;
 	font-weight: bold;
@@ -13,18 +12,18 @@ td{
 	padding:15px;
 	font-size: 14px;
 	color:black;
-}
+}*/
 </style>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> --}}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
-<div class="container col-md-offset-4 col-md-8" style="margin-top:-50px">
+<div class="container col-md-offset-4 col-md-8" style="margin-top:10px">
 
 
   <?php
@@ -97,7 +96,7 @@ td{
 
 
 
-<div class="col-md-offset-3 col-md-9">
+<div class="col-md-offset-3 col-md-9" style="margin-top:20px">
 	<div style="background-color:#f2edb5;color:brown">
 	  <table width="100%" style="border:1px solid grey" >
 		 <thead style="background-color:brown;font-weight:bold;text-align:center;height:30%;border:1px solid grey">
@@ -154,8 +153,5 @@ td{
 
 });
 </script>
-
-
-
 
 @endsection

@@ -108,7 +108,10 @@
         </div>
 
     <div class="col-md-offset-0 col-md-12 bottom" style="margin-top: 40px" >
-        <center><Button type="submit" style="background-color: #ff6100;color:black" name="submit">Submit</Button></center>
+        <center>
+            <Button type="submit" style="background-color: #ff6100;color:black" name="submit">Submit</Button>
+            <a class="next btn btn-default btn-lg" style="background-color: #ff6100;color:black" href="{{ url('admin/manageEvent') }}">Cancel</a>
+        </center>
     </div>  
 </div>
 </form>

@@ -59,11 +59,11 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <!--<a class="navbar-brand" href="{{ url('home') }}">
-<div style="margin-top:-15px;margin-left: -20px" ><img src="images/fob.png" width="50px" height="50px" alt="Friends Of TNBJP"></div>                   </a>-->
+                    <a class="navbar-brand" href="{{ url('home') }}">
+<div style="margin-top:-15px;margin-left: -80px" ><img src="{{url('https://tagdv.org/wp-content/uploads/2018/08/TAGDV.jpg')}}" width="250px" height="50px" alt="Friends Of TNBJP"></div>                   </a>
 
-<a href="{{url('/home')}}"> 
-<img src={{url('/images/tagdv.jpg')}} width="12%" height="12%" class="image" alt=""/></a>
+{{-- <a href="{{url('/home')}}"> 
+<img src={{url('/images/tagdv.jpg')}} width="12%" height="12%" class="image" alt=""/></a> --}}
 
 
                 </div>

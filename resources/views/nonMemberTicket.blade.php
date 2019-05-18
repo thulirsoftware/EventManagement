@@ -44,6 +44,7 @@
   @endif
 
   @for($i=0; $i<$noOfEvents; $i++)
+    @if($events[$i]['nonMemberTicketsCount'] != "0")
       <div class="col-md-offset-2 col-md-12" style="margin-bottom:100px;">
       <div class="col-md-4">
       <img src="{{ $baseurl }}/{{ $events[$i]['eventFlyer'] }}" width="300px" height=250px" class="image" alt=""/>
@@ -63,6 +64,7 @@
             </div>
       </div>
       </div><br>
-  @endfor
+  @endif
+@endfor
 
 @endsection

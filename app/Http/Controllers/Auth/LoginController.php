@@ -27,6 +27,9 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/memberTickets';
+    //protected $redirectTo = Session::has('test') ? '/' : '/something-else';
+
+
 
     /**
      * Create a new controller instance.

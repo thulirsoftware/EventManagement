@@ -281,7 +281,7 @@ background-color: #fff;
               <a href="{{ url('admin/manageEvent') }}"><i class="fa fa-calendar fa-lg"></i>Events </a></li>
 
               <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
-              <a href="{{ url('admin/addEvent') }}"><i class="fa fa-bullhorn fa-lg"></i>Add Events </a></li>         
+              {{-- <a href="{{ url('admin/addEvent') }}"><i class="fa fa-bullhorn fa-lg"></i>Add Events </a></li> --}}         
 
               <li data-toggle="collapse" data-target="#aos" class="collapsed">
               <a href="{{ url('admin/manageSchool') }}"><i class="fa fa-book fa-lg"></i> Tamil School </a></li>

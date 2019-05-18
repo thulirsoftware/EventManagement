@@ -22,7 +22,11 @@
                   <div class="form-group">
                     <label class="control-label col-sm-3 col-md-offset-1" for="job_title">Role:</label>
                     <div class="col-sm-5">          
-                      <input type="text" class="form-control" id="job_title" placeholder="Role" name="role" value="{{ $admin['job_title']}}">
+                     {{--  <input type="text" class="form-control" id="job_title" placeholder="Role" name="role" value="{{ $admin['job_title']}}"> --}}
+                      <select name="role">
+                        <option value="SAdmin" <?= $admin['job_title'] == "SAdmin"?'selected':'' ?> >Super Admin</option>
+                        <option value="Admin" <?= $admin['job_title'] == "Admin"?'selected':'' ?> >Admin</option>
+                      </select>
                     </div>
                   </div>
 
@@ -50,6 +54,7 @@
                   <div class="form-group">        
                     <div class="col-sm-offset-3 col-sm-4 col-md-offset-5">
                       <button type="submit" class="btn btn-default btn-lg btn-primary" name="submit">Submit</button>
+                      <a class="btn btn-default btn-close btn-lg btn-primary" href="{{ url('admin/manageAdmin') }}">Cancel</a>
                     </div>
                   </div>
 

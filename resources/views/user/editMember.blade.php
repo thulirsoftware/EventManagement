@@ -46,7 +46,8 @@ p{
 
     <div class="col-md-12 bottom" style="padding-bottom:25px">
         <center>
-        	<input type="submit" name="submit" value="Update" style="background-color: brown;color:yellow;padding:8px">
+        	<input type="submit" class="btn btn-default btn-close btn-lg btn-primary" name="submit" value="Update" style="background-color: brown;color:yellow;padding:8px">
+          <a class="btn btn-default btn-close btn-lg btn-primary" href="{{ url('admin/memberDetails') }}" style="background-color: brown;color:yellow;padding:8px">Cancel</a>
         </center>
     </div>
   </form>

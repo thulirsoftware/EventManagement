@@ -20,7 +20,14 @@ class nonMemberController extends Controller
     public function nonMemberTicket()
     {
      	$events = Event::all()->toArray();
-    
+
+        foreach($events as $key=>$value){
+            $eventId = $value['id'];
+            
+            $events[$key]['nonMemberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->get());
+            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->get());
+        }
+
         $baseurl = "/events/";
     	
         return view('nonMemberTicket',compact('baseurl','events'));

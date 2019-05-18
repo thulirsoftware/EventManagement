@@ -113,13 +113,20 @@
 </div>
 
 <script type="text/javascript">
-  
+  $(document).ready(function(){
+      $('input[type="number"]').each(function(){
+        if($(this).val() == ""){
+          $(this).val(0);
+        }
+      });  
+  });
+
     function calcTotal(id)
     {
       $('input[type="number"]').each(function(){
         if($(this).val() == ""){
           $(this).val(0);
-        }
+        }else{}
       });
       
     var value=$('#'+id).val();

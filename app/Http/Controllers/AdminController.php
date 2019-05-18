@@ -382,7 +382,7 @@ class AdminController extends Controller
                 'email' => $request->email,
             ]);
            
-            return redirect()->back();
+            return redirect('/admin/memberDetails');
         }
 
 

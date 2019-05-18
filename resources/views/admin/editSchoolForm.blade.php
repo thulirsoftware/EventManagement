@@ -55,7 +55,10 @@
       	</div>
 
       <div class="col-md-offset-2 col-md-12 bottom" >
-          <center><input type="submit" name="submit" value="submit"></center>
+          <center>
+            <input class="btn btn-info" type="submit" name="submit" value="submit">
+            <a class="btn btn-info" href="{{ url('admin/manageSchool') }}">Cancel</a>
+        </center>
       </div>
 
 </div>

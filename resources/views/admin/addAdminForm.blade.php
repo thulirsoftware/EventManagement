@@ -29,7 +29,11 @@
                   <div class="form-group">
                     <label class="control-label col-sm-3 col-md-offset-1" for="job_title">Role:</label>
                     <div class="col-sm-6">          
-                      <input type="text" class="form-control" id="job_title" placeholder="Role" name="role">
+                     {{--  <input type="text" class="form-control" id="job_title" placeholder="Role" name="role"> --}}
+                      <select name="role">
+                      <option value="SAdmin">Super Admin</option>
+                      <option value="Admin">Admin</option>
+                      </select>
                     </div>
                   </div>
 
