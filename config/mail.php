@@ -61,7 +61,7 @@ return [
     // ],
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@tagdv.org'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@sriss.in'),
         'name' => env('MAIL_FROM_NAME', 'TAGDV'),
     ],
 

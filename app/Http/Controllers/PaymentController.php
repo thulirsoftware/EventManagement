@@ -193,6 +193,11 @@ $email = Auth::user()->email;
                     ['membershipType'=> $data['membership_code'],
                     'membershipExpiryDate'=> $yearEnd]
                 );
+
+
+$member=Member::where('primaryEmail',Auth::user()->email)->first();
+$user = Auth::user();
+$sendMail=self::membership_email($user,$member,$payment);
         
 
         return redirect(url("http://localhost:8000/membership"))->with('Membership', 'Payment Success! Your membership details sent to your mail.');
@@ -202,6 +207,22 @@ $email = Auth::user()->email;
         }
         
     }
+
+
+public static function membership_email($user,$member,$payment)
+{
+    $subject = "Membership Payment";
+
+    $name = $member['firstName']." ".$member['lastName'];
+    $email = $member['primaryEmail'];
+
+    Mail::send('mail.membershipSuccess', ['user' => $user,'member' => $member,'payment' => $payment], function ($message) use($subject,$name,$email)
+    {
+        $message->to($email, $name)->subject($subject);
+    
+    });
+   return true;
+}
 
 
     public function memberEventPaymentCreate(Request $request)
@@ -367,6 +388,11 @@ $email = Auth::user()->email;
             $payment->paymentDate =Carbon::now()->toDateString();
             $payment->save();
 
+
+    $member=Member::where('primaryEmail',Auth::user()->email)->first();
+    $user = Auth::user();
+    $sendMail=self::memberEventPaymentEmail($user,$member,$payment,$ticketPurchase);
+
         return redirect(url("http://localhost:8000/memberTickets"))->with('Event', 'Payment Success! Event ticket purchase details are sent to your mail.');
 
         }else{
@@ -374,6 +400,23 @@ $email = Auth::user()->email;
         }
         
     }
+
+
+    public static function memberEventPaymentEmail($user,$member,$payment,$ticketPurchase)
+    {
+        $subject = "Event Ticket Purchase";
+
+        $name = $member['firstName']." ".$member['lastName'];
+        $email = $member['primaryEmail'];
+
+        Mail::send('mail.memberEventPaymentEmail', ['user' => $user,'member' => $member,'payment' => $payment, 'ticketPurchase' => $ticketPurchase], function ($message) use($subject,$name,$email)
+        {
+            $message->to($email, $name)->subject($subject);
+        
+        });
+       return true;
+    }
+
 
     public function nonMemberEventPaymentCreate(Request $request)
     {
@@ -545,6 +588,10 @@ $email = Auth::user()->email;
             $payment->paymentDate =Carbon::now()->toDateString();
             $payment->save();
 
+
+        $user = $nonMember;
+        $sendMail=self::nonMemberEventPaymentEmail($nonMember,$payment,$ticketPurchase);
+
         return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Success! Event ticket purchase details are sent to your mail.');
 
         }else{
@@ -552,4 +599,23 @@ $email = Auth::user()->email;
         }
         
     }
+
+
+    public static function nonMemberEventPaymentEmail($nonMember,$payment,$ticketPurchase)
+    {
+        $subject = "Event Ticket Purchase";
+        $email = $nonMember['email'];
+        $firstName = $nonMember['firstName'];
+        $lastName = $nonMember['lastName'];
+        $name = $firstName." ".$lastName;
+
+        Mail::send('mail.nonMemberEventPaymentEmail', ['nonMember' => $nonMember,'payment' => $payment, 'ticketPurchase' => $ticketPurchase], function ($message) use($email,$name,$subject)
+        {
+
+            $message->to($email, $name)->subject($subject);
+        
+        });
+       return true;
+    }
+
 }

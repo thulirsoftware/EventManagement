@@ -28,11 +28,11 @@ class MemberController extends Controller
 
         foreach($events as $key=>$value){
             $eventId = $value['id'];
-            
+
             $events[$key]['nonMemberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->get());
-            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->get());
+            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'member')->get());
         }
-        
+
         return view('user.memberTickets',compact('baseurl','events'));
     }
 

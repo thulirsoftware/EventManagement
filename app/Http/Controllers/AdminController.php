@@ -192,7 +192,7 @@ class AdminController extends Controller
     {
 
      $event = Event::find($request->id);
-        
+
      if ($request->hasFile('eventFlyer')){  
          
       $deleteFlyer = public_path().'/events/'.$event->eventFlyer;
@@ -213,26 +213,6 @@ class AdminController extends Controller
      
      }
 
-        // if($request->eventFlyer != "" || $request->eventFlyer != null){
-
-        // Storage::delete('public/upload/events/'.$event->eventFlyer);
-
-        // $filename=$request->eventFlyer->getClientOriginalName('public/upload');
-
-        // $extension=$request->eventFlyer->getClientOriginalExtension('public/upload');
-
-        // $flyerName=bin2hex(openssl_random_pseudo_bytes(5));
-
-        // if($extension!=''){
-        //     $flyerName.=".".$extension;
-        // }
-
-        // $request->eventFlyer->storeAs('/public/upload/events',$flyerName);
-        // }
-
-
-
-
         $event = Event::find($request->id);
 
             $event->eventName = $request->eventName;
@@ -241,7 +221,7 @@ class AdminController extends Controller
             if($request->eventFlyer != "" || $request->eventFlyer != null){
             $event->eventFlyer = $fileName;
             }else{
-                 $event->eventFlyer = $request->eventFlyer;
+                 $event->eventFlyer = $event['eventFlyer'];
             }
 
             $event->eventDate = $request->eventDate;
@@ -263,9 +243,13 @@ class AdminController extends Controller
     {
         $event = Event::find($id);
 
-        if($event->eventFlyer != "" || $event->eventFlyer != null){
+        if($event['eventFlyer'] != "" || $event['eventFlyer'] != null){
+            
+            $deleteFlyer = public_path().'/events/'.$event->eventFlyer;
 
-            Storage::delete('public/upload/events/'.$event->eventFlyer);
+            if(File::exists($deleteFlyer)) {
+              File::delete($deleteFlyer);
+            }
         }
 
         $eventTicket = DB::table('event_tickets')->where('eventId',$id)->get();

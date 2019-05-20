@@ -143,7 +143,6 @@
             <td>{{ $ticket['foodType'] }}</td>
             <td>{{ $ticket['dateRange'] }}</td>
             <td>{{ $ticket['ticketPrice'] }}</td>
-            {{-- <td><a href="/admin/adminEdit/{{ $admin['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td> --}}
             <td><a href="/admin/eventTicketDelete/{{ $ticket['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
           </tr>
