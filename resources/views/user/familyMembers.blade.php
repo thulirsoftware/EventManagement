@@ -52,11 +52,11 @@ td{
           <input type="hidden" name="tagDvId" value={{ $tagDvId }}>
 
          <div class="col-md-offset-2 col-md-3">First Name:</div>
-         <div class="col-md-3"><input type="text" name="firstName"></div><br><br>
+         <div class="col-md-3"><input type="text" name="firstName" required=""></div><br><br>
 
          <div class="col-md-offset-2 col-md-3">Last Name:</div><div class="col-md-3"><input type="text" name="lastName"></div><br><br>
 
-         <div class="col-md-offset-2 col-md-3">Relationship:</div><div class="col-md-3"><input type="text" name="relationshipType"></div><br><br>
+         <div class="col-md-offset-2 col-md-3">Relationship:</div><div class="col-md-3"><input type="text" name="relationshipType" required=""></div><br><br>
 
          <div class="col-md-offset-2 col-md-3">PhoneNo:</div><div class="col-md-3"><input type="text" name="phoneNo"></div><br><br>
 
@@ -71,7 +71,7 @@ td{
          <div class="col-md-offset-2 col-md-3">School Name:</div><div class="col-md-3">
           {{-- <input type="text" name="schoolName"> --}}
           <select name="schoolName" style="width: 150px;height: 30px;border-radius: 4px;background-color: white" required="">
-            <option value="">None</option>
+            <option value="none">None</option>
             @foreach($schools as $key => $school)
               <option value="{{ $school }}">{{ $school }}</option>
             @endforeach

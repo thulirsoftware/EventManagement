@@ -105,7 +105,7 @@
         </div>
 
         <div class="col-md-4">
-         <input class="col-md-6" name="ticketPrice" style="margin-left: 15px" type="text" name="price"> 
+         <input class="col-md-6" name="ticketPrice" id="price" style="margin-left: 15px" type="text" name="price"> <span style="color:red" id="errmsg"></span>
         </div>
 
     <div class="col-md-offset-0 col-md-12 bottom" style="margin-top: 40px" >
@@ -157,4 +157,18 @@
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+  $("#price").keypress(function (e) {
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+
+});
+</script>
+
 @endsection

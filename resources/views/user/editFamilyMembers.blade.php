@@ -16,7 +16,7 @@
                   <div class="form-group">
                     <label class="control-label col-sm-3 col-md-offset-1" for="firstName">First Name:</label>
                     <div class="col-sm-5 col-md-offset-0">
-                      <input type="text" class="form-control" id="firstName" placeholder="Enter Name" name="firstName" value="{{ $family['firstName']}}">
+                      <input type="text" class="form-control" id="firstName" placeholder="Enter Name" name="firstName" value="{{ $family['firstName']}}" required="">
                     </div>
                   </div>
 
@@ -30,7 +30,7 @@
                   <div class="form-group">
                     <label class="control-label col-sm-3 col-md-offset-1" for="relationshipType">Relationship:</label>
                     <div class="col-sm-5 col-md-offset-0">
-                      <input type="text" class="form-control" id="relationshipType" placeholder="Enter Name" name="relationshipType" value="{{ $family['relationshipType']}}">
+                      <input type="text" class="form-control" id="relationshipType" placeholder="Enter Name" name="relationshipType" value="{{ $family['relationshipType']}}" required="">
                     </div>
                   </div>
 
@@ -73,7 +73,7 @@
                   
                   <div class="col-sm-5 col-md-offset-0">
                     <select name="schoolName" style="width: 320px;height: 30px;border-radius: 4px;background-color: white" required="">
-                      <option value="">None</option>
+                      <option value="none">None</option>
                       @foreach($schools as $key => $school)
                         <option value="{{ $school }}" <?= ($school == $family['schoolName'])?'selected':''  ?> >{{ $school }}</option>
                       @endforeach

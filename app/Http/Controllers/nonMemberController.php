@@ -11,6 +11,7 @@ use App\NonMember;
 use App\TicketPurchase;
 use App\TicketPurchaseDetail;
 use Session;
+use Carbon\Carbon;
 
 class nonMemberController extends Controller
 {
@@ -19,13 +20,14 @@ class nonMemberController extends Controller
 
     public function nonMemberTicket()
     {
-     	$events = Event::all()->toArray();
+     	$toDay =Carbon::now()->toDateString();
+        $events = Event::where('eventDate','>=',$toDay)->get()->toArray();
 
         foreach($events as $key=>$value){
             $eventId = $value['id'];
             
-            $events[$key]['nonMemberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->get());
-            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'member')->get());
+            $events[$key]['nonMemberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->where('dateRange','>=',$toDay)->get());
+            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'member')->where('dateRange','>=',$toDay)->get());
         }
 
         $baseurl = "/events/";

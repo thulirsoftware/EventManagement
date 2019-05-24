@@ -14,6 +14,7 @@ use File;
 use App\User;
 use App\School;
 use App\MembershipConfig;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -336,9 +337,21 @@ class AdminController extends Controller
 
         public function memberDetails()
         {
-            $members = Member::all();
+            $toDay =Carbon::now()->toDateString();
+
+            $members = Member::where('membershipExpiryDate','>=',$toDay)->get();
 
             return view('admin.memberDetails',compact('members'));
+        }
+
+
+        public function nonMemberDetails()
+        {
+            $toDay =Carbon::now()->toDateString();
+
+            $members = Member::where('membershipExpiryDate','<',$toDay)->get();
+
+            return view('admin.nonMemberDetails',compact('members'));
         }
 
 

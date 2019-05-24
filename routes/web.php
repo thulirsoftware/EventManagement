@@ -19,7 +19,7 @@ Route::get('nonMemberEventPaymentExecute', 'PaymentController@nonMemberEventPaym
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'MemberController@membership');
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
 Route::get('/familyMembers','FamilyMemberController@familyMembers');
@@ -104,6 +104,8 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/editEventTicket/{id}','AdminController@editEventTicket');
 
   Route::get('/memberDetails','AdminController@memberDetails');
+
+  Route::get('/nonMemberDetails','AdminController@nonMemberDetails');
 
 
   Route::get('/editMember/{id}','AdminController@editMember');

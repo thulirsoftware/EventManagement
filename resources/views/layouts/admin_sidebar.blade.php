@@ -277,6 +277,9 @@ background-color: #fff;
               <li data-toggle="collapse" data-target="#notifications" class="collapsed">
               <a href="{{ url('admin/memberDetails') }}"><i class="fa fa-bell fa-lg"></i> Members </a></li>
 
+              <li data-toggle="collapse" data-target="#notifications" class="collapsed">
+              <a href="{{ url('admin/nonMemberDetails') }}"><i class="fa fa-bell fa-lg"></i>Non Members </a></li>
+
               <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
               <a href="{{ url('admin/manageEvent') }}"><i class="fa fa-calendar fa-lg"></i>Events </a></li>
 

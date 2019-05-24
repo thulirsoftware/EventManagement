@@ -60,7 +60,7 @@
         <div class="col-md-6 form-group" style="margin-left: -20px">
            
             <div class="input-group col-md-offset-1 col-md-8">
-                <input id="phoneNo1" type="text" class="form-control" name="phoneNo1" placeholder="Phone No" max="10" required>
+                <input id="phoneNo1" type="text" class="form-control" name="phoneNo1" placeholder="Phone No" max="10" value="{{ old('phoneNo1') }}" required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-phone"></i></span>
                 <span style="color: red" id="errmsg"></span>
             </div>
@@ -97,7 +97,7 @@
 <div class="col-md-6 form-group" style="margin-left:14px">
            
             <div class="input-group col-md-offset-3 col-md-9">
-                <input id="dobDate" type="text" class="form-control" name="dobDate" placeholder="DOB Date in DD Format" maxlength="2" required>
+                <input id="dobDate" type="text" class="form-control" name="dobDate" placeholder="DOB Date in DD Format" maxlength="2" value="{{ old('dobDate') }}"  required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-phone"></i></span><span style="color: red" id="errmsgDate"></span>
                
             </div>
@@ -106,7 +106,7 @@
         <div class="col-md-6 form-group" style="margin-left: -20px">
            
             <div class="input-group col-md-offset-1 col-md-8">
-                <input id="dobMonth" type="text" class="form-control" name="dobMonth" placeholder="DOB Month in MM Format" maxlength="2" required>
+                <input id="dobMonth" type="text" class="form-control" name="dobMonth" placeholder="DOB Month in MM Format" maxlength="2" value="{{ old('dobMonth') }}" required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-phone"></i></span><span style="color: red" id="errmsgMonth"></span>
             </div>
         </div>
@@ -115,7 +115,7 @@
 <div class="col-md-6 form-group" style="margin-left:14px">
 
             <div class="input-group col-md-offset-3 col-md-9">
-                <input id="address1" type="text" class="form-control" name="address1" placeholder="Address" required>
+                <input id="address1" type="text" class="form-control" name="address1" placeholder="Address" value="{{ old('address1') }}" required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-home"></i></span>
 
        </div>
@@ -123,7 +123,7 @@
 <div class=" col-md-6 form-group" style="margin-left:-20px">
 
             <div class="input-group  col-md-offset-1 col-md-8">
-                <input id="address2" type="text" class="form-control" name="address2" placeholder="Address" required>
+                <input id="address2" type="text" class="form-control" name="address2" placeholder="Address" value="{{ old('address2') }}" required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-home"></i></span>
         </div>
 </div>
@@ -134,7 +134,7 @@
         <div class="col-md-6 form-group">
 
             <div class="input-group col-md-offset-4 col-md-9">
-                <input id="spouseName" type="text" class="form-control" name="spouseName" placeholder="Spouse First Name">
+                <input id="spouseName" type="text" class="form-control" name="spouseName" placeholder="Spouse First Name" value="{{ old('spouseName') }}">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
             </div>
@@ -142,7 +142,7 @@
 <div class="col-md-6 form-group">
            
             <div class="input-group col-md-offset-2 col-md-8">
-                <input id="spousePhoneNo" type="text" class="form-control" name="spousePhoneNo" placeholder="Spouse Phone Number">
+                <input id="spousePhoneNo" type="text" class="form-control" name="spousePhoneNo" placeholder="Spouse Phone Number" value="{{ old('spousePhoneNo') }}">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-earphone"></i></span>
 
                 <span style="color: red" id="errmssg"></span>
@@ -159,7 +159,7 @@
         <div class="col-md-6 form-group">
 
             <div class="input-group col-md-offset-4 col-md-9">
-                <input id="firstChildName" type="text" class="form-control" name="firstChildName" placeholder="Child1 First Name">
+                <input id="firstChildName" type="text" class="form-control" name="firstChildName" value="{{ old('firstChildName') }}" placeholder="Child1 First Name">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
               
@@ -188,7 +188,7 @@
         <div class="col-md-6 form-group" style="margin-left: -260px">
            
             <div class="input-group col-md-offset-1 col-md-9">
-                <input id="secondChildName" type="text" class="form-control" name="secondChildName" placeholder="Child2 First Name">
+                <input id="secondChildName" type="text" class="form-control" name="secondChildName" placeholder="Child2 First Name" value="{{ old('secondChildName') }}">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
               
@@ -213,7 +213,7 @@
 
         <div class="col-md-6 form-group" style="margin-left: 14px">
             <div class="input-group col-md-offset-3 col-md-9">
-                <input id="thirdChildName" type="text" class="form-control" name="thirdChildName" placeholder="Child3 First Name">
+                <input id="thirdChildName" type="text" class="form-control" name="thirdChildName" value="{{ old('thirdChildName') }}" placeholder="Child3 First Name">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
             </div>
@@ -247,7 +247,7 @@
         <div class="col-md-9 form-group" style="margin-left: 14px;">
            
             <div class="input-group col-md-offset-3 col-md-9">
-                <input id="state" type="text" class="form-control" name="state" placeholder="Enter State Name" required>
+                <input id="state" type="text" class="form-control" name="state" placeholder="Enter State Name" value="{{ old('state') }}" required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-lock"></i></span>
             </div>
         </div>
@@ -255,7 +255,7 @@
         <div class="col-md-9 form-group "  style="margin-left: 14px">
 
             <div class="input-group col-md-offset-3 col-md-9">
-                <input id="zipCode" type="text" class="form-control" name="zipCode" placeholder="Zip Code" maxlength="6" required>
+                <input id="zipCode" type="text" class="form-control" name="zipCode" placeholder="Zip Code" value="{{ old('zipCode') }}" maxlength="6" required>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-map-marker"></i></span><span id="errmsgZip"></span>
 
              

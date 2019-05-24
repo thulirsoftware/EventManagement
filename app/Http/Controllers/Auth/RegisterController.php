@@ -80,10 +80,14 @@ class RegisterController extends Controller
     //$membershipExpiry = date('Y-m-d', strtotime('+1 years'));
 
         $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
-        
+
+        if($user){
         $userId=$user[0]['id'];
 
         $tagDvId='TDV'.sprintf("%07d", ++$userId);
+        }else{
+            $tagDvId = "TDV0000001";
+        }
 
         $member = Member::create([
             'firstName' => $data['name'],

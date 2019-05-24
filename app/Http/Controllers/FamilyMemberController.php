@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\FamilyMember;
+use Auth;
 
 class FamilyMemberController extends Controller
 {
     public function familyMembers()
     {
-    	$familyMembers = FamilyMember::all();
+        $tagDvId = Auth::user()->tagDvid;
+
+    	$familyMembers = FamilyMember::where('tagDvId',$tagDvId)->get();
 
         return view('user.familyMembers',compact('familyMembers'));
     }
