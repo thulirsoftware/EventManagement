@@ -152,7 +152,7 @@ class MemberController extends Controller
             'gender' => $request->gender,
             'addressLine1' => $request->address1,
             'addressLine2' => $request->address2,
-            // 'country' => $request->country,
+            'country' => $request->city,
             'state' => $request->state,
             'zipCode' => $request->zipCode,
             // 'lastName' => $request->lastName,

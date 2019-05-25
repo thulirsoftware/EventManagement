@@ -115,7 +115,7 @@
 <div class="col-md-6 form-group" style="margin-left:14px">
 
             <div class="input-group col-md-offset-3 col-md-9">
-                <input id="address1" type="text" class="form-control" name="address1" placeholder="Address" value="{{ old('address1') }}" required>
+                <textarea id="address1" class="form-control" name="address1" placeholder="Address 1" value="{{ old('address1') }}" required></textarea>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-home"></i></span>
 
        </div>
@@ -123,10 +123,37 @@
 <div class=" col-md-6 form-group" style="margin-left:-20px">
 
             <div class="input-group  col-md-offset-1 col-md-8">
-                <input id="address2" type="text" class="form-control" name="address2" placeholder="Address" value="{{ old('address2') }}" required>
+                <textarea id="address2" class="form-control" name="address2" placeholder="Address 2" value="{{ old('address2') }}" required></textarea>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-home"></i></span>
         </div>
 </div>
+              
+
+        <div class="col-md-6 form-group" style="margin-left: 14px;">
+           
+            <div class="input-group col-md-offset-3 col-md-9">
+                <input id="city" type="text" class="form-control" name="city" placeholder="Enter City Name" value="{{ old('city') }}" required>
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-lock"></i></span>
+            </div>
+        </div>
+
+        <div class="col-md-6 form-group" style="margin-left: 7px;">
+           
+            <div class="input-group col-md-offset-0 col-md-8">
+                <input id="state" type="text" class="form-control" name="state" placeholder="Enter State Name" value="{{ old('state') }}" required>
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-lock"></i></span>
+            </div>
+        </div>
+
+        <div class="col-md-9 form-group "  style="margin-left: 10px;">
+
+            <div class="input-group col-md-offset-2 col-md-6">
+                <input id="zipCode" type="text" class="form-control" name="zipCode" placeholder="Zip Code" value="{{ old('zipCode') }}" maxlength="6" required>
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-map-marker"></i></span><span id="errmsgZip"></span>
+
+             
+            </div>
+        </div>
 
 
 
@@ -238,30 +265,7 @@
 </div>
 
 
-
-
-
-
-
-
-        <div class="col-md-9 form-group" style="margin-left: 14px;">
-           
-            <div class="input-group col-md-offset-3 col-md-9">
-                <input id="state" type="text" class="form-control" name="state" placeholder="Enter State Name" value="{{ old('state') }}" required>
-                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-lock"></i></span>
-            </div>
-        </div>
-
-        <div class="col-md-9 form-group "  style="margin-left: 14px">
-
-            <div class="input-group col-md-offset-3 col-md-9">
-                <input id="zipCode" type="text" class="form-control" name="zipCode" placeholder="Zip Code" value="{{ old('zipCode') }}" maxlength="6" required>
-                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-map-marker"></i></span><span id="errmsgZip"></span>
-
-             
-            </div>
-        </div>
-
+        
         <div class="col-md-9 form-group"  style="margin-left: 14px">
             
             <div class="input-group col-md-offset-3 col-md-9">

@@ -59,6 +59,12 @@ p{
           <div class="col-md-7"><input id="state" style="border-radius: 4px" type="text" class="form-control" name="state" value="{{ $member['state'] }}"></div>
       </div>
 
+
+      <div class="input-group col-md-offset-2 col-md-9" style="padding-top: 10px">
+        <div class="col-md-3" style="padding-top:5px">City:</div>
+          <div class="col-md-7"><input id="city" style="border-radius: 4px" type="text" class="form-control" name="city" value="{{ $member['country'] }}"></div>
+      </div>
+
    
 
 

@@ -102,7 +102,7 @@ class RegisterController extends Controller
             'phoneNo2' => $data['spousePhoneNo'],
             'addressLine1' => $data['address1'],
             'addressLine2' => $data['address2'],
-            'country' => "",
+            'country' => $data['city'],
             'state' => $data['state'],
             'zipCode' => $data['zipCode'],
             'membershipType' => "",
