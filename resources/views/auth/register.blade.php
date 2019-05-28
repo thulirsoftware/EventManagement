@@ -417,6 +417,22 @@
     }
    });
 
+    $("#dobDate").on('change',function () {
+    var date = $("#dobDate").val();
+        if (date > 31) {
+            $("#dobDate").val(31)
+            return false;
+        }
+    });
+
+    $("#dobMonth").on('change',function () {
+    var date = $("#dobMonth").val();
+        if (date > 12) {
+            $("#dobMonth").val(12)
+            return false;
+        }
+    });
+
 });
 </script>
 
