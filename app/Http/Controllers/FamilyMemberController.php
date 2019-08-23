@@ -37,6 +37,7 @@ class FamilyMemberController extends Controller
         $family->relationshipType = $request->relationshipType;
         $family->phoneNo = $request->phoneNo;
         $family->dob = $request->dob;
+        $family->mob = $request->mob;
         $family->schoolName = $request->schoolName;
         $family->save();
 
@@ -48,26 +49,14 @@ class FamilyMemberController extends Controller
 
         $family = FamilyMember::find($id);
 
-        $family['day'] =substr($family['dob'], 0, 2);
-        $family['month'] =substr($family['dob'], -2);
+        $family['day'] =$family['dob'];
+        $family['month'] =$family['mob'];
 
         return view('user.editFamilyMembers',compact('family'));
     }
 
     public function familyUpdate(Request $request)
     {
-        $dateLength = strlen($request->dobDate);
-        $monthLength = strlen($request->dobMonth);
-        if($dateLength == 1){
-            $request->dobDate = "0".$request->dobDate;
-        }
-        if($monthLength == 1){
-            $request->dobMonth = "0".$request->dobMonth;
-        }
-
-        $request->dob = $request->dobDate."/".$request->dobMonth;
-        $request->dob = $request->dobDate."/".$request->dobMonth;
-        
         $family = FamilyMember::find($request->id);
 
             $family->tagDvId = $request->tagDvId;
@@ -76,6 +65,7 @@ class FamilyMemberController extends Controller
             $family->relationshipType = $request->relationshipType;
             $family->phoneNo = $request->phoneNo;
             $family->dob = $request->dob;
+            $family->mob = $request->mob;
             $family->schoolName = $request->schoolName;
 
             if($family->save()){

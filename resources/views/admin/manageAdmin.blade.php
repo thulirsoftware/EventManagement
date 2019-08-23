@@ -21,7 +21,7 @@
                       @foreach($admins as $admin)
                         <tr style="background-color:#f3f4c6">
                          
-                          <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $admin['name'] }}</td>
+                          <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $admin['fname'] }} {{ $admin['lname'] }}</td>
                           <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $admin['email'] }}</td>
                           <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $admin['job_title'] }}</td>
                           <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $admin['is_active'] }}</td>
@@ -35,4 +35,15 @@
               </div>
             </div>
       </div>
+      
+@if(Auth::user()->job_title=='Admin')
+<script language="javascript">
+$(document).ready(function()
+{ 
+       $(document).bind("contextmenu",function(e){
+              return false;
+       }); 
+})
+</script>
+@endif
 @endsection

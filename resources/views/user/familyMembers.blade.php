@@ -58,10 +58,21 @@ td{
 
          <div class="col-md-offset-2 col-md-3">Relationship:</div><div class="col-md-3"><input type="text" name="relationshipType" required=""></div><br><br>
 
-         <div class="col-md-offset-2 col-md-3">PhoneNo:</div><div class="col-md-3"><input type="text" name="phoneNo"></div><br><br>
+         <div class="col-md-offset-2 col-md-3">PhoneNo:</div><div class="col-md-3"><input type="text" maxlength="10" name="phoneNo"></div><br><br>
 
-         <div class="col-md-offset-2 col-md-3">DOB Day in DD</div><div class="col-md-3"><input type="text" id="dobDate" maxlength="2" name="dobDate"></div><span style="color: red" id="errmsgDate" ></span><br><br>
-         <div class="col-md-offset-2 col-md-3">DOB Month in MM</div><div class="col-md-3"><input type="text" id="dobMonth" name="dobMonth" maxlength="2"></div><span style="color: red" id="errmsgMonth"></span><br><br>
+         <div class="col-md-offset-2 col-md-3">DOB  Day</div>
+         <div class="col-md-3">
+        <select class="form-control" id="dobDate" name="dobDate" style="width:155px">
+          <option value="">Select</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+        </select>
+
+         </div><span style="color: red" id="errmsgDate" ></span><br><br>
+         <div class="col-md-offset-2 col-md-3">DOB  Month</div>
+         <div class="col-md-3">
+         <select class="form-control" id="dobMonth" name="dobMonth" style="width:155px">
+          <option value="">Select</option><option value="January">January</option><option value="February">February</option><option value="March">March</option><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option><option value="October">October</option><option value="November">November</option><option value="December">December</option>
+        </select>
+      </div><span style="color: red" id="errmsgMonth"></span><br><br>
 
 
     <?php 
@@ -70,7 +81,7 @@ td{
 
          <div class="col-md-offset-2 col-md-3">School Name:</div><div class="col-md-3">
           {{-- <input type="text" name="schoolName"> --}}
-          <select name="schoolName" style="width: 150px;height: 30px;border-radius: 4px;background-color: white" required="">
+          <select name="schoolName" style="width: 155px;height: 30px;border-radius: 4px;background-color: white" required="">
             <option value="none">None</option>
             @foreach($schools as $key => $school)
               <option value="{{ $school }}">{{ $school }}</option>
@@ -105,7 +116,8 @@ td{
 			<th style="color:white;border:1px solid grey;text-align:center">Last Name</th>
 			<th style="color:white;border:1px solid grey;text-align:center">Relationship</th>
 			<th style="color:white;border:1px solid grey;text-align:center">Phone No</th>
-			<th style="color:white;border:1px solid grey;text-align:center">DOB</th>
+			<th style="color:white;border:1px solid grey;text-align:center">DOB date</th>
+      <th style="color:white;border:1px solid grey;text-align:center">DOB month</th>
 			<th style="color:white;border:1px solid grey;text-align:center">School Name</th>
             <th style="color:white;border:1px solid grey;text-align:center">Edit</th>
             <th style="color:white;border:1px solid grey;text-align:center">Delete</th>
@@ -120,6 +132,7 @@ td{
             <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['relationshipType'] }}</td>
             <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['phoneNo'] }}</td>
             <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['dob'] }}</td>
+             <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['mob'] }}</td>
             <td style="padding:15px;border:1px solid grey;text-align:center">{{ $family['schoolName'] }}</td>
             <td style="padding:15px;border:1px solid grey;text-align:center"><a href="/familyEdit/{{ $family['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
             <td style="padding:15px;border:1px solid grey;text-align:center"><a href="/familyDelete/{{ $family['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>

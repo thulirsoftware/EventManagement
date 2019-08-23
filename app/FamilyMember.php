@@ -13,6 +13,7 @@ class FamilyMember extends Model
     						'relationshipType',
     						'phoneNo',
     						'dob',
+    						'mob',
     						'schoolName',
     						];
 }

@@ -108,9 +108,13 @@
     </div>     
 
     <div class="col-md-12">
-    @if (Auth::user())
+    {{-- @if (Auth::user()) --}}
+    @if(auth()->user()->verified()=='verified' || Auth::user())
+    
     @include('layouts.sidebar')
+
     @endif
+    {{-- @endif --}}
     <div style="margin-top:70px;">
     @yield('content')
     </div>

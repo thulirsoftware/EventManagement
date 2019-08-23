@@ -64,7 +64,8 @@ class AdminController extends Controller
     {
         //dd($request->all());
         $admin = new Admin;
-        $admin->name = $request->name;
+        $admin->fname = $request->firstname;
+        $admin->lname = $request->lastname;
         $admin->job_title = $request->role;
         $admin->email = $request->userName;
         $admin->is_active = $request->is_active;
@@ -91,7 +92,8 @@ class AdminController extends Controller
     {
         $admin = Admin::find($request->id);
 //dd($admin);
-            $admin->name = $request->name;
+            $admin->fname = $request->firstname;
+            $admin->lname = $request->lastname;
             $admin->email = $request->userName;
             $admin->is_active = $request->isActive;
             $admin->job_title = $request->role;
@@ -501,4 +503,64 @@ class AdminController extends Controller
                 return redirect()->back();
             }
         }
+
+
+
+//Member Search
+        public function member_details()
+    {    
+        $members['members']=Member::all()->take(30);
+        return view('admin.member_details',$members);
+    }
+
+     public function membersearch(Request $request)
+     
+    {
+     
+    if($request->ajax())
+     
+    {
+     
+    $output="";
+     
+    $products=DB::table('members')->where('phoneNo1','LIKE','%'.$request->membersearch."%")->orWhere('tagDvId','LIKE','%'.$request->membersearch."%")->get();
+     
+    if($products)
+     
+    {
+     
+    foreach ($products as $key => $product) {
+     
+    $output.='<tr style="background-color:#f1f1f1;border-bottom:none">'.
+     
+    '<td>'.$product->tagDvId.'</td>'.
+    '<td>'.$product->firstName.'</td>'.
+    '<td>'.$product->lastName.'</td>'.
+    '<td>'.$product->phoneNo1.'</td>'.
+    '<td>'.$product->primaryEmail.'</td>'.
+    '<td>'.$product->state.'</td>'.
+    '<td>'.$product->membershipType.'</td>'.
+    '<td>'.$product->membershipExpiryDate.'</td>'.
+    '</tr>
+    <tr style="background-color:white;border-top:none">
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>';
+     
+    }
+      
+    return Response($output);
+     
+       }
+
+       }
+     
+    }
+    
+
+
 }

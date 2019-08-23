@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'mail.thulirsoft.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 465),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,8 +61,8 @@ return [
     // ],
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@sriss.in'),
-        'name' => env('MAIL_FROM_NAME', 'TAGDV'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@thulirsoft.com'),
+        'name' => env('MAIL_FROM_NAME', 'thulirsoft'),
     ],
 
     /*
@@ -76,7 +76,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', 'sls'),
 
     /*
     |--------------------------------------------------------------------------

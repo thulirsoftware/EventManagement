@@ -109,8 +109,8 @@
 
     <div class="col-md-offset-0 col-md-12 bottom" style="margin-top: 40px" >
         <center>
-            <Button type="submit" style="background-color: #ff6100;color:black" name="submit">Submit</Button>
-            <a class="next btn btn-default btn-lg" style="background-color: #ff6100;color:black" href="{{ url('admin/manageEvent') }}">Cancel</a>
+            <Button type="submit" style="background-color: #ff6100;color:black;padding:2px;border:2px solid black;padding:6px;font-size:16px" name="submit">Submit</Button>
+            <a class="next btn btn-default btn-md" style="margin-top:-5px;margin-left:25px;background-color: #ff6100;color:black;font-size:16px;font-weight: bold;border:2px solid black" href="{{ url('admin/manageEvent') }}">Cancel</a>
         </center>
     </div>  
 </div>
@@ -174,4 +174,15 @@
 
 });
 </script>
+
+@if(Auth::user()->job_title=='Admin')
+<script language="javascript">
+$(document).ready(function()
+{ 
+       $(document).bind("contextmenu",function(e){
+              return false;
+       }); 
+})
+</script>
+@endif
 @endsection

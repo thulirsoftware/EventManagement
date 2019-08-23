@@ -270,28 +270,46 @@ background-color: #fff;
               
               {{-- <li data-toggle="collapse" data-target="#locations" class="collapsed">
               <a href="{{ url('admin/dashboard') }}"><i class="fa fa-area-chart fa-lg"></i> Dashboard </a></li> --}}
-
+            @if(Auth::user()->job_title=='SAdmin')
               <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
-              <a href="{{ url('admin/manageAdmin') }}"><i class="fa fa-user fa-lg"></i>Manage Admin </a></li>
+              <a href="{{ url('admin/manageAdmin') }}"><i class="fa fa-user fa-lg"></i> Manage Admin </a></li>
+            @endif
 
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin' || Auth::user()->job_title=='SchoolAdmin' )
               <li data-toggle="collapse" data-target="#notifications" class="collapsed">
               <a href="{{ url('admin/memberDetails') }}"><i class="fa fa-bell fa-lg"></i> Members </a></li>
-
+            @endif
+            
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin' || Auth::user()->job_title=='SchoolAdmin' )
               <li data-toggle="collapse" data-target="#notifications" class="collapsed">
-              <a href="{{ url('admin/nonMemberDetails') }}"><i class="fa fa-bell fa-lg"></i>Non Members </a></li>
+              <a href="{{ url('admin/nonMemberDetails') }}"><i class="fa fa-bell fa-lg"></i> Non Members </a></li>
+            @endif
 
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
               <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
-              <a href="{{ url('admin/manageEvent') }}"><i class="fa fa-calendar fa-lg"></i>Events </a></li>
-
+              <a href="{{ url('admin/member_details') }}"><i class="fa fa-search fa-lg"></i> Member Search </a></li>         
+            @endif
+            
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
+              <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
+              <a href="{{ url('admin/manageEvent') }}"><i class="fa fa-calendar fa-lg"></i> Events </a></li>
+            @endif
+            
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
               <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
               {{-- <a href="{{ url('admin/addEvent') }}"><i class="fa fa-bullhorn fa-lg"></i>Add Events </a></li> --}}         
-
+            @endif
+            
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
               <li data-toggle="collapse" data-target="#aos" class="collapsed">
               <a href="{{ url('admin/manageSchool') }}"><i class="fa fa-book fa-lg"></i> Tamil School </a></li>
-
+            @endif  
+            
+            @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
               <li data-toggle="collapse" data-target="#aos" class="collapsed">
               <a href="{{ url('admin/manageMembership') }}"><i class="fa fa-book fa-lg"></i> Membership </a></li>
-                            
+            @endif             
+            
               <li data-toggle="collapse" data-target="#aos" class="collapsed">
               <a href="{{ url('admin/logout') }}"><i class="fa fa-info-circle fa-lg"></i> Logout </a></li>
               

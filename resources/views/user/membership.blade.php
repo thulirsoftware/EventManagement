@@ -1,7 +1,12 @@
 @extends('layouts.user')
 
 @section('content')
-
+@if(auth()->user()->verified()!='verified')
+      <div class="col-md-6 col-md-offset-3">
+            <p style="font-size:20px;color:brown;text-align:center">Please verify your email to activate your account !</p>
+      </div>
+@endif
+@if(auth()->user()->verified()=='verified')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-3">
@@ -66,5 +71,13 @@
         </div>
     </div>
 </div>
-
+<script language="javascript">
+$(document).ready(function()
+{ 
+       $(document).bind("contextmenu",function(e){
+              return false;
+       }); 
+})
+</script>
+@endif
 @endsection

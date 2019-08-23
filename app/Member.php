@@ -14,6 +14,7 @@ class Member extends Model
     						'tagDvId',
     						'gender',
     						'dob',
+                            'mob',
     						'maritalStatus',
     						'phoneNo1',
     						'phoneNo2',

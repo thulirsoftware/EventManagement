@@ -128,24 +128,14 @@ class MemberController extends Controller
     {
         $user = Auth::user()->email;
         $member = Member::where('primaryEmail',$user)->first();
-        $member['day'] =substr($member['dob'], 0, 2);
-        $member['month'] =substr($member['dob'], -2);
+        $member['day'] =$member['dob'];
+        $member['month'] =$member['mob'];
         return view('user.editProfile',compact('member'));
     }
 
     public function editProfilePost(Request $request)
     {
-        $dateLength = strlen($request->dobDate);
-        $monthLength = strlen($request->dobMonth);
-        if($dateLength == 1){
-            $request->dobDate = "0".$request->dobDate;
-        }
-        if($monthLength == 1){
-            $request->dobMonth = "0".$request->dobMonth;
-        }
-
-        $request->dob = $request->dobDate."/".$request->dobMonth;
-
+        
         $member = Member::where('primaryEmail',$request->email)->update([
             // 'firstName' => $request->firstName,
             'phoneNo1' => $request->mobile,
@@ -158,6 +148,7 @@ class MemberController extends Controller
             // 'lastName' => $request->lastName,
             'maritalStatus' => $request->marital,
             'dob' => $request->dob,
+            'mob' => $request->mob,
         ]);
 
         // $member = User::where('email',$request->email)->update([
@@ -192,4 +183,6 @@ class MemberController extends Controller
         {
             return view('user.edit_members');
         }
+
+
 }

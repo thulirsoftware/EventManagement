@@ -57,7 +57,7 @@
               <label class="control-label col-sm-3 col-md-offset-2" for="phoneNo">Phone No:</label>
              
               <div class="col-sm-5">
-                <input type="text" class="form-control" id="phoneNo" placeholder="" name="phoneNo" required>
+                <input type="text" class="form-control" id="phoneNo" placeholder="" maxlength="10" name="phoneNo" required>
               </div>
 
             </div>

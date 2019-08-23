@@ -13,9 +13,16 @@
                   <input type="hidden" class="form-control" id="" placeholder="Role" name="is_active" value="yes">
                                           
                   <div class="form-group">
-                    <label class="control-label col-sm-3 col-md-offset-1" for="name">Name:</label>
+                    <label class="control-label col-sm-3 col-md-offset-1" for="name">First Name:</label>
                     <div class="col-sm-6">
-                      <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" required>
+                      <input type="text" class="form-control" id="name" placeholder="Enter First Name" name="firstname" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-3 col-md-offset-1" for="name">Last Name:</label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="name" placeholder="Enter Last Name" name="lastname" required>
                     </div>
                   </div>
 
@@ -58,4 +65,15 @@
         </div>
     </div>
 </div>
+
+@if(Auth::user()->job_title=='Admin')
+<script language="javascript">
+$(document).ready(function()
+{ 
+       $(document).bind("contextmenu",function(e){
+              return false;
+       }); 
+})
+</script>
+@endif
 @endsection

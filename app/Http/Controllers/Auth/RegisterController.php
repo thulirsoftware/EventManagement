@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+//use App\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -160,13 +161,18 @@ class RegisterController extends Controller
 
 
 
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'user_type' => $data['userType'],
             'tagDvId' => $tagDvId,
             'password' => bcrypt($data['password']),
+            'token' => str_random(25),
         ]);
 
+        //$user->notify(new VerifyEmail($user));
+        $user->sendVerificationEmail();
+
+        return $user;
     }
 }

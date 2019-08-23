@@ -1,5 +1,5 @@
 <?php
-
+Auth::routes();
 Route::get('/', function () {
     return view('welcome');
 });
@@ -15,6 +15,8 @@ Route::get('/execute-payment', 'PaymentController@execute');
 Route::post('nonMemberEventPaymentCreate', 'PaymentController@nonMemberEventPaymentCreate')->name('nonMemberEventPaymentCreate');
 Route::get('nonMemberEventPaymentExecute', 'PaymentController@nonMemberEventPaymentExecute');
 
+Route::get('/verify/{token}', 'VerifyController@verify')->name('verify');
+//Route::get('/home1', 'VerifyController@verify')->name('verify');
 
 
 Auth::routes();
@@ -127,4 +129,12 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/membershipDelete/{id}','AdminController@membershipDelete');
 
 
+  Route::get('/member_details', 'AdminController@member_details');
+  Route::get('/membersearch', 'AdminController@membersearch');
+
+
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
