@@ -68,17 +68,17 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        $dateLength = strlen($data['dobDate']);
-        $monthLength = strlen($data['dobMonth']);
-        if($dateLength == 1){
-            $data['dobDate'] = "0".$data['dobDate'];
-        }
-        if($monthLength == 1){
-            $data['dobMonth'] = "0".$data['dobMonth'];
-        }
+    //     $dateLength = strlen($data['dobDate']);
+    //     $monthLength = strlen($data['dobMonth']);
+    //     if($dateLength == 1){
+    //         $data['dobDate'] = "0".$data['dobDate'];
+    //     }
+    //     if($monthLength == 1){
+    //         $data['dobMonth'] = "0".$data['dobMonth'];
+    //     }
 
-        $data['dob'] = $data['dobDate']."/".$data['dobMonth'];
-    //$membershipExpiry = date('Y-m-d', strtotime('+1 years'));
+    //     $data['dob'] = $data['dobDate']."/".$data['dobMonth'];
+    // //$membershipExpiry = date('Y-m-d', strtotime('+1 years'));
 
         $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
 
@@ -98,6 +98,7 @@ class RegisterController extends Controller
             'tagDvId' => $tagDvId,
             'gender' => $data['gender'],
             'dob' => $data['dob'],
+            'mob' => $data['mob'],
             'maritalStatus' => $data['maritalStatus'],
             'phoneNo1' => $data['phoneNo1'],
             'phoneNo2' => $data['spousePhoneNo'],
@@ -111,11 +112,11 @@ class RegisterController extends Controller
         ]);
 
 
-        if($data['spouseName'] != ""){
+        if($data['spouseFName'] != ""){
         $familyMember = FamilyMember::create([
             'tagDvId' => $tagDvId,
-            'firstName' => $data['spouseName'],
-            'lastName' => "",
+            'firstName' => $data['spouseFName'],
+            'lastName' => $data['spouseLName'],
             'relationshipType' => "", 
             'phoneNo' => $data['spousePhoneNo'],
             'dob' => "",

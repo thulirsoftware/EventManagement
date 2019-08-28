@@ -87,7 +87,7 @@
         <div class="col-md-6 form-group" style="margin-top: -10px">
           <div class="form-group row">
             <div class="input-group col-md-8">
-                <select name="maritalStatus" id="maritalStatus" class="selectpicker form-control" required="">
+                <select name="maritalStatus" id="maritalStatus" class="selectpicker form-control" required>
                     <option value="">Marital Status</option>
                     <option value="single">Single</option> 
                     <option value="married">Married</option>
@@ -101,8 +101,8 @@
 <div class="col-md-6" style="margin-top: -10px">
         <div class="form-group row">
             <div class="input-group col-md-offset-3 col-md-8">
-                {{-- <input id="dobDate" type="text" class="form-control" name="dobDate" placeholder="DOB Date in DD Format" maxlength="2" value="{{ old('dobDate') }}"  required> --}}
-                <select id="dobDate" type="text" class="form-control" name="dobDate" class="form-control" id="sel1"  value="{{ old('dobDate') }}"  required>
+                
+                <select id="dobDate" type="text" class="form-control" name="dob" class="form-control" id="sel1"  value="{{ old('dob') }}"  required>
                     <option value="">Date of Birth</option>
                     <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
                 </select>
@@ -115,8 +115,8 @@
         <div class="col-md-6 form-group" style="margin-top: -10px">
           <div class="form-group row">
             <div class="input-group col-md-8">
-                {{-- <input id="dobMonth" type="text" class="form-control" name="dobMonth" placeholder="DOB Month in MM Format" maxlength="2" value="{{ old('dobMonth') }}" required> --}}
-                <select id="dobMonth" type="text" class="form-control" name="dobMonth" value="{{ old('dobMonth') }}" required>
+                
+                <select id="dobMonth" type="text" class="form-control" name="mob" value="{{ old('mob') }}" required>
                     <option>Month of Birth</option><option value="January">January</option><option value="February">February</option><option value="March">March</option><option value="April">April</option>
                     <option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option>
                     <option value="September">September</option><option value="October">October</option><option value="November">November</option><option value="December">December</option>
@@ -139,7 +139,7 @@
 <div class="col-md-6 form-group" style="margin-top: -10px">
           <div class="form-group row">
             <div class="input-group col-md-8">
-                <textarea id="address2" class="form-control" name="address2" placeholder="Address 2" value="{{ old('address2') }}" required></textarea>
+                <textarea id="address2" class="form-control" name="address2" placeholder="Address 2" value="{{ old('address2') }}"></textarea>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-home"></i></span>
         </div>
 </div>
@@ -159,7 +159,7 @@
           <div class="form-group row">
             <div class="input-group col-md-8">
                 <select id="state" type="text" class="form-control" name="state" value="{{ old('state') }}" required>
-                    <option value="">Select State</option><option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky[E]">Kentucky[E]</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts[E]">Massachusetts[E]</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania[E]">Pennsylvania[E]</option><option value="Rhode Island[F]>Rhode Island[F]</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value=" Vermont"> Vermont</option><option value="Virginia[E]">Virginia[E]</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option>
+                    <option value="">Select State</option><option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island>Rhode Island</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value=" Vermont"> Vermont</option><option value="Virginia">Virginia</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option>
                   </select>
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-lock"></i></span>
             </div>
@@ -183,7 +183,7 @@
     <div class="col-md-6" style="margin-top: 15px;margin-left:0px">
         <div class="form-group row">
             <div class="input-group col-md-offset-3 col-md-8">
-                <input id="spouseName" type="text" class="form-control" name="spouseName" placeholder="Spouse First Name" value="{{ old('spouseName') }}" style="width:200px;margin-left: -10px">
+                <input id="spouseFName" type="text" class="form-control" name="spouseFName" placeholder="Spouse First Name" value="{{ old('spouseFName') }}" style="width:200px;margin-left: -10px">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
             </div>
@@ -192,14 +192,41 @@
 <div class="col-md-6 form-group" style="margin-top: 15px;margin-left:-15px">
           <div class="form-group row">
             <div class="input-group col-md-8">
-                <input id="spousePhoneNo" type="text" class="form-control" name="spousePhoneNo" maxlength="10" placeholder="Spouse Phone Number" value="{{ old('spousePhoneNo') }}" style="width:200px;margin-left: 0px">
-                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-earphone"></i></span>
+                <input id="spouseLName" type="text" class="form-control" name="spouseLName" maxlength="10" placeholder="Spouse Last Name" value="{{ old('spouseLName') }}" style="width:200px;margin-left: 0px">
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
                 <span style="color: red" id="errmssg"></span>
 
             </div>
         </div>
     </div>
+    
+    
+    <div class="col-md-6" style="margin-top: -10px;margin-left:-10px">
+        <div class="form-group row">
+            <div class="input-group col-md-offset-3 col-md-8">
+                <input id="spousePhoneNo" type="text" class="form-control" name="spousePhoneNo" maxlength="10" placeholder="Spouse Phone Number" value="{{ old('spousePhoneNo') }}" style="width:200px;margin-left: 0px">
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-earphone"></i></span>
+
+            </div>
+        </div>
+    </div>
+<div class="col-md-6 form-group" style="margin-top: -10px;margin-left:-15px">
+          <div class="form-group row">
+            <div class="input-group col-md-8">
+                <input id="" type="text" class="form-control" name="" maxlength="10" placeholder="Spouse Phone Number" value="{{ old('') }}" style="width:200px;mrgin-left: 0px;display:none">
+                <span style="background-color:#f3f4c6;border:none" class="input-group-addon"><i style="color:#f3f4c6" class="glyphicon glyphicon-earphone"></i></span>
+
+                <span style="color: red" id="errmssg"></span>
+
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
 
 
         <?php 
@@ -210,7 +237,7 @@
         <div class="col-md-6" style="margin-top: -10px">
         <div class="form-group row">
             <div class="input-group col-md-offset-3 col-md-8">
-                <input id="firstChildName" type="text" class="form-control" name="firstChildName" value="{{ old('firstChildName') }}" placeholder="Child1 First Name" style="width:200px;margin-left: -10px">
+                <input id="firstChildName" type="text" class="form-control" name="firstChildName" value="{{ old('firstChildName') }}" placeholder="Child1 Name" style="width:200px;margin-left: -10px">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
              </div> 
@@ -221,7 +248,7 @@
           <div class="form-group row">
             <div class="input-group col-md-8">
                 <select name="child1SchoolName" id="child1SchoolName" style="width: 200px;height: 30px;border-radius: 4px;background-color: white">
-                  <option value="">None</option>
+                  <option value="">Tamil School</option>
                   @foreach($schools as $key => $school)
                     <option value="{{ $school }}">{{ $school }}</option>
                   @endforeach
@@ -239,7 +266,7 @@
         <div class="col-md-6" style="margin-top: -10px">
         <div class="form-group row">
             <div class="input-group col-md-offset-3 col-md-8">
-                <input id="secondChildName" type="text" class="form-control" name="secondChildName" placeholder="Child2 First Name" value="{{ old('secondChildName') }}" style="width:200px;margin-left: -10px">
+                <input id="secondChildName" type="text" class="form-control" name="secondChildName" placeholder="Child2 Name" value="{{ old('secondChildName') }}" style="width:200px;margin-left: -10px">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
               </div>
@@ -249,7 +276,7 @@
           <div class="form-group row">
             <div class="input-group col-md-8">
                 <select name="child2SchoolName" id="child2SchoolName" style="width: 200px;height: 30px;border-radius: 4px;background-color: white">
-                  <option value="">None</option>
+                  <option value="">Tamil School</option>
                   @foreach($schools as $key => $school)
                     <option value="{{ $school }}">{{ $school }}</option>
                   @endforeach
@@ -260,12 +287,16 @@
             </div>
         </div>
     </div>
+    
+    
+    
 
 
         <div class="col-md-6" style="margin-top: -10px">
         <div class="form-group row">
             <div class="input-group col-md-offset-3 col-md-8">
-                <input id="thirdChildName" type="text" class="form-control" name="thirdChildName" value="{{ old('thirdChildName') }}" placeholder="Child3 First Name" style="width:200px;margin-left: -10px">
+                <input id="thirdChildName" type="text" class="form-control" name="thirdChildName" value="{{ old('thirdChildName') }}" placeholder="Child3 Name" style="width:200px;margin-left: -10px">
+                
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
             </div>
@@ -277,6 +308,35 @@
             <div class="input-group col-md-8">
                 
                 <select name="child3SchoolName" id="child3SchoolName" style="width: 200px;height: 30px;border-radius: 4px;background-color: white">
+                  <option value="">Tamil School</option>
+                  @foreach($schools as $key => $school)
+                    <option value="{{ $school }}">{{ $school }}</option>
+                  @endforeach
+                </select>
+
+
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-home"></i></span>
+
+            </div>
+        </div>
+</div>
+
+        <div class="col-md-6" style="margin-top: -10px;display:none">
+        <div class="form-group row">
+            <div class="input-group col-md-offset-3 col-md-8">
+                <input id="" type="text" class="form-control" name="" value="{{ old('') }}" placeholder="Child3 Name" style="width:200px;margin-left: -10px">
+                
+                <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
+
+            </div>
+        </div>
+    </div>
+
+         <div class="col-md-6 form-group" style="margin-top: -10px;display:none">
+          <div class="form-group row">
+            <div class="input-group col-md-8">
+                
+                <select name="" id="" style="width: 200px;height: 30px;border-radius: 4px;background-color: white">
                   <option value="">None</option>
                   @foreach($schools as $key => $school)
                     <option value="{{ $school }}">{{ $school }}</option>
@@ -289,6 +349,9 @@
             </div>
         </div>
 </div>
+
+
+
 </div>
 
 
