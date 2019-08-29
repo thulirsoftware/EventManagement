@@ -183,7 +183,7 @@
     <div class="col-md-6" style="margin-top: 15px;margin-left:0px">
         <div class="form-group row">
             <div class="input-group col-md-offset-3 col-md-8">
-                <input id="spouseFName" type="text" class="form-control" name="spouseFName" placeholder="Spouse First Name" value="{{ old('spouseFName') }}" style="width:200px;margin-left: -10px">
+                <input id="spouseFName" type="text" class="form-control" name="spouseFName" placeholder="Spouse First Name" value="{{ old('spouseFName') }}" style="width:200px;margin-left: -11px">
                 <span style="background-color:brown" class="input-group-addon"><i style="color:white" class="glyphicon glyphicon-user"></i></span>
 
             </div>
