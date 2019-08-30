@@ -292,9 +292,11 @@ $today =Carbon\Carbon::now()->toDateString();
               <a href="{{ url('editProfile') }}"><i class="fa fa-eye fa-lg"></i> Edit Profile </a></li>
               @endif
               
-              @if($member->membershipType != 'LM' || auth()->user()->verified()=='verified')
+              @if( auth()->user()->verified()=='verified')
+              @if($member->membershipType != 'LM')
               <li data-toggle="collapse" data-target="#poll" class="collapsed">
               <a href="{{ url('membership') }}"><i class="fa fa-hand-o-up fa-lg"></i> Membership </a></li>
+              @endif
               @endif
 
               {{-- <li data-toggle="collapse" data-target="#poll" class="collapsed">
