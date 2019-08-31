@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.thulirsoft.com'),
+    'host' => env('MAIL_HOST', 'smtp.mailtrap.ion'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,8 +61,8 @@ return [
     // ],
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@thulirsoft.com'),
-        'name' => env('MAIL_FROM_NAME', 'thulirsoft'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@vmclinic.in'),
+        'name' => env('MAIL_FROM_NAME', 'TagDv'),
     ],
 
     /*
@@ -76,7 +76,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'sls'),
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------

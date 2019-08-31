@@ -94,7 +94,7 @@ class PaymentController extends Controller
 
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl(url('http://localhost:8000/membershipPaymentExecute'))
-            ->setCancelUrl(url("http://localhost:8000/membershipPaymentExecute"));
+            ->setCancelUrl(url("http://tagdv.vmclinic.in/membershipPaymentExecute"));
 
         $payment = new Payment();
         $payment->setIntent('Sale')
@@ -203,7 +203,7 @@ $sendMail=self::membership_email($user,$member,$payment);
         return redirect(url("http://localhost:8000/membership"))->with('Membership', 'Payment Success! Your membership details sent to your mail.');
 
         }else{
-            return redirect(url("http://localhost:8000/membership"))->with('Membership', 'Payment Failed!..Please Try Again Later...');
+            return redirect(url("http://tagdv.vmclinic.in/membership"))->with('Membership', 'Payment Failed!..Please Try Again Later...');
         }
         
     }
@@ -468,8 +468,8 @@ public static function membership_email($user,$member,$payment)
             ->setInvoiceNumber(uniqid());
 
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(url('http://localhost:8000/nonMemberEventPaymentExecute'))
-            ->setCancelUrl(url("http://localhost:8000/nonMemberEventPaymentExecute"));
+        $redirectUrls->setReturnUrl(url('http://tagdv.vmclinic.in/nonMemberEventPaymentExecute'))
+            ->setCancelUrl(url("http://tagdv.vmclinic.in/nonMemberEventPaymentExecute"));
 
         $payment = new Payment();
         $payment->setIntent('Sale')
@@ -496,13 +496,13 @@ public static function membership_email($user,$member,$payment)
         
         if (empty($request->paymentId) || empty($request->token) || empty($request->PayerID)) {
 
-            return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');
+            return redirect(url("http://tagdv.vmclinic.in/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');
         }
 
 
         if(!session()->has('EventTicket'))
         {
-          return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');
+          return redirect(url("http://tagdv.vmclinic.in/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');
         }
         
         $data=Session::get('EventTicket');
@@ -592,10 +592,10 @@ public static function membership_email($user,$member,$payment)
         $user = $nonMember;
         $sendMail=self::nonMemberEventPaymentEmail($nonMember,$payment,$ticketPurchase);
 
-        return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Success! Event ticket purchase details are sent to your mail.');
+        return redirect(url("http://tagdv.vmclinic.in/nonMemberTicket"))->with('Event', 'Payment Success! Event ticket purchase details are sent to your mail.');
 
         }else{
-            return redirect(url("http://localhost:8000/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');
+            return redirect(url("http://tagdv.vmclinic.in/nonMemberTicket"))->with('Event', 'Payment Failed!..Please Try Again Later...');
         }
         
     }

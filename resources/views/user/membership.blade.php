@@ -3,8 +3,7 @@
 @section('content')
 @if(auth()->user()->verified()!='verified')
       <div class="col-md-6 col-md-offset-3">
-            <p style="font-size:20px;color:brown;text-align:center">Please Logout !</p>
-            <p style="font-size:20px;color:brown;text-align:center"> Please verify your email to activate your account !</p>
+            <p style="font-size:20px;color:brown;text-align:center">Please verify your email to activate your account !</p>
       </div>
 @endif
 @if(auth()->user()->verified()=='verified')
