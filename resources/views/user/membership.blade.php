@@ -1,83 +1,57 @@
 @extends('layouts.user')
-
 @section('content')
-@if(auth()->user()->verified()!='verified')
-      <div class="col-md-6 col-md-offset-3">
-            <p style="font-size:20px;color:brown;text-align:center">Please verify your email to activate your account !</p>
-      </div>
-@endif
-@if(auth()->user()->verified()=='verified')
-<div class="container">
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
     <div class="row">
-        <div class="col-md-8 col-md-offset-3">
-            <div class="panel">
-                <div class="panel-heading" style="background-color:brown;color:white;font-size:18px;font-weight:bold;text-align: center;">Membership</div>
+        <div class="col-md-12">
+               
+          <div class="card">
+              
+              <div class="card-body">
+                <table class="table" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>SI.No</th>
+                      <th>Code</th>
+                      <th>Description</th>
+                      <th>Amount</th>
+                      <th>Year</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+              <?php $i=1 ?> 
+                      @foreach($membership as $membership)
+                        <tr>
+                         
+                          <td>{{ $i++ }}</td>
+                          <td>{{ $membership->membership_code}}</td>
+                          <td>{{ $membership->membership_desc }}</td>
+                          <td>{{ $membership->membership_amount }}</td>
+                          <td>{{ $membership->year}}</td>
+                          <td><a href="/MemberShipAdd/{{ $membership->id }}" ><i class="fa fa-shopping-cart fa-lg" style="text-align:center;"></i></a></td>
 
-               <div class="panel-body" style="background-color:#f3f4c6">
-                  <form class="form-horizontal" action="{{ url('membershipPost') }}" method="POST">
-                      {{ csrf_field() }}
+                        
 
-            <?php 
-            $user = Auth::user()->email;
-            $member = App\Member::where('primaryEmail',$user)->get();
-            $memberDetails = $member[0];
-            ?>
-
-
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="firstName">Name:</label>
-              <div class="col-sm-5">
-                <input type="text" class="form-control" id="firstName" placeholder="" name="firstName" value="{{$memberDetails['firstName']}}" required readonly="">
-
-                <input type="hidden" class="form-control" id="lastName" placeholder="" name="lastName" value="{{$memberDetails['lastName']}}" required readonly="">                
+                        </tr>
+                      @endforeach
+                  </tbody> 
+                </table>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="email">Email:</label>
-              <div class="col-sm-5">
-                <input type="email" class="form-control" id="email" placeholder="" name="email" value="{{$memberDetails['primaryEmail']}}" required readonly="">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="phoneNo">Phone No:</label>
-              <div class="col-sm-5">
-                <input type="text" class="form-control" id="tagDvId" placeholder="" name="phoneNo" value="{{$memberDetails['phoneNo1']}}" required readonly="">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="membershipType">Membership:</label>
-              <div class="col-sm-5">
-                <select name="membershipType" class="select" style="width: 280px;height: 33px;border-radius: 4px;">
-                  @foreach($membership as $member)
-                  <option value="{{ $member->membership_code }}" id="membershipType">{{ $member->membership_desc}} - ${{ $member->membership_amount}}</option>
-                  @endforeach
-                </select>
-              </div>
-            </div>
-
-
-            <div class="form-group">        
-              <div class="col-sm-offset-4 col-sm-4">
-                <button type="submit" class="btn btn-default btn-lg btn-primary" name="submit">Submit</button>
-              </div>
-            </div>
-
-                    </form>
-                </div>
             </div>
         </div>
     </div>
 </div>
-<script language="javascript">
-$(document).ready(function()
-{ 
-       $(document).bind("contextmenu",function(e){
-              return false;
-       }); 
-})
-</script>
-@endif
+
+</section>
+</div>
+
 @endsection

@@ -1,79 +1,100 @@
 @extends('layouts.admin')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-7 col-md-offset-3">
-            <div class="panel" style="padding-top:15px">
-                <div class="panel-heading"  style="background-color:brown;color:white">Add Member</div>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
 
-               <div class="panel-body"  style="background-color:#f9f3c7;">
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+     <div class="col-12">
+
+      <div class="row mb-2">
+        <div class="col-sm-2">
+          <a href="/admin/manageAdmin" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+        </div>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+      </div>
+        <div class="col-md-7">
+            <div class="card">
+              <div class="card-header"><center><strong>Add Admin</strong></center></div>
+              <div class="card-body">
                   <form class="form-horizontal" action="{{ url('admin/addAdmin') }}" method="POST">
                       {{ csrf_field() }}
 
                   <input type="hidden" class="form-control" id="" placeholder="Role" name="is_active" value="yes">
-                                          
-                  <div class="form-group">
-                    <label class="control-label col-sm-3 col-md-offset-1" for="name">First Name:</label>
-                    <div class="col-sm-6">
-                      <input type="text" class="form-control" id="name" placeholder="Enter First Name" name="firstname" required>
-                    </div>
+                  <div class="row">                        
+                  <div class="col-md-6 form-group">
+                    <label for="name">Name:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-control" name="firstname" id="firstname"   required>
+                <option value=""> Choose Name</option>
+                @foreach($membername as $membername) 
+                <option value="{{$membername->firstName}}">{{ $membername->firstName}}</option>
+                @endforeach
+            </select>
+                  </div>
+                   <div class="col-md-6 form-group">
+                    <label for="email">Email:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-control" name="userName" id="userName"   required>
+                <option value=""> Choose Email</option>
+                @foreach($memberemail as $memberemail) 
+                <option value="{{$memberemail->primaryEmail}}">{{ $memberemail->primaryEmail}}</option>
+                @endforeach
+            </select>
+                  </div>
+               
+                </div>
+                <div class="row"> 
+                  <div class="col-md-6 form-group">
+                    <label for="password">Password:&nbsp;<span style="color:red">*</span></label>
+                      <input type="password" class="form-control" id="password-field" placeholder="Password" name="password">
+                       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                   </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-sm-3 col-md-offset-1" for="name">Last Name:</label>
-                    <div class="col-sm-6">
-                      <input type="text" class="form-control" id="name" placeholder="Enter Last Name" name="lastname" required>
-                    </div>
-                  </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-sm-3 col-md-offset-1" for="email">Email:</label>
-                    <div class="col-sm-6">          
-                      <input type="email" class="form-control" id="email" placeholder="Email" name="userName">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-sm-3 col-md-offset-1" for="job_title">Role:</label>
-                    <div class="col-sm-6">          
-                     {{--  <input type="text" class="form-control" id="job_title" placeholder="Role" name="role"> --}}
-                      <select name="role">
+                  <div class="col-md-6 form-group">
+                    <label for="job_title">Role:&nbsp;<span style="color:red">*</span></label>
+                      <select name="role" class="form-control" required>
                       <option value="SAdmin">Super Admin</option>
                       <option value="Admin">Admin</option>
                       </select>
-                    </div>
                   </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-sm-3 col-md-offset-1" for="password">Password:</label>
-                    <div class="col-sm-6">          
-                      <input type="password" class="form-control" id="password" placeholder="Enter Password" name="password">
-                    </div>
-                  </div>
+                </div>
+                 
 
                   <div class="form-group">        
-                    <div class="col-sm-offset-3 col-sm-4 col-md-offset-5">
-                      <button type="submit" class="btn btn-default btn-lg btn-primary" name="submit">Submit</button>
-                      <a class="btn btn-default btn-close btn-lg btn-primary" href="{{ url('admin/manageAdmin') }}">Cancel</a>
-                    </div>
+                    <center>
+                      <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                      <a class="btn btn-warning" href="{{ url('admin/manageAdmin') }}">Cancel</a>
+                    </center>
 
                   </div>
 
                     </form>
                 </div>
+                @if(Auth::user()->job_title!='Admin')
+                <div class="card-footer">
+                 Admin will not have the following privileges  :
+<br><br>
+                    Updating the payment method manually.<br>
+                    Giving the privileges of Super Admin & Admin to others.<br>
+                 
+                </div>
+                @endif
             </div>
         </div>
+        <div class="col-md-2">
+      </div>
     </div>
 </div>
+</section>
+</div>
 
-@if(Auth::user()->job_title=='Admin')
-<script language="javascript">
-$(document).ready(function()
-{ 
-       $(document).bind("contextmenu",function(e){
-              return false;
-       }); 
-})
-</script>
-@endif
 @endsection

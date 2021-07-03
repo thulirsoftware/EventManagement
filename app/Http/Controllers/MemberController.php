@@ -1,19 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\NonMember;
 
 use App\Member;
 use Illuminate\Http\Request;
 use Storage;
 use App\Event;
 use App\EventTicket;
+use App\EventEntryTickets;
 use Auth;
 use App\TicketPurchase;
 use App\TicketPurchaseDetail;
+use App\PurchasedEventEntryTickets;
+use App\PurchasedEventFoodTickets;
 use Session;
 use DB;
 use App\User;
 use Carbon\Carbon;
+use App\MembershipBuy;
 
 
 class MemberController extends Controller
@@ -25,12 +30,11 @@ class MemberController extends Controller
         $baseurl = "/events/";
         $toDay =Carbon::now()->toDateString();
         $events = Event::where('eventDate','>=',$toDay)->get()->toArray();
-
         foreach($events as $key=>$value){
             $eventId = $value['id'];
 
-            $events[$key]['nonMemberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'nonmember')->where('dateRange','>=',$toDay)->get());
-            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'member')->where('dateRange','>=',$toDay)->get());
+            $events[$key]['memberTicketsCount'] = count(EventTicket::where('eventId',"=", $eventId)->where('memberType',"=", 'member')->get());
+            $events[$key]['memberEntryTicketsCount'] = count(EventEntryTickets::where('eventId',"=", $eventId)->get());
         }
 
         return view('user.memberTickets',compact('baseurl','events'));
@@ -38,124 +42,288 @@ class MemberController extends Controller
 
     public function memberBuyTicket($id)
     {
-        $memberTickets = EventTicket::where('eventId',"=", $id)->where('memberType',"=", 'member')->get();
+        $memberTickets = EventTicket::where('eventId', $id)->where('memberType','member')->get();
+
+         $memberEventTickets = EventEntryTickets::where('eventId',$id)->where('memberType',"=", 'member')->get();
 
         $member = Auth::user()->email;
-        $user = Member::where('primaryEmail',$member)->get();
+        $user = Member::where('Email_Id',$member)->get();
         $todayDate =Carbon::now()->toDateString();
-        return view('user.memberBuyTicket',compact('memberTickets','user','todayDate'));
+        return view('user.memberBuyTicket',compact('memberTickets','user','todayDate','memberEventTickets'));
     }
 
     public function memberBuyTicketPost(Request $request)
     {
-
-        $firstName = $request->firstName;
-        $lastName = $request->lastName;
-        $email = $request->email;
-        $phoneNo = $request->phoneNo;
-        $tagDvId = $request->tagDvId;
-        $eventId = $request->eventId;
+        if($request->has('FoodticketType'))
+        {
+            $foodticketCount = count($request->FoodticketType); 
+        }
+        else
+        {
+             $foodticketCount = 0;
+        }
+        if($request->has('ticketType'))
+        {
+            $ticketCount = count($request->ticketType); 
+        }
+        else
+        {
+             $ticketCount = 0;
+        }
+       
+        $totalAmount = 0;
+        $FoodAmount = 0;
+        $EntryTicketAmounts =0;
+        $allData = $request->all();
+        Session::put('TicketStore', $allData);
+        for($i=0; $i<$ticketCount; $i++){
+        $EntryTicketAmounts += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
+        }
+        for($i=0; $i<$foodticketCount; $i++){
+        $FoodAmount += (intval($allData['FoodticketQty'][$i])) * (intval($allData['FoodticketPrice'][$i])); 
+        }
+         $totalAmount = $EntryTicketAmounts+$FoodAmount;
         $eventName = $request->eventName;
-        $memberType = $request->memberType;
-        $ticketQty = $request->ticketQty;
-        $ticketType = $request->ticketType;
-        $ticketPrice = $request->ticketPrice;
+        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount'));
+    }
+    public function memberTicketAmountPay(Request $request)
+    {
+        
+        $request = Session::get('TicketStore');
+        $ticketCount = count($request['ticketType']);
+        if(isset($request['FoodticketType']))
+        {
+             $foodticketCount = count($request['FoodticketType']);
+        }
+        else
+        {
+             $foodticketCount = 0;
+        }
+        if(isset($request['ticketType']))
+        {
+             $ticketCount = count($request['ticketType']);
+        }
+        else
+        {
+             $ticketCount = 0;
+        }
 
-        $ticketCount = count($request->ticketType);
+       
 
         $totalAmount = 0;
-        $allData = $request->all();
+        $totalAmounts =0;
 
         for($i=0; $i<$ticketCount; $i++){
-        $totalAmount += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
-        } 
-        
+        $totalAmount += (intval($request['ticketQty'][$i])) * (intval($request['ticketPrice'][$i])); 
+                }
+        for($i=0; $i<$foodticketCount; $i++){
+        $totalAmounts += (intval($request['FoodticketQty'][$i])) * (intval($request['FoodticketPrice'][$i])); 
+        }
+        $totalAmount = $totalAmount+$totalAmounts;
+
         if ($totalAmount < 1) {
             return redirect()->back()->with('Error', 'Total ticket quantity must be greater than 1!');
         }
 
         $request['totalAmount'] = $totalAmount;
 
-        // Session Put
-        $sessionData = $request->all();
-        Session::put('EventTicket',$sessionData);
+        $TicketPurchase = new TicketPurchase();
+        $TicketPurchase->name = $request['firstName'];
+        $TicketPurchase->email = $request['email'];
+        $TicketPurchase->eventId = $request['eventId'];
+        $TicketPurchase->eventName = $request['eventName'];
+        $TicketPurchase->memberType = $request['memberType'];
+        $TicketPurchase->totalAmount = $totalAmount;
+        $TicketPurchase->save();
+        if(isset($request['EntryTicketId']))
+        {
+             $EventEntryTickets_count = count($request['EntryTicketId']);
+        }
+        else
+        {
+             $EventEntryTickets_count = 0;
+        }
+        
+            for($i = 0;$i < $EventEntryTickets_count; $i++)
+            {
+                $PurchasedEventEntryTickets = new PurchasedEventEntryTickets();
+                $PurchasedEventEntryTickets->eventId = $request['eventId'];
+                $PurchasedEventEntryTickets->userId = auth()->user()->id;
+                $PurchasedEventEntryTickets->ticketId = $request['EntryTicketId'][$i];
+                $PurchasedEventEntryTickets->ticketQty = $request['ticketQty'][$i];
+                $PurchasedEventEntryTickets->ticketAmount = $request['ticketPrice'][$i];
+                $PurchasedEventEntryTickets->save();
+            }
+            if(isset($request['FoodTicketId']))
+        {
+             $EventFoodTickets_count = count($request['FoodTicketId']);
+        }
+        else
+        {
+             $EventFoodTickets_count = 0;
+        }
 
-        return view('user.memberTicketView',compact('ticketQty','ticketType','ticketPrice','sessionData'));
+            for($i = 0;$i < $EventFoodTickets_count; $i++)
+            {
+                $PurchasedEventFoodTickets = new PurchasedEventFoodTickets();
+                $PurchasedEventFoodTickets->eventId = $request['eventId'];
+                $PurchasedEventFoodTickets->userId = auth()->user()->id;
+                $PurchasedEventFoodTickets->ticketId = $request['FoodTicketId'][$i];
+                $PurchasedEventFoodTickets->ticketQty = $request['FoodticketQty'][$i];
+                $PurchasedEventFoodTickets->ticketAmount = $request['FoodticketPrice'][$i];
+                $PurchasedEventFoodTickets->save();
+            }
+            Session::forget('TicketStore');
+           return redirect('/memberTickets')->withSuccess('Ticket Purchased Successfully');
+
     }
 
+
+    public function MemberPurchasedDetails()
+    {
+        $email = Auth::user()->tagDvid;
+         $member = Member::where('tagDvId',Auth::user()->tagDvid)->first();
+         
+        $membership = MembershipBuy::where('user_id', Auth::user()->tagDvid)->get();
+        
+        $PurchasedEventFoodTickets = array();
+        $PurchasedEventEntryTickets = array();
+        return view('user.purchasedmembership',compact('membership','member','PurchasedEventFoodTickets','PurchasedEventEntryTickets'));
+    }
+    public function MemberPurchasedTicketDetails()
+    {
+        $email = Auth::user()->tagDvid;
+        $member = Member::where('tagDvId',Auth::user()->tagDvid)->first();
+        $membership = DB::table('membership_configs')->where('membership_code','<=',$member->membershipType)->get();
+
+        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::groupBy(DB::raw("eventId"))   ->selectRaw('sum(ticketQty) as sum, eventId,userId,ticketAmount')
+                        ->where('userId',Auth::user()->id)
+                        ->get();
+        $PurchasedEventEntryTickets = PurchasedEventEntryTickets::groupBy(DB::raw("eventId"))   ->selectRaw('sum(ticketQty) as sum, eventId,userId,ticketAmount')
+                        ->where('userId',Auth::user()->id)
+                        ->get();
+        
+        return view('user.purchasedmembership',compact('membership','member','PurchasedEventFoodTickets','PurchasedEventEntryTickets'));
+    }
 
     public function membership()
     {  
         $email = Auth::user()->email;
-        $member = Member::where('primaryEmail',$email)->first();
-        $membershipExist = $member->membershipExpiryDate;
-
-        if($membershipExist == null || $membershipExist == ""){
-            $membership = DB::table('membership_configs')->where('membership_code','!=',"AMR")->where('is_visible','yes')->get()->toArray();
-        }else{
-            $membership = DB::table('membership_configs')->where('membership_code','!=',"AM")->where('is_visible','yes')->get()->toArray();
-        }
-        
+        $member = Member::where('Email_Id',$email)->first();
+         $date = Carbon::now()->format('Y');
+         $membership = DB::table('membership_configs')->where('is_visible','yes')->where('year',$date)->get();
 
         return view('user.membership',compact('membership'));
+    }
+     public function membershipAdd($id)
+    {  
+        $email = Auth::user()->email;
+        $member = Member::where('Email_Id',$email)->first();
+         $date = Carbon::now()->format('Y');
+         $membership = DB::table('membership_configs')->where('id',$id)->first();
+
+        return view('user.buymembership',compact('membership'));
     }
 
 
     public function membershipPost(Request $request)
-    {
+    {    
+        $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
+        if($NonMember->firstName==null || $NonMember->lastName==null ||$NonMember->mobile_number==null ||$NonMember->Email_Id==null ||$NonMember->addressLine1==null || $NonMember->addressLine2==null || $NonMember->country==null || $NonMember->state==null || $NonMember->zipCode==null || $NonMember->gender==null || $NonMember->dob==null || $NonMember->maritalStatus==null)
+        {
+             return redirect('/editProfile')->withWarning('Must Fill ur Profile');
+        } 
+        else
+        {
 
-        $firstName = $request->firstName;
-        $lastName = $request->lastName;
-        $email = $request->email;
-        $phoneNo = $request->phoneNo;
-        $membershipType = $request->membershipType;
+            $membershipBuy = new MembershipBuy();
+            $membershipBuy->user_id = Auth::user()->Member_Id;
+            $membershipBuy->membership_id = $request->membership_id;
+            $membershipBuy->membership_code = $request->membershipType;;
+            $membershipBuy->membership_amount =$request->membershipAmount;
+            $membershipBuy->payment_status = "Pending";
+            $membershipBuy->save();
 
-    $membershipDetails = DB::table('membership_configs')->where('membership_code',$request->membershipType)->get()->toArray();
-        //dd($totalAmount);
-        $request['membership_code'] = $membershipDetails[0]->membership_code;
-        $request['membership_desc'] = $membershipDetails[0]->membership_desc;
-        $request['membership_amount'] = $membershipDetails[0]->membership_amount;
-        $request['tagDvId'] = Auth::user()->tagDvid;
 
-        // Session Put
-        $membershipData = $request->all();
-        Session::put('Membership',$membershipData);
-
-        return view('user.membershipView',compact('membershipData'));
+            $Member = new Member();
+            $Member->Member_Id = Auth::user()->Member_Id;
+            $Member->firstName = $NonMember->firstName;
+            $Member->lastName = $NonMember->lastName;
+            $Member->mobile_number = $NonMember->mobile_number;
+            $Member->Email_Id = $NonMember->Email_Id;
+            $Member->user_id = Auth::user()->id;
+            $Member->addressLine1 = $NonMember->addressLine1;
+            $Member->addressLine2 = $NonMember->addressLine2;
+            $Member->country = $NonMember->country;
+            $Member->state = $NonMember->state;
+            $Member->zipCode = $NonMember->zipCode;
+            $Member->gender = $NonMember->gender;
+            $Member->dob = $NonMember->dob;
+            $Member->maritalStatus = $NonMember->maritalStatus;
+            $Member->membershipType =$request->membershipType;
+            $Member->membershipExpiryDate = $request->Validity;
+            $Member->save();
+            $NonMember = NonMember::where('user_id',Auth::user()->id)->delete();
+            
+           return redirect('/memberTickets')->withSuccess('Membership Added Successfully');
+        }
     }
 
     public function editProfile()
     {
-        $user = Auth::user()->email;
-        $member = Member::where('primaryEmail',$user)->first();
-        $member['day'] =$member['dob'];
-        $member['month'] =$member['mob'];
-        return view('user.editProfile',compact('member'));
+        $member = Member::where('user_id',Auth::user()->id)->first();
+        if($member!=null)
+        {
+
+            return view('user.editProfile',compact('member'));
+        }
+        else
+        {
+            $member = NonMember::where('user_id',Auth::user()->id)->first();
+            return view('user.editProfile',compact('member'));
+        }
+        
     }
 
     public function editProfilePost(Request $request)
     {
-        
-        $member = Member::where('primaryEmail',$request->email)->update([
-            // 'firstName' => $request->firstName,
-            'phoneNo1' => $request->mobile,
+        $member = Member::where('user_id',Auth::user()->id)->first();
+        if($member!=null)
+        {
+            $member = Member::where('user_id',Auth::user()->id)->update([
             'gender' => $request->gender,
             'addressLine1' => $request->address1,
             'addressLine2' => $request->address2,
             'country' => $request->city,
             'state' => $request->state,
             'zipCode' => $request->zipCode,
-            // 'lastName' => $request->lastName,
             'maritalStatus' => $request->marital,
             'dob' => $request->dob,
-            'mob' => $request->mob,
-        ]);
+            'mobile_number' => $request->mobile,
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            ]);
+        }
+        else
+        {     
+            $NonMember = NonMember::where('user_id',Auth::user()->id)->update([
+            'gender' => $request->gender,
+            'addressLine1' => $request->address1,
+            'addressLine2' => $request->address2,
+            'country' => $request->city,
+            'state' => $request->state,
+            'zipCode' => $request->zipCode,
+            'maritalStatus' => $request->marital,
+            'dob' => $request->dob,
+            'mobile_number' => $request->mobile,
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            ]);
+        }
 
-        // $member = User::where('email',$request->email)->update([
-        //     'name' => $request->firstName,
-        // ]);
+        
        
-        return redirect()->back();
+       return redirect()->back()->withSuccess('Profile Updated Successfully');
     }
 
 

@@ -44,7 +44,7 @@
                   </tr>
                   <tr>
                      <td> Your Member Id :</td>
-                     <td> {{Auth::user()->tagDvid}} </td>
+                     <td> {{Auth::user()->Member_Id}} </td>
                   </tr>
                   <tr>
                      <td> Event Name :</td>

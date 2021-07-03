@@ -1,22 +1,21 @@
 @extends('layouts.user')
 
 @section('content')
-<style>
-.col-md-6{
-	margin-top:20px;
-}
-.bottom
-{
-	margin-top:20px;
-}
-p{
-	font-size: 25px;
-	color:brown;
-}
-</style>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
 
-<div class="col-md-offset-1 col-md-12">
-<center><p>Edit Family Members</p></center>
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid"> 
+   
+     <div class="col-md-11 col-md-offset-2">
+            <div class="card">
+              <div class="card-header"><center><strong>Edit Member</strong></center></div>
+              <div class="card-body">
   <form method="post" action="">
     <div class="col-md-6">
       <div class="input-group col-md-offset-6 col-md-6">
@@ -49,7 +48,11 @@ p{
   </form>
 
 </div>
-
+</div>
+</div>
+</div>
+</section>
+</div>
 @if(Auth::user()->job_title=='Admin')
 <script language="javascript">
 $(document).ready(function()

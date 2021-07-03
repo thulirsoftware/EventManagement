@@ -19,9 +19,7 @@ use App\Member;
 use App\NonMember;
 use App\TicketPurchase;
 use App\TicketPurchaseDetail;
-
-
-
+use App\MembershipBuy;
 use PayPal\Rest\ApiContext;
 use PayPal\Api\ExecutePayment;
 use PayPal\Auth\OAuthTokenCredential;
@@ -164,7 +162,7 @@ class PaymentController extends Controller
         $payerInfo = $result->payer->payer_info;
 
             $payment = new Pay;
-            $payment->tagDvId =$data['tagDvId'];;
+            $payment->Member_Id =$data['Member_Id'];;
             $payment->name =$payerInfo->first_name." ".$payerInfo->last_name;
             $payment->email =$data['email'];
             $payment->paypalEmail =$payerInfo->email;
@@ -351,7 +349,7 @@ public static function membership_email($user,$member,$payment)
             $ticketPurchase->name = $data['firstName'].$data['lastName'];
             $ticketPurchase->email = $data['email'];
             $ticketPurchase->memberType = "Member";
-            $ticketPurchase->tagDvId =$data['tagDvId'];
+            $ticketPurchase->Member_Id =$data['Member_Id'];
             $ticketPurchase->eventId = $data['eventId'];
             $ticketPurchase->eventName = $data['eventName'];
             $ticketPurchase->totalAmount = $data['totalAmount'];
@@ -376,7 +374,7 @@ public static function membership_email($user,$member,$payment)
 
 
             $payment = new Pay;
-            $payment->tagDvId =$data['tagDvId'];;
+            $payment->Member_Id =$data['Member_Id'];;
             $payment->name =$payerInfo->first_name." ".$payerInfo->last_name;
             $payment->email =$data['email'];
             $payment->paypalEmail =$payerInfo->email;
@@ -551,7 +549,7 @@ public static function membership_email($user,$member,$payment)
             $ticketPurchase->name = $data['firstName'].$data['lastName'];
             $ticketPurchase->email = $data['email'];
             $ticketPurchase->memberType = "Non Member";
-            $ticketPurchase->tagDvId ="Non Member";
+            $ticketPurchase->Member_Id ="Non Member";
             $ticketPurchase->eventId = $data['eventId'];
             $ticketPurchase->eventName = $data['eventName'];
             $ticketPurchase->totalAmount = $data['totalAmount'];
@@ -576,7 +574,7 @@ public static function membership_email($user,$member,$payment)
 
 
             $payment = new Pay;
-            $payment->tagDvId ="Non Member";
+            $payment->Member_Id ="Non Member";
             $payment->name =$payerInfo->first_name." ".$payerInfo->last_name;
             $payment->email =$data['email'];
             $payment->paypalEmail =$payerInfo->email;
@@ -617,5 +615,11 @@ public static function membership_email($user,$member,$payment)
         });
        return true;
     }
+
+
+
+
+
+
 
 }

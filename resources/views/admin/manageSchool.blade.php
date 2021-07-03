@@ -1,29 +1,32 @@
 @extends('layouts.admin')
 @section('content')
-<div class="container">
+<div class="container" style="padding-top:15px">
     <div class="row">
-        <div class="col-md-8 col-md-offset-3">
-           
-                <a style="background-color:brown;color:white;border-radius:5px;font-size:18px;padding:15px;margin-top:15px" href="{{ url('admin/addSchool') }}">Add School</a>
+        <div class="col-md-11 col-md-offset-2">
+            <div class="card">
               
-                <table class="table" style="margin-top:25px">
-                  <thead style="background-color:brown">
+              <div class="card-body">
+                <div class="add-button" >
+            <a class="btn btn-primary btn-md" style="float:right;color:white" href="{{ url('admin/addSchool') }}">Add School</a> 
+          </div><br><br>
+                <table class="table" style="width:100%">
+                  <thead>
                     <tr>
-                      <th style="padding:15px;color:white;text-align:center;font-size:16px;border:1px solid grey">S.No</th>
-                      <th style="padding:15px;color:white;text-align:center;font-size:16px;border:1px solid grey">School Name</th>
-                      <th style="padding:15px;color:white;text-align:center;font-size:16px;border:1px solid grey">Edit</th>
-                      <th style="padding:15px;color:white;text-align:center;font-size:16px;border:1px solid grey">Delete</th>
+                      <th>S.No</th>
+                      <th>School Name</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                   <?php $i=1; ?>  
                       @foreach($schools as $school)
-                        <tr style="background-color:#f3f4c6">
+                        <tr>
 
-                          <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $i++ }}</td>
-                          <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $school['name'] }}</td>
-                          <td style="padding:15px;text-align:center;border:1px solid grey;"><a href="/admin/schoolEdit/{{ $school['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
-                          <td style="padding:15px;text-align:center;border:1px solid grey;"><a href="/admin/schoolDelete/{{ $school['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+                          <td>{{ $i++ }}</td>
+                          <td>{{ $school['name'] }}</td>
+                          <td><a href="/admin/schoolEdit/{{ $school['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
+                          <td><a href="/admin/schoolDelete/{{ $school['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
                         </tr>
                       @endforeach
@@ -32,6 +35,9 @@
               </div>
             </div>
       </div>
+    </div>
+  </div>
+
   
 @if(Auth::user()->job_title=='Admin')
 <script language="javascript">

@@ -1,72 +1,53 @@
 @extends('layouts.admin')
 
 @section('content')
-<style>
-th{
-	padding:10px;
-	font-size: 16px;
-	font-weight: bold;
-	color:brown;
-}
-td{
-	padding:8px;
-	font-size: 14px;
-	color:black;
-}
-</style>
-<div class="col-md-offset-3 ">
-	<div>
-	  <table style="width:50%;margin-left:-50px">
-		 <thead style="background-color:brown">
-		 	<th style="padding:15px;border:1px solid grey;color:white">S.No</th>
-		 	<th style="padding:15px;border:1px solid grey;color:white">Edit</th>
-			<th style="padding:15px;border:1px solid grey;color:white">TagDvId</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Name</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Email</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Phone No</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Address</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Gender</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Dob</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Status</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Membership</th>
-			<th style="padding:15px;border:1px solid grey;color:white">Expiry</th>
-		 </thead>
-		 <tbody style="background-color:#f3f4c6">
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
 
-	<?php $i=1; ?>
+</div>
+<!-- /.content-header -->
 
-		   @foreach($members as $member)
-	           <tr>
-	           	 <td style="padding:15px;text-align:center;border:1px solid grey;"> {{ $i++ }} </td>
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+              
+              <div class="card-body">
+			  <table class="table">
+				 <thead>
+				 	<th>S.No</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone No</th>
+					<th>Address</th>
+					<th>Action</th>
+				 </thead>
+				 <tbody>
 
-	           	 <td style="padding:15px;text-align:center;border:1px solid grey;"><a href="/admin/editMember/{{ $member['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
+			<?php $i=1; ?>
 
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['tagDvId'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['firstName'] }} {{ $member['lastName'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['primaryEmail'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['phoneNo1'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['addressLine1'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['gender'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['dob'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['maritalStatus'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['membershipType'] }}</td>
-	             <td style="padding:15px;text-align:center;border:1px solid grey;">{{ $member['membershipExpiryDate'] }}</td>
-	           </tr>
-	         @endforeach
-		</tbody>
-	  </table>
+				   @foreach($members as $member)
+			           <tr>
+			           	 <td> {{ $i++ }} </td>
+			             <td>{{ $member['firstName'] }} {{ $member['lastName'] }}</td>
+			             <td>{{ $member['Email_Id'] }}</td>
+			             <td>{{ $member['mobile_number'] }}</td>
+			             <td>{{ $member['addressLine1'] }}</td>
+			             <td><a href="/admin/viewFamilyMember/{{ $member['id'] }}" ><i class="fa fa-eye fa-lg" style="text-align:center;"></i></a></td>
+			           </tr>
+			         @endforeach
+				</tbody>
+			  </table>
 	</div>
+</div>
+</div>
+</div>
+</div>
+</section>
 </div>
 
 
-@if(Auth::user()->job_title=='Admin')
-<script language="javascript">
-$(document).ready(function()
-{ 
-       $(document).bind("contextmenu",function(e){
-              return false;
-       }); 
-})
-</script>
-@endif
 @endsection

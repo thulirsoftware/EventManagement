@@ -6,13 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventTicket extends Model
 {
-    protected $table    ='event_tickets';
+    protected $table    ='event_food_tickets';
     protected $fillable =[	'eventId',
-    						'eventName',
     						'ageGroup',
     						'memberType',
     						'foodType',
-    						'dateRange',
     						'ticketPrice',
     						];
 }

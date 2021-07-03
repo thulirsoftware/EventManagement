@@ -11,7 +11,7 @@ class Member extends Model
     						'lastName',
     						'primaryEmail',
     						'secondaryEmail',
-    						'tagDvId',
+    						'Member_Id',
     						'gender',
     						'dob',
                             'mob',

@@ -18,7 +18,7 @@ class PurchasedTickets extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('memberType');
-            $table->string('tagDvId')->nullable();
+            $table->string('Member_Id')->nullable();
             $table->string('eventId');
             $table->string('eventName');
             $table->string('totalAmount');

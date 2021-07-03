@@ -2,39 +2,45 @@
 
 @section('content')
 
-<div class="container">
-    <div class="row">
-    
-        <div class="col-md-10 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="text-align:center;background-color:brown;color:yellow;font-size: 16px;font-weight: bold">Member Details
-                </div>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
 
-                <div class="panel-body" style="text-align: left;">
-                
-                <div class="panel-body" style="text-align: left;">
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">    <div class="row">
+        <div class="col-md-11 col-md-offset-2">
+            <div class="card">
+              
+              <div class="card-body">
                   
-                  
+                <div class="row">
                   <div class="col-md-5 form-group">
-                    <select name="membersearch" id="mobile_number" class="selectpicker form-control membersearch"  data-live-search="true">
-                          <option value="">Mobile Number</option>
-                          @foreach ($members as $member)
+                     <select class="form-control select2" name="membersearch" style="width: 100%;height:50px;" id="mobile_number">
+                    <option selected="selected" value="">Mobile Number</option>
+                     @foreach ($members as $member)
                           <option value="{{ $member->phoneNo1 }}">{{ $member->phoneNo1 }}</option>
                           @endforeach 
-                        </select>
+                  </select>
+                    
                   </div>
 
                   <div class="col-md-5 form-group">
-                    <select name="membersearch" id="member_id" class="selectpicker form-control membersearch"  data-live-search="true">
-                          <option value="">TagDv Id</option>
-                          @foreach ($members as $member)
-                          <option value="{{ $member->tagDvId }}">{{ $member->tagDvId }}</option>
+                      <select class="form-control Member_Id" name="membersearch" style="width: 100%;height:50px;">
+                    <option  value="">TagDv Id</option>
+                     @foreach ($members as $member)
+                          <option value="{{ $member->Member_Id }}">{{ $member->Member_Id }}</option>
                           @endforeach 
-                        </select>
+                  </select>
+                      
                   </div>
+                </div>
                 
                 
-                <table class="table">
+                <table class="table table-borderless">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -47,7 +53,7 @@
                       <th>Expiry Date</th>
                     </tr>
                   </thead>
-                  <tbody>  
+                  <tbody id="membersearch">  
                   
                   </tbody> 
                 </table>
@@ -57,19 +63,8 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    $('.membersearch').on('change',function(){
-      $value=$(this).val();
-      $.ajax({
-        type : 'get',
-        url : '{{URL::to('admin/membersearch')}}',
-        data : {'membersearch':$value},
-        success:function(data){
-          $('tbody').html(data);
-        } 
-      });
-    })
-</script>
+</section>
+</div>
 @if(Auth::user()->job_title=='Admin')
 <script language="javascript">
 $(document).ready(function()
@@ -79,11 +74,10 @@ $(document).ready(function()
        }); 
 })
 </script>
+
 @endif
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
   
 @endsection

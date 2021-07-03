@@ -19,7 +19,7 @@ class CreateMembersTable extends Migration
             $table->string('lastName');
             $table->string('primaryEmail');
             $table->string('secondaryEmail')->nullable();
-            $table->string('tagDvId')->nullable();
+            $table->string('Member_Id')->nullable();
             $table->string('gender');
             $table->string('dob');
             $table->string('maritalStatus');

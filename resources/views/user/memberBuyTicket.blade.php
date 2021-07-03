@@ -1,96 +1,129 @@
-@extends('layouts.app')
+@extends('layouts.user')
 
 @section('content')
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
 
-<div class="container">
-    <div class="row">
-     
-        <div class="col-md-8 col-md-offset-3">
-          <span id="Error" style="color:red;font-size:20px;"></span><br><br>
-            <div class="panel">
+</div>
+<!-- /.content-header -->
 
-              @if(session()->has('Error'))
-                  <div class="alert alert-success">
-                      {{ session()->get('Error') }}
-                  </div>
-              @endif
-                <div class="panel-heading" style="background-color:brown;color:white;font-size:18px;font-weight:bold">Purchase Ticket </div>
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">   
+   <div class="col-12">
 
-               <div class="panel-body" style="background-color:#f3f4c6">
+      <div class="row mb-2">
+        <div class="col-sm-2">
+          <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+        </div>
+        <div class="col-md-3">
+        </div>
+         <div class="col-md-3">
+        </div>
+        <div class="col-md-3">
+        </div>
+        
+        
+      </div>
+    </div>
+     <div class="row">
+      <div class="col-md-2">
+      </div>
+        <div class="col-md-8">
+  <div class="card panel-default">
+  @if(Session::has('success'))
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+{{Session::get('success')}}
+</div>
+@endif
+                <div class="card-body">
                   <form class="form-horizontal" action="{{ url('memberBuyTicketPost') }}" method="POST">
                       {{ csrf_field() }}
 
                 <?php 
                 $tickets = count($memberTickets);
+                $Entrytickets = count($memberEventTickets);
                 $user = Auth::user()->email;
-                $member = App\Member::where('primaryEmail',$user)->get();
+                $member = App\Member::where('Email_Id',$user)->get();
                 $memberDetails = $member[0];
                 ?>
 
-
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="firstName">Name:</label>
-              <div class="col-sm-5">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label  for="firstName">First Name:</label>
                 <input type="text" class="form-control" id="firstName" placeholder="" name="firstName" value="{{$memberDetails['firstName']}}" required readonly="">
-                <input type="hidden" class="form-control" id="lastName" placeholder="" name="lastName" value="{{$memberDetails['lastName']}}" required readonly="">
-              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <label  for="firstName">Last Name:</label>
+                <input type="text" class="form-control" id="lastName" placeholder="" name="lastName" value="{{$memberDetails['lastName']}}" required readonly="">
             </div>
 
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="email">Email:</label>
-              <div class="col-sm-5">
-                <input type="email" class="form-control" id="email" placeholder="" name="email" value="{{$memberDetails['primaryEmail']}}" required readonly="">
-              </div>
+            <div class="col-md-6 form-group">
+              <label  for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="" name="email" value="{{$memberDetails['Email_Id']}}" required readonly="">
             </div>
-
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="tagDvId">TagDvId No:</label>
-              <div class="col-sm-5">
-                <input type="text" class="form-control" id="tagDvId" placeholder="" name="tagDvId" value="{{$memberDetails['tagDvId']}}" required readonly="">
-              </div>
+             <div class="col-md-6 form-group">
+              <label  for="phoneNo">Phone No:</label>
+                <input type="text" class="form-control" id="Member_Id" placeholder="" name="phoneNo" value="{{$memberDetails['mobile_number']}}" required readonly="">
             </div>
+          </div>
+          <div class="card-header" style="border-bottom:none"><center><strong>Entry Ticket</strong></center></div>
+          <div class="row">
+            @if($Entrytickets>0)
+           
 
-            <div class="form-group">
-              <label class="control-label col-sm-3 col-md-offset-1" for="phoneNo">Phone No:</label>
-              <div class="col-sm-5">
-                <input type="text" class="form-control" id="tagDvId" placeholder="" name="phoneNo" value="{{$memberDetails['phoneNo1']}}" required readonly="">
-              </div>
-            </div>
+            <input type="hidden" name="eventId" value="{{ $memberEventTickets[0]['eventId'] }}">
 
-            <input type="hidden" name="eventId" value="{{ $memberTickets[0]['eventId'] }}">
-
-            <input type="hidden" name="eventName" value="{{ $memberTickets[0]['eventName'] }}">
+            <input type="hidden" name="eventName" value="{{ $memberEventTickets[0]['eventName'] }}">
             <input type="hidden" name="membershipExpiry" id="membershipExpiry" value="{{ $memberDetails['membershipExpiryDate'] }}">
             <input type="hidden" name="todayDate" id="todayDate" value="{{ $todayDate }}">
             
             <input type="hidden" name="memberType" value="member">
+            
+            @for($i=0; $i<$Entrytickets; $i++)
+              <div class="col-md-6 form-group">
+                <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
-            @for($i=0; $i<$tickets; $i++)
-              <div class="form-group">
-                <label class="control-label col-sm-3 col-md-offset-1" for="">{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }} ({{ "$".$memberTickets[$i]['ticketPrice'] }}):</label>
-
-                <div class="col-sm-5">
-                  <input type="number" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
-                </div>
-
-
-                <div class="col-sm-3 col-md-offset-1">
-                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketType[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }}" required>
-                </div>
+                  <input type="number" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}">
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="EntryTicketId[]" value="{{$memberEventTickets[$i]['id'] }}" indexValue="{{ $i }}">
 
 
-                <div class="col-sm-3">
-                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketPrice[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{$memberTickets[$i]['ticketPrice'] }}" required>
-                </div>
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketType[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{ $memberEventTickets[$i]['ageGroup'] }}-{{ $memberEventTickets[$i]['foodType'] }}" >
+
+
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketPrice[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{$memberEventTickets[$i]['ticketPrice'] }}">
 
               </div>
             @endfor
+            @endif
+          </div>
+            <div class="card-header" style="border-bottom:none"><center><strong>Food Ticket</strong></center></div>
+          <div class="row">
+              @if($tickets>0)
+            @for($i=0; $i<$tickets; $i++)
+              <div class="col-md-6 form-group">
+                <label  for="" style="font-weight:normal">{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }} ({{"$".$memberTickets[$i]['ticketPrice'] }}):</label>
 
+                  <input type="number" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodTicketId[]" value="{{$memberTickets[$i]['id'] }}" indexValue="{{ $i }}">
+
+
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketType[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }}">
+
+
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketPrice[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{$memberTickets[$i]['ticketPrice'] }}" required>
+
+              </div>
+            @endfor
+            @endif
+          </div>
                   <div class="form-group" id="submit">        
-                    <div class="col-sm-offset-4 col-sm-4">
-                      <button type="submit" class="btn btn-default btn-lg btn-primary" name="submit">Submit</button>
-                      <a class="btn btn-default btn-close btn-lg btn-primary col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
-                    </div>
+                    <center>
+                      <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                      <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
+                    </center>
 
                   </div>
 
@@ -98,8 +131,8 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+  </div>
 
 <script type="text/javascript">
   

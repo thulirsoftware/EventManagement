@@ -1,23 +1,20 @@
 @extends('layouts.admin')
-
 @section('content')
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
 
-<style>
-.col-md-6{
-	margin-top:20px;
-}
-.bottom
-{
-	margin-top:20px;
-}
-p{
-	font-size: 25px;
-	color:brown;
-}
-</style>
+</div>
+<!-- /.content-header -->
 
-<div class="col-md-offset-3 col-md-8" style="background-color:#f3f4c6">
-<center><p style="padding-top:15px">Edit Profile</p></center>
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">     <div class="row">
+        <div class="col-md-11 col-md-offset-2">
+            <div class="card">
+              <div class="card-header"><center><strong>Update Membership</strong></center></div>
+              <div class="card-body">
+
   <form method="post" action="">
     <div class="col-md-6">
       <div class="input-group col-md-offset-6 col-md-6">
@@ -70,13 +67,18 @@ p{
     <div class="col-md-12 bottom" style="padding-bottom:25px">
         <center>
         	<input type="submit" name="submit" value="Update" style="background-color: brown;color:yellow;padding:8px">
-        	<a href="{{ URL::previous() }}" class="btn btn-info" style="margin-left: 50px;background-color: brown;color:yellow">Cancel</a>	
+        	<a href="{{ URL::previous() }}" class="btn btn-warning" style="margin-left: 50px;background-color: brown;color:yellow">Cancel</a>	
         </center>
     </div>
   </form>
 
 </div>
-
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
 
 @if(Auth::user()->job_title=='Admin')
 <script language="javascript">

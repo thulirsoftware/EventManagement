@@ -53,7 +53,7 @@ class nonMemberController extends Controller
         $lastName = $request->lastName;
         $email = $request->email;
         $phoneNo = $request->phoneNo;
-        $tagDvId = $request->tagDvId;
+        $Member_Id = $request->Member_Id;
         $eventId = $request->eventId;
         $eventName = $request->eventName;
         $memberType = $request->memberType;

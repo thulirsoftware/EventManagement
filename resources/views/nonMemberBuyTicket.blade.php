@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="container">
+<div class="container" style="padding-top:15px">
     <div class="row">
-        <div class="col-md-7 col-md-offset-2">
-            <div class="panel">
+        <div class="col-md-11 col-md-offset-2">
+            <div class="card">
+              <div class="card-header"><center><strong>Add Member</strong></center></div>
+              <div class="card-body">
 
               @if(session()->has('Error'))
                   <div class="alert alert-success">
@@ -64,9 +65,9 @@
 
 
             <div class="form-group" style="display: none">
-              <label class="control-label col-sm-3 col-md-offset-2" for="phoneNo">TagDvId No:</label>
+              <label class="control-label col-sm-3 col-md-offset-2" for="phoneNo">Member_Id No:</label>
               <div class="col-sm-5">
-                <input type="text" class="form-control" id="tagDvId" placeholder="" name="tagDvId" value="NM" required readonly="">
+                <input type="text" class="form-control" id="Member_Id" placeholder="" name="Member_Id" value="NM" required readonly="">
               </div>
             </div>
 
@@ -99,8 +100,8 @@
 
                   <div class="form-group">        
                     <div class="col-md-offset-4 col-sm-4">
-                      <button type="submit" class="btn btn-lg btn-default btn-primary" name="submit">Submit</button>
-                      <a class="btn btn-lg btn-default btn-primary" href="{{ redirect()->getUrlGenerator()->previous() }}">Cancel</a>
+                      <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                      <a class="btn btn-primary" href="{{ redirect()->getUrlGenerator()->previous() }}">Cancel</a>
                     </div>
 
                   </div>

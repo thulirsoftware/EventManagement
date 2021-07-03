@@ -27,19 +27,18 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/memberTickets';
-    //protected $redirectTo = Session::has('test') ? '/' : '/something-else';
+    
 
-
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest', ['except' => ['logout', 'userLogout']]);
     }
+    
+    public function home()
+    {
+        return view('auth/login');
+    }
+    
 
     public function userLogout()
     {

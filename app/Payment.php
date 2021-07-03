@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     protected $table    ='payments';
-    protected $fillable =[	'tagDvId',
+    protected $fillable =[	'Member_Id',
     						'name',
     						'email',
     						'paypalEmail',

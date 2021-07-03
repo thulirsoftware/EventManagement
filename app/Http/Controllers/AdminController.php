@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Admin;
-use App\Event;
-use App\EventTicket;
+use App\NonMember;
 use Hash;
 use Storage;
 use DB;
@@ -15,6 +14,10 @@ use App\User;
 use App\School;
 use App\MembershipConfig;
 use Carbon\Carbon;
+use App\FamilyMember;
+use App\PurchasedEventEntryTickets;
+use App\PurchasedEventFoodTickets;
+use App\MembershipBuy;
 
 class AdminController extends Controller
 {
@@ -35,7 +38,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $date = Carbon::now()->format('Y-m-d');
+            $MembershipBuy = MembershipBuy::where('payment_status','Completed')->pluck('user_id');
+            $members = Member::whereIn('Member_Id',$MembershipBuy)->where('membershipExpiryDate','>=',$date)->get();
+
+            return view('admin.memberDetails',compact('members'));
     }
 
     public function dashboard()
@@ -57,27 +64,28 @@ class AdminController extends Controller
 
     public function addAdmin()
     {
-        return view('admin.addAdminForm');
+        $membername = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->get();
+        $memberemail = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->get();
+        return view('admin.addAdminForm',compact('membername','memberemail'));
     }
 
     public function addAdminPost(Request $request)
     {
-        //dd($request->all());
         $admin = new Admin;
-        $admin->fname = $request->firstname;
-        $admin->lname = $request->lastname;
+        $admin->name = $request->firstname;
         $admin->job_title = $request->role;
         $admin->email = $request->userName;
         $admin->is_active = $request->is_active;
+        $admin->is_deleted = 'yes';
         $admin->password = Hash::make($request->password);
         $admin->save();
+       return redirect('/admin/manageAdmin')->withSuccess('Admin Added Successfully');
 
-        return redirect()->back();
     }
 
     public function manageAdmin()
     {
-        $admins = Admin::all();
+        $admins = Admin::where('is_deleted','yes')->get();
         return view('admin.manageAdmin',compact('admins'));
     }
 
@@ -91,268 +99,57 @@ class AdminController extends Controller
     public function adminUpdate(Request $request)
     {
         $admin = Admin::find($request->id);
-//dd($admin);
-            $admin->fname = $request->firstname;
-            $admin->lname = $request->lastname;
+            $admin->name = $request->firstname;
             $admin->email = $request->userName;
-            $admin->is_active = $request->isActive;
             $admin->job_title = $request->role;
-            $admin->password = Hash::make($request->password);
-
             if($admin->save()){
 
-               return redirect('/admin/manageAdmin');
+                      return redirect('/admin/manageAdmin')->withSuccess('Admin Updated Successfully');
+
             
             }else{
 
-                return redirect('/admin/manageAdmin');
+                       return redirect('/admin/manageAdmin')->withSuccess('Admin Updated Successfully');
+
             }
     }
 
-    public function adminDelete($id)
+    public function adminDelete(Request $request)
     {
-        $admin = Admin::find($id);
+        $admin = Admin::find($request->id);
 
         if($admin->delete()){
 
-            return redirect('/admin/manageAdmin');
+             echo json_encode($request->id); 
 
         }else{
             
-            return redirect('/admin/manageAdmin');
+             echo json_encode($request->id); 
         }
     }
 
-
-
-
-
-
-
-    public function addEvent()
-    {
-        return view('admin.addEventForm');
-    }
-
-    public function addEventPost(Request $request)
-    {   
-        
-        
-     if ($request->hasFile('eventFlyer')){  
-         
-     $file = $request->file('eventFlyer');
-     
-     $extension = $file->getClientOriginalExtension(); 
-     
-     $fileName = time().'.'.$extension;
-     
-     $path = public_path().'/events';
-     
-     $uplaod = $file->move($path,$fileName);
-     
-     }
-        
-        
-    //   if($request->eventFlyer != "" || $request->eventFlyer != null){
-
-    //   $filename=$request->eventFlyer->getClientOriginalName('public/upload');
-
-    //   $extension=$request->eventFlyer->getClientOriginalExtension('public/upload');
-
-    //   $flyerName=bin2hex(openssl_random_pseudo_bytes(5));
-
-    //   if($extension!=''){
-    //       $flyerName.=".".$extension;
-    //   }
-
-    //   $request->eventFlyer->storeAs('/public/upload/events',$flyerName);
-    //   }
-       
-       
-       
-       
-
-        $event = new Event;
-        $event->eventName = $request->eventName;
-        $event->eventDescription = $request->eventDescription;
-
-        if($request->eventFlyer != "" || $request->eventFlyer != null){
-        $event->eventFlyer = $fileName;
-        }else{
-             $event->eventFlyer = $request->eventFlyer;
-        }
-
-        $event->eventDate = $request->eventDate;
-        $event->eventTime = $request->eventTime;
-        $event->eventLocation = $request->eventLocation;
-        $event->eventLocationLink = $request->eventLocationLink;
-        $event->save();
-
-        return redirect(url('admin/addEventTicket'));
-    }
-    
-    public function eventUpdate(Request $request)
-    {
-
-     $event = Event::find($request->id);
-
-     if ($request->hasFile('eventFlyer')){  
-         
-      $deleteFlyer = public_path().'/events/'.$event->eventFlyer;
-
-        if(File::exists($deleteFlyer)) {
-        File::delete($deleteFlyer);
-        }
-    
-     $file = $request->file('eventFlyer');
-     
-     $extension = $file->getClientOriginalExtension(); 
-     
-     $fileName = time().'.'.$extension;
-     
-     $path = public_path().'/events';
-     
-     $uplaod = $file->move($path,$fileName);
-     
-     }
-
-        $event = Event::find($request->id);
-
-            $event->eventName = $request->eventName;
-            $event->eventDescription = $request->eventDescription;
-
-            if($request->eventFlyer != "" || $request->eventFlyer != null){
-            $event->eventFlyer = $fileName;
-            }else{
-                 $event->eventFlyer = $event['eventFlyer'];
-            }
-
-            $event->eventDate = $request->eventDate;
-            $event->eventTime = $request->eventTime;
-            $event->eventLocation = $request->eventLocation;
-            $event->eventLocationLink = $request->eventLocationLink;
-
-            if($event->save()){
-
-               return redirect('/admin/manageEvent');
-            
-            }else{
-
-                return redirect('/admin/manageEvent');
-            }
-    }
-    
-    public function eventDelete($id)
-    {
-        $event = Event::find($id);
-
-        if($event['eventFlyer'] != "" || $event['eventFlyer'] != null){
-            
-            $deleteFlyer = public_path().'/events/'.$event->eventFlyer;
-
-            if(File::exists($deleteFlyer)) {
-              File::delete($deleteFlyer);
-            }
-        }
-
-        $eventTicket = DB::table('event_tickets')->where('eventId',$id)->get();
-
-        if($eventTicket != "" || $eventTicket != null){
-            $eventTicket = DB::table('event_tickets')->where('eventId',$id)->delete();
-        }
-
-        if($event->delete()){
-
-            return redirect()->back();
-
-        }else{
-            
-            return redirect()->back();
-        }
-    }
-
-    public function addEventTicket()
-    {
-        $eventId = Event::whereRaw('id = (select max(`id`) from events)')->get();
-        $eventId = $eventId[0];
-
-        $eventTicket = EventTicket::where('eventId',$eventId['id'])->get();
-
-        return view('admin.addEventTicket',compact('eventId','eventTicket'));
-    }
-
-
-    public function addEventTicketPost(Request $request)
-    {   
-        $eventTicket = new EventTicket;
-        $eventTicket->eventId = $request->eventId;
-        $eventTicket->eventName = $request->eventName;
-        $eventTicket->ageGroup = $request->ageGroup;
-        $eventTicket->memberType =$request->memberType;
-        $eventTicket->foodType = $request->foodType;
-        $eventTicket->dateRange = $request->dateRange;
-        $eventTicket->ticketPrice = $request->ticketPrice;
-        $eventTicket->save();
-
-        return redirect()->back();
-    }
-    
-
-    public function eventTicketDelete($id)
-    {
-        $eventTicket = EventTicket::find($id);
-
-        if($eventTicket->delete()){
-
-            return redirect()->back();
-
-        }else{
-            
-            return redirect()->back();
-        }
-    }
-
-    public function manageEvent()
-    {
-        $events = Event::all();
-        return view('admin.manageEvent',compact('events'));
-    }
-
-    
-
-    public function editEventTicket($id)
-    {   
-        $event = Event::where('id',$id)->get()->toArray();
-        $eventTicket = EventTicket::where('eventId',$id)->get();
-
-        return view('admin.eventTicketEditForm',compact('event','eventTicket'));
-    }
-
-
-        public function eventEdit($id)
-        {
-            $event['event'] = Event::find($id);
-            return view('admin.eventEditForm',$event);
-        }
-
-        
 
         public function memberDetails()
         {
-            $toDay =Carbon::now()->toDateString();
-
-            $members = Member::where('membershipExpiryDate','>=',$toDay)->get();
+            $date = Carbon::now()->format('Y');
+            $MembershipBuy = MembershipBuy::where('payment_status','Completed')->pluck('user_id');
+            $members = Member::whereIn('Member_Id',$MembershipBuy)->where('membershipExpiryDate','>=',$date)->get();
 
             return view('admin.memberDetails',compact('members'));
+        }
+
+        public function viewFamilyMember($id)
+        {
+            $member = Member::where('id',$id)->first();
+            $FamilyMember = FamilyMember::where('Member_Id',$member->Member_Id)->get();
+            return view('admin.viewFamilyMember',compact('member','FamilyMember'));
         }
 
 
         public function nonMemberDetails()
         {
-            $toDay =Carbon::now()->toDateString();
-
-            $members = Member::where('membershipExpiryDate','<',$toDay)->get();
-
+             $date = Carbon::now()->format('Y-m-d');
+            $members = NonMember::get();
             return view('admin.nonMemberDetails',compact('members'));
         }
 
@@ -441,73 +238,11 @@ class AdminController extends Controller
 
 
 
-        public function manageMembership()
-        {
-            $memberships = MembershipConfig::all();
-
-            return view('admin.manageMembership', compact('memberships'));
-        }
-
-
-        public function addMembership()
-        {
-            return view('admin.addMembershipForm');
-        }
-
-        public function addMembershipPost(Request $request)
-        {
-            $membership = new MembershipConfig;
-            $membership->membership_code = $request->membershipCode;
-            $membership->membership_desc = $request->description;
-            $membership->membership_amount = $request->amount;
-            $membership->is_visible = $request->isVisible;
-            $membership->open_date = $request->openDate;
-            $membership->closing_date = $request->closeDate;
-            $membership->save();
-
-            return redirect('admin/manageMembership');
-        }
-
-        public function membershipEdit($id)
-        {
-            $membership = MembershipConfig::where('id',$id)->first();
-
-            return view('admin.editMembershipForm',compact('membership'));
-        }
-
-        public function membershipUpdate(Request $request)
-        {
-            $membership = MembershipConfig::where('id',$request->membershipId)->update([
-                'membership_code' => $request->membershipCode,
-                'membership_desc' => $request->description,
-                'membership_amount' => $request->amount,
-                'is_visible' => $request->isVisible,
-                'open_date' => $request->openDate,
-                'closing_date' => $request->closeDate,
-            ]);
-
-            return redirect('/admin/manageMembership');
-        }
-
-
-        public function membershipDelete($id)
-        {
-            $membership = MembershipConfig::find($id);
-
-            if($membership->delete()){
-
-                return redirect()->back();
-
-            }else{
-                
-                return redirect()->back();
-            }
-        }
-
+        
 
 
 //Member Search
-        public function member_details()
+    public function member_details()
     {    
         $members['members']=Member::all()->take(30);
         return view('admin.member_details',$members);
@@ -523,7 +258,7 @@ class AdminController extends Controller
      
     $output="";
      
-    $products=DB::table('members')->where('phoneNo1','LIKE','%'.$request->membersearch."%")->orWhere('tagDvId','LIKE','%'.$request->membersearch."%")->get();
+    $products=DB::table('members')->where('phoneNo1','LIKE','%'.$request->membersearch."%")->orWhere('Member_Id','LIKE','%'.$request->membersearch."%")->get();
      
     if($products)
      
@@ -533,7 +268,7 @@ class AdminController extends Controller
      
     $output.='<tr style="background-color:#f1f1f1;border-bottom:none">'.
      
-    '<td>'.$product->tagDvId.'</td>'.
+    '<td>'.$product->Member_Id.'</td>'.
     '<td>'.$product->firstName.'</td>'.
     '<td>'.$product->lastName.'</td>'.
     '<td>'.$product->phoneNo1.'</td>'.
@@ -560,7 +295,41 @@ class AdminController extends Controller
        }
      
     }
-    
+
+    public function FoodTicketsReport()
+    {
+        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::where('ticketQty','!=',null)->get();
+        return view('admin.PurchasedEventFoodTickets',compact('PurchasedEventFoodTickets'));
+    }
+
+    public function EntryTicketsReport()
+    {
+        $PurchasedEventEntryTickets = PurchasedEventEntryTickets::where('ticketQty','!=',null)->get();
+        return view('admin.PurchasedEventEntryTickets',compact('PurchasedEventEntryTickets'));
+    }
+
+    public function PaymentList()
+    {
+        $MembershipBuy = MembershipBuy::get();
+        return view('admin.payment.list',compact('MembershipBuy'));
+    }
+
+    public function PaymentEdit($id)
+    {
+        $MembershipBuy = MembershipBuy::where('id',$id)->first();
+        return view('admin.payment.edit',compact('MembershipBuy'));
+    }
+
+    public function UpdatePayment(Request $request)
+    {
+
+        $membershipBuy = MembershipBuy::find($request->id);
+         $membershipBuy->Inst_Type = $request->paymentType;
+          $membershipBuy->Inst_No = $request->Inst_number;
+          $membershipBuy->payment_status = $request->payment_status;
+        $membershipBuy->save();
+       return redirect('/admin/Payments')->withSuccess('Membership Updated Successfully');
+    }
 
 
 }

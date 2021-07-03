@@ -10,7 +10,7 @@ class TicketPurchase extends Model
     protected $fillable =[	'name',
     						'email',
     						'memberType',
-    						'tagDvId',
+    						'Member_Id',
     						'eventId',
     						'eventName',
                             'eventName',

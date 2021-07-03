@@ -10,28 +10,23 @@ class FamilyMemberController extends Controller
 {
     public function familyMembers()
     {
-        $tagDvId = Auth::user()->tagDvid;
+        $tagDvId = Auth::user()->Member_Id;
 
-    	$familyMembers = FamilyMember::where('tagDvId',$tagDvId)->get();
+    	$familyMembers = FamilyMember::where('Member_Id',$tagDvId)->get();
 
         return view('user.familyMembers',compact('familyMembers'));
     }
 
+    public function ShowFamilyMembers()
+    {
+        $tagDvId = Auth::user()->Member_Id;
+        return view('user.addFamilyMembers',compact('tagDvId'));
+    }   
+
     public function addFamilyMembers(Request $request)
     {
-    //     $dateLength = strlen($request->dobDate);
-    //     $monthLength = strlen($request->dobMonth);
-    //     if($dateLength == 1){
-    //         $request->dobDate = "0".$request->dobDate;
-    //     }
-    //     if($monthLength == 1){
-    //         $request->dobMonth = "0".$request->dobMonth;
-    //     }
-
-    //   $request->dob = $request->dobDate."/".$request->dobMonth;
-
         $family = new FamilyMember;
-        $family->tagDvId = $request->tagDvId;
+        $family->Member_Id = $request->tagDvId;
         $family->firstName = $request->firstName;
         $family->lastName = $request->lastName;
         $family->relationshipType = $request->relationshipType;
@@ -40,8 +35,7 @@ class FamilyMemberController extends Controller
         $family->mob = $request->mob;
         $family->schoolName = $request->schoolName;
         $family->save();
-
-        return redirect()->back();
+        return redirect('/familyMembers')->withSuccess('Family Member added Successfully');
     }
 
     public function familyEdit($id)
@@ -59,7 +53,7 @@ class FamilyMemberController extends Controller
     {
         $family = FamilyMember::find($request->id);
 
-            $family->tagDvId = $request->tagDvId;
+            $family->Member_Id = $request->tagDvId;
             $family->firstName = $request->firstName;
             $family->lastName = $request->lastName;
             $family->relationshipType = $request->relationshipType;
@@ -70,11 +64,10 @@ class FamilyMemberController extends Controller
 
             if($family->save()){
 
-               return redirect('/familyMembers');
-            
+                return redirect('/familyMembers')->withSuccess('Family Member updated Successfully');
             }else{
 
-                return redirect('/familyMembers');
+        return redirect()->back()->withSuccess('Family Member updation Failed');
             }
     }
 

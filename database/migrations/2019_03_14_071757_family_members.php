@@ -15,7 +15,7 @@ class FamilyMembers extends Migration
     {
         Schema::create('family_members', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('tagDvId');
+            $table->string('Member_Id');
             $table->string('firstName');
             $table->string('lastName')->nullable();
             $table->string('relationshipType')->nullable();

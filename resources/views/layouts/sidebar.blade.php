@@ -1,335 +1,90 @@
-<style>
-  .navbar-default .navbar-nav>li>a {
-    color: #fff;
-}
-.nav-side-menu {
-  overflow: auto;
-  font-family: verdana;
-  font-size: 14px;
-  font-weight: 200;
-  background-color: #feffc9;
-  position: fixed;
-  top: 7.8%;
-  left: 0%;
-  width: 20%;
-  height: 100%;
-  color: brown;
-}
-.nav-side-menu .brand {
-  background-color: #23282e;
-  line-height: 50px;
-  display: block;
-  text-align: center;
-  font-size: 14px;
-}
-.nav-side-menu .toggle-btn {
-  display: none;
-}
-.nav-side-menu ul,
-.nav-side-menu li {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
-  line-height: 35px;
-  cursor: pointer;
-  /*    
-    .collapsed{
-       .arrow:before{
-                 font-family: FontAwesome;
-                 content: "\f053";
-                 display: inline-block;
-                 padding-left:10px;
-                 padding-right: 10px;
-                 vertical-align: middle;
-                 float:right;
-            }
-     }
-*/
-}
-.menu-list
-{
-  margin-top: 1%;
-}
-.nav-side-menu ul :not(collapsed) .arrow:before,
-.nav-side-menu li :not(collapsed) .arrow:before {
-  font-family: FontAwesome;
-  content: "\f078";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-  float: right;
-}
 
-.nav-side-menu ul .sub-menu li:before,
-.nav-side-menu li .sub-menu li:before {
-  font-family: FontAwesome;
-  content: "\f105";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-}
-.nav-side-menu li {
-  padding: 5px;
-  margin-left:15px;
-    /*border-left: 3px solid #2e353d;
-    border: 1px solid #23282e;*/
-}
 
-.nav-side-menu li a {
-  text-decoration: none;
-  color: brown;
-
-}
-.nav-side-menu li a i {
-  padding-left: 10px;
-  width: 20px;
-  padding-right: 20px;
-}
-
-@media (max-width: 767px) {
-  .navbar-default 
-  {
-    width: 100%;
-  }
-  .nav-side-menu {
-    position: relative;
-    width: 100%;
-    margin-bottom: 10px;
-    height:  20%;
-    left: 0%;
-  }
-  .nav-side-menu .toggle-btn {
-    display: block;
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 10 !important;
-    padding: 3px;
-    background-color: #ffffff;
-    color: #000;
-    width: 40px;
-    text-align: center;
-  }
-  .brand {
-    text-align: left !important;
-    font-size: 22px;
-    padding-left: 20px;
-    line-height: 50px !important;
-    color: #fff;
-  }
-
-}
-@media (min-width: 767px) {
-  .nav-side-menu .menu-list .menu-content {
-    display: block;
-  }
-}
-body {
-  margin: 0px;
-  padding: 0px;
-}
-.navbar{ margin-bottom: 0; }
-.navbar-default {
-    background-color: brown;
-    border-color: #feffc9;
-    position: fixed;
-  top: 0;
-  width: 100%;
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+      <img src="../../assets/img/thulir-logo-1.png" class="brand-image img-circle elevation-7"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light"></span>
+    </a>
     
-}
-.navbar-default .navbar-brand {
-color: #7A7A86;
-}
-.panel-primary { opacity: 0.9; }
-.red,.orange,.green,.blue .fa
-{
-  font-size: 30px;
-}
-.red .fa
-{ color: #FA2A02; }
-.orange .fa
-{ color: #FFB402; }
-.green .fa
-{ color: #19BC9C; }
-.blue .fa
-{ color: #21A7F0; }
+<br>
 
-.panel-primary {
-    border-color: #19BC9C;
-}
-.panel-primary>.panel-heading {
-    color: #fff;
-    background-color: #19BC9C;
-    border-color: #19BC9C;
-}
-.panel-primary .panel-body th
-{ color: red; }
-.fa-pencil-square-o
-{ color: #0662FE; }
-.fa-trash-o
-{ color: red; }
-.red .panel-primary,.red .panel-primary .panel-heading
-{
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #FA2A02;
-}
-.orange .panel-primary,.orange .panel-primary .panel-heading
-{
-background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #FFB402;
-}
-.green .panel-primary,.green .panel-primary .panel-heading
-{
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #19BC9C;
-}
-.blue .panel-primary,.blue .panel-primary .panel-heading
-{
- background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #21A7F0;
-}
-.row
-{ margin-right: 0; }
-.fa-edit
-{
-  color:blue;
-  font-size: 20px;
-}
-.fa-check-square-o
-{
-  color:green;
-  font-size: 20px;
-}
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+     
+     <?php
+     
+      use Illuminate\Support\Str;
+      $path = Request::path();
+     ?>
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+           
+          
+            <li class="nav-item">
+                <a href="{{ url('familyMembers') }}" class="nav-link {{ Str::contains($path, ['familyMembers']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p> Family Members</p>
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="{{ url('memberTickets') }}" class="nav-link {{ Str::contains($path, ['memberTickets','memberBuyTicket']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>Events</p>
+                </a>
+            </li>
+            <?php
+                $member = App\Member::where('user_id',Auth::user()->id)->first();
+            ?>
+            @if($member!=null)
+            <li class="nav-item">
+                <a href="{{ url('editProfile') }}" class="nav-link {{ Str::contains($path, ['editProfile']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-user"></i>
+                <p>My Profile</p>
+                </a>
+            </li>
+            @else
+                <li class="nav-item">
+                <a href="{{ url('editProfile') }}" class="nav-link {{ Str::contains($path, ['editProfile']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-user"></i>
+                <p>My Profile</p>
+                </a>
+            </li>
+            @endif
 
 
+           
+            <li class="nav-item">
+                <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>MemberShip</p>
+                </a>
+            </li>
+                       
+             <li class="nav-item">
+                <a class="nav-link" role="button" 
+                href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>Logout</p>
+                </a>
+            </li>
+             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+           
+            
 
-
- /*sidebar navbar*/
-
-.dropbtn {
-    background-color:  #feffc9;
-    color: brown;
-    padding: 16px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-}
-
-.dropbtn:hover, .dropbtn:focus {
-    background-color:  #feffc9;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-    background-color:white;
-    border:1px solid brown;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color:  #0091bf;
-    min-width: 160px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: brown;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown a:hover {background-color: brown;}
-
-.show {display: block;}
-
-
-</style>
-<div class="col-md-2">
-    <div class="nav-side-menu">
-      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-
-      <div class="menu-list">
-              
-
-<?php 
-$email = Auth::user()->email;
-$member = App\Member::where('primaryEmail',$email)->first();
-$membershipExpiryDate = $member->membershipExpiryDate;
-$today =Carbon\Carbon::now()->toDateString();
-?>
-              
-              {{-- <li data-toggle="collapse" data-target="#locations" class="collapsed">
-              <a href="{{ url('user_home') }}"><i class="fa fa-area-chart fa-lg"></i> Home </a></li> --}}
-              
-              @if($membershipExpiryDate != null || $membershipExpiryDate != "")
-              <li data-toggle="collapse" data-target="#notifications" class="collapsed">
-              <a href="{{ url('familyMembers') }}"><i class="fa fa-bell fa-lg"></i> Family Members </a></li>
-              @endif
-
-              @if($membershipExpiryDate  != null || $membershipExpiryDate != "")
-              <li data-toggle="collapse" data-target="#advertisement" class="collapsed">
-              <a href="{{ url('memberTickets') }}"><i class="fa fa-bullhorn fa-lg"></i> Purchase Event Tickets </a></li>
-              @endif
-
-              @if($membershipExpiryDate != null || $membershipExpiryDate != "")
-              <li data-toggle="collapse" data-target="#aos" class="collapsed">
-              <a href="{{ url('editProfile') }}"><i class="fa fa-eye fa-lg"></i> Edit Profile </a></li>
-              @endif
-              
-              @if(auth()->user()->verified()=='verified')
-              @if($member->membershipType != 'LM')
-              <li data-toggle="collapse" data-target="#poll" class="collapsed">
-              <a href="{{ url('membership') }}"><i class="fa fa-hand-o-up fa-lg"></i> Membership </a></li>
-              @endif
-              @endif
-
-              {{-- <li data-toggle="collapse" data-target="#poll" class="collapsed">
-              <a href="{{ url('renew_membership') }}"><i class="fa fa-hand-o-up fa-lg"></i> Renew Membership </a></li> --}}
-              
-              <li data-toggle="collapse" data-target="#aos" class="collapsed">
-              <a href="{{ url('users/logout') }}"><i class="fa fa-info-circle fa-lg"></i> Logout </a></li>
-              
         </ul>
-      </div>
+      </nav>
+      <!-- /.sidebar-menu -->
     </div>
-  </div>
-
-
-  <script>
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-</script>
+    <!-- /.sidebar -->
+  </aside>
