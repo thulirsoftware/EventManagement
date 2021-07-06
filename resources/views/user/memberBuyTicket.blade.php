@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="content-wrapper">
+<div class="content-wrapper" style="background-color:white">
   <!-- Content Header (Page header) -->
   <div class="content-header">
 
@@ -11,35 +11,24 @@
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">   
-   <div class="col-12">
-
-      <div class="row mb-2">
-        <div class="col-sm-2">
-          <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
-        </div>
-        <div class="col-md-3">
-        </div>
-         <div class="col-md-3">
-        </div>
-        <div class="col-md-3">
-        </div>
-        
-        
-      </div>
-    </div>
      <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-1">
+        <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
       </div>
-        <div class="col-md-8">
-  <div class="card panel-default">
-  @if(Session::has('success'))
-<div class="alert alert-success alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-{{Session::get('success')}}
-</div>
-@endif
+        <div class="col-md-9">
+        <div class="card card-info" style="-webkit-box-shadow: none;
+          -moz-box-shadow: none;  box-shadow: none;background-color: #f7f7f7;">
+        <div class="card-header" style="background-color: #1f5387;">
+             <h3 class="card-title">Register For {{$events['eventName'] }}</h3>
+        </div>
+            @if(Session::has('success'))
+                  <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  {{Session::get('success')}}
+                  </div>
+              @endif
                 <div class="card-body">
-                  <form class="form-horizontal" action="{{ url('memberBuyTicketPost') }}" method="POST">
+                  <form class="form-horizontal" action="{{ url('memberBuyTicketPost') }}" id="regForm" method="POST">
                       {{ csrf_field() }}
 
                 <?php 
@@ -119,9 +108,20 @@
             @endfor
             @endif
           </div>
+                      <label>Want to participate in competition</label>
+
+           <div class="form-group">
+                <label class="col-md-4">
+                  <input type="checkbox" class="minimal" value="yes" id="competitionYes">&nbsp;&nbsp;Yes
+                </label>
+                <label class="col-md-4">
+                  <input type="checkbox" class="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
+                </label>
+                
+              </div>
                   <div class="form-group" id="submit">        
                     <center>
-                      <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                      <button type="button" onclick="Submitform()" class="btn btn-primary" name="submit" id="myBtn">Register</button>
                       <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
                     </center>
 
@@ -193,5 +193,37 @@
   });
 </script>
 
+<script type="text/javascript">
+    function Submitform() 
+    {
+        console.log("call");
+     
+            var checkBox = document.getElementById('competitionYes');
+            if (checkBox.checked == true) 
+            {
+                let url ="{{ route('member.competition')}}";
+                document.getElementById("regForm").action = url;
+                  document.getElementById("myBtn").type = "submit"; 
+                    document.getElementById("regForm").submit();
+                    return false;
 
+            } 
+            else 
+            {
+                var checkBox = document.getElementById('competitionNo');
+                if (checkBox.checked == true)
+                {
+                    document.getElementById("myBtn").type = "submit"; 
+                    document.getElementById("regForm").submit();
+                    return false;
+                }
+                else
+                {
+
+                }
+            }
+         
+            
+    }
+</script>
 @endsection

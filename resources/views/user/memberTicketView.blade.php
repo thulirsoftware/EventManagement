@@ -18,9 +18,7 @@
                   </div>
                   <div class="col-sm-8 col-md-8 col-lg-8" style="background-color: #fff;padding: 30px;">
 
-   <?php $count = count($sessionData['ticketType']); ?>
-
-
+                  <?php $count = count($sessionData['ticketType']); ?>
                   @for($i=0; $i<$count; $i++)
 
                   <?php 

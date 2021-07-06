@@ -165,7 +165,20 @@ background-color: #fff;
     background-color: white;
     color: #1f5387;
 }
+.button1 {
+  background-color: #1f5387;
+  color: #ffffff;
+  border: none;
+  padding: 7px 10px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+  border-radius: 20px;
+}
 
+.button1:hover {
+  opacity: 0.8;
+}
   </Style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">

@@ -49,6 +49,8 @@ Route::get('/memberTicketView','MemberController@memberTicketView');
 Route::post('memberPaymentCreate', 'MemberController@memberTicketAmountPay')->name('memberPaymentCreate');
 Route::post('memberEventPaymentCreate', 'PaymentController@memberEventPaymentCreate')->name('memberEventPaymentCreate');
 Route::get('memberEventPaymentExecute','PaymentController@memberEventPaymentExecute');
+Route::post('/MemberCompetition','MemberController@MemberCompetition')->name('member.competition');
+Route::post('/MemberCompetitionPost','MemberController@MemberCompetitionPost')->name('member.competition.save');
 
 
 

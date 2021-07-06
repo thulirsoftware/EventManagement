@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('content')
-<div class="content-wrapper">
+<div class="content-wrapper" style="background-color:white">
   <!-- Content Header (Page header) -->
   <div class="content-header">
   <div class="container-fluid">
@@ -21,14 +21,25 @@
 {{Session::get('success')}}
 </div>
 @endif
- 
-    <form class="form-horizontal" action="{{ url('memberPaymentCreate') }}" method="POST">
+  <div class="card card-info" style="-webkit-box-shadow: none;
+          -moz-box-shadow: none;  box-shadow: none;background-color: #f7f7f7;">
+           <div class="card-header" style="background-color: #1f5387;">
+             <h3 class="card-title">View Purchased Amount Details</h3>
+        </div>
+            @if(Session::has('success'))
+                  <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  {{Session::get('success')}}
+                  </div>
+              @endif
+                <div class="card-body">
+    <form  action="{{ url('memberPaymentCreate') }}" method="POST">
                       {{ csrf_field() }}
      
-        <table id="example1" class="table" style="background-color:white">
+        <table id="example1" class="table table-borderless" style="border:none">
                                                         
         
-         <tr> 
+         <tr>  
               <td >Event Name</td>
               <td>{{$eventName}}</td> 
         </tr>
@@ -55,7 +66,8 @@
 
                   </div>
    </form>
-
+</div>
+</div>
 </div>
 </div>
 </div>
