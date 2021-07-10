@@ -1,0 +1,484 @@
+@extends('layouts.admin')
+
+@section('content')
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">  
+     <div class="col-12">
+
+      <div class="row mb-2">
+        <div class="col-sm-2">
+          <a href="/admin/manageEvent" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+        </div>
+         <div class="col-sm-8">
+         </div>
+         <div class="col-sm-2">
+       
+        </div>
+      </div>
+    </div><br>
+     <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Event</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+        </div>
+        <form method="post" action="{{ url('admin/eventUpdate') }}" enctype="multipart/form-data">
+
+    {{ csrf_field() }}
+        <div class="modal-body">
+           
+
+  <input type="hidden" name="id" value="{{ $event['id'] }}">
+ <div class="col-md-12">
+        <div class="row">
+        <div class="form-group col-md-6">
+          <label class="names">Event Name&nbsp;<span style="color:red">*</span></label>
+            <input type="text" class="form-control"  name="eventName" value="{{ $event['eventName'] }}" required="">
+        </div>
+
+
+        <div class="col-md-6 form-group ">
+          <label class="names">Event Description&nbsp;<span style="color:red">*</span></label>
+          <input type="text" class="form-control" name="eventDescription" id="comment" value="{{ $event['eventDescription'] }}" required="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <div class="form-group">
+                    <label for="exampleInputFile">Event Picture</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="eventFlyer" id="exampleInputFile" onchange="showname()">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="">Upload</span>
+                      </div>
+                    </div>
+                  </div>
+          <div id="editor"></div>
+        </div>
+
+
+        <div class="col-md-6 form-group ">
+          <label class="names">Venue&nbsp;<span style="color:red">*</span></label>
+          <input class="form-control" type="text" name="eventLocation" value="{{ $event['eventLocation'] }}" required="">
+        </div>
+      </div>
+      <div class="row">
+      
+
+        <div class="col-md-6 form-group ">
+          <label class="names">Date&nbsp;<span style="color:red">*</span></label>
+          <input class="form-control" type="date" name="eventDate" value="{{ $event['eventDate'] }}" required="">
+        </div>
+        <div class="form-group col-md-6">
+          <label class="names">Time&nbsp;<span style="color:red">*</span></label>
+            <input class="form-control" type="time" name="eventTime" value="{{ $event['eventTime'] }}">
+        </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-md-6">
+          <label class="names">Location Link</label>
+            <input class="form-control" type="text" name="eventLocationLink" value="{{ $event['eventLocationLink'] }}">
+        </div>
+
+
+
+       
+      </div>
+    
+
+      
+</div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit"  class="next btn btn-primary btn-md" name="Submit" value="Update">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+
+      </div>
+      
+    </div>
+  </div>
+    <div class="row">
+      
+       <div class="col-md-12">
+<div class="card">
+<div class="card-body">
+  <center><h3>Events</h3></center>
+  <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <th>SI.No</th>
+                      <th>Event Name</th>
+                      <th>Description</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Location</th>
+                      <th colspan="2">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+              <?php $i=1 ?> 
+                      <?php
+                       $string = str_replace(" ","\r\n",$event['eventName']);
+                       ;
+                        $newtext = wordwrap($event['eventName'], 20, "\n");
+                        $eventDescription = wordwrap($event['eventDescription'], 20, "\n");
+                      ?>
+                        <tr>
+                         
+                          <td>{{ $i++ }}</td>
+                          <td>{!! nl2br(e($newtext)) !!}</td>
+                          <td>{!! nl2br(e($eventDescription)) !!}</td>
+                          <td>{{ $event['eventDate'] }}</td>
+                          <td>{{ $event['eventTime'] }}</td>
+                          <td>{{ $event['eventLocation'] }}</td>
+                        <td><button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit" style="text-align:center;"></i>&nbsp;</button></td>
+                          <td><a onclick="DeleteEvent({{$event['id']}})"  > <i class="fa fa-trash" style="cursor:pointer;color:#0069d9"></i></a></td>
+                        </tr>
+                  </tbody> 
+                </table>
+  <br>
+  <center><h3>Entry Tickets</h3></center>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="font-weight:normal">SI.No</th>
+        <th style="font-weight:normal">Event Name</th>
+        <th style="font-weight:normal">Age Group</th>
+        <th style="font-weight:normal">Member Type</th>
+        <th style="font-weight:normal">Ticket Price</th>
+        <th style="font-weight:normal" colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody >
+    <?php $i = 1 ?>  
+        @foreach($eventTicket as $ticket)
+          <tr id="row_event_{{ $ticket['id'] }}">
+           
+            <td>{{ $i++ }}</td>
+            <?php
+              $event = \App\Event::where('id',$ticket['eventId'])->first();
+            ?>
+            <td >{{ $event['eventName'] }}</td>
+            <td id="row_entry_age{{ $ticket['id'] }}">{{ $ticket['ageGroup'] }}</td>
+            <td id="row_entry_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
+            <td id="row_entry_price{{ $ticket['id'] }}">${{ $ticket['ticketPrice'] }}</td>
+            <td>
+              <a style="cursor:pointer;color:#0069d9" onclick="edit_Entry_row('{{ $ticket['id'] }}')" id="row_entry_edit{{ $ticket['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>
+
+               <input type="button" id="entry_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Entry_row('{{ $ticket['id'] }}')" style="display:none">
+
+            </td>
+            <td>
+              <a id="row_entry_delete{{ $ticket['id'] }}" href="/admin/eventTicketDelete/{{ $ticket['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a>
+            </td>
+          </tr>
+        @endforeach
+    </tbody>
+  </table>
+  <br>
+  <center><h3>Food Tickets</h3></center>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="font-weight:normal">Age Group</th>
+        <th style="font-weight:normal">Member Type</th>
+        <th style="font-weight:normal">Food Type</th>
+        <th style="font-weight:normal">Ticket Price</th>
+        <th style="font-weight:normal">Ticket Quantity</th>
+        <th style="font-weight:normal"  colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody >
+    <?php $i = 1 ?>  
+        @foreach($eventFoodTicket as $ticket)
+          <tr id="row_food_{{ $ticket['id'] }}">
+           
+            <td id="row_food_event_age{{ $ticket['id'] }}">{{ $ticket['ageGroup'] }}</td>
+            <td id="row_food_event_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
+            <td id="row_food_event_food{{ $ticket['id'] }}">{{ $ticket['foodType'] }}</td>
+            <td id="row_food_event_price{{ $ticket['id'] }}">{{ $ticket['ticketPrice'] }}</td>
+            <td id="row_food_event_qty{{ $ticket['id'] }}">{{ $ticket['ticketQty'] }}</td>
+
+            <td>
+              <a  id="row_food_edit{{ $ticket['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row('{{ $ticket['id'] }}')">
+                <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
+              </a>
+            <input type="button" id="food_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Food_row('{{ $ticket['id'] }}')" style="display:none"></td>
+
+            <td><a href="/admin/eventTicketDelete/{{ $ticket['id'] }}" id="row_food_delete{{ $ticket['id'] }}"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+
+          </tr>
+        @endforeach
+    </tbody>
+  </table>
+  <br>
+  <center><h3>Competition</h3></center>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="font-weight:normal">Starting Date</th>
+        <th style="font-weight:normal">Closing Date</th>
+        <th style="font-weight:normal">Member Fees </th>
+        <th style="font-weight:normal">Non Member Fees</th>
+        <th style="font-weight:normal"  colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody >
+    <?php $i = 1 ?>  
+        @foreach($Competition as $Competition)
+          <tr id="row_competition_{{ $Competition['id'] }}">
+           
+             <td id="row_competition_event_SDate{{ $Competition['id'] }}">{{ $Competition['starting_date'] }}</td>
+            <td id="row_competition_event_EDate{{ $Competition['id'] }}">{{ $Competition['closing_date'] }}</td>
+            <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $Competition['member_fee'] }}</td>
+            <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $Competition['non_member_fee'] }}</td>
+
+            <td>
+              <a  id="row_competition_edit{{ $Competition['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row_competition('{{ $Competition['id'] }}')">
+                <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
+              </a>
+            <input type="button" id="Competition_save_button{{ $Competition['id'] }}" value="Save" class="btn btn-primary" onclick="save_competition_row('{{ $Competition['id'] }}')" style="display:none"></td>
+
+          <td><a onclick="myFunction({{$Competition['id']}})"  class="btn btn-link"> <i class="fa fa-trash" style="cursor:pointer;color:#0069d9"></i></a></td>
+
+          </tr>
+        @endforeach
+    </tbody>
+  </table>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+function edit_row(no)
+{
+  document.getElementById("row_food_delete"+no).style.display="none";
+  document.getElementById("row_food_edit"+no).style.display="none";
+  document.getElementById("food_save_button"+no).style.display="block";
+  
+ var row_food_event_age=document.getElementById("row_food_event_age"+no);
+ var row_food_event_type=document.getElementById("row_food_event_type"+no);
+var row_food_event_food=document.getElementById("row_food_event_food"+no);
+ var row_food_event_price=document.getElementById("row_food_event_price"+no);
+ var row_food_event_qty=document.getElementById("row_food_event_qty"+no);
+
+ var row_food_event_age_data=row_food_event_age.innerHTML;
+ var row_food_event_type_data=row_food_event_type.innerHTML;
+ var row_food_event_food_data=row_food_event_food.innerHTML;
+ var row_food_event_price_data=row_food_event_price.innerHTML;
+ var row_food_event_qty_data=row_food_event_qty.innerHTML;
+
+ row_food_event_age.innerHTML="<input type='text' id='row_food_event_age_text"+no+"' class='form-control'  value='"+row_food_event_age_data+"'>";
+
+ row_food_event_type.innerHTML="<input type='text' id='row_food_event_type_text"+no+"' class='form-control' value='"+row_food_event_type_data+"'>";
+ row_food_event_food.innerHTML="<input type='text' id='row_food_event_food_text"+no+"' class='form-control' value='"+row_food_event_food_data+"'>";
+
+ row_food_event_price.innerHTML="<input type='text' id='row_food_event_price_text"+no+"' class='form-control' value='"+row_food_event_price_data+"'>";
+
+ row_food_event_qty.innerHTML="<input type='text' id='row_food_event_qty_data_text"+no+"' class='form-control' value='"+row_food_event_qty_data+"'>";
+}
+function save_Food_row(no)
+{
+ var row_food_event_age_val=document.getElementById("row_food_event_age_text"+no).value;
+ var row_food_event_type_val=document.getElementById("row_food_event_type_text"+no).value;
+ var row_food_event_food_val=document.getElementById("row_food_event_food_text"+no).value;
+var row_food_event_price_val=document.getElementById("row_food_event_price_text"+no).value;
+var row_food_event_qty_data_val=document.getElementById("row_food_event_qty_data_text"+no).value;
+
+ let _token   = $('meta[name="csrf-token"]').attr('content');
+
+$.ajax({
+        url: "/admin/UpdateEventFoodTicket",
+        type:"POST",
+        data:{
+          event_age:row_food_event_age_val,
+          event_type:row_food_event_type_val,
+          event_food:row_food_event_food_val,
+          event_price:row_food_event_price_val,
+          quantity:row_food_event_qty_data_val,
+          event_food_id:no,
+          _token: _token
+        },
+        success:function(response){
+          console.log(response);
+          if(response) {
+            window.location.reload();
+            //$("#ajaxform")[0].reset();
+          }
+        },
+       });
+
+}
+/*Event Entry Ticket*/
+
+function edit_Entry_row(no)
+{
+  document.getElementById("row_entry_delete"+no).style.display="none";
+  document.getElementById("row_entry_edit"+no).style.display="none";
+  document.getElementById("entry_save_button"+no).style.display="block";
+  
+ var row_entry_event_age=document.getElementById("row_entry_age"+no);
+ var row_entry_event_type=document.getElementById("row_entry_type"+no);
+ var row_entry_event_price=document.getElementById("row_entry_price"+no);
+
+ var row_entry_event_age_data=row_entry_event_age.innerHTML;
+ var row_entry_event_type_data=row_entry_event_type.innerHTML;
+ var row_entry_event_price_data=row_entry_event_price.innerHTML;
+
+ row_entry_event_age.innerHTML="<input type='text' id='row_entry_event_age_text"+no+"' class='form-control'  value='"+row_entry_event_age_data+"'>";
+
+ row_entry_event_type.innerHTML="<input type='text' id='row_entry_event_type_text"+no+"' class='form-control' value='"+row_entry_event_type_data+"'>";
+
+ row_entry_event_price.innerHTML="<input type='text' id='row_entry_event_price_text"+no+"' class='form-control' value='"+row_entry_event_price_data+"'>";
+
+}
+function save_Entry_row(no)
+{
+ var row_entry_event_age_val=document.getElementById("row_entry_event_age_text"+no).value;
+ var row_entry_event_type_val=document.getElementById("row_entry_event_type_text"+no).value;
+var row_entry_event_price_val=document.getElementById("row_entry_event_price_text"+no).value;
+
+ let _token   = $('meta[name="csrf-token"]').attr('content');
+
+$.ajax({
+        url: "/admin/UpdateEventEntryTicket",
+        type:"POST",
+        data:{
+          event_age:row_entry_event_age_val,
+          event_type:row_entry_event_type_val,
+          event_price:row_entry_event_price_val,
+          event_entry_id:no,
+          _token: _token
+        },
+        success:function(response){
+          console.log(response);
+          if(response) {
+            window.location.reload();
+            //$("#ajaxform")[0].reset();
+          }
+        },
+       });
+
+}
+
+/*Compeitition*/
+
+function edit_row_competition(no)
+{
+  console.log(no);
+  document.getElementById("row_Competition_delete"+no).style.display="none";
+  document.getElementById("row_competition_edit"+no).style.display="none";
+  document.getElementById("Competition_save_button"+no).style.display="block";
+  
+ var row_competition_event_SDate=document.getElementById("row_competition_event_SDate"+no);
+ var row_competition_event_EDate=document.getElementById("row_competition_event_EDate"+no);
+ var row_competition_mFee=document.getElementById("row_competition_mFee"+no);
+ var row_competition_nonFee=document.getElementById("row_competition_nonFee"+no);
+
+ var row_competition_event_SDate_data=row_competition_event_SDate.innerHTML;
+ var row_competition_event_EDate_data=row_competition_event_EDate.innerHTML;
+ var row_competition_mFee_data=row_competition_mFee.innerHTML;
+ var row_competition_nonFee_data=row_competition_nonFee.innerHTML;
+console.log(row_competition_nonFee_data);
+
+ row_competition_event_SDate.innerHTML="<input type='text' id='row_competition_event_SDate_text"+no+"' class='form-control'  value='"+row_competition_event_SDate_data+"'>";
+
+ row_competition_event_EDate.innerHTML="<input type='text' id='row_competition_event_EDate_text"+no+"' class='form-control' value='"+row_competition_event_EDate_data+"'>";
+
+ row_competition_mFee.innerHTML="<input type='text' id='row_competition_mFee_text"+no+"' class='form-control' value='"+row_competition_mFee_data+"'>";
+
+ row_competition_nonFee.innerHTML="<input type='text' id='row_competition_nonFee_text"+no+"' class='form-control' value='"+row_competition_nonFee_data+"'>";
+
+}
+function save_competition_row(no)
+{
+ var row_competition_event_SDate_val=document.getElementById("row_competition_event_SDate_text"+no).value;
+ var row_competition_event_EDate_val=document.getElementById("row_competition_event_EDate_text"+no).value;
+var row_competition_mFee_val=document.getElementById("row_competition_mFee_text"+no).value;
+var row_competition_nonFee_val=document.getElementById("row_competition_nonFee_text"+no).value;
+
+ let _token   = $('meta[name="csrf-token"]').attr('content');
+
+$.ajax({
+        url: "/admin/UpdateCompetition",
+        type:"POST",
+        data:{
+          competition_sdate:row_competition_event_SDate_val,
+          competition_cdate:row_competition_event_EDate_val,
+          competition_fee:row_competition_mFee_val,
+          competition_nonfee:row_competition_nonFee_val,
+          event_competition_id:no,
+          _token: _token
+        },
+        success:function(response){
+          console.log(response);
+          if(response) {
+            window.location.reload();
+            //$("#ajaxform")[0].reset();
+          }
+        },
+       });
+
+}
+function myFunction(id) {
+   if (confirm("Are you Sure you want to delete the competiton for the event?")) {
+        $.ajax({
+            type : 'get',
+            url : '{{URL::to('admin/DeleteEventCompetition')}}',
+            data : {'id':id},
+            success:function(data){
+              window.location.reload();
+          } 
+      });
+
+    } else {
+     
+    }
+}
+function DeleteEvent(id) {
+   if (confirm("Are you Sure you want to delete the event?")) {
+        $.ajax({
+            type : 'get',
+            url : '{{URL::to('admin/eventDelete')}}',
+            data : {'id':id},
+            success:function(data){
+              window.location.reload();
+          } 
+      });
+
+    } else {
+     
+    }
+}
+</script>
+
+
+
+@endsection

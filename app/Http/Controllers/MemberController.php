@@ -52,11 +52,12 @@ class MemberController extends Controller
        $tagDvId = Auth::user()->Member_Id;
 
         $familyMembers = FamilyMember::where('Member_Id',$tagDvId)->get();
+        $familyMember_list = FamilyMember::where('Member_Id',$tagDvId)->get();
         $eventName = $request->eventName;
         $EventCompetition = EventCompetition::where('event_id',$request->eventId)->pluck('competition_id');
         $EventCompetitionAJax = Competition::get();
         $Competition = Competition::whereIn('id',$EventCompetition)->get();
-        return view('user.competition_register',compact('eventName','familyMembers','Competition','EventCompetitionAJax'));
+        return view('user.competition_register',compact('eventName','familyMembers','Competition','EventCompetitionAJax','familyMember_list'));
     }
     public function MemberCompetitionPost(Request $request)
     {

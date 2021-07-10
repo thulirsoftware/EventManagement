@@ -12,7 +12,6 @@ use Storage;
 use DB;
 use Carbon\Carbon;
 use App\EventCompetition;
-
 class EventController extends Controller
 {
     public function __construct()
@@ -271,7 +270,56 @@ class EventController extends Controller
         return view('admin.event.manageEvent',compact('events'));
     }
 
-    
+    public function eventTickets($id)
+    {
+        $eventTicket = EventEntryTickets::where('eventId',$id)->get();
+        $eventFoodTicket = EventTicket::where('eventId',$id)->get();
+        $EventCompetition = EventCompetition::where('event_id',$id)->pluck('competition_id');
+        $Competition = Competition::whereIn('id',$EventCompetition)->get();
+        $events = Event::where('id',$id)->first();
+                $event = Event::where('id',$id)->first();
+
+         return view('admin.event.tickets',compact('eventFoodTicket','eventTicket','Competition','events','event'));
+    }
+
+    public function UpdateEventFoodTicket(Request $request)
+    {
+        $eventTicket = EventTicket::find($request['event_food_id']);
+        $eventTicket->ageGroup = $request['event_age'];
+        $eventTicket->memberType =$request['event_type'];
+        $eventTicket->foodType = $request['event_food'];
+        $eventTicket->ticketPrice = $request['event_price'];
+         $eventTicket->ticketQty = $request['quantity'];
+        $eventTicket->save();
+
+        return response()->json(['success'=>$eventTicket]);
+    }
+    public function UpdateEventEntryTicket(Request $request)
+    {
+         $eventTicket = EventEntryTickets::find($request['event_entry_id']);
+        $eventTicket->ageGroup = $request->event_age;
+        $eventTicket->memberType =$request->event_type;
+        $eventTicket->ticketPrice = $request->event_price;
+        $eventTicket->save();
+        return response()->json(['success'=>$eventTicket]);
+    }
+
+     public function UpdateCompetition(Request $request)
+    {
+        $Competition = Competition::find($request->event_competition_id);
+        $Competition->starting_date = $request->competition_sdate;
+        $Competition->member_fee = $request->competition_fee;
+        $Competition->non_member_fee = $request->competition_nonfee;
+        $Competition->closing_date = $request->competition_cdate;
+        $Competition->save();
+        return response()->json(['success'=>$Competition]);
+    }
+
+    public function DeleteEventCompetition(Request $request)
+    {
+        $EventCompetition = EventCompetition::where('competition_id',$request->id)->delete();
+        return response()->json(['success'=>$EventCompetition]);
+    }
 
     public function editEventTicket($id)
     {   

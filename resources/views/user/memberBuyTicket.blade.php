@@ -196,7 +196,6 @@
 <script type="text/javascript">
     function Submitform() 
     {
-        console.log("call");
      
             var checkBox = document.getElementById('competitionYes');
             if (checkBox.checked == true) 
@@ -204,8 +203,6 @@
                 let url ="{{ route('member.competition')}}";
                 document.getElementById("regForm").action = url;
                   document.getElementById("myBtn").type = "submit"; 
-                    document.getElementById("regForm").submit();
-                    return false;
 
             } 
             else 

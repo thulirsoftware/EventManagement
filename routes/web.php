@@ -118,11 +118,16 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
 
   Route::get('/manageEvent', 'EventController@manageEvent');
   Route::get('/eventEdit/{id}', 'EventController@eventEdit');
+    Route::get('/eventTickets/{id}', 'EventController@eventTickets');
+
   Route::post('/eventUpdate','EventController@eventUpdate');
   Route::get('/eventDelete', 'EventController@eventDelete');
   Route::get('/editEventTicket/{id}','EventController@editEventTicket');
-  Route::post('/UpdateEventEntryTicket','EventController@addEventEntryTicketUpdate');
+  Route::post('/UpdateEventEntryTicket','EventController@UpdateEventEntryTicket');
+  Route::post('/UpdateEventFoodTicket','EventController@UpdateEventFoodTicket');
+  Route::post('/UpdateCompetition','EventController@UpdateCompetition');
 
+  Route::get('/DeleteEventCompetition','EventController@DeleteEventCompetition');
 
   Route::get('/memberDetails','AdminController@memberDetails')->name('admin.members');
 

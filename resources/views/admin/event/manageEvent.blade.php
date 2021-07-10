@@ -22,7 +22,7 @@
 {{Session::get('success')}}
 </div>
 @endif
-                <table class="table table-condensed" style="background-color:white;box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);">
+                <table class="table table-condensed" style="background-color:white;box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2)">
                   <thead>
                     <tr>
                       <th>SI.No</th>
@@ -31,9 +31,8 @@
                       <th>Date</th>
                       <th>Time</th>
                       <th>Location</th>
-                      <th>E.Tickets</th>
-                      <th>F.Tickets</th>
-                      <th colspan="2">Action</th>
+                   
+                      <th colspan="2" style="text-align:center">Action</th>
                     </tr>
                   </thead>
                   <tbody> 
@@ -53,13 +52,10 @@
                           <td>{{ $event['eventDate'] }}</td>
                           <td>{{ $event['eventTime'] }}</td>
                           <td>{{ $event['eventLocation'] }}</td>
-                          
-                          <td><a href="/admin/editEventEntryTicket/{{ $event['id'] }}" ><i class="fa fa-eye fa-lg" style="text-align:center;"></i></a></td>
-
-                          <td><a href="/admin/editEventTicket/{{ $event['id'] }}" ><i class="fa fa-eye fa-lg" style="text-align:center;"></i></a></td>
-                          <td><a href="/admin/eventEdit/{{ $event['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:center;"></i></a></td>
-                          <td><a onclick="myFunction({{$event['id']}})" style="text-align:center;color: #0069d9;cursor:pointer"
-                            ><i class="fa fa-trash fa-lg" style="text-align:center;"></i></a></td>
+                          <td><a href="/admin/eventTickets/{{ $event['id'] }}" class="btn btn-success btn-sm"><i class="fa fa-eye" style="text-align:center;"></i>&nbsp;</a></td>
+                          <td><a onclick="myFunction({{$event['id']}})"  class="btn btn-warning btn-sm"> <i class="fa fa-trash" style="text-align:center;"></i></a></td>
+                        
+                         
                           
 
                         </tr>
