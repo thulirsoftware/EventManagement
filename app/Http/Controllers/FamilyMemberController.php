@@ -53,7 +53,6 @@ class FamilyMemberController extends Controller
     {
         $family = FamilyMember::find($request->id);
 
-            $family->Member_Id = $request->tagDvId;
             $family->firstName = $request->firstName;
             $family->lastName = $request->lastName;
             $family->relationshipType = $request->relationshipType;

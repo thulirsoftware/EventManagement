@@ -27,7 +27,10 @@
 		{{Session::get('success')}}
 		</div>
 		@endif
-		@foreach($events as $event)
+		@if($events->count()<=0)
+   <div class="alert alert-warning">No New Events</div>
+@else
+    	@foreach($events as $event)
 					<?php
                        $string = str_replace(" ","\r\n",$event['eventName']);
                        ;
@@ -47,7 +50,10 @@
 		</div>
 		@endforeach
 	</div>
+@endif
+	
 	</div>
 </div>
-
+</section>
+</div>
 @endsection

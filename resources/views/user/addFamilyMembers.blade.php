@@ -49,32 +49,23 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="relationshipType" placeholder="Relationship" name="relationshipType" required="">
+                        <select class="form-control" name="relationshipType" required="">
+                            <option value="">Select Relationship</option>
+                             <option value="Spouse">Spouse</option>
+                            <option value="Daughter">Daughter</option>
+
+                            <option value="Son">Son</option>
+                        </select>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label class="control-label" for="phoneNo">Phone No:&nbsp;<span style="color:red">*</span></label>
+                        <label class="control-label" for="phoneNo">Phone No:</label>
                         <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phoneNo" >
                     </div>
-                    <?php
-                        $date =  Carbon\Carbon::now()->subYears(1);
-                        $dates = $date->toDateString();
-                    ?>
-                    <div class="col-md-6 form-group">
-                        <label class="control-label" for="dobDate">DOB &nbsp;<span style="color:red">*</span></label>
-                        <input type="date" class="form-control"  name="dob" max="{{$dates}}" required>
                    
-                    </div>
-                     <div class="col-md-6 form-group">
-                        <label class="control-label" for="schoolName">School Name </label>
-                        <input type="text" class="form-control" id="schoolName" placeholder="Enter School Name" name="schoolName" >
                    
-                    </div>
                    
                 </div> 
-                 <?php 
-                      $schools = App\School::pluck('name');
-                  ?>
-                                   
+                            
                 <div style="max-width: 200px; margin: auto;">
                         <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="/familyMembers" class="btn btn-warning">Cancel</a>

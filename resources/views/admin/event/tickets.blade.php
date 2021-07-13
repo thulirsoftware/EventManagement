@@ -48,15 +48,7 @@
           <label class="names">Event Name&nbsp;<span style="color:red">*</span></label>
             <input type="text" class="form-control"  name="eventName" value="{{ $event['eventName'] }}" required="">
         </div>
-
-
-        <div class="col-md-6 form-group ">
-          <label class="names">Event Description&nbsp;<span style="color:red">*</span></label>
-          <input type="text" class="form-control" name="eventDescription" id="comment" value="{{ $event['eventDescription'] }}" required="">
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-md-6">
+<div class="form-group col-md-6">
           <div class="form-group">
                     <label for="exampleInputFile">Event Picture</label>
                     <div class="input-group">
@@ -72,34 +64,25 @@
           <div id="editor"></div>
         </div>
 
-
-        <div class="col-md-6 form-group ">
+        
+      </div>
+      
+      <div class="row">
+      <div class="col-md-4 form-group ">
           <label class="names">Venue&nbsp;<span style="color:red">*</span></label>
           <input class="form-control" type="text" name="eventLocation" value="{{ $event['eventLocation'] }}" required="">
         </div>
-      </div>
-      <div class="row">
-      
 
-        <div class="col-md-6 form-group ">
+        <div class="col-md-4 form-group ">
           <label class="names">Date&nbsp;<span style="color:red">*</span></label>
           <input class="form-control" type="date" name="eventDate" value="{{ $event['eventDate'] }}" required="">
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
           <label class="names">Time&nbsp;<span style="color:red">*</span></label>
             <input class="form-control" type="time" name="eventTime" value="{{ $event['eventTime'] }}">
         </div>
       </div>
-      <div class="row">
-          <div class="form-group col-md-6">
-          <label class="names">Location Link</label>
-            <input class="form-control" type="text" name="eventLocationLink" value="{{ $event['eventLocationLink'] }}">
-        </div>
-
-
-
-       
-      </div>
+     
     
 
       
@@ -255,7 +238,7 @@
                                <table class="table">
     <thead>
       <tr>
-        <th style="font-weight:normal">Event Name</th>
+        <th style="font-weight:normal">Competition Name</th>
         <th style="font-weight:normal">Member Fees </th>
         <th style="font-weight:normal">Non Member Fees</th>
         <th style="font-weight:normal"  colspan="2">Actions</th>
@@ -269,7 +252,7 @@
          $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->first();
       ?>
           <tr id="row_competition_{{ $Competition['id'] }}">
-           <td>{{$events->eventName}}</td>
+           <td>{{$Competition->name}}</td>
             <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $EventCompetition['member_fee'] }}</td>
             <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $EventCompetition['non_member_fee'] }}</td>
 

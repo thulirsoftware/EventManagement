@@ -27,10 +27,9 @@
                     <tr>
                       <th>SI.No</th>
                       <th>Event Name</th>
-                      <th>Description</th>
                       <th>Date</th>
                       <th>Time</th>
-                      <th>Location</th>
+                      <th>Venue</th>
                    
                       <th colspan="2" style="text-align:center">Action</th>
                     </tr>
@@ -42,13 +41,11 @@
                        $string = str_replace(" ","\r\n",$event['eventName']);
                        ;
                         $newtext = wordwrap($event['eventName'], 20, "\n");
-                        $eventDescription = wordwrap($event['eventDescription'], 20, "\n");
                       ?>
                         <tr>
                          
                           <td>{{ $i++ }}</td>
                           <td>{!! nl2br(e($newtext)) !!}</td>
-                          <td>{!! nl2br(e($eventDescription)) !!}</td>
                           <td>{{ $event['eventDate'] }}</td>
                           <td>{{ $event['eventTime'] }}</td>
                           <td>{{ $event['eventLocation'] }}</td>

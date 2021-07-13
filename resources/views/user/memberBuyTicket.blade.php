@@ -35,8 +35,11 @@
                 $tickets = count($memberTickets);
                 $Entrytickets = count($memberEventTickets);
                 $user = Auth::user()->email;
-                $member = App\Member::where('Email_Id',$user)->get();
-                $memberDetails = $member[0];
+                $memberDetails = App\Member::where('Email_Id',$user)->first();
+                if($memberDetails==null)
+                {
+                $memberDetails = App\NonMember::where('Email_Id',$user)->first();
+                }
                 ?>
             <input type="hidden" name="eventId" value="{{ $id}}">
             <input type="hidden" name="eventName" value="{{ $events['eventName'] }}">

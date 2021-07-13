@@ -30,7 +30,9 @@ class MemberController extends Controller
     {
         
         $toDay =Carbon::now()->toDateString();
-        $events = Event::where('eventDate','>=',$toDay)->get();
+        $EventCompetition = CompetitionRegistered::pluck('event_id');
+
+        $events = Event::whereNotIn('id',$EventCompetition)->where('eventDate','>=',$toDay)->get();
        
         return view('user.memberTickets',compact('events'));
     }
@@ -104,7 +106,7 @@ class MemberController extends Controller
         $Competition = Competition::whereIn('id',$EventCompetition)->get();
         $MembersAjax = Member::get();
         $familyMembersAjax = FamilyMember::get();
-        return view('user.competition_register',compact('eventName','familyMembers','Competition','EventCompetitionAJax','familyMember_list','MembersAjax','familyMembersAjax'));
+        return view('user.competition_register',compact('familyMembers','Competition','EventCompetitionAJax','familyMember_list','MembersAjax','familyMembersAjax'));
     }
     public function MemberCompetitionPost(Request $request)
     {
@@ -229,7 +231,6 @@ class MemberController extends Controller
         $TicketPurchase->email = $request['email'];
         $TicketPurchase->eventId = $request['eventId'];
         $TicketPurchase->eventName = $request['eventName'];
-        $TicketPurchase->memberType = $request['memberType'];
         $TicketPurchase->totalAmount = $totalAmount;
         $TicketPurchase->save();
         if(isset($request['EntryTicketId']))

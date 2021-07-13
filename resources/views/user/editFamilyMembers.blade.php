@@ -50,22 +50,19 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="relationshipType" placeholder="Enter Name" name="relationshipType" value="{{ $family['relationshipType']}}" required="">
+                        <select class="form-control" name="relationshipType" required="">
+                            <option value="">Select Relationship</option>
+                             <option value="Spouse" @if( $family['relationshipType']== "Spouse") selected @endif>Spouse</option>
+                            <option value="Daughter" @if( $family['relationshipType'] == "Daughter") selected @endif>Daughter</option>
+
+                            <option value="Son" @if( $family['relationshipType'] == "Son") selected @endif>Son</option>
+                        </select>
                     </div>
                     <div class="col-md-6 form-group">
-                        <label class="control-label" for="phoneNo">Phone No:&nbsp;<span style="color:red">*</span></label>
+                        <label class="control-label" for="phoneNo">Phone No:</label>
                         <input type="text" class="form-control" id="EditphoneNo" maxlength="10" placeholder="Enter Name" name="phoneNo" value="{{ $family['phoneNo']}}">
                     </div>
-                    <div class="col-md-6 form-group">
-                        <label class="control-label" for="dob">DOB </label>
-                        <input type="date" class="form-control"  name="dob" >
-                   
-                    </div>
-                     <div class="col-md-6 form-group">
-                        <label class="control-label" for="dobDate">School Name </label>
-                        <input type="text" class="form-control"  name="schoolName" value="{{$family['schoolName']}}">
-                   
-                    </div>
+                    
 
                     
                 </div> 

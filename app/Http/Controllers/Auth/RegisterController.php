@@ -82,21 +82,14 @@ class RegisterController extends Controller
         }
         
 
-        $member = NonMember::create([
-            'firstName' => $request['name'],
-            'lastName' => $request['lastName'],
-            'Email_Id' => $request['email'], 
-            'mobile_number' => $request['phoneNo1'], 
-            'user_id' => $user[0]['id'],            
-        ]);
-
+      
  
 
    
 
 
 
-        $user = User::create([
+        $users = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'user_type' => "user", 
@@ -104,6 +97,15 @@ class RegisterController extends Controller
             'password' => bcrypt($request['password']),
             'token' => str_random(25),
         ]);
+       $users = User::orderby('id','desc')->first();
+       $NonMember = new NonMember();
+       $NonMember->firstName = $request['name'];
+       $NonMember->lastName =$request['lastName'];
+       $NonMember->Email_Id = $request['email'];
+       $NonMember->mobile_number =$request['phoneNo1'];
+       $NonMember->user_id =$users->id;
+       $NonMember->save();
+         
          return redirect('/')->withSuccess('Registered Successfully');
 
         //$user->notify(new VerifyEmail($user));

@@ -32,8 +32,6 @@
       <th>Last Name</th>
       <th>Relationship</th>
       <th>Phone No</th>
-      <th>DOB</th>
-      <th>School Name</th>
             <th>Edit</th>
             <th>Delete</th>
      </thead>
@@ -46,8 +44,6 @@
             <td>{{ $family['lastName'] }}</td>
             <td>{{ $family['relationshipType'] }}</td>
             <td>{{ $family['phoneNo'] }}</td>
-            <td>{{ $family['dob'] }}</td>
-            <td>{{ $family['schoolName'] }}</td>
             <td><a href="/familyEdit/{{ $family['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
             <td><a href="/familyDelete/{{ $family['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
           </tr>

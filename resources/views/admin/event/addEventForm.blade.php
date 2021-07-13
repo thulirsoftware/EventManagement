@@ -43,15 +43,7 @@
       		<label class="names">Event Name&nbsp;<span style="color:red">*</span></label>
           	<input type="text" class="form-control"  name="eventName" required="">
       	</div>
-
-
-      	<div class="col-md-6 form-group ">
-      		<label class="names">Event Description&nbsp;<span style="color:red">*</span></label>
-          <input type="text" class="form-control"  name="eventDescription" required="">
-      	</div>
-      </div>
-      <div class="row">
-        <div class="form-group col-md-6">
+<div class="form-group col-md-6">
           <div class="form-group">
                     <label for="exampleInputFile">Event Picture</label>
                     <div class="input-group">
@@ -59,38 +51,32 @@
                         <input type="file" class="custom-file-input" name="eventFlyer" id="exampleInputFile" onchange="showname()">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="">Upload</span>
-                      </div>
+                      
                     </div>
                   </div>
                   <div id="editor"></div>
           
         </div>
 
-
-        <div class="col-md-6 form-group ">
+      	
+      </div>
+     
+      <div class="row">
+        <div class="col-md-4 form-group ">
           <label class="names">Venue&nbsp;<span style="color:red">*</span></label>
           <input class="form-control" type="text" name="eventLocation" required="">
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 form-group ">
+        <div class="col-md-4 form-group ">
           <label class="names">Date&nbsp;<span style="color:red">*</span></label>
           <input class="form-control" type="date" name="eventDate" id="eventDate" required="">
         </div>
- <div class="form-group col-md-6">
+ <div class="form-group col-md-4">
           <label class="names">Time&nbsp;<span style="color:red">*</span></label>
             <input class="form-control" type="time" name="eventTime" id="eventTime">
         </div>
 
       </div>
-      <div class="row">
-       <div class="form-group col-md-6">
-          <label class="names">Location Link</label>
-            <input class="form-control" type="text" name="eventLocationLink">
-        </div>
-      </div>
+      
       <div class="row">
         <div class="col-md-12"> 
           <!-- radio -->
@@ -115,32 +101,33 @@
           <div class="row">
 
 
-        <div class="col-md-6 form-group ">
+        <div class="col-md-4 form-group ">
           <label class="names">Age Group</label>
-          <select class="form-control" name="ageGroup" id="sel1">
+          <select class="form-control" name="ageGroup[]" id="sel1">
             <option value="">Select</option>
             <option value="kids">Kids</option>
             <option value="Adult">Adult</option>
           </select>
         </div>
-         <div class="col-md-6 form-group ">
+         <div class="col-md-4 form-group ">
           <label class="names">Member</label>
-          <select class="form-control" name="memberType" id="sel1">
+          <select class="form-control" name="memberType[]" id="sel1">
             <option value="">Select</option>
             <option value="Member">Member</option>
              <option value="NonMember">NonMember</option>
           </select>
         </div>
-         <div class="col-md-6 form-group ">
-          <label class="number_of_tickets">Number of Tickets:</label>
-          <input class="form-control" type="number" name="number_of_tickets" id="sel1" >
-        </div>
-         <div class="col-md-6 form-group ">
+         <div class="col-md-3 form-group ">
           <label class="names">Price ($):</label>
-          <input class="form-control" type="text" name="ticketPrice" id="sel1" >
+          <input class="form-control" type="text" name="ticketPrice[]" id="sel1" >
         </div>
+        <div class="col-md-1 " style="padding-top:5px"><br>
+          <button type="button" onclick="AddEntryTicket()" id="sel1" class="btn btn-warning">Add</button>
+        </div>
+         
 
       </div>
+      <div id="link-list"></div>
         
     </div>
   </div>
@@ -175,10 +162,7 @@
             <option value="no-food">No Food</option>
           </select>
         </div>
-        <div class="col-md-6 form-group ">
-          <label class="Food_number_of_tickets">Number of Tickets:</label>
-          <input class="form-control" type="number" name="Food_number_of_tickets" id="sel1" >
-        </div>
+       
          <div class="col-md-6 form-group ">
           <label class="names">Price</label>
           <input class="form-control" type="text" name="FoodticketPrice" id="sel1" >
@@ -256,6 +240,18 @@ function getFoodforms() {
   }
 }
 </script>
-
+<script>
+   var j=1;
+  function AddEntryTicket()
+  {
+    j++;
+    $('<div id="row'+j+'" class="row" >'+'<div class="col-md-4 form-group">'+'<select class ="form-control" name="ageGroup[]" ><option value="">Select</option><option value="kids">Kids</option><option value="Adult">Adult</option></select>'+'</div>'+'<div class="col-md-4 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-3 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="sel1" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+  }
+    $(document).on('click', '.spf_btn_remove', function(){  
+ var button_idspf = $(this).attr("id");   
+   $('#row'+button_idspf+'').remove();  
+   $(this).hide();
+ });
+</script>
 
 @endsection
