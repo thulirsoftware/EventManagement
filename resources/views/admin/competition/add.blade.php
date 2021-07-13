@@ -33,19 +33,15 @@
                     <label for="Name">Name :</label>
                       <input type="text" class="form-control" id="Name" placeholder="Enter Competition Name" name="Name" required>
                     </div>
-                    <div class="col-md-6 form-group">
-                    <label for="Description">Member Fees :</label>
-                      <input type="text" class="form-control" id="member_fee" placeholder="Enter Member Fee" name="member_fee" required>
-                    </div>
-                     <div class="col-md-6 form-group">
-                    <label for="Description">Non Member Fees :</label>
-                      <input type="text" class="form-control" id="non_member_fee" placeholder="Enter Non Member Fee" name="non_member_fee" required>
-                    </div>
+                   
                   <div class="col-md-6 form-group">
                     <label for="Description">Age Limit :</label>
                       <input type="text" class="form-control" id="age_limit" placeholder="Enter Age Limit" name="age_limit" required>
                     </div>                  
-                  
+                   <div class="col-md-6 form-group">
+                    <label for="Description">Starting Date:</label>
+                      <input type="date" class="form-control" id="Date" placeholder="Enter Starting Date" name="starting_date" required>
+                    </div>
                     <div class="col-md-6 form-group">
                     <label for="Description">Closing Date:</label>
                       <input type="date" class="form-control" id="closing_date" placeholder="Enter Closing Date" name="closing_date" required>

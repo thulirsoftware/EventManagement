@@ -12,6 +12,7 @@ use Storage;
 use DB;
 use Carbon\Carbon;
 use App\EventCompetition;
+use Session;
 class EventController extends Controller
 {
     public function __construct()
@@ -20,6 +21,8 @@ class EventController extends Controller
     }
     public function addEvent()
     {
+                Session::forget('competitionCheck');
+
         $toDay = Carbon::now()->toDateString();
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
         $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
@@ -28,7 +31,16 @@ class EventController extends Controller
     }
 
     public function addEventPost(Request $request)
-    {  
+    { 
+        if($request->has('competitionCheck'))
+        {
+            Session::put('competitionCheck',$request->all());
+             $data = Session::get('competitionCheck');
+            return redirect('/admin/addEventcompetitions');
+            
+        }
+        else
+        {
             if ($request->hasFile('eventFlyer')){  
                  
              $file = $request->file('eventFlyer');
@@ -41,10 +53,8 @@ class EventController extends Controller
              
              $uplaod = $file->move($path,$fileName);
              
-             }       
-       
-
-        $event = new Event;
+             }   
+              $event = new Event;
         $event->eventName = $request->eventName;
         $event->eventDescription = $request->eventDescription;
 
@@ -83,8 +93,80 @@ class EventController extends Controller
             if($request->FoodticketPrice!=null)
             {
                 $eventTicket->save();
+            }    
+        }
+                
+
+         
+        }
+        return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
+    }
+
+    public function addEventCompetitions()
+    {
+        $toDay = Carbon::now()->toDateString();
+        $Competition=Competition::where('closing_date','>=',$toDay)->get();
+        $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
+        $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
+       return view('admin.event.competition_add',compact('CompetitionModal','CompetitionAjax','Competition'));
+    }
+    public function addEventcompetitionsSave(Request $request)
+    {
+       $data = Session::get('competitionCheck');
+      // dd($data['eventDescription']);
+       $event = new Event;
+        $event->eventName = $data['eventName'];
+        $event->eventDescription = $data['eventDescription'];
+       if (isset($data['eventFlyer'])){  
+                 
+             $file = $data->file('eventFlyer');
+             
+             $extension = $file->getClientOriginalExtension(); 
+             
+             $fileName = time().'.'.$extension;
+             
+             $path = public_path().'/events';
+             
+             $uplaod = $file->move($path,$fileName);
+                $event->eventFlyer = $fileName;
+        
+             
+             }   
+              
+
+        
+
+        $event->eventDate = $data['eventDate'];
+        $event->eventTime = $data['eventTime'];
+        $event->eventLocation = $data['eventLocation'];
+        $event->eventLocationLink = $data['eventLocationLink'];
+
+        if($event->save())
+        {
+            $EventEntryTickets = new EventEntryTickets();
+            $EventEntryTickets->eventId = $event->id;
+            $EventEntryTickets->ageGroup = $data['ageGroup'];
+            $EventEntryTickets->memberType =$data['memberType'];
+            $EventEntryTickets->ticketPrice = $data['ticketPrice'];
+            $EventEntryTickets->ticketQty = $data['number_of_tickets'];
+            if($data['ticketPrice']!=null)
+            {
+                $EventEntryTickets->save();
             }
-            if($request->has('competition_id'))
+
+            $eventTicket = new EventTicket;
+            $eventTicket->eventId = $event->id;
+            $eventTicket->eventName = $event->eventName;
+            $eventTicket->ageGroup = $data['FoodageGroup'];
+            $eventTicket->memberType =$data['FoodmemberType'];
+            $eventTicket->foodType = $data['foodType'];
+            $eventTicket->ticketPrice = $data['FoodticketPrice'];
+            $eventTicket->ticketQty = $data['Food_number_of_tickets'];
+            if($data['FoodticketPrice']!=null)
+            {
+                $eventTicket->save();
+            }  
+              if($request->has('competition_id'))
             {
                 $competition_Count = count($request->competition_id); 
             }
@@ -94,34 +176,22 @@ class EventController extends Controller
             }
             for($i = 0;$i < $competition_Count; $i++)
             {
-                $Competition = Competition::find($request->competition_id[$i]);
-                $Competition->member_fee = $request->member_fee[$i];
-                $Competition->non_member_fee = $request->non_member_fee[$i];
-                $Competition->starting_date = $request->start_date[$i];
-                $Competition->closing_date = $request->closing_date[$i];
-                $Competition->save();
-
+              
                 $EventCompetition = new EventCompetition();
                 $EventCompetition->event_id = $event->id;
                 $EventCompetition->competition_id = $request->competition_id[$i];
+                $EventCompetition->member_fee = $request->member_fee[$i];
+                $EventCompetition->non_member_fee = $request->non_member_fee[$i];
                 $EventCompetition->save();
-            }
-            
-            
-
-         
+            }  
         }
-        return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
+        Session::forget('competitionCheck');
+         return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
     }
 
-    public function addEventEntryTicket()
+    public function addEventEntryTicket($id)
     {
-        $eventId = Event::whereRaw('id = (select max(`id`) from events)')->get();
-        $eventId = $eventId[0];
-
-        $eventTicket = EventEntryTickets::where('eventId',$eventId['id'])->get();
-
-        return view('admin.event.addEventEntryTicket',compact('eventId','eventTicket'));
+        return view('admin.event.addEventEntryTicket',compact('id'));
     }
     public function addEventEntryTicketPost(Request $request)
     {
@@ -131,8 +201,57 @@ class EventController extends Controller
         $eventTicket->memberType =$request->memberType;
         $eventTicket->ticketPrice = $request->ticketPrice;
         $eventTicket->save();
-         return redirect(url('admin/addEventTicket'));
+         return redirect(url('admin/eventTickets/'.$request->eventId));
     }
+
+    public function addEventFoodTicket($id)
+    {
+        return view('admin.event.addEventFoodTicket',compact('id'));
+    }
+    public function addEventFoodTicketPost(Request $request)
+    {
+        $eventTicket = new EventTicket();
+        $eventTicket->eventId = $request->eventId;
+        $eventTicket->ageGroup = $request->FoodageGroup;
+        $eventTicket->memberType =$request->FoodmemberType;
+        $eventTicket->foodType = $request->foodType;
+        $eventTicket->ticketPrice = $request->FoodticketPrice;
+        $eventTicket->ticketQty = $request->FoodticketPrice;
+        $eventTicket->save();
+         return redirect(url('admin/eventTickets/'.$request->eventId))->withSuccess('Food Ticket Added Successfully');
+
+    }
+
+    public function addEventCompetition($id)
+    {
+       $toDay = Carbon::now()->toDateString();
+        $Competition=Competition::where('closing_date','>=',$toDay)->get();
+        $CompetitionAjax=Competition::where('closing_date','>=',$toDay)->get();
+        return view('admin.event.addEventCompetition',compact('id','Competition','CompetitionAjax'));
+    }
+    public function addEventCompetitionPost(Request $request)
+    {
+          if($request->has('competition_id'))
+            {
+                $competition_Count = count($request->competition_id); 
+            }
+            else
+            {
+                 $competition_Count = 0;
+            }
+            for($i = 0;$i < $competition_Count; $i++)
+            {
+                
+                $EventCompetition = new EventCompetition();
+                $EventCompetition->event_id = $request->id;
+                $EventCompetition->competition_id = $request->competition_id[$i];
+                $EventCompetition->member_fee = $request->member_fee[$i];
+                $EventCompetition->non_member_fee = $request->non_member_fee[$i];
+                $EventCompetition->save();
+            }  
+         return redirect(url('admin/eventTickets/'.$request->id))->withSuccess('Food Ticket Added Successfully');
+    }
+
       public function addEventTicketPost(Request $request)
     {   
         $eventTicket = new EventTicket;
@@ -250,8 +369,7 @@ class EventController extends Controller
 
     public function eventTicketDelete($id)
     {
-        $eventTicket = EventTicket::find($id);
-
+        $eventTicket = EventEntryTickets::find($id);
         if($eventTicket->delete()){
 
                      return redirect()->back()->withSuccess('Event Ticket Removed Successfully');
@@ -306,11 +424,9 @@ class EventController extends Controller
 
      public function UpdateCompetition(Request $request)
     {
-        $Competition = Competition::find($request->event_competition_id);
-        $Competition->starting_date = $request->competition_sdate;
+        $Competition = EventCompetition::find($request->event_competition_id);
         $Competition->member_fee = $request->competition_fee;
         $Competition->non_member_fee = $request->competition_nonfee;
-        $Competition->closing_date = $request->competition_cdate;
         $Competition->save();
         return response()->json(['success'=>$Competition]);
     }

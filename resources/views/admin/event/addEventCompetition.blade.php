@@ -25,7 +25,7 @@
         <div class="col-md-1">
       </div>
        <div class="col-md-10">
-        <form method="post" action="{{ url('admin/addEventcompetitionsSave') }}" enctype="multipart/form-data" id="regForm">
+        <form method="post" action="{{ url('admin/Event/addEventCompetitionPost') }}" enctype="multipart/form-data" id="regForm">
 
     {{ csrf_field() }}
         <div class="card">
@@ -37,6 +37,8 @@
 @endif
               <div class="card-header"><center><strong>Add Competition</strong></center></div>
               <div class="card-body">
+                <input type="hidden" name="id" value="{{$id}}">
+
 <div class="row">
     <div class="col-md-3 form-group ">
         <label class="names">Competition</label>
@@ -67,7 +69,6 @@
                         <th>Name</th>
                       <th>Member Fee</th>
                        <th>Non Member Fee</th>
-                       <th>Delete</th>
                        
                     </tr>
                   </thead>
@@ -111,18 +112,11 @@ console.log("id",id);
                 var substateArray =  @json($CompetitionAjax);
                 var filteredArray = substateArray.filter(x => x.id == id);
                 console.log(filteredArray);
-                         markup = "<tr id=row_"+ lineNo +"><td>"+strUser+ "<input type='hidden' name='competition_id[]' value="+ id +"></td><td>"+ member_fee +  "<input type='hidden' name='member_fee[]' value="+ member_fee +"></td><td>"+ non_member_fee + "<input type='hidden' name='non_member_fee[]' value="+ non_member_fee +"></td><td><a  id='row_"+ lineNo +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                         markup = "<tr><td>"+strUser+ "<input type='hidden' name='competition_id[]' value="+ id +"></td><td>"+ member_fee +  "<input type='hidden' name='member_fee[]' value="+ member_fee +"></td><td>"+ non_member_fee + "<input type='hidden' name='non_member_fee[]' value="+ non_member_fee +"></td></tr>";
             
                 tableBody = $("table tbody");
                 tableBody.append(markup);
                 lineNo++;
             });
         }); 
-    </script>
-    <script type="text/javascript">
-        function deleterow(rowId)
-        {
-            console.log(rowId);
-            document.getElementById(rowId).remove();
-        }
     </script>

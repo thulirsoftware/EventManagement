@@ -38,7 +38,6 @@
               <div class="card-header"><center><strong>Add Event</strong></center></div>
               <div class="card-body">
   
-<div class="tab">
       	<div class="row">
         <div class="form-group col-md-6">
       		<label class="names">Event Name&nbsp;<span style="color:red">*</span></label>
@@ -78,7 +77,7 @@
       <div class="row">
         <div class="col-md-6 form-group ">
           <label class="names">Date&nbsp;<span style="color:red">*</span></label>
-          <input class="form-control" type="date" name="eventDate" required="">
+          <input class="form-control" type="date" name="eventDate" id="eventDate" required="">
         </div>
  <div class="form-group col-md-6">
           <label class="names">Time&nbsp;<span style="color:red">*</span></label>
@@ -97,13 +96,15 @@
           <!-- radio -->
                 <!-- checkbox -->
               <div class="form-group">
-                <label class="col-md-4">
-                  <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck">&nbsp;&nbsp;Entry Ticket 
+                <label class="col-md-3">
+                  <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck">&nbsp;&nbsp;Entry Ticket 
                 </label>
-                <label class="col-md-4">
-                  <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck">&nbsp;&nbsp;Food Ticket
+                <label class="col-md-3">
+                  <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck" name="FoodCheck">&nbsp;&nbsp;Food Ticket
                 </label>
-                
+                 <label class="col-md-3">
+                  <input type="checkbox" class="minimal" name="competitionCheck" onclick="getFoodforms()" id="CompetitionCheck">&nbsp;&nbsp;Competition
+                </label>
               </div>
               <div id="EntryDIV" style="display:none">
               <div class="card-header"><center><strong>Add Event Entry Ticket</strong></center></div>
@@ -197,25 +198,7 @@
         <div class="col-md-6">
         
         </div>
-         </div>
-         <!---Competition Add View--->
-          <div class="tab">
-            @include('admin.event.competition_add')
-            <table class="table">
-                  <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Start Date</th>
-                       <th>End Date</th>
-                      <th>Member Fee</th>
-                       <th>Non Member Fee</th>
-                       
-                    </tr>
-                  </thead>
-                  <tbody>  
-                  </tbody>
-              </table>
-          </div>
+         
         <!-- /.col -->
      
 
@@ -228,8 +211,7 @@
       <!-- /.row -->
   <div style="overflow:auto;">
     <div style="float:right;">
-      <button type="button" class="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-      <button type="button" class="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      <button type="submit" class="button nextBtn" id="nextBtn" >Next</button>
     </div>
   </div>
  </div>
@@ -274,113 +256,6 @@ function getFoodforms() {
   }
 }
 </script>
-<script>
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
-
-function showTab(n) {
-  // This function will display the specified tab of the form...
-  var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
-  //... and fix the Previous/Next buttons:
-  if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-  } else {
-    document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
-  }
-  //... and run a function that will display the correct step indicator:
-  fixStepIndicator(n)
-}
-
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  // Hide the current tab:
-   // if (n == 1 && !validateForm()) return false;
-
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
-}
-function validateForm() {
-  // This function deals with validation of the form fields
-  var x, y, i, valid = true;
-  x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false
-      valid = false;
-    }
-  }
-  // If the valid status is true, mark the step as finished and valid:
-  if (valid) {
-    document.getElementsByClassName("step")[currentTab].className += " finish";
-  }
-  return valid; // return the valid status
-}
 
 
-function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
-  var i, x = document.getElementsByClassName("step");
-  for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
-  }
-  //... and adds the "active" class on the current step:
-  x[n].className += " active";
-}
-
-
-
-</script>
-<script>
-        let lineNo = 1;
-
-        $(document).ready(function () {
-            $(".add-row").click(function () {
-                var start_date = document.getElementById("start_date").value;
-                 
-                 console.log(start_date);
-                var closing_date = document.getElementById("closing_date").value;
-                var member_fee = document.getElementById("member_fee").value;
-                var non_member_fee = document.getElementById("non_member_fee").value;
-                 
-                var e = document.getElementById("ddlViewBy");
-var strUser = e.options[e.selectedIndex].text;
-
-console.log("id",strUser);
-var e = document.getElementById("ddlViewBy");
-var id = e.value;
-console.log("id",id);
-
-                var substateArray =  @json($CompetitionAjax);
-                var filteredArray = substateArray.filter(x => x.id == id);
-                console.log(filteredArray);
-                         markup = "<tr><td>"+strUser+"</td><td>"+ start_date + "<input type='hidden' name='competition_id[]' value="+ id +"></td><input type='hidden' name='start_date[]' value="+ start_date +"></td><td>"+ closing_date +  "<input type='hidden' name='closing_date[]' value="+ closing_date +"></td><td>"+ member_fee +  "<input type='hidden' name='member_fee[]' value="+ member_fee +"></td><td>"+ non_member_fee + "<input type='hidden' name='non_member_fee[]' value="+ non_member_fee +"</td></tr>";
-            
-                tableBody = $("table tbody");
-                tableBody.append(markup);
-                lineNo++;
-            });
-        }); 
-    </script>
 @endsection

@@ -38,6 +38,8 @@
                 $member = App\Member::where('Email_Id',$user)->get();
                 $memberDetails = $member[0];
                 ?>
+            <input type="hidden" name="eventId" value="{{ $id}}">
+            <input type="hidden" name="eventName" value="{{ $events['eventName'] }}">
 
           <div class="row">
             <div class="col-md-6 form-group">
@@ -63,9 +65,7 @@
             @if($Entrytickets>0)
            
 
-            <input type="hidden" name="eventId" value="{{ $memberEventTickets[0]['eventId'] }}">
 
-            <input type="hidden" name="eventName" value="{{ $memberEventTickets[0]['eventName'] }}">
             <input type="hidden" name="membershipExpiry" id="membershipExpiry" value="{{ $memberDetails['membershipExpiryDate'] }}">
             <input type="hidden" name="todayDate" id="todayDate" value="{{ $todayDate }}">
             
@@ -112,16 +112,16 @@
 
            <div class="form-group">
                 <label class="col-md-4">
-                  <input type="checkbox" class="minimal" value="yes" id="competitionYes">&nbsp;&nbsp;Yes
+                  <input type="checkbox" name="minimal" value="yes" id="competitionYes" checked>&nbsp;&nbsp;Yes
                 </label>
                 <label class="col-md-4">
-                  <input type="checkbox" class="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
+                  <input type="checkbox" name="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
                 </label>
                 
               </div>
                   <div class="form-group" id="submit">        
                     <center>
-                      <button type="button" onclick="Submitform()" class="btn btn-primary" name="submit" id="myBtn">Register</button>
+                      <button type="submit"   class="btn btn-primary" name="submit" id="myBtn">Register</button>
                       <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
                     </center>
 
@@ -193,34 +193,5 @@
   });
 </script>
 
-<script type="text/javascript">
-    function Submitform() 
-    {
-     
-            var checkBox = document.getElementById('competitionYes');
-            if (checkBox.checked == true) 
-            {
-                let url ="{{ route('member.competition')}}";
-                document.getElementById("regForm").action = url;
-                  document.getElementById("myBtn").type = "submit"; 
 
-            } 
-            else 
-            {
-                var checkBox = document.getElementById('competitionNo');
-                if (checkBox.checked == true)
-                {
-                    document.getElementById("myBtn").type = "submit"; 
-                    document.getElementById("regForm").submit();
-                    return false;
-                }
-                else
-                {
-
-                }
-            }
-         
-            
-    }
-</script>
 @endsection

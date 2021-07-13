@@ -25,13 +25,13 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
            
-          
-            <li class="nav-item">
-                <a href="{{ url('familyMembers') }}" class="nav-link {{ Str::contains($path, ['familyMembers']) ? 'active' : '' }}">
-                <i class="nav-icon fas fa-users"></i>
-                <p> Family Members</p>
+          <li class="nav-item">
+                <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>MemberShip</p>
                 </a>
             </li>
+          
             
             <li class="nav-item">
                 <a href="{{ url('memberTickets') }}" class="nav-link {{ Str::contains($path, ['memberTickets','memberBuyTicket']) ? 'active' : '' }}">
@@ -60,13 +60,13 @@
 
 
            
-            <li class="nav-item">
-                <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
-                <i class="nav-icon fas fa-dollar-sign"></i>
-                <p>MemberShip</p>
+            
+                <li class="nav-item">
+                <a href="{{ url('familyMembers') }}" class="nav-link {{ Str::contains($path, ['familyMembers']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users"></i>
+                <p> Family Members</p>
                 </a>
-            </li>
-                       
+            </li>         
              <li class="nav-item">
                 <a class="nav-link" role="button" 
                 href="{{ route('logout') }}"

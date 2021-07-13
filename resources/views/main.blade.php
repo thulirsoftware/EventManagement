@@ -16,7 +16,7 @@
 	display: flex;
 }
 .company__info{
-	background-color: #008080;
+	background-color: #1f5387;
 	border-top-left-radius: 20px;
 	border-bottom-left-radius: 20px;
 	display: flex;
@@ -41,7 +41,7 @@
 	.main-content{width: 70%;}
 }
 .row > h4{
-	color:#008080;
+	color:#1f5387;
 }
 .login_form{
 	background-color: #fff;
@@ -65,7 +65,7 @@ form{
 	transition: all .5s ease;
 }
 .form__input:focus{
-	border-bottom-color: #008080;
+	border-bottom-color: #1f5387;
 	box-shadow: 0 0 5px rgba(0,80,80,.4); 
 	border-radius: 4px;
 }
@@ -73,15 +73,15 @@ input[type=submit]{
 	transition: all .5s ease;
 	width: 70%;
 	border-radius: 30px;
-	color:#008080;
+	color:#1f5387;
 	font-weight: 600;
 	background-color: #fff;
-	border: 1px solid #008080;
+	border: 1px solid #1f5387;
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
 input[type=submit]:hover, input[type=submit]:focus{
-	background-color: #008080;
+	background-color: #1f5387;
 	color:#fff;
 }
  .field-icon {

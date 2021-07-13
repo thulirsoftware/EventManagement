@@ -1,13 +1,6 @@
 <?php
 Route::get('/','Auth\LoginController@home');
 
-Route::get('/clear', function() {
-    Artisan::call('cache:clear');
-    Artisan::call('config:cache');
-    Artisan::call('view:clear');
-    return "Cache is cleared";
-});
-
 Auth::routes();
 
 Route::post('/member_register', 'Auth\RegisterController@create')->name('member.register');
@@ -45,11 +38,13 @@ Route::get('add/familyMembers','FamilyMemberController@ShowFamilyMembers');
 Route::get('/memberTickets','MemberController@memberTickets')->name('member.tickets');
 Route::get('/memberBuyTicket/{id}','MemberController@memberBuyTicket');
 Route::post('/memberBuyTicketPost', 'MemberController@memberBuyTicketPost');
+Route::post('/memberAddCompetition', 'MemberController@memberAddCompetition');
+Route::get('/memberAddCompetition/{id}', 'MemberController@memberAddCompetition');
+
 Route::get('/memberTicketView','MemberController@memberTicketView');
 Route::post('memberPaymentCreate', 'MemberController@memberTicketAmountPay')->name('memberPaymentCreate');
 Route::post('memberEventPaymentCreate', 'PaymentController@memberEventPaymentCreate')->name('memberEventPaymentCreate');
 Route::get('memberEventPaymentExecute','PaymentController@memberEventPaymentExecute');
-Route::post('/MemberCompetition','MemberController@MemberCompetition')->name('member.competition');
 Route::post('/MemberCompetitionPost','MemberController@MemberCompetitionPost')->name('member.competition.save');
 
 
@@ -107,14 +102,23 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
 
   Route::get('/addEvent', 'EventController@addEvent');
   Route::post('/addEvent', 'EventController@addEventPost');
+  Route::get('/addEventcompetitions', 'EventController@addEventcompetitions');
+  Route::post('/addEventcompetitionsSave', 'EventController@addEventcompetitionsSave');
+
   Route::get('/addEventTicket','EventController@addEventTicket');
   Route::post('/addEventTicket', 'EventController@addEventTicketPost');
   Route::get('/eventTicketDelete/{id}','EventController@eventTicketDelete');
 
-  Route::get('/addEventEntryTicket', 'EventController@addEventEntryTicket');
-  Route::post('/addEventEntryTicket', 'EventController@addEventEntryTicketPost');
+  Route::get('/Event/addEventEntryTicket/{id}', 'EventController@addEventEntryTicket');
+  Route::post('/Event/addEventEntryTicketPost', 'EventController@addEventEntryTicketPost');
+
   Route::get('/editEventEntryTicket/{id}','EventController@editEventEntryTicket');
 
+  Route::get('/Event/addEventFoodTicket/{id}', 'EventController@addEventFoodTicket');
+  Route::post('/Event/addEventFoodTicketPost', 'EventController@addEventFoodTicketPost');
+
+  Route::get('/Event/addCompetition/{id}', 'EventController@addEventCompetition');
+  Route::post('/Event/addEventCompetitionPost', 'EventController@addEventCompetitionPost');
 
   Route::get('/manageEvent', 'EventController@manageEvent');
   Route::get('/eventEdit/{id}', 'EventController@eventEdit');

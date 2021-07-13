@@ -28,8 +28,6 @@
                     <tr>
                        <th>S.No</th>
                       <th>Name</th>
-                      <th>Member Fee</th>
-                       <th>Non Member Fee</th>
                       <th>Awards</th>
                       <th>Age Limit</th>
                       <th>Edit</th>
@@ -44,8 +42,6 @@
                         <tr>
                           <td>{{ $i+1 }}</td>
                          <td>{!! nl2br(e($name)) !!}</td>
-                          <td>{{ $competition['member_fee'] }}</td>
-                          <td>{{ $competition['non_member_fee'] }}</td>
                           <td>{!! nl2br(e($awards)) !!}</td>
                           <td>{{ $competition['age_limit'] }}</td>
                            <td><a href="{{ route('admin.competition.edit', ['id' => $competition['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>

@@ -169,11 +169,11 @@ background-color: #fff;
   background-color: #1f5387;
   color: #ffffff;
   border: none;
-  padding: 7px 10px;
+  padding: 7px 90px;
   font-size: 17px;
   font-family: Raleway;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 5px;
 }
 
 .button1:hover {

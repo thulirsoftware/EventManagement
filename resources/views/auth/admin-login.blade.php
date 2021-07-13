@@ -15,19 +15,19 @@
 </nav> <br>
       <body style="background-color:#f4f6f9">
 <!-- Main Content -->
-	<div class="container-fluid">
-		<div class="main-content bg-success text-center">
-			<div class="col-md-4 text-center company__info">
-			    <h4 class="company_title">சிகாகோ தமிழ் சங்கம்</h4>
-				<span class="company__logo"><h2><img src="../../assets/img/thiruvalluvar.webp" width="120px" height="120px"></h2></span>
-				
-			</div>
-			<div class="col-md-8 col-xs-12 col-sm-12 login_form ">
-				<div class="container-fluid"><br>
-					<div class="row">
-						<h4>ADMIN LOGIN</h4>
-					</div>
-					 @if(isset(Auth::user()->email))
+  <div class="container-fluid">
+    <div class="main-content bg-success text-center">
+      <div class="col-md-4 text-center company__info">
+          <h4 class="company_title">தமிழ் சங்கம்</h4>
+        <span class="company__logo"><h2><img src="../../assets/img/thiruvalluvar.webp" width="120px" height="120px"></h2></span>
+        
+      </div>
+      <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+        <div class="container-fluid"><br>
+          <div class="row">
+            <h4>ADMIN LOGIN</h4>
+          </div>
+           @if(isset(Auth::user()->email))
                           <script>window.location="/main/dashboard"</script>
                         @endif
                          @if($message = Session::get('error'))
@@ -51,18 +51,18 @@
 {{Session::get('success')}}
 </div>
 @endif
-					<div class="row">
-					 <form id="form-validation" name="form-validation" method="POST" action="{{ route('admin.login.submit') }}">
-					     @csrf
-							<div class="row">
-							 <input id="validation-email"
+          <div class="row">
+           <form id="form-validation" name="form-validation" method="POST" action="{{ route('admin.login.submit') }}">
+               @csrf
+              <div class="row">
+               <input id="validation-email"
                                        class="form__input"
                                        placeholder="Email"
                                        name="email"
                                        type="email"
                                       required>
-							</div>
-							<div class="row">
+              </div>
+              <div class="row">
                                  <input id="validation-password"
                                        class="form__input password"
                                        name="password"
@@ -71,17 +71,17 @@
                                        required>
                                         <span toggle="#validation-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             </div>
-							<div class="row">
-								<input type="submit" value="Submit" class="btn btn-back">
-							</div><br>
-						</form>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Footer -->
+              <div class="row">
+                <input type="submit" value="Submit" class="btn btn-back">
+              </div><br>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
    <script>
     $(".toggle-password").click(function() {
 console.log("click");

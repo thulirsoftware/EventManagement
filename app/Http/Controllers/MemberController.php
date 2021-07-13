@@ -43,21 +43,68 @@ class MemberController extends Controller
         $member = Auth::user()->email;
         $user = Member::where('Email_Id',$member)->get();
         $todayDate =Carbon::now()->toDateString();
-        return view('user.memberBuyTicket',compact('memberTickets','user','todayDate','memberEventTickets','events'));
+        return view('user.memberBuyTicket',compact('memberTickets','user','todayDate','memberEventTickets','events','id'));
     }
-    public function MemberCompetition(Request $request)
+    
+
+    public function memberBuyTicketPost(Request $request)
     {
-       $allData = $request->all();
+       if($request->minimal=="no")
+       {
+        if($request->has('FoodticketType'))
+        {
+            $foodticketCount = count($request->FoodticketType); 
+        }
+        else
+        {
+             $foodticketCount = 0;
+        }
+        if($request->has('ticketType'))
+        {
+            $ticketCount = count($request->ticketType); 
+        }
+        else
+        {
+             $ticketCount = 0;
+        }
+       
+        $totalAmount = 0;
+        $FoodAmount = 0;
+        $EntryTicketAmounts =0;
+        $allData = $request->all();
         Session::put('TicketStore', $allData);
+        for($i=0; $i<$ticketCount; $i++){
+        $EntryTicketAmounts += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
+        }
+        for($i=0; $i<$foodticketCount; $i++){
+        $FoodAmount += (intval($allData['FoodticketQty'][$i])) * (intval($allData['FoodticketPrice'][$i])); 
+        }
+         $totalAmount = $EntryTicketAmounts+$FoodAmount;
+        $eventName = $request->eventName;
+        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount'));
+    }
+    else
+    {
+        $allData = $request->all();
+        Session::put('TicketStore', $allData);
+        $events = Event::where('id', $request->eventId)->first();
+        Session::put('Events', $events);
+        return redirect('/memberAddCompetition/'.$request->eventId);
+
+    }
+    }
+    public function memberAddCompetition($id)
+    {
        $tagDvId = Auth::user()->Member_Id;
 
         $familyMembers = FamilyMember::where('Member_Id',$tagDvId)->get();
         $familyMember_list = FamilyMember::where('Member_Id',$tagDvId)->get();
-        $eventName = $request->eventName;
-        $EventCompetition = EventCompetition::where('event_id',$request->eventId)->pluck('competition_id');
+        $EventCompetition = EventCompetition::where('event_id',$id)->pluck('competition_id');
         $EventCompetitionAJax = Competition::get();
         $Competition = Competition::whereIn('id',$EventCompetition)->get();
-        return view('user.competition_register',compact('eventName','familyMembers','Competition','EventCompetitionAJax','familyMember_list'));
+        $MembersAjax = Member::get();
+        $familyMembersAjax = FamilyMember::get();
+        return view('user.competition_register',compact('eventName','familyMembers','Competition','EventCompetitionAJax','familyMember_list','MembersAjax','familyMembersAjax'));
     }
     public function MemberCompetitionPost(Request $request)
     {
@@ -93,15 +140,22 @@ class MemberController extends Controller
                 for($i=0; $i<$foodticketCount; $i++){
                 $FoodAmount += (intval($allData['FoodticketQty'][$i])) * (intval($allData['FoodticketPrice'][$i])); 
                 }
-
-                $tmember_feeCount = count($request['member_fee']); 
+                if(isset($request['member_fee']))
+                {
+                     $tmember_feeCount = count($request['member_fee']);
+                }
+                else
+                {
+                     $tmember_feeCount = 0;
+                }
+               // $tmember_feeCount = count($request['member_fee']); 
                 for($i=0; $i<$tmember_feeCount; $i++){
                 $compeitionAmounts += (intval($request['member_fee'][$i])); 
                 }
                 
 
                 $totalAmount = $EntryTicketAmounts+$FoodAmount+$compeitionAmounts;
-                $eventName = $allData['eventName'];
+                $eventName = "";
                 
         }
         else
@@ -115,42 +169,7 @@ class MemberController extends Controller
                 $totalAmount = $EntryTicketAmounts;
 
         }
-        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount'));
-    }
-
-    public function memberBuyTicketPost(Request $request)
-    {
-        if($request->has('FoodticketType'))
-        {
-            $foodticketCount = count($request->FoodticketType); 
-        }
-        else
-        {
-             $foodticketCount = 0;
-        }
-        if($request->has('ticketType'))
-        {
-            $ticketCount = count($request->ticketType); 
-        }
-        else
-        {
-             $ticketCount = 0;
-        }
-       
-        $totalAmount = 0;
-        $FoodAmount = 0;
-        $EntryTicketAmounts =0;
-        $allData = $request->all();
-        Session::put('TicketStore', $allData);
-        for($i=0; $i<$ticketCount; $i++){
-        $EntryTicketAmounts += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
-        }
-        for($i=0; $i<$foodticketCount; $i++){
-        $FoodAmount += (intval($allData['FoodticketQty'][$i])) * (intval($allData['FoodticketPrice'][$i])); 
-        }
-         $totalAmount = $EntryTicketAmounts+$FoodAmount;
-        $eventName = $request->eventName;
-        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount'));
+        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
     }
     public function memberTicketAmountPay(Request $request)
     {
@@ -179,7 +198,7 @@ class MemberController extends Controller
         }
         else
         {
-             $ticketCount = 0;
+             $competition_idCount = 0;
         }
 
        
@@ -257,11 +276,13 @@ class MemberController extends Controller
                 $CompetitionRegistered->event_id =  $request['eventId'];
                 $CompetitionRegistered->participant_id = $CompetitionStore['participant_id'][$i];
                 $CompetitionRegistered->competition_id = $CompetitionStore['competition_id'][$i];
+                $CompetitionRegistered->fees = $CompetitionStore['member_fee'][$i];
                 $CompetitionRegistered->save();
             }
 
             Session::forget('TicketStore');
             Session::forget('CompetitionStore');
+            Session::forget('Events');
            return redirect('/memberTickets')->withSuccess('Ticket Purchased Successfully');
 
     }

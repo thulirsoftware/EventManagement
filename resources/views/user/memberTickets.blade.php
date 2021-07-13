@@ -12,7 +12,9 @@
 <section class="content">
   <div class="container-fluid">    
   	<div class="row">
-        <div class="col-md-12">
+  		  <div class="col-md-1">
+  		  </div>
+        <div class="col-md-10">
                                
 
 		<?php 
@@ -38,7 +40,7 @@
 				     <h3 class="card-title">{!! nl2br(e($newtext)) !!}</h3>
 				</div>
 			  <div class="card-body">
-				<p>Date & Time:&nbsp;{{ $event['eventDate'] }} &nbsp;{{ $event['eventTime'] }}<a href="/memberBuyTicket/{{ $event['id'] }}" class="btn btn-link" style="float:right;color:#007bff">Register</a></p>
+				<p>Date & Time:&nbsp;{{ $event['eventDate'] }} &nbsp;{{ $event['eventTime'] }}<a href="/memberBuyTicket/{{ $event['id'] }}" class="btn btn-primary" style="float:right;margin-right: 40%;">Register</a></p>
 				<p>Location:&nbsp;{{ $event['eventLocation'] }}</p>
 			 
 			</div>

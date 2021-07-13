@@ -21,6 +21,10 @@
 {{Session::get('success')}}
 </div>
 @endif
+<?php
+            $event = Session::get('Events');
+            //$event = Event::where('id',$id)->first();
+        ?>
   <div class="card card-info" style="-webkit-box-shadow: none;
           -moz-box-shadow: none;  box-shadow: none;background-color: #f7f7f7;">
            <div class="card-header" style="background-color: #1f5387;">
@@ -41,7 +45,7 @@
         
          <tr>  
               <td >Event Name</td>
-              <td>{{$eventName}}</td> 
+              <td>{{ $event->eventName }}</td> 
         </tr>
        
         <tr> 
@@ -52,6 +56,11 @@
               <td >Entry Ticket</td>
               <td>{{$EntryTicketAmounts}}</td> 
         </tr>
+        <tr> 
+              <td >Competition</td>
+              <td>{{$compeitionAmounts}}</td> 
+        </tr>
+        
          <tr> 
               <td >Total Amount</td>
               <td>{{$totalAmount}}</td> 

@@ -42,7 +42,7 @@
                             <strong><center>Registration</center></strong>
                         </h4>
                         <br/>
-                        <form   method="POST" action="{{ url('member_register') }}">
+                        <form  method="POST" action="{{ url('member_register') }}">
                             @csrf
                             <div class="col-md-12">
                                 <div class="col-md-12">
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group" >
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-primary submit">
                                             Register
                                         </button>
                                     </div>

@@ -30,12 +30,11 @@ class CompetitionController extends Controller
     {
         $Competition = new Competition;
         $Competition->name = $request->Name;
-        $Competition->member_fee = $request->member_fee;
-        $Competition->non_member_fee = $request->non_member_fee;
         $Competition->awards = $request->awards;
         $Competition->age_limit = $request->age_limit;
         $Competition->competition_type = $request->competition_type;
-                $Competition->closing_date = $request->closing_date;
+         $Competition->starting_date = $request->starting_date;
+        $Competition->closing_date = $request->closing_date;
 
         $Competition->instruction = $request->instruction;
         $Competition->save();
@@ -52,12 +51,12 @@ class CompetitionController extends Controller
     {
         $Competition = Competition::find($request->id);
         $Competition->name = $request->Name;
-        $Competition->member_fee = $request->member_fee;
-        $Competition->non_member_fee = $request->non_member_fee;
         $Competition->awards = $request->awards;
         $Competition->age_limit = $request->age_limit;
         $Competition->competition_type = $request->competition_type;
         $Competition->instruction = $request->instruction;
+                 $Competition->starting_date = $request->starting_date;
+
         $Competition->closing_date = $request->closing_date;
         $Competition->save();
             return redirect(route('admin.competition.list'));

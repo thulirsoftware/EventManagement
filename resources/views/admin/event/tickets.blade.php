@@ -115,13 +115,22 @@
       
     </div>
   </div>
-    <div class="row">
-      
-       <div class="col-md-12">
+    
+
 <div class="card">
 <div class="card-body">
-  <center><h3>Events</h3></center>
-  <table class="table table-condensed">
+  <section id="tabs" class="project-tab">
+                        <nav>
+                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Events</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Entry Ticket</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Food Ticket</a>
+                                 <a class="nav-item nav-link" id="nav-competition-tab" data-toggle="tab" href="#nav-competition" role="tab" aria-controls="nav-competition" aria-selected="false">Competition</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
+                                 <table class="table table-condensed">
                   <thead>
                     <tr>
                       <th>SI.No</th>
@@ -154,9 +163,13 @@
                         </tr>
                   </tbody> 
                 </table>
-  <br>
-  <center><h3>Entry Tickets</h3></center>
-  <table class="table table-striped">
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                              <br>
+                               <div class="add-button" >
+            <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventEntryTicket',$event['id']) }}">Add</a> 
+          </div><br><br>
+                              <table class="table table-striped">
     <thead>
       <tr>
         <th style="font-weight:normal">SI.No</th>
@@ -187,15 +200,19 @@
 
             </td>
             <td>
-              <a id="row_entry_delete{{ $ticket['id'] }}" href="/admin/eventTicketDelete/{{ $ticket['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a>
+              <a id="row_entry_delete{{ $ticket['id'] }}" href="/admin/eventTicketDelete/{{ $ticket['id'] }}" ><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
             </td>
           </tr>
         @endforeach
     </tbody>
   </table>
-  <br>
-  <center><h3>Food Tickets</h3></center>
-  <table class="table table-striped">
+                                
+                            </div>
+                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
+                               <div class="add-button" >
+            <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventFoodTicket',$event['id']) }}">Add</a> 
+          </div><br><br>
+                               <table class="table table-striped">
     <thead>
       <tr>
         <th style="font-weight:normal">Age Group</th>
@@ -223,19 +240,22 @@
               </a>
             <input type="button" id="food_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Food_row('{{ $ticket['id'] }}')" style="display:none"></td>
 
-            <td><a href="/admin/eventTicketDelete/{{ $ticket['id'] }}" id="row_food_delete{{ $ticket['id'] }}"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+            <td><a href="/admin/eventTicketDelete/{{ $ticket['id'] }}" id="row_food_delete{{ $ticket['id'] }}"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a></td>
 
           </tr>
         @endforeach
     </tbody>
   </table>
-  <br>
-  <center><h3>Competition</h3></center>
-  <table class="table table-striped">
+                            </div>
+                             <div class="tab-pane fade" id="nav-competition" role="tabpanel" aria-labelledby="nav-competition-tab"><br>
+                           
+                               <div class="add-button" >
+            <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addCompetition',$event['id']) }}">Add</a> 
+          </div><br><br>
+                               <table class="table">
     <thead>
       <tr>
-        <th style="font-weight:normal">Starting Date</th>
-        <th style="font-weight:normal">Closing Date</th>
+        <th style="font-weight:normal">Event Name</th>
         <th style="font-weight:normal">Member Fees </th>
         <th style="font-weight:normal">Non Member Fees</th>
         <th style="font-weight:normal"  colspan="2">Actions</th>
@@ -244,12 +264,14 @@
     <tbody >
     <?php $i = 1 ?>  
         @foreach($Competition as $Competition)
+        <?php
+         $event = \App\Event::where('id',$Competition['eventId'])->first();
+         $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->first();
+      ?>
           <tr id="row_competition_{{ $Competition['id'] }}">
-           
-             <td id="row_competition_event_SDate{{ $Competition['id'] }}">{{ $Competition['starting_date'] }}</td>
-            <td id="row_competition_event_EDate{{ $Competition['id'] }}">{{ $Competition['closing_date'] }}</td>
-            <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $Competition['member_fee'] }}</td>
-            <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $Competition['non_member_fee'] }}</td>
+           <td>{{$events->eventName}}</td>
+            <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $EventCompetition['member_fee'] }}</td>
+            <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $EventCompetition['non_member_fee'] }}</td>
 
             <td>
               <a  id="row_competition_edit{{ $Competition['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row_competition('{{ $Competition['id'] }}')">
@@ -257,18 +279,23 @@
               </a>
             <input type="button" id="Competition_save_button{{ $Competition['id'] }}" value="Save" class="btn btn-primary" onclick="save_competition_row('{{ $Competition['id'] }}')" style="display:none"></td>
 
-          <td><a onclick="myFunction({{$Competition['id']}})"  class="btn btn-link"> <i class="fa fa-trash" style="cursor:pointer;color:#0069d9"></i></a></td>
+          <td><a onclick="myFunction({{$Competition['id']}})"  id="row_Competition_delete{{ $Competition['id'] }}"  style="cursor:pointer;color:#0069d9"> <i class="fa fa-trash" ></i></a></td>
 
           </tr>
         @endforeach
     </tbody>
   </table>
+                            </div>
+                        </div>
+        </section>
+ 
+  
+  
+  
 </div>
 
 </div>
-</div>
 
-</div>
 </div>
 </div>
 </div>
@@ -392,25 +419,18 @@ $.ajax({
 
 function edit_row_competition(no)
 {
-  console.log(no);
   document.getElementById("row_Competition_delete"+no).style.display="none";
   document.getElementById("row_competition_edit"+no).style.display="none";
   document.getElementById("Competition_save_button"+no).style.display="block";
   
- var row_competition_event_SDate=document.getElementById("row_competition_event_SDate"+no);
- var row_competition_event_EDate=document.getElementById("row_competition_event_EDate"+no);
  var row_competition_mFee=document.getElementById("row_competition_mFee"+no);
  var row_competition_nonFee=document.getElementById("row_competition_nonFee"+no);
 
- var row_competition_event_SDate_data=row_competition_event_SDate.innerHTML;
- var row_competition_event_EDate_data=row_competition_event_EDate.innerHTML;
  var row_competition_mFee_data=row_competition_mFee.innerHTML;
  var row_competition_nonFee_data=row_competition_nonFee.innerHTML;
 console.log(row_competition_nonFee_data);
 
- row_competition_event_SDate.innerHTML="<input type='text' id='row_competition_event_SDate_text"+no+"' class='form-control'  value='"+row_competition_event_SDate_data+"'>";
 
- row_competition_event_EDate.innerHTML="<input type='text' id='row_competition_event_EDate_text"+no+"' class='form-control' value='"+row_competition_event_EDate_data+"'>";
 
  row_competition_mFee.innerHTML="<input type='text' id='row_competition_mFee_text"+no+"' class='form-control' value='"+row_competition_mFee_data+"'>";
 
@@ -419,8 +439,6 @@ console.log(row_competition_nonFee_data);
 }
 function save_competition_row(no)
 {
- var row_competition_event_SDate_val=document.getElementById("row_competition_event_SDate_text"+no).value;
- var row_competition_event_EDate_val=document.getElementById("row_competition_event_EDate_text"+no).value;
 var row_competition_mFee_val=document.getElementById("row_competition_mFee_text"+no).value;
 var row_competition_nonFee_val=document.getElementById("row_competition_nonFee_text"+no).value;
 
@@ -430,8 +448,6 @@ $.ajax({
         url: "/admin/UpdateCompetition",
         type:"POST",
         data:{
-          competition_sdate:row_competition_event_SDate_val,
-          competition_cdate:row_competition_event_EDate_val,
           competition_fee:row_competition_mFee_val,
           competition_nonfee:row_competition_nonFee_val,
           event_competition_id:no,

@@ -25,7 +25,7 @@
         <div class="col-md-1">
       </div>
        <div class="col-md-10">
-        <form method="post" action="{{ url('admin/Event/addEventEntryTicketPost') }}" enctype="multipart/form-data" id="regForm">
+        <form method="post" action="{{ url('admin/Event/addEventFoodTicketPost') }}" enctype="multipart/form-data" id="regForm">
 
     {{ csrf_field() }}
             <div class="card">
@@ -35,17 +35,16 @@
 {{Session::get('success')}}
 </div>
 @endif
-  <div class="card-header"><center><strong>Add Event Entry Ticket</strong></center></div>
+  <div class="card-header"><center><strong>Add Event Food Ticket</strong></center></div>
               <br>
             <input type="hidden" name="eventId" value="{{$id}}">
 <div class="card-body">
-        <div class="col-md-12">
+         <div class="col-md-12">
           <div class="row">
-
-
+    
         <div class="col-md-6 form-group ">
           <label class="names">Age Group</label>
-          <select class="form-control" name="ageGroup" id="sel1">
+          <select class="form-control" name="FoodageGroup" id="sel1">
             <option value="">Select</option>
             <option value="kids">Kids</option>
             <option value="Adult">Adult</option>
@@ -53,22 +52,32 @@
         </div>
          <div class="col-md-6 form-group ">
           <label class="names">Member</label>
-          <select class="form-control" name="memberType" id="sel1">
+          <select class="form-control" name="FoodmemberType" id="sel1">
             <option value="">Select</option>
             <option value="Member">Member</option>
              <option value="NonMember">NonMember</option>
           </select>
         </div>
-         <div class="col-md-6 form-group ">
-          <label class="number_of_tickets">Number of Tickets:</label>
-          <input class="form-control" type="number" name="number_of_tickets" id="sel1" >
+        <div class="col-md-6 form-group ">
+          <label class="names">Food</label>
+          <select class="form-control" name="foodType" id="sel1">
+            <option value="">Select</option>
+            <option value="veg">Veg</option>
+            <option value="nveg">Non-VEg</option>
+            <option value="no-food">No Food</option>
+          </select>
+        </div>
+        <div class="col-md-6 form-group ">
+          <label class="Food_number_of_tickets">Number of Tickets:</label>
+          <input class="form-control" type="number" name="Food_number_of_tickets" id="sel1" >
         </div>
          <div class="col-md-6 form-group ">
-          <label class="names">Price ($):</label>
-          <input class="form-control" type="text" name="ticketPrice" id="sel1" >
+          <label class="names">Price</label>
+          <input class="form-control" type="text" name="FoodticketPrice" id="sel1" >
         </div>
-
       </div>
+        
+        
         
     </div>
     <div style="overflow:auto;">
