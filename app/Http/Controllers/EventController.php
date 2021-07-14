@@ -258,7 +258,6 @@ class EventController extends Controller
         $eventTicket->memberType =$request->FoodmemberType;
         $eventTicket->foodType = $request->foodType;
         $eventTicket->ticketPrice = $request->FoodticketPrice;
-        $eventTicket->ticketQty = $request->FoodticketPrice;
         $eventTicket->save();
          return redirect(url('admin/eventTickets/'.$request->eventId))->withSuccess('Food Ticket Added Successfully');
 
@@ -449,7 +448,6 @@ class EventController extends Controller
         $eventTicket->memberType =$request['event_type'];
         $eventTicket->foodType = $request['event_food'];
         $eventTicket->ticketPrice = $request['event_price'];
-         $eventTicket->ticketQty = $request['quantity'];
         $eventTicket->save();
 
         return response()->json(['success'=>$eventTicket]);

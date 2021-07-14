@@ -22,6 +22,8 @@ use App\MembershipBuy;
 use App\EventCompetition;
 use App\Competition;
 use App\CompetitionRegistered;
+use App\EventRegistration;
+use App\Volunteer;
 
 class MemberController extends Controller
 {
@@ -30,7 +32,8 @@ class MemberController extends Controller
     {
         
         $toDay =Carbon::now()->toDateString();
-        $EventCompetition = CompetitionRegistered::pluck('event_id');
+        $EventCompetition = EventRegistration::pluck('event_id');
+        //$EventRegistration->user_id = Auth::user()->id;
 
         $events = Event::whereNotIn('id',$EventCompetition)->where('eventDate','>=',$toDay)->get();
        
@@ -82,9 +85,10 @@ class MemberController extends Controller
         $FoodAmount += (intval($allData['FoodticketQty'][$i])) * (intval($allData['FoodticketPrice'][$i])); 
         }
          $totalAmount = $EntryTicketAmounts+$FoodAmount;
-        $eventName = $request->eventName;
         $compeitionAmounts = "0";
-        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
+        $events = Event::where('id', $request->eventId)->first();
+        Session::put('Events', $events);
+        return view('user.view_purchased_amount_details',compact('totalAmount','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
     }
     else
     {
@@ -234,6 +238,13 @@ class MemberController extends Controller
         $TicketPurchase->eventName = $request['eventName'];
         $TicketPurchase->totalAmount = $totalAmount;
         $TicketPurchase->save();
+
+        $EventRegistration = new EventRegistration();
+        $EventRegistration->user_id = Auth::user()->id;
+        $EventRegistration->event_id = $request['eventId'];
+        $EventRegistration->save();
+
+        
         if(isset($request['EntryTicketId']))
         {
              $EventEntryTickets_count = count($request['EntryTicketId']);
@@ -279,6 +290,7 @@ class MemberController extends Controller
                 $CompetitionRegistered->participant_id = $CompetitionStore['participant_id'][$i];
                 $CompetitionRegistered->competition_id = $CompetitionStore['competition_id'][$i];
                 $CompetitionRegistered->fees = $CompetitionStore['member_fee'][$i];
+                 $CompetitionRegistered->user_id = Auth::user()->id;
                 $CompetitionRegistered->save();
             }
 
@@ -461,6 +473,62 @@ class MemberController extends Controller
         public function edit_members()
         {
             return view('user.edit_members');
+        }
+
+        public function MyEvents()
+        {
+            $toDay =Carbon::now()->toDateString();
+            $EventRegistration = EventRegistration::pluck('event_id');
+
+            $events = Event::whereIn('id',$EventRegistration)->get();
+            return view('user.MyEvents',compact('events'));
+        }
+
+        public function ViewEvent($id)
+        {
+            $events = Event::where('id',$id)->first();
+            return view('user.ViewEvents',compact('events'));
+        }
+
+        public function AddVolunteer()
+        {
+            return view('user.addVolunteer');
+        }
+
+        public function AddVolunteerSave(Request $request)
+        {
+            
+        $str = implode (", ", $request->opportunities);
+        $member = Member::where('user_id',Auth::user()->id)->first();
+        if($member!=null)
+        {
+            $Volunteer = new Volunteer();
+            $Volunteer->user_id = Auth::user()->id;
+            $Volunteer->name = Auth::user()->name;
+            $Volunteer->email = Auth::user()->email;
+            $Volunteer->mobile_number =$member->mobile_number;
+            $Volunteer->email_group = $request->email_group;;
+            $Volunteer->opportunities =$str;
+            $Volunteer->comments =$request->comments;
+            $Volunteer->youth_volunteer =$request->youth_volunteer;
+            $Volunteer->save();
+        }
+        else
+        {
+            $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
+            $Volunteer = new Volunteer();
+            $Volunteer->user_id = Auth::user()->id;
+            $Volunteer->name = Auth::user()->name;
+            $Volunteer->email = Auth::user()->email;
+            $Volunteer->mobile_number =$NonMember->mobile_number;
+            $Volunteer->email_group = $request->email_group;;
+            $Volunteer->opportunities =$str;
+            $Volunteer->comments =$request->comments;
+            $Volunteer->youth_volunteer =$request->youth_volunteer;
+            $Volunteer->save();
+           
+        }
+         return redirect()->back()->withSuccess('Volunteer added Successfully');
         }
 
 

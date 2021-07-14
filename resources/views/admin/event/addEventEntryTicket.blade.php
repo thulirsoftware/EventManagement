@@ -59,10 +59,7 @@
              <option value="NonMember">NonMember</option>
           </select>
         </div>
-         <div class="col-md-6 form-group ">
-          <label class="number_of_tickets">Number of Tickets:</label>
-          <input class="form-control" type="number" name="number_of_tickets" id="sel1" >
-        </div>
+         
          <div class="col-md-6 form-group ">
           <label class="names">Price ($):</label>
           <input class="form-control" type="text" name="ticketPrice" id="sel1" >

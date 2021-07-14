@@ -3,7 +3,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <img src="../../assets/img/thulir-logo-1.png" class="brand-image img-circle elevation-7"
+      <img src="https://www.thulirsoft.com/assets/img/thulir-logo-1.png" class="brand-image img-circle elevation-7"
            style="opacity: .8">
       <span class="brand-text font-weight-light"></span>
     </a>
@@ -35,8 +35,14 @@
             
             <li class="nav-item">
                 <a href="{{ url('memberTickets') }}" class="nav-link {{ Str::contains($path, ['memberTickets','memberBuyTicket']) ? 'active' : '' }}">
-                <i class="nav-icon fas fa-dollar-sign"></i>
+                <i class="nav-icon fas fa-calendar"></i>
                 <p>Events</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('MyEvents') }}" class="nav-link {{ Str::contains($path, ['MyEvents','ViewEvent']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-calendar-plus"></i>
+                <p>My Events</p>
                 </a>
             </li>
             <?php
@@ -65,6 +71,12 @@
                 <a href="{{ url('familyMembers') }}" class="nav-link {{ Str::contains($path, ['familyMembers']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p> Family Members</p>
+                </a>
+            </li> 
+            <li class="nav-item">
+                <a href="{{ url('AddVolunteer') }}" class="nav-link {{ Str::contains($path, ['AddVolunteer']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-handshake"></i>
+                <p> Enroll as Volunteer</p>
                 </a>
             </li>         
              <li class="nav-item">

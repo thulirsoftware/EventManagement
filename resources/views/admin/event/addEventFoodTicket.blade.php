@@ -67,10 +67,7 @@
             <option value="no-food">No Food</option>
           </select>
         </div>
-        <div class="col-md-6 form-group ">
-          <label class="Food_number_of_tickets">Number of Tickets:</label>
-          <input class="form-control" type="number" name="Food_number_of_tickets" id="sel1" >
-        </div>
+       
          <div class="col-md-6 form-group ">
           <label class="names">Price</label>
           <input class="form-control" type="text" name="FoodticketPrice" id="sel1" >

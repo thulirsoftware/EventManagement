@@ -116,7 +116,7 @@
                                  <table class="table table-condensed">
                   <thead>
                     <tr>
-                      <th>Event Name</th>
+                      <th>Name</th>
                       <th>Date</th>
                       <th>Time</th>
                       <th>Location</th>
@@ -150,7 +150,6 @@
                               <table class="table">
     <thead>
       <tr>
-        <th>Event Name</th>
         <th>Age Group</th>
         <th>Member Type</th>
         <th>Ticket Price</th>
@@ -165,7 +164,6 @@
             <?php
               $event = \App\Event::where('id',$ticket['eventId'])->first();
             ?>
-            <td >{{ $event['eventName'] }}</td>
             <td id="row_entry_age{{ $ticket['id'] }}">{{ $ticket['ageGroup'] }}</td>
             <td id="row_entry_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
             <td id="row_entry_price{{ $ticket['id'] }}">${{ $ticket['ticketPrice'] }}</td>

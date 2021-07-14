@@ -18,6 +18,7 @@ use App\FamilyMember;
 use App\PurchasedEventEntryTickets;
 use App\PurchasedEventFoodTickets;
 use App\MembershipBuy;
+use App\Volunteer;
 
 class AdminController extends Controller
 {
@@ -182,119 +183,6 @@ class AdminController extends Controller
         }
 
 
-        public function manageSchool()
-        {
-            $schools = School::all();
-            return view('admin.manageSchool', compact('schools'));
-        }
-
-
-        public function addSchool()
-        {
-            return view('admin.addSchoolForm');
-        }
-
-        public function addSchoolPost(Request $request)
-        {
-            $school = new School;
-            $school->name = $request->schoolName;
-            $school->save();
-
-            return redirect('admin/manageSchool');
-        }
-
-        public function schoolEdit($id)
-        {
-            $school = School::where('id',$id)->first();
-
-            return view('admin.editSchoolForm',compact('school'));
-        }
-
-        public function schoolUpdate(Request $request)
-        {
-
-            $school = School::where('id',$request->schoolId)->update([
-                'name' => $request->schoolName,
-            ]);
-
-            return redirect('/admin/manageSchool');
-        }
-
-
-        public function schoolDelete($id)
-        {
-            $school = School::find($id);
-
-            if($school->delete()){
-
-                return redirect()->back();
-
-            }else{
-                
-                return redirect()->back();
-            }
-        }
-
-
-
-
-        
-
-
-//Member Search
-    public function member_details()
-    {    
-        $members['members']=Member::all()->take(30);
-        return view('admin.member_details',$members);
-    }
-
-     public function membersearch(Request $request)
-     
-    {
-     
-    if($request->ajax())
-     
-    {
-     
-    $output="";
-     
-    $products=DB::table('members')->where('phoneNo1','LIKE','%'.$request->membersearch."%")->orWhere('Member_Id','LIKE','%'.$request->membersearch."%")->get();
-     
-    if($products)
-     
-    {
-     
-    foreach ($products as $key => $product) {
-     
-    $output.='<tr style="background-color:#f1f1f1;border-bottom:none">'.
-     
-    '<td>'.$product->Member_Id.'</td>'.
-    '<td>'.$product->firstName.'</td>'.
-    '<td>'.$product->lastName.'</td>'.
-    '<td>'.$product->phoneNo1.'</td>'.
-    '<td>'.$product->primaryEmail.'</td>'.
-    '<td>'.$product->state.'</td>'.
-    '<td>'.$product->membershipType.'</td>'.
-    '<td>'.$product->membershipExpiryDate.'</td>'.
-    '</tr>
-    <tr style="background-color:white;border-top:none">
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    </tr>';
-     
-    }
-      
-    return Response($output);
-     
-       }
-
-       }
-     
-    }
 
     public function FoodTicketsReport()
     {
@@ -306,6 +194,12 @@ class AdminController extends Controller
     {
         $PurchasedEventEntryTickets = PurchasedEventEntryTickets::where('ticketQty','!=',null)->get();
         return view('admin.PurchasedEventEntryTickets',compact('PurchasedEventEntryTickets'));
+    }
+
+    public function VolunteerReports()
+    {
+        $Volunteers = Volunteer::get();
+        return view('admin.volunteer_reports',compact('Volunteers'));
     }
 
     public function PaymentList()

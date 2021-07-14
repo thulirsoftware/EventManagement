@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <center>
-      <img src="../../assets/img/thulir-logo-1.png" class="img-circle elevation-7"
+      <img src="https://www.thulirsoft.com/assets/img/thulir-logo-1.png" class="img-circle elevation-7"
            ></center>
       <span class="brand-text font-weight-light"></span>
     </a>
@@ -91,6 +91,12 @@
                 <a href="{{ url('/admin/EntryTicketsReport') }}" class="nav-link {{ Str::contains($path, ['EntryTicketsReport']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-ticket-alt"></i>
                 <p> Entry Tickets</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('/admin/VolunteerReports') }}" class="nav-link {{ Str::contains($path, ['VolunteerReports']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-handshake"></i>
+                <p>Volunteer</p>
                 </a>
             </li>
              @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin' || Auth::user()->job_title=='SchoolAdmin' )

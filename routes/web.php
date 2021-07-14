@@ -70,7 +70,11 @@ Route::get('/purchasedmembership', 'MemberController@MemberPurchasedDetails');
 Route::get('/purchasedticketdetails', 'MemberController@MemberPurchasedTicketDetails');
 
 
+Route::get('/MyEvents', 'MemberController@MyEvents');
+Route::get('/ViewEvent/{id}', 'MemberController@ViewEvent');
 
+Route::get('/AddVolunteer', 'MemberController@AddVolunteer');
+Route::post('/AddVolunteer', 'MemberController@AddVolunteerSave');
 
 // Admin Dashboard
 
@@ -176,6 +180,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
 
   Route::get('/FoodTicketsReport', 'AdminController@FoodTicketsReport');
   Route::get('/EntryTicketsReport', 'AdminController@EntryTicketsReport');
+Route::get('/VolunteerReports', 'AdminController@VolunteerReports');
 
   Route::get('/Payments', 'AdminController@PaymentList');
   Route::get('/PaymentEdit/{id}', 'AdminController@PaymentEdit');
