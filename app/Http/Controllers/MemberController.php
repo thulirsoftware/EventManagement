@@ -83,7 +83,8 @@ class MemberController extends Controller
         }
          $totalAmount = $EntryTicketAmounts+$FoodAmount;
         $eventName = $request->eventName;
-        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount'));
+        $compeitionAmounts = "0";
+        return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
     }
     else
     {
@@ -102,7 +103,7 @@ class MemberController extends Controller
         $familyMembers = FamilyMember::where('Member_Id',$tagDvId)->get();
         $familyMember_list = FamilyMember::where('Member_Id',$tagDvId)->get();
         $EventCompetition = EventCompetition::where('event_id',$id)->pluck('competition_id');
-        $EventCompetitionAJax = Competition::get();
+        $EventCompetitionAJax = EventCompetition::get();
         $Competition = Competition::whereIn('id',$EventCompetition)->get();
         $MembersAjax = Member::get();
         $familyMembersAjax = FamilyMember::get();

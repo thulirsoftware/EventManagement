@@ -32,6 +32,7 @@ class EventController extends Controller
 
     public function addEventPost(Request $request)
     { 
+       // dd($request);
         if($request->has('competitionCheck'))
         {
             Session::put('competitionCheck',$request->all());
@@ -71,28 +72,49 @@ class EventController extends Controller
 
         if($event->save())
         {
-            $EventEntryTickets = new EventEntryTickets();
-            $EventEntryTickets->eventId = $event->id;
-            $EventEntryTickets->ageGroup = $request->ageGroup;
-            $EventEntryTickets->memberType =$request->memberType;
-            $EventEntryTickets->ticketPrice = $request->ticketPrice;
-            $EventEntryTickets->ticketQty = $request->number_of_tickets;
-            if($request->ticketPrice!=null)
+            if($request->has('ageGroup'))
             {
-                $EventEntryTickets->save();
+                $ageGroupCount = count($request->ageGroup); 
+            }
+            else
+            {
+                 $ageGroupCount = 0;
             }
 
-            $eventTicket = new EventTicket;
-            $eventTicket->eventId = $event->id;
-            $eventTicket->eventName = $event->eventName;
-            $eventTicket->ageGroup = $request->FoodageGroup;
-            $eventTicket->memberType =$request->FoodmemberType;
-            $eventTicket->foodType = $request->foodType;
-            $eventTicket->ticketPrice = $request->FoodticketPrice;
-            $eventTicket->ticketQty = $request->Food_number_of_tickets;
-            if($request->FoodticketPrice!=null)
+            for($i = 0;$i < $ageGroupCount; $i++)
             {
-                $eventTicket->save();
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->ageGroup = $request->ageGroup[$i];
+                $EventEntryTickets->memberType =$request->memberType[$i];
+                $EventEntryTickets->ticketPrice = $request->ticketPrice[$i];
+                if($request->ticketPrice[$i]!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+            if($request->has('FoodageGroup'))
+            {
+                $FoodageGroupCount = count($request->FoodageGroup); 
+            }
+            else
+            {
+                 $FoodageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $FoodageGroupCount; $i++)
+            {
+                $eventTicket = new EventTicket;
+                $eventTicket->eventId = $event->id;
+                $eventTicket->eventName = $event->eventName;
+                $eventTicket->ageGroup = $request->FoodageGroup[$i];
+                $eventTicket->memberType =$request->FoodmemberType[$i];
+                $eventTicket->foodType = $request->foodType[$i];
+                $eventTicket->ticketPrice = $request->FoodticketPrice[$i];
+                if($request->FoodticketPrice[$i]!=null)
+                {
+                    $eventTicket->save();
+                }
             }    
         }
                 
@@ -116,7 +138,6 @@ class EventController extends Controller
       // dd($data['eventDescription']);
        $event = new Event;
         $event->eventName = $data['eventName'];
-        $event->eventDescription = $data['eventDescription'];
        if (isset($data['eventFlyer'])){  
                  
              $file = $data->file('eventFlyer');
@@ -139,33 +160,54 @@ class EventController extends Controller
         $event->eventDate = $data['eventDate'];
         $event->eventTime = $data['eventTime'];
         $event->eventLocation = $data['eventLocation'];
-        $event->eventLocationLink = $data['eventLocationLink'];
 
         if($event->save())
         {
-            $EventEntryTickets = new EventEntryTickets();
-            $EventEntryTickets->eventId = $event->id;
-            $EventEntryTickets->ageGroup = $data['ageGroup'];
-            $EventEntryTickets->memberType =$data['memberType'];
-            $EventEntryTickets->ticketPrice = $data['ticketPrice'];
-            $EventEntryTickets->ticketQty = $data['number_of_tickets'];
-            if($data['ticketPrice']!=null)
+            if(isset($data['ageGroup']))
             {
-                $EventEntryTickets->save();
+                $ageGroupCount = count($data['ageGroup']); 
             }
+            else
+            {
+                 $ageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $ageGroupCount; $i++)
+            {
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->ageGroup = $data['ageGroup'][$i];
+                $EventEntryTickets->memberType =$data['memberType'][$i];
+                $EventEntryTickets->ticketPrice = $data['ticketPrice'][$i];
+                if($data['ticketPrice'][$i]!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+
+            if(isset($data['FoodageGroup']))
+            {
+                $FoodageGroupCount = count($data['FoodageGroup']); 
+            }
+            else
+            {
+                 $FoodageGroupCount = 0;
+            }
+            for($i = 0;$i < $FoodageGroupCount; $i++)
+            {
 
             $eventTicket = new EventTicket;
             $eventTicket->eventId = $event->id;
             $eventTicket->eventName = $event->eventName;
-            $eventTicket->ageGroup = $data['FoodageGroup'];
-            $eventTicket->memberType =$data['FoodmemberType'];
-            $eventTicket->foodType = $data['foodType'];
-            $eventTicket->ticketPrice = $data['FoodticketPrice'];
-            $eventTicket->ticketQty = $data['Food_number_of_tickets'];
-            if($data['FoodticketPrice']!=null)
+            $eventTicket->ageGroup = $data['FoodageGroup'][$i];
+            $eventTicket->memberType =$data['FoodmemberType'][$i];
+            $eventTicket->foodType = $data['foodType'][$i];
+            $eventTicket->ticketPrice = $data['FoodticketPrice'][$i];
+            if($data['FoodticketPrice'][$i]!=null)
             {
                 $eventTicket->save();
             }  
+        }
               if($request->has('competition_id'))
             {
                 $competition_Count = count($request->competition_id); 

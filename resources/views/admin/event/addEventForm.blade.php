@@ -92,7 +92,7 @@
                   <input type="checkbox" class="minimal" name="competitionCheck" onclick="getFoodforms()" id="CompetitionCheck">&nbsp;&nbsp;Competition
                 </label>
               </div>
-              <div id="EntryDIV" style="display:none">
+<div id="EntryDIV" style="display:none">
               <div class="card-header"><center><strong>Add Event Entry Ticket</strong></center></div>
               <br>
             
@@ -119,7 +119,7 @@
         </div>
          <div class="col-md-3 form-group ">
           <label class="names">Price ($):</label>
-          <input class="form-control" type="text" name="ticketPrice[]" id="sel1" >
+          <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice" >
         </div>
         <div class="col-md-1 " style="padding-top:5px"><br>
           <button type="button" onclick="AddEntryTicket()" id="sel1" class="btn btn-warning">Add</button>
@@ -137,38 +137,41 @@
         <div class="col-md-12">
           <div class="row">
     
-        <div class="col-md-6 form-group ">
+        <div class="col-md-3 form-group ">
           <label class="names">Age Group</label>
-          <select class="form-control" name="FoodageGroup" id="sel1">
+          <select class="form-control" name="FoodageGroup[]" id="sel1">
             <option value="">Select</option>
             <option value="kids">Kids</option>
             <option value="Adult">Adult</option>
           </select>
         </div>
-         <div class="col-md-6 form-group ">
+         <div class="col-md-3 form-group ">
           <label class="names">Member</label>
-          <select class="form-control" name="FoodmemberType" id="sel1">
+          <select class="form-control" name="FoodmemberType[]" id="FoodmemberType">
             <option value="">Select</option>
             <option value="Member">Member</option>
              <option value="NonMember">NonMember</option>
           </select>
         </div>
-        <div class="col-md-6 form-group ">
+        <div class="col-md-3 form-group ">
           <label class="names">Food</label>
-          <select class="form-control" name="foodType" id="sel1">
+          <select class="form-control" name="foodType[]" id="sel1">
             <option value="">Select</option>
             <option value="veg">Veg</option>
-            <option value="nveg">Non-VEg</option>
+            <option value="nveg">Non-Veg</option>
             <option value="no-food">No Food</option>
           </select>
         </div>
        
-         <div class="col-md-6 form-group ">
+         <div class="col-md-2 form-group ">
           <label class="names">Price</label>
-          <input class="form-control" type="text" name="FoodticketPrice" id="sel1" >
+          <input class="form-control" type="text" name="FoodticketPrice[]" id="FoodticketPrice" >
+        </div>
+        <div class="col-md-1 " style="padding-top:5px"><br>
+          <button type="button" onclick="AddFoodTicket()" id="sel1" class="btn btn-warning">Add</button>
         </div>
       </div>
-        
+         <div id="food-list"></div>
         
         
     </div>
@@ -245,11 +248,73 @@ function getFoodforms() {
   function AddEntryTicket()
   {
     j++;
-    $('<div id="row'+j+'" class="row" >'+'<div class="col-md-4 form-group">'+'<select class ="form-control" name="ageGroup[]" ><option value="">Select</option><option value="kids">Kids</option><option value="Adult">Adult</option></select>'+'</div>'+'<div class="col-md-4 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-3 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="sel1" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+    $('<div id="row'+j+'" class="row" >'+'<div class="col-md-4 form-group">'+'<select class ="form-control" name="ageGroup[]" ><option value="">Select</option><option value="kids">Kids</option><option value="Adult">Adult</option></select>'+'</div>'+'<div class="col-md-4 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-3 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice_'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+
+    $("#ticketPrice_"+j).keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+}); 
+    $("#ticketPrice").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+}); 
   }
     $(document).on('click', '.spf_btn_remove', function(){  
  var button_idspf = $(this).attr("id");   
    $('#row'+button_idspf+'').remove();  
+   $(this).hide();
+ });
+</script>
+<script>
+   var l=1;
+  function AddFoodTicket()
+  {
+    l++;
+    $('<div id="row_food'+l+'" class="row" >'+'<div class="col-md-3 form-group">'+'<select class ="form-control" name="FoodageGroup[]" ><option value="">Select</option><option value="kids">Kids</option><option value="Adult">Adult</option></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="FoodmemberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="foodType[]" id="sel1"><option value="">Select</option><option value="veg">Veg</option><option value="nveg">Non-Veg</option><option value="no-food">No Food</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="FoodticketPrice[]" id="FoodticketPrice_'+l+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+l+'" class="btn btn-warning spf_btn_remove1" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#food-list');
+
+     $("#FoodticketPrice_"+l).keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+});
+
+     $("#FoodticketPrice").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+});
+  }
+
+ 
+    $(document).on('click', '.spf_btn_remove1', function(){  
+ var button_idspf = $(this).attr("id");   
+   $('#row_food'+button_idspf+'').remove();  
    $(this).hide();
  });
 </script>

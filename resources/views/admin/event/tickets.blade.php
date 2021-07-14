@@ -116,9 +116,7 @@
                                  <table class="table table-condensed">
                   <thead>
                     <tr>
-                      <th>SI.No</th>
                       <th>Event Name</th>
-                      <th>Description</th>
                       <th>Date</th>
                       <th>Time</th>
                       <th>Location</th>
@@ -131,13 +129,10 @@
                        $string = str_replace(" ","\r\n",$event['eventName']);
                        ;
                         $newtext = wordwrap($event['eventName'], 20, "\n");
-                        $eventDescription = wordwrap($event['eventDescription'], 20, "\n");
                       ?>
                         <tr>
                          
-                          <td>{{ $i++ }}</td>
                           <td>{!! nl2br(e($newtext)) !!}</td>
-                          <td>{!! nl2br(e($eventDescription)) !!}</td>
                           <td>{{ $event['eventDate'] }}</td>
                           <td>{{ $event['eventTime'] }}</td>
                           <td>{{ $event['eventLocation'] }}</td>
@@ -152,15 +147,14 @@
                                <div class="add-button" >
             <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventEntryTicket',$event['id']) }}">Add</a> 
           </div><br><br>
-                              <table class="table table-striped">
+                              <table class="table">
     <thead>
       <tr>
-        <th style="font-weight:normal">SI.No</th>
-        <th style="font-weight:normal">Event Name</th>
-        <th style="font-weight:normal">Age Group</th>
-        <th style="font-weight:normal">Member Type</th>
-        <th style="font-weight:normal">Ticket Price</th>
-        <th style="font-weight:normal" colspan="2">Actions</th>
+        <th>Event Name</th>
+        <th>Age Group</th>
+        <th>Member Type</th>
+        <th>Ticket Price</th>
+        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody >
@@ -168,7 +162,6 @@
         @foreach($eventTicket as $ticket)
           <tr id="row_event_{{ $ticket['id'] }}">
            
-            <td>{{ $i++ }}</td>
             <?php
               $event = \App\Event::where('id',$ticket['eventId'])->first();
             ?>
@@ -195,15 +188,14 @@
                                <div class="add-button" >
             <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventFoodTicket',$event['id']) }}">Add</a> 
           </div><br><br>
-                               <table class="table table-striped">
+                               <table class="table">
     <thead>
       <tr>
-        <th style="font-weight:normal">Age Group</th>
-        <th style="font-weight:normal">Member Type</th>
-        <th style="font-weight:normal">Food Type</th>
-        <th style="font-weight:normal">Ticket Price</th>
-        <th style="font-weight:normal">Ticket Quantity</th>
-        <th style="font-weight:normal"  colspan="2">Actions</th>
+        <th>Age Group</th>
+        <th>Member Type</th>
+        <th>Food Type</th>
+        <th>Ticket Price</th>
+        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody >
@@ -215,7 +207,6 @@
             <td id="row_food_event_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
             <td id="row_food_event_food{{ $ticket['id'] }}">{{ $ticket['foodType'] }}</td>
             <td id="row_food_event_price{{ $ticket['id'] }}">{{ $ticket['ticketPrice'] }}</td>
-            <td id="row_food_event_qty{{ $ticket['id'] }}">{{ $ticket['ticketQty'] }}</td>
 
             <td>
               <a  id="row_food_edit{{ $ticket['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row('{{ $ticket['id'] }}')">
@@ -238,10 +229,10 @@
                                <table class="table">
     <thead>
       <tr>
-        <th style="font-weight:normal">Competition Name</th>
-        <th style="font-weight:normal">Member Fees </th>
-        <th style="font-weight:normal">Non Member Fees</th>
-        <th style="font-weight:normal"  colspan="2">Actions</th>
+        <th>Competition Name</th>
+        <th>Member Fees </th>
+        <th>Non Member Fees</th>
+        <th colspan="2">Actions</th>
       </tr>
     </thead>
     <tbody >
@@ -297,13 +288,11 @@ function edit_row(no)
  var row_food_event_type=document.getElementById("row_food_event_type"+no);
 var row_food_event_food=document.getElementById("row_food_event_food"+no);
  var row_food_event_price=document.getElementById("row_food_event_price"+no);
- var row_food_event_qty=document.getElementById("row_food_event_qty"+no);
 
  var row_food_event_age_data=row_food_event_age.innerHTML;
  var row_food_event_type_data=row_food_event_type.innerHTML;
  var row_food_event_food_data=row_food_event_food.innerHTML;
  var row_food_event_price_data=row_food_event_price.innerHTML;
- var row_food_event_qty_data=row_food_event_qty.innerHTML;
 
  row_food_event_age.innerHTML="<input type='text' id='row_food_event_age_text"+no+"' class='form-control'  value='"+row_food_event_age_data+"'>";
 
@@ -312,7 +301,6 @@ var row_food_event_food=document.getElementById("row_food_event_food"+no);
 
  row_food_event_price.innerHTML="<input type='text' id='row_food_event_price_text"+no+"' class='form-control' value='"+row_food_event_price_data+"'>";
 
- row_food_event_qty.innerHTML="<input type='text' id='row_food_event_qty_data_text"+no+"' class='form-control' value='"+row_food_event_qty_data+"'>";
 }
 function save_Food_row(no)
 {
@@ -320,7 +308,6 @@ function save_Food_row(no)
  var row_food_event_type_val=document.getElementById("row_food_event_type_text"+no).value;
  var row_food_event_food_val=document.getElementById("row_food_event_food_text"+no).value;
 var row_food_event_price_val=document.getElementById("row_food_event_price_text"+no).value;
-var row_food_event_qty_data_val=document.getElementById("row_food_event_qty_data_text"+no).value;
 
  let _token   = $('meta[name="csrf-token"]').attr('content');
 
@@ -332,7 +319,6 @@ $.ajax({
           event_type:row_food_event_type_val,
           event_food:row_food_event_food_val,
           event_price:row_food_event_price_val,
-          quantity:row_food_event_qty_data_val,
           event_food_id:no,
           _token: _token
         },
