@@ -392,7 +392,45 @@ $('#Amount').keypress(function(e) {
     
 });
 </script>
-
+ <script>
+    $('#member_fee').keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+});
+   </script>
+   <script>
+    $('#non_member_fee').keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+});
+   </script>
+   <script>
+    $('#price').keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+});
+   </script>
 <script>
     $(function () {
           $('.select2').select2({

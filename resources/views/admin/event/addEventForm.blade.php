@@ -67,8 +67,11 @@
           <input class="form-control" type="text" name="eventLocation" required="">
         </div>
         <div class="col-md-4 form-group ">
+             <?php
+                        $date =  Carbon\Carbon::tomorrow()->toDateString();
+                    ?>
           <label class="names">Date&nbsp;<span style="color:red">*</span></label>
-          <input class="form-control" type="date" name="eventDate" id="eventDate" required="">
+          <input class="form-control" type="date" name="eventDate" id="eventDate"  min="{{$date}}" required="">
         </div>
  <div class="form-group col-md-4">
           <label class="names">Time&nbsp;<span style="color:red">*</span></label>

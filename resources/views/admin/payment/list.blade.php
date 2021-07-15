@@ -35,8 +35,10 @@
                   <tbody>  
                       @foreach($MembershipBuy as $MembershipBuy)
                       <?php
-                        $member = App\Member::where('Member_Id',$MembershipBuy->user_id)->first();
+                        $member = App\NonMember::where('user_id',$MembershipBuy->user_id)->first();
                       ?>
+                        @if($member!=null)
+
                         <tr>
                          
                           <td>{{ $member->firstName }} {{ $member->lastName }}</td>
@@ -59,6 +61,7 @@
                           
 
                         </tr>
+                        @endif
                       @endforeach
                   </tbody> 
                 </table>

@@ -63,7 +63,10 @@
                 <input type="text" class="form-control" id="Member_Id" placeholder="" name="phoneNo" value="{{$memberDetails['mobile_number']}}" required readonly="">
             </div>
           </div>
+                      @if($Entrytickets>0)
+
           <div class="card-header" style="border-bottom:none"><center><strong>Entry Ticket</strong></center></div>
+          @endif
           <div class="row">
           <input type="hidden" id="entryticketcount" value="{{$Entrytickets}}">
             @if($Entrytickets>0)
@@ -77,9 +80,16 @@
 
             @for($i=0; $i<$Entrytickets; $i++)
               <div class="col-md-6 form-group">
-                <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
+                
+                @if($memberEventTickets[$i]['ageGroup']=="Adult")
+                <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</label>
 
-                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" oninput="changevalidation(this.id)" required>
+                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
+                  @else
+                  <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
+
+                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
+                  @endif
 
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="EntryTicketId[]" value="{{$memberEventTickets[$i]['id'] }}" indexValue="{{ $i }}" >
 
@@ -93,14 +103,16 @@
             @endfor
             @endif
           </div>
+           @if($tickets>0)
             <div class="card-header" style="border-bottom:none"><center><strong>Food Ticket</strong></center></div>
+            @endif
           <div class="row">
               @if($tickets>0)
             @for($i=0; $i<$tickets; $i++)
               <div class="col-md-6 form-group">
                 <label  for="" style="font-weight:normal">{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }} ({{"$".$memberTickets[$i]['ticketPrice'] }}):</label>
 
-                  <input type="number" class="form-control" id="ticketQty{{ $i }}" min="1" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
+                  <input type="number" class="form-control" id="ticketQty{{ $i }}" min="0" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodTicketId[]" value="{{$memberTickets[$i]['id'] }}" indexValue="{{ $i }}">
 
 
@@ -113,7 +125,9 @@
             @endfor
             @endif
           </div>
-                      <label>Want to participate in competition</label>
+          @if($competitionCount>0)
+
+            <label>Want to participate in competition</label>
 
            <div class="form-group">
                 <label class="col-md-4">
@@ -131,7 +145,22 @@
                     </center>
 
                   </div>
+                @else
+                <div class="form-group" style="display:none">
+                
+                <label class="col-md-4">
+                  <input type="radio" name="minimal"  value="no" id="competitionNo"  checked>&nbsp;&nbsp;No
+                </label>
+                
+              </div>
+              @endif
+                  <div class="form-group" id="submit">        
+                    <center>
+                      <button type="submit"   class="btn btn-primary" name="submit" id="myBtn">Register</button>
+                      <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
+                    </center>
 
+                  </div>
                     </form>
                 </div>
             </div>

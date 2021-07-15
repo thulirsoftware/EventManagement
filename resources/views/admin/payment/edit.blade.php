@@ -33,9 +33,10 @@
                       {{ csrf_field() }}
 
             <?php 
-            $member = App\Member::where('Member_Id',$MembershipBuy->user_id)->first();
+            $member = App\NonMember::where('user_id',$MembershipBuy->user_id)->first();
             ?>
             <div class="row">
+              <input type="hidden" class="form-control" id="firstName" placeholder="" name="user_id" value="{{$MembershipBuy->user_id}}" required >
 
             <div class="col-md-6 form-group">
               <label class="control-label" for="firstName">Name:</label>

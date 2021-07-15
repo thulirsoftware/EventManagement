@@ -49,14 +49,18 @@
                               
                      @endforeach
             </select>
+            <p id="competitionerror" style="color:red"></p>
          </div>                  
             <div class="col-md-3 form-group">
                 <label for="Description">Member Fees :</label>
-                <input type="text" class="form-control" id="member_fee" name="member_fee" required>
+                <input type="number" class="form-control" id="member_fee" name="member_fee" min="1" required>
+                 <p id="member_fee_error" style="color:red"></p>
             </div>
            <div class="col-md-3 form-group">
                     <label for="Description">Non Member Fees :</label>
-                      <input type="text" class="form-control" id="non_member_fee" name="non_member_fee" required>
+                      <input type="text" class="form-control" id="non_member_fee" min="1" name="non_member_fee" required>
+                    <p id="non_member_fee_error" style="color:red"></p>
+
             </div>
                      <div class="col-md-2 form-group">
                         <br>
@@ -93,7 +97,7 @@
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <!-- Modal -->
-   
+  
 <script>
         let lineNo = 1;
 
@@ -102,23 +106,47 @@
                 
                 var member_fee = document.getElementById("member_fee").value;
                 var non_member_fee = document.getElementById("non_member_fee").value;
-                 
                 var e = document.getElementById("ddlViewBy");
-var strUser = e.options[e.selectedIndex].text;
-
-console.log("id",strUser);
-var e = document.getElementById("ddlViewBy");
-var id = e.value;
-console.log("id",id);
-
+                var strUser = e.options[e.selectedIndex].text;
+                var e = document.getElementById("ddlViewBy");
+                var id = e.value;
+                if(member_fee=="" && non_member_fee=="" && id=="")
+                {
+                    document.getElementById('member_fee_error').innerHTML="Enter Member Fee";
+                    document.getElementById('non_member_fee_error').innerHTML="Enter Non Member Fee";
+                    document.getElementById('competitionerror').innerHTML="Select Competition";
+                }
+                else if(member_fee=="")
+                {
+                    document.getElementById('member_fee_error').innerHTML="Enter Member Fee";
+                    document.getElementById('non_member_fee_error').innerHTML="";
+                    document.getElementById('competitionerror').innerHTML="";
+                }
+                else if(non_member_fee=="")
+                {
+                    document.getElementById('member_fee_error').innerHTML="";
+                    document.getElementById('non_member_fee_error').innerHTML="Enter Non Member Fee";
+                    document.getElementById('competitionerror').innerHTML="";
+                }
+                else if(id=="")
+                {
+                    document.getElementById('member_fee_error').innerHTML="";
+                    document.getElementById('non_member_fee_error').innerHTML="";
+                    document.getElementById('competitionerror').innerHTML="Select Competition";
+                }
+                else
+                {
+                    document.getElementById('member_fee_error').innerHTML="";
+                    document.getElementById('non_member_fee_error').innerHTML="";
+                    document.getElementById('competitionerror').innerHTML="";
                 var substateArray =  @json($CompetitionAjax);
                 var filteredArray = substateArray.filter(x => x.id == id);
-                console.log(filteredArray);
                          markup = "<tr><td>"+strUser+ "<input type='hidden' name='competition_id[]' value="+ id +"></td><td>"+ member_fee +  "<input type='hidden' name='member_fee[]' value="+ member_fee +"></td><td>"+ non_member_fee + "<input type='hidden' name='non_member_fee[]' value="+ non_member_fee +"></td></tr>";
             
                 tableBody = $("table tbody");
                 tableBody.append(markup);
                 lineNo++;
+            }
             });
         }); 
     </script>

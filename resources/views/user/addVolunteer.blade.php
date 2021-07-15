@@ -36,6 +36,12 @@
                   {{Session::get('success')}}
                   </div>
               @endif
+              @if(Session::has('warning'))
+                  <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  {{Session::get('warning')}}
+                  </div>
+              @endif
             <div class="card panel-default">
               <div class="card-header"><center><h4>Enroll as Volunteer</h4></center></div>
 

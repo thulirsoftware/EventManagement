@@ -218,10 +218,50 @@ class AdminController extends Controller
     {
 
         $membershipBuy = MembershipBuy::find($request->id);
-         $membershipBuy->Inst_Type = $request->paymentType;
-          $membershipBuy->Inst_No = $request->Inst_number;
-          $membershipBuy->payment_status = $request->payment_status;
+        $membershipBuy->Inst_Type = $request->paymentType;
+        $membershipBuy->Inst_No = $request->Inst_number;
+        $membershipBuy->payment_status = $request->payment_status;
         $membershipBuy->save();
+
+       $NonMember = NonMember::where('user_id',$request->user_id)->first();
+
+        $user = Member::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
+
+        if($user){
+        $userId=$user[0]['id'];
+
+        $Member_Id='NETS'.sprintf("%07d", ++$userId);
+        }else{
+            $Member_Id = "NETS0000001";
+        }
+        
+            $Member = new Member();
+            $Member->Member_Id = $Member_Id;
+            $Member->firstName = $NonMember->firstName;
+            $Member->lastName = $NonMember->lastName;
+            $Member->mobile_number = $NonMember->mobile_number;
+            $Member->Email_Id = $NonMember->Email_Id;
+            $Member->user_id = $request->user_id;
+            $Member->addressLine1 = $NonMember->addressLine1;
+            $Member->addressLine2 = $NonMember->addressLine2;
+            $Member->country = $NonMember->country;
+            $Member->state = $NonMember->state;
+            $Member->zipCode = $NonMember->zipCode;
+            $Member->gender = $NonMember->gender;
+            $Member->dob = $NonMember->dob;
+            $Member->maritalStatus = $NonMember->maritalStatus;
+            $Member->membershipType =$request->membershipType;
+            $Member->membershipExpiryDate = $request->Validity;
+            
+            if($Member->save()){
+                $User = User::find($request->user_id);
+                $User->Member_Id = $Member_Id;
+                $User->save();
+
+                $NonMember = NonMember::where('user_id',$request->user_id)->delete();
+            }
+            
+
        return redirect('/admin/Payments')->withSuccess('Membership Updated Successfully');
     }
 

@@ -43,24 +43,24 @@
           <div class="row">
     
         <div class="col-md-6 form-group ">
-          <label class="names">Age Group</label>
-          <select class="form-control" name="FoodageGroup" id="sel1">
+          <label class="names">Age Group:&nbsp;<span style="color: red">*</span></label>
+          <select class="form-control" name="FoodageGroup" id="sel1" required> 
             <option value="">Select</option>
-            <option value="kids">Kids</option>
             <option value="Adult">Adult</option>
+             <option value="kids">Kids</option>
           </select>
         </div>
          <div class="col-md-6 form-group ">
-          <label class="names">Member</label>
-          <select class="form-control" name="FoodmemberType" id="sel1">
+          <label class="names">Member:&nbsp;<span style="color: red">*</span></label>
+          <select class="form-control" name="FoodmemberType" id="sel1" required>
             <option value="">Select</option>
             <option value="Member">Member</option>
              <option value="NonMember">NonMember</option>
           </select>
         </div>
         <div class="col-md-6 form-group ">
-          <label class="names">Food</label>
-          <select class="form-control" name="foodType" id="sel1">
+          <label class="names">Food:&nbsp;<span style="color: red">*</span></label>
+          <select class="form-control" name="foodType" id="sel1" required>
             <option value="">Select</option>
             <option value="veg">Veg</option>
             <option value="nveg">Non-VEg</option>
@@ -69,8 +69,8 @@
         </div>
        
          <div class="col-md-6 form-group ">
-          <label class="names">Price</label>
-          <input class="form-control" type="text" name="FoodticketPrice" id="sel1" >
+          <label class="names">Price ($):&nbsp;<span style="color: red">*</span></label>
+          <input class="form-control" type="text" name="FoodticketPrice" id="price" required>
         </div>
       </div>
         

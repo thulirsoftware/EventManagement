@@ -203,15 +203,15 @@
                if(filteredArray1.length>0)
                {
                 var substateArray =  @json($EventCompetitionAJax);
-                var filteredArray = substateArray.filter(x => x.id == Competition_value[0]);
+                var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
 
                  markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             }
             else
             {
                 var substateArray =  @json($EventCompetitionAJax);
-                var filteredArray = substateArray.filter(x => x.id == Competition_value[0]);
-
+                var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
+                    console.log(filteredArray);;
                  markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>"+filteredArray[0]['non_member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['non_member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             }
                 tableBody = $("table tbody");
@@ -247,8 +247,8 @@
 
 
                 var substateArray =  @json($EventCompetitionAJax);
-                var filteredArray = substateArray.filter(x => x.id == Competition_value[0]);
-                console.log(filteredArray);
+                var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
+                console.log(substateArray);
                  markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td>"+ participant_id + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ filteredArray1[0]['Member_Id'] +"></td><td></td><td></td><td>"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             
                 tableBody = $("table tbody");

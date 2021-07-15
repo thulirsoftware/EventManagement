@@ -41,19 +41,17 @@
 <div class="card-body">
         <div class="col-md-12">
           <div class="row">
-
-
         <div class="col-md-6 form-group ">
-          <label class="names">Age Group</label>
-          <select class="form-control" name="ageGroup" id="sel1">
+          <label class="names">Age Group:&nbsp;<span style="color: red">*</span></label>
+          <select class="form-control" name="ageGroup" id="sel1" required>
             <option value="">Select</option>
-            <option value="kids">Kids</option>
             <option value="Adult">Adult</option>
+            <option value="kids">Kids</option>
           </select>
         </div>
-         <div class="col-md-6 form-group ">
-          <label class="names">Member</label>
-          <select class="form-control" name="memberType" id="sel1">
+        <div class="col-md-6 form-group ">
+          <label class="names">Member:&nbsp;<span style="color: red">*</span></label>
+          <select class="form-control" name="memberType" id="sel1" required>
             <option value="">Select</option>
             <option value="Member">Member</option>
              <option value="NonMember">NonMember</option>
@@ -61,8 +59,8 @@
         </div>
          
          <div class="col-md-6 form-group ">
-          <label class="names">Price ($):</label>
-          <input class="form-control" type="text" name="ticketPrice" id="sel1" >
+          <label class="names">Price ($):&nbsp;<span style="color: red">*</span></label>
+          <input class="form-control" type="text" name="ticketPrice" id="price" required>
         </div>
 
       </div>

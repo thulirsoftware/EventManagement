@@ -11,7 +11,7 @@
 
       <div class="row mb-2">
         <div class="col-sm-2">
-          <a href="/admin/manageMembership" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+          <a href="admin/Membership/List" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
         </div>
         
       </div>

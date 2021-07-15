@@ -93,7 +93,6 @@ class RegisterController extends Controller
             'name' => $request['name'],
             'email' => $request['email'],
             'user_type' => "user", 
-            'Member_Id' => $Member_Id,
             'password' => bcrypt($request['password']),
             'token' => str_random(25),
         ]);
