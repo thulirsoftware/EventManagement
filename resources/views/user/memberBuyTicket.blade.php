@@ -65,6 +65,7 @@
           </div>
           <div class="card-header" style="border-bottom:none"><center><strong>Entry Ticket</strong></center></div>
           <div class="row">
+          <input type="hidden" id="entryticketcount" value="{{$Entrytickets}}">
             @if($Entrytickets>0)
            
 
@@ -73,13 +74,14 @@
             <input type="hidden" name="todayDate" id="todayDate" value="{{ $todayDate }}">
             
             <input type="hidden" name="memberType" value="member">
-            
+
             @for($i=0; $i<$Entrytickets; $i++)
               <div class="col-md-6 form-group">
                 <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
-                  <input type="number" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}">
-                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="EntryTicketId[]" value="{{$memberEventTickets[$i]['id'] }}" indexValue="{{ $i }}">
+                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" oninput="changevalidation(this.id)" required>
+
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="EntryTicketId[]" value="{{$memberEventTickets[$i]['id'] }}" indexValue="{{ $i }}" >
 
 
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="ticketType[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{ $memberEventTickets[$i]['ageGroup'] }}-{{ $memberEventTickets[$i]['foodType'] }}" >
@@ -98,7 +100,7 @@
               <div class="col-md-6 form-group">
                 <label  for="" style="font-weight:normal">{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }} ({{"$".$memberTickets[$i]['ticketPrice'] }}):</label>
 
-                  <input type="number" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
+                  <input type="number" class="form-control" id="ticketQty{{ $i }}" min="1" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodTicketId[]" value="{{$memberTickets[$i]['id'] }}" indexValue="{{ $i }}">
 
 
@@ -115,10 +117,10 @@
 
            <div class="form-group">
                 <label class="col-md-4">
-                  <input type="checkbox" name="minimal" value="yes" id="competitionYes" checked>&nbsp;&nbsp;Yes
+                  <input type="radio" name="minimal" value="yes" id="competitionYes" checked>&nbsp;&nbsp;Yes
                 </label>
                 <label class="col-md-4">
-                  <input type="checkbox" name="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
+                  <input type="radio" name="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
                 </label>
                 
               </div>
@@ -195,6 +197,27 @@
 
   });
 </script>
-
+<script>
+  function changevalidation(id)
+  {
+    const slug = id.split('_').pop();
+    var entryticketcount = $('#entryticketcount').val();
+    var empty = $('#'+id).val();
+     if(empty!="")
+     {
+       for(i=0;i<entryticketcount;i++)
+       {
+          document.getElementById("ticketQty_"+i).required = false;
+       }
+     }
+     else
+     {
+        for(i=0;i<entryticketcount;i++)
+       {
+          document.getElementById("ticketQty_"+i).required = true;
+       }
+     }
+  }
+</script>
 
 @endsection
