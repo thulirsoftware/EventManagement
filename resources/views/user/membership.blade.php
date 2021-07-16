@@ -37,9 +37,20 @@
                           <td>{{ $membership->membership_desc }}</td>
                           <td>{{ $membership->membership_amount }}</td>
                           <td>{{ $membership->year}}</td>
-                          <td><a href="/MemberShipAdd/{{ $membership->id }}" ><i class="fa fa-shopping-cart fa-lg" style="text-align:center;"></i></a></td>
+                          <?php 
+                            $MembershipBuy = App\MembershipBuy::where('user_id',Auth::user()->id)->first();
 
-                        
+                           $this_year =  Carbon\Carbon::now()->format('Y');
+
+                          $Member = App\Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
+                        ?>
+                        @if($MembershipBuy==null)
+                          <td><a href="/MemberShipAdd/{{ $membership->id }}" ><i class="fa fa-shopping-cart fa-lg" style="text-align:center;"></i></a></td>
+                          @elseif($Member==null)
+                          <td><a href="/MemberShipAdd/{{ $membership->id }}" class="badge badge-danger">Renew</a></td>
+                          @else
+
+                        @endif
 
                         </tr>
                       @endforeach

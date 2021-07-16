@@ -33,7 +33,15 @@
                       {{ csrf_field() }}
 
             <?php 
-            $member = App\NonMember::where('user_id',$MembershipBuy->user_id)->first();
+           $member = App\Member::where('user_id',$MembershipBuy->user_id)->first();
+                        if($member==null)
+                        {
+                        $member = App\NonMember::where('user_id',$MembershipBuy->user_id)->first();
+                      }
+                      else
+                      {
+                        $member = App\Member::where('user_id',$MembershipBuy->user_id)->first();
+                      }
             ?>
             <div class="row">
               <input type="hidden" class="form-control" id="firstName" placeholder="" name="user_id" value="{{$MembershipBuy->user_id}}" required >

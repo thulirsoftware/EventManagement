@@ -24,14 +24,19 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-           
+           <?php
+           $this_year =  Carbon\Carbon::now()->format('Y');
+            $Member = App\Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
+       ?>
+        @if($Member==null)
+         
           <li class="nav-item">
                 <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-dollar-sign"></i>
                 <p>MemberShip</p>
                 </a>
             </li>
-          
+          @endif
             
             <li class="nav-item">
                 <a href="{{ url('memberTickets') }}" class="nav-link {{ Str::contains($path, ['memberTickets','memberBuyTicket']) ? 'active' : '' }}">

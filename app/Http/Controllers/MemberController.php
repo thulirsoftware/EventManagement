@@ -42,9 +42,20 @@ class MemberController extends Controller
 
     public function memberBuyTicket($id)
     {
+        $this_year = Carbon::now()->format('Y');
         $events = Event::where('id', $id)->first();
-        $memberTickets = EventTicket::where('eventId', $id)->where('memberType','member')->get();
-         $memberEventTickets = EventEntryTickets::where('eventId',$id)->where('memberType',"=", 'member')->get();
+        $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','<=',$this_year)->first();
+        if($Member!=null)
+         {
+            $memberTickets = EventTicket::where('eventId', $id)->where('memberType','member')->get();
+            $memberEventTickets = EventEntryTickets::where('eventId',$id)->where('memberType',"=", 'member')->get();
+         }
+         else
+         {
+            $memberTickets = EventTicket::where('eventId', $id)->where('memberType','NonMember')->get();
+         $memberEventTickets = EventEntryTickets::where('eventId',$id)->where('memberType',"=", 'NonMember')->get();
+         }
+        
         $member = Auth::user()->email;
         $user = Member::where('Email_Id',$member)->get();
         $competitionCount = EventCompetition::where('event_id',$id)->where('competition_id','!=',NULL)->count();
@@ -334,6 +345,10 @@ class MemberController extends Controller
     {  
         $email = Auth::user()->email;
         $member = Member::where('Email_Id',$email)->first();
+        if($member==null)
+        {
+            $member = NonMember::where('Email_Id',$email)->first();
+        }
          $date = Carbon::now()->format('Y');
          $membership = DB::table('membership_configs')->where('is_visible','yes')->where('year',$date)->get();
 
@@ -352,6 +367,11 @@ class MemberController extends Controller
 
     public function membershipPost(Request $request)
     {    
+        $Member = Member::where('user_id',Auth::user()->id)->first();
+        if($Member==null)
+        {
+
+
         $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
         if($NonMember->firstName==null || $NonMember->lastName==null ||$NonMember->mobile_number==null ||$NonMember->Email_Id==null ||$NonMember->addressLine1==null || $NonMember->addressLine2==null || $NonMember->country==null || $NonMember->state==null || $NonMember->zipCode==null || $NonMember->gender==null || $NonMember->dob==null || $NonMember->maritalStatus==null)
         {
@@ -368,11 +388,30 @@ class MemberController extends Controller
             $membershipBuy->payment_status = "Pending";
             $membershipBuy->save();
 
-
-           
-            
            return redirect('/memberTickets')->withSuccess('Membership Added Successfully');
         }
+    }
+    else
+    {
+        $Member = Member::where('user_id',Auth::user()->id)->first();
+        if($Member->firstName==null || $Member->lastName==null ||$Member->mobile_number==null ||$Member->Email_Id==null ||$Member->addressLine1==null || $Member->addressLine2==null || $Member->country==null || $Member->state==null || $Member->zipCode==null || $Member->gender==null || $Member->dob==null || $Member->maritalStatus==null)
+        {
+             return redirect('/editProfile')->withWarning('Must Fill ur Profile');
+        } 
+        else
+        {
+
+            $membershipBuy = new MembershipBuy();
+            $membershipBuy->user_id = Auth::user()->id;
+            $membershipBuy->membership_id = $request->membership_id;
+            $membershipBuy->membership_code = $request->membershipType;;
+            $membershipBuy->membership_amount =$request->membershipAmount;
+            $membershipBuy->payment_status = "Pending";
+            $membershipBuy->save();
+
+           return redirect('/memberTickets')->withSuccess('Membership Added Successfully');
+        }
+    }
     }
 
     public function editProfile()

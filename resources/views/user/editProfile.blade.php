@@ -1,21 +1,48 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <div class="content-header">
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+     
+    </section>
 
-</div>
-<!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
 
-<!-- Main content -->
-<section class="content">
-  <div class="container-fluid">   
-   
-     <div class="row">
-      <div class="col-md-2">
-      </div>
-        <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="card card-primary">
+            <div class="card-body card-profile">
+              <center>
+              <img class="profile-user-img img-responsive img-circle" src="assets/img/User-Profile-PNG-High-Quality-Image.png" alt="User profile picture"></center>
+
+              <h3 class="profile-username text-center">{{ $member['firstName'] }} {{ $member['lastName'] }}</h3>
+              <p class="text-muted text-center">{{ $member['Email_Id'] }}</p>
+             
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Member Id : </b> <a class="pull-right">{{ $member['Member_Id'] }}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Membership Valid Till : </b> <a class="pull-right">31-Dec-{{ $member['membershipExpiryDate'] }}</a>
+                </li>
+               
+              </ul>
+
+            
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
             <div class="card panel-default">
              @if(Session::has('success'))
 <div class="alert alert-success alert-dismissible" role="alert">
@@ -146,13 +173,17 @@
               </div><br>
   </form>
 </div>
-<div class="col-md-1">
-            </div>
-</div>
-</div>
-</div>
-</div>
 
+</div>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+ 
 <script type="text/javascript">
   $(document).ready(function () {
 

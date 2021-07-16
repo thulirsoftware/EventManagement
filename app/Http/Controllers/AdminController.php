@@ -216,16 +216,25 @@ class AdminController extends Controller
 
     public function UpdatePayment(Request $request)
     {
-
         $membershipBuy = MembershipBuy::find($request->id);
         $membershipBuy->Inst_Type = $request->paymentType;
         $membershipBuy->Inst_No = $request->Inst_number;
         $membershipBuy->payment_status = $request->payment_status;
         $membershipBuy->save();
+        
+        $member = Member::where('user_id',$request->user_id)->first();
+        if($member==null)
+        {
+              $NonMember = NonMember::where('user_id',$request->user_id)->first();
+       }
+        else
+       {
+                $NonMember = Member::where('user_id',$request->user_id)->first();
+        }
 
-       $NonMember = NonMember::where('user_id',$request->user_id)->first();
+      
 
-        $user = Member::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
+        $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
 
         if($user){
         $userId=$user[0]['id'];
@@ -234,7 +243,10 @@ class AdminController extends Controller
         }else{
             $Member_Id = "NETS0000001";
         }
-        
+        $this_year =  Carbon::now()->format('Y');
+        if($member==null)
+        {
+
             $Member = new Member();
             $Member->Member_Id = $Member_Id;
             $Member->firstName = $NonMember->firstName;
@@ -251,7 +263,7 @@ class AdminController extends Controller
             $Member->dob = $NonMember->dob;
             $Member->maritalStatus = $NonMember->maritalStatus;
             $Member->membershipType =$request->membershipType;
-            $Member->membershipExpiryDate = $request->Validity;
+            $Member->membershipExpiryDate = $this_year;
             
             if($Member->save()){
                 $User = User::find($request->user_id);
@@ -260,10 +272,20 @@ class AdminController extends Controller
 
                 $NonMember = NonMember::where('user_id',$request->user_id)->delete();
             }
+        }
+        else
+        {
+            $Member = Member::where('Email_Id',$NonMember->Email_Id)->first();
+            $Member->membershipExpiryDate = $this_year;
+            $Member->save();
+
+        }
+
             
 
        return redirect('/admin/Payments')->withSuccess('Membership Updated Successfully');
-    }
+        }
+    
 
 
 }

@@ -35,7 +35,16 @@
                   <tbody>  
                       @foreach($MembershipBuy as $MembershipBuy)
                       <?php
+                        $member = App\Member::where('user_id',$MembershipBuy->user_id)->first();
+                        if($member==null)
+                        {
                         $member = App\NonMember::where('user_id',$MembershipBuy->user_id)->first();
+                      }
+                      else
+                      {
+                        $member = App\Member::where('user_id',$MembershipBuy->user_id)->first();
+                      }
+
                       ?>
                         @if($member!=null)
 
