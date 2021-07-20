@@ -35,8 +35,10 @@
 {{Session::get('success')}}
 </div>
 @endif
+
               <div class="card-header"><center><strong>Add Competition</strong></center></div>
               <div class="card-body">
+
 <div class="row">
     <div class="col-md-3 form-group ">
         <label class="names">Competition</label>

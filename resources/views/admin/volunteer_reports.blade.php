@@ -16,7 +16,7 @@
             <div class="card">
               
               <div class="card-body">
-			  <table class="table table">
+			  <table class="table table-bordered table-striped" id="volunteer_list">
 				 <thead>
 					<th>Name</th>
 					<th>Email</th>

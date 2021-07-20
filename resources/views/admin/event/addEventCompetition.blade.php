@@ -35,7 +35,7 @@
 {{Session::get('success')}}
 </div>
 @endif
-              <div class="card-header"><center><strong>Add Competition</strong></center></div>
+<div class="card-header"><center><strong>Add Competition</strong></center></div>
               <div class="card-body">
                 <input type="hidden" name="id" value="{{$id}}">
 

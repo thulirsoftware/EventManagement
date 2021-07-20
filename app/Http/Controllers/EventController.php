@@ -21,7 +21,6 @@ class EventController extends Controller
     }
     public function addEvent()
     {
-                Session::forget('competitionCheck');
 
         $toDay = Carbon::now()->toDateString();
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
@@ -32,12 +31,11 @@ class EventController extends Controller
 
     public function addEventPost(Request $request)
     { 
-       // dd($request);
         if($request->has('competitionCheck'))
         {
-            Session::put('competitionCheck',$request->all());
-             $data = Session::get('competitionCheck');
-            return redirect('/admin/addEventcompetitions');
+            Session::put('competitionChecks',$request->all());
+           return redirect('/admin/addEventcompetitions');
+
             
         }
         else
@@ -134,7 +132,7 @@ class EventController extends Controller
     }
     public function addEventcompetitionsSave(Request $request)
     {
-       $data = Session::get('competitionCheck');
+       $data = Session::get('competitionChecks');
       // dd($data['eventDescription']);
        $event = new Event;
         $event->eventName = $data['eventName'];
@@ -425,7 +423,7 @@ class EventController extends Controller
 
     public function manageEvent()
     {
-        $events = Event::all();
+        $events = Event::orderby('id','desc')->get();
         return view('admin.event.manageEvent',compact('events'));
     }
 

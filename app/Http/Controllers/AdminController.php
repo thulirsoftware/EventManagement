@@ -19,6 +19,7 @@ use App\PurchasedEventEntryTickets;
 use App\PurchasedEventFoodTickets;
 use App\MembershipBuy;
 use App\Volunteer;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -134,16 +135,15 @@ class AdminController extends Controller
         {
             $date = Carbon::now()->format('Y');
             $MembershipBuy = MembershipBuy::where('payment_status','Completed')->pluck('user_id');
-            $members = Member::whereIn('Member_Id',$MembershipBuy)->where('membershipExpiryDate','>=',$date)->get();
+            $members = Member::whereIn('user_id',$MembershipBuy)->where('membershipExpiryDate','<=',$date)->get();
 
             return view('admin.memberDetails',compact('members'));
         }
 
         public function viewFamilyMember($id)
         {
-            $member = Member::where('id',$id)->first();
-            $FamilyMember = FamilyMember::where('Member_Id',$member->Member_Id)->get();
-            return view('admin.viewFamilyMember',compact('member','FamilyMember'));
+            $FamilyMember = FamilyMember::where('user_id',$id)->get();
+            return view('admin.viewFamilyMember',compact('FamilyMember'));
         }
 
 
@@ -186,7 +186,7 @@ class AdminController extends Controller
 
     public function FoodTicketsReport()
     {
-        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::where('ticketQty','!=',null)->get();
+        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::where('ticketQty','!=',null)->where('ticketQty','!=',0)->get();
         return view('admin.PurchasedEventFoodTickets',compact('PurchasedEventFoodTickets'));
     }
 
@@ -269,7 +269,11 @@ class AdminController extends Controller
                 $User = User::find($request->user_id);
                 $User->Member_Id = $Member_Id;
                 $User->save();
-
+                
+                $FamilyMember = FamilyMember::where('user_id',$request->user_id)->first();
+                $FamilyMember->Member_Id = $Member_Id;
+                $FamilyMember->save();
+                
                 $NonMember = NonMember::where('user_id',$request->user_id)->delete();
             }
         }

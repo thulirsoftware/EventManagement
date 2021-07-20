@@ -68,47 +68,42 @@ class RegisterController extends Controller
     public function create(Request $request)
     {
 
- $request->validate([
-    'email' => 'required|email|max:255|unique:users',
-]);
-    $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
+       $request->validate([
+        'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|confirmed',
+        ]);
+       $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
 
-        if($user){
+       if($user){
         $userId=$user[0]['id'];
 
         $Member_Id='NETS'.sprintf("%07d", ++$userId);
         }else{
             $Member_Id = "NETS0000001";
         }
-        
 
-      
- 
+    $users = User::create([
+        'name' => $request['name'],
+        'email' => $request['email'],
+        'user_type' => "user", 
+        'password' => bcrypt($request['password']),
+        'token' => str_random(25),
+    ]);
+    $users = User::orderby('id','desc')->first();
+    $NonMember = new NonMember();
+    $NonMember->firstName = $request['name'];
+    $NonMember->lastName =$request['lastName'];
+    $NonMember->Email_Id = $request['email'];
+    $NonMember->mobile_number =$request['phoneNo1'];
+    $NonMember->user_id =$users->id;
+    $NonMember->save();
 
-   
+    
 
-
-
-        $users = User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'user_type' => "user", 
-            'password' => bcrypt($request['password']),
-            'token' => str_random(25),
-        ]);
-       $users = User::orderby('id','desc')->first();
-       $NonMember = new NonMember();
-       $NonMember->firstName = $request['name'];
-       $NonMember->lastName =$request['lastName'];
-       $NonMember->Email_Id = $request['email'];
-       $NonMember->mobile_number =$request['phoneNo1'];
-       $NonMember->user_id =$users->id;
-       $NonMember->save();
-         
-         return redirect('/')->withSuccess('Registered Successfully');
+    return redirect('/')->withSuccess('Registered Successfully');
 
         //$user->notify(new VerifyEmail($user));
         //$user->sendVerificationEmail();
 
-   }
+}
 }

@@ -10,9 +10,8 @@ class FamilyMemberController extends Controller
 {
     public function familyMembers()
     {
-        $tagDvId = Auth::user()->Member_Id;
-
-    	$familyMembers = FamilyMember::where('Member_Id',$tagDvId)->get();
+        $tagDvId = Auth::user()->id;
+        $familyMembers = FamilyMember::where('user_id',$tagDvId)->get();
 
         return view('user.familyMembers',compact('familyMembers'));
     }
@@ -26,6 +25,7 @@ class FamilyMemberController extends Controller
     public function addFamilyMembers(Request $request)
     {
         $family = new FamilyMember;
+         $family->user_id = Auth::user()->id;
         $family->Member_Id = $request->tagDvId;
         $family->firstName = $request->firstName;
         $family->lastName = $request->lastName;

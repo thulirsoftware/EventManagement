@@ -38,7 +38,6 @@
 				 	<th>S.No</th>
 					<th>Name</th>
 					<th>Phone No</th>
-					<th>DOB</th>
 					<th>Relationship Type</th>
 				 </thead>
 				 <tbody>
@@ -51,7 +50,6 @@
 
 			             <td>{{ $member['firstName'] }} {{ $member['lastName'] }}</td>
 			             <td>{{ $member['phoneNo'] }}</td>
-			              <td>{{ $member['dob'] }}</td>
 			             <td>{{ $member['relationshipType'] }}</td>
 			            
 			             

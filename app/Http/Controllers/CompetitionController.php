@@ -15,9 +15,7 @@ class CompetitionController extends Controller
 
     public function ListCompetition()
     {
-
-        $Competition = Competition::get();
-
+        $Competition = Competition::orderby('id','desc')->get();
         return view('admin.competition.list',compact('Competition'));
     }
 
@@ -31,7 +29,8 @@ class CompetitionController extends Controller
         $Competition = new Competition;
         $Competition->name = $request->Name;
         $Competition->awards = $request->awards;
-        $Competition->age_limit = $request->age_limit;
+        $Competition->min_age = $request->age_limit;
+        $Competition->max_age = $request->max_age;
         $Competition->competition_type = $request->competition_type;
          $Competition->starting_date = $request->starting_date;
         $Competition->closing_date = $request->closing_date;
@@ -52,11 +51,11 @@ class CompetitionController extends Controller
         $Competition = Competition::find($request->id);
         $Competition->name = $request->Name;
         $Competition->awards = $request->awards;
-        $Competition->age_limit = $request->age_limit;
+        $Competition->min_age = $request->age_limit;
+        $Competition->max_age = $request->max_age;
         $Competition->competition_type = $request->competition_type;
         $Competition->instruction = $request->instruction;
-                 $Competition->starting_date = $request->starting_date;
-
+        $Competition->starting_date = $request->starting_date;
         $Competition->closing_date = $request->closing_date;
         $Competition->save();
             return redirect(route('admin.competition.list'));
