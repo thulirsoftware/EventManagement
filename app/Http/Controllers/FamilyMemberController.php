@@ -11,7 +11,7 @@ class FamilyMemberController extends Controller
     public function familyMembers()
     {
         $tagDvId = Auth::user()->id;
-        $familyMembers = FamilyMember::where('user_id',$tagDvId)->get();
+        $familyMembers = FamilyMember::where('user_id',$tagDvId)->orderby('id','desc')->get();
 
         return view('user.familyMembers',compact('familyMembers'));
     }

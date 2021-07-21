@@ -41,14 +41,14 @@
 <div class="card-body">
         <div class="col-md-12">
           <div class="row">
-        <div class="col-md-6 form-group ">
-          <label class="names">Age Group:&nbsp;<span style="color: red">*</span></label>
-          <select class="form-control" name="ageGroup" id="sel1" required>
-            <option value="">Select</option>
-            <option value="Adult">Adult</option>
-            <option value="kids">Kids</option>
-          </select>
-        </div>
+            <div class="col-md-6 form-group ">
+              <label class="names">Min Age:&nbsp;<span style="color: red">*</span></label>
+              <input class="form-control" type="text" name="min_age" id="min_age">
+            </div>
+            <div class="col-md-6 form-group ">
+              <label class="names">Max Age:&nbsp;<span style="color: red">*</span></label>
+              <input class="form-control" type="text" name="max_age" id="max_age">
+            </div>
         <div class="col-md-6 form-group ">
           <label class="names">Member:&nbsp;<span style="color: red">*</span></label>
           <select class="form-control" name="memberType" id="sel1" required>

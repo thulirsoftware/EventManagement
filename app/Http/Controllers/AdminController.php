@@ -133,9 +133,9 @@ class AdminController extends Controller
 
         public function memberDetails()
         {
-            $date = Carbon::now()->format('Y');
+            $date = Carbon::now()->format('Y-m-d');
             $MembershipBuy = MembershipBuy::where('payment_status','Completed')->pluck('user_id');
-            $members = Member::whereIn('user_id',$MembershipBuy)->where('membershipExpiryDate','<=',$date)->get();
+            $members = Member::whereIn('user_id',$MembershipBuy)->where('membershipExpiryDate','>=',$date)->get();
 
             return view('admin.memberDetails',compact('members'));
         }
@@ -150,7 +150,13 @@ class AdminController extends Controller
         public function nonMemberDetails()
         {
              $date = Carbon::now()->format('Y-m-d');
-            $members = NonMember::get();
+
+
+            $members = Member::where('membershipExpiryDate','<=',$date)->get();
+            $NonMember = NonMember::get();
+
+        $members = $members->merge($NonMember);
+
             return view('admin.nonMemberDetails',compact('members'));
         }
 
@@ -262,8 +268,9 @@ class AdminController extends Controller
             $Member->gender = $NonMember->gender;
             $Member->dob = $NonMember->dob;
             $Member->maritalStatus = $NonMember->maritalStatus;
+            $Member->membershipAmount = $request->membershipAmount;
             $Member->membershipType =$request->membershipType;
-            $Member->membershipExpiryDate = $this_year;
+            $Member->membershipExpiryDate = $request->closing_date;
             
             if($Member->save()){
                 $User = User::find($request->user_id);
@@ -280,7 +287,7 @@ class AdminController extends Controller
         else
         {
             $Member = Member::where('Email_Id',$NonMember->Email_Id)->first();
-            $Member->membershipExpiryDate = $this_year;
+            $Member->membershipExpiryDate =$request->closing_date;
             $Member->save();
 
         }
@@ -289,6 +296,32 @@ class AdminController extends Controller
 
        return redirect('/admin/Payments')->withSuccess('Membership Updated Successfully');
         }
+
+    /**** User Membership Update*******/
+
+    public function EditMembership($id)
+    {
+        $MembershipBuy = MembershipBuy::where('user_id',$id)->orderby('id','desc')->first();
+        $MembershipCode = MembershipConfig::orderby('id','desc')->get();
+        $MembershipAmount = MembershipConfig::orderby('id','desc')->get();
+        return view('admin.member.membership_edit',compact('MembershipBuy','MembershipAmount','MembershipCode'));
+    }
+
+    public function UpdateMembership(Request $request)
+    {
+
+        $MembershipBuy = MembershipBuy::where('user_id',$request->user_id)->orderby('id','desc')->first();
+        $MembershipBuy->membership_code = $request->membershipType;
+        $MembershipBuy->membership_amount = $request->membershipAmount;
+        if($MembershipBuy->save())
+        {
+            $Member = Member::where('user_id',$request->user_id)->first();
+            $Member->membershipType =$request->membershipType;
+            $Member->membershipAmount = $request->membershipAmount;
+            $Member->save();
+        }
+        return redirect()->back()->withSuccess('Membership Updated Successfully');
+    }
     
 
 

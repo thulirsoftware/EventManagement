@@ -33,7 +33,86 @@ class EventController extends Controller
     { 
         if($request->has('competitionCheck'))
         {
-            Session::put('competitionChecks',$request->all());
+             if ($request->hasFile('eventFlyer')){  
+                 
+             $file = $request->file('eventFlyer');
+             
+             $extension = $file->getClientOriginalExtension(); 
+             
+             $fileName = time().'.'.$extension;
+             
+             $path = public_path().'/events';
+             
+             $uplaod = $file->move($path,$fileName);
+             
+             }   
+              $event = new Event;
+        $event->eventName = $request->eventName;
+        $event->eventDescription = $request->eventDescription;
+
+        if($request->eventFlyer != "" || $request->eventFlyer != null){
+        $event->eventFlyer = $fileName;
+        }else{
+             $event->eventFlyer = $request->eventFlyer;
+        }
+
+        $event->eventDate = $request->eventDate;
+        $event->eventTime = $request->eventTime;
+        $event->free_count = $request->free_count;
+        $event->eventLocation = $request->eventLocation;
+        $event->eventLocationLink = $request->eventLocationLink;
+
+        if($event->save())
+        {
+            if($request->has('min_age'))
+            {
+                $ageGroupCount = count($request->min_age); 
+            }
+            else
+            {
+                 $ageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $ageGroupCount; $i++)
+            {
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->min_age = $request->min_age[$i];
+                $EventEntryTickets->max_age = $request->max_age[$i];
+                $EventEntryTickets->memberType =$request->memberType[$i];
+                $EventEntryTickets->ticketPrice = $request->ticketPrice[$i];
+                if($request->ticketPrice[$i]!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+            if($request->has('food_min_age'))
+            {
+                $FoodageGroupCount = count($request->food_min_age); 
+            }
+            else
+            {
+                 $FoodageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $FoodageGroupCount; $i++)
+            {
+                $eventTicket = new EventTicket;
+                $eventTicket->eventId = $event->id;
+                $eventTicket->eventName = $event->eventName;
+                $eventTicket->min_age = $request->food_min_age[$i];
+                $eventTicket->max_age = $request->food_max_age[$i];
+                $eventTicket->memberType =$request->FoodmemberType[$i];
+                $eventTicket->foodType = $request->foodType[$i];
+                $eventTicket->ticketPrice = $request->FoodticketPrice[$i];
+                if($request->FoodticketPrice[$i]!=null)
+                {
+                    $eventTicket->save();
+                }
+            }    
+        }
+            
+            Session::put('competitionChecks',$event->id);
            return redirect('/admin/addEventcompetitions');
 
             
@@ -67,12 +146,12 @@ class EventController extends Controller
         $event->eventTime = $request->eventTime;
         $event->eventLocation = $request->eventLocation;
         $event->eventLocationLink = $request->eventLocationLink;
-
+        $event->free_count = $request->free_count;
         if($event->save())
         {
-            if($request->has('ageGroup'))
+            if($request->has('min_age'))
             {
-                $ageGroupCount = count($request->ageGroup); 
+                $ageGroupCount = count($request->min_age); 
             }
             else
             {
@@ -83,7 +162,8 @@ class EventController extends Controller
             {
                 $EventEntryTickets = new EventEntryTickets();
                 $EventEntryTickets->eventId = $event->id;
-                $EventEntryTickets->ageGroup = $request->ageGroup[$i];
+                $EventEntryTickets->min_age = $request->min_age[$i];
+                $EventEntryTickets->max_age = $request->max_age[$i];
                 $EventEntryTickets->memberType =$request->memberType[$i];
                 $EventEntryTickets->ticketPrice = $request->ticketPrice[$i];
                 if($request->ticketPrice[$i]!=null)
@@ -91,9 +171,9 @@ class EventController extends Controller
                     $EventEntryTickets->save();
                 }
             }
-            if($request->has('FoodageGroup'))
+            if($request->has('food_min_age'))
             {
-                $FoodageGroupCount = count($request->FoodageGroup); 
+                $FoodageGroupCount = count($request->food_min_age); 
             }
             else
             {
@@ -105,7 +185,8 @@ class EventController extends Controller
                 $eventTicket = new EventTicket;
                 $eventTicket->eventId = $event->id;
                 $eventTicket->eventName = $event->eventName;
-                $eventTicket->ageGroup = $request->FoodageGroup[$i];
+                $eventTicket->min_age = $request->food_min_age[$i];
+                $eventTicket->max_age = $request->food_max_age[$i];
                 $eventTicket->memberType =$request->FoodmemberType[$i];
                 $eventTicket->foodType = $request->foodType[$i];
                 $eventTicket->ticketPrice = $request->FoodticketPrice[$i];
@@ -132,80 +213,8 @@ class EventController extends Controller
     }
     public function addEventcompetitionsSave(Request $request)
     {
-       $data = Session::get('competitionChecks');
-      // dd($data['eventDescription']);
-       $event = new Event;
-        $event->eventName = $data['eventName'];
-       if (isset($data['eventFlyer'])){  
-                 
-             $file = $data->file('eventFlyer');
-             
-             $extension = $file->getClientOriginalExtension(); 
-             
-             $fileName = time().'.'.$extension;
-             
-             $path = public_path().'/events';
-             
-             $uplaod = $file->move($path,$fileName);
-                $event->eventFlyer = $fileName;
-        
-             
-             }   
-              
-
-        
-
-        $event->eventDate = $data['eventDate'];
-        $event->eventTime = $data['eventTime'];
-        $event->eventLocation = $data['eventLocation'];
-
-        if($event->save())
-        {
-            if(isset($data['ageGroup']))
-            {
-                $ageGroupCount = count($data['ageGroup']); 
-            }
-            else
-            {
-                 $ageGroupCount = 0;
-            }
-
-            for($i = 0;$i < $ageGroupCount; $i++)
-            {
-                $EventEntryTickets = new EventEntryTickets();
-                $EventEntryTickets->eventId = $event->id;
-                $EventEntryTickets->ageGroup = $data['ageGroup'][$i];
-                $EventEntryTickets->memberType =$data['memberType'][$i];
-                $EventEntryTickets->ticketPrice = $data['ticketPrice'][$i];
-                if($data['ticketPrice'][$i]!=null)
-                {
-                    $EventEntryTickets->save();
-                }
-            }
-
-            if(isset($data['FoodageGroup']))
-            {
-                $FoodageGroupCount = count($data['FoodageGroup']); 
-            }
-            else
-            {
-                 $FoodageGroupCount = 0;
-            }
-            for($i = 0;$i < $FoodageGroupCount; $i++)
-            {
-
-            $eventTicket = new EventTicket;
-            $eventTicket->eventId = $event->id;
-            $eventTicket->eventName = $event->eventName;
-            $eventTicket->ageGroup = $data['FoodageGroup'][$i];
-            $eventTicket->memberType =$data['FoodmemberType'][$i];
-            $eventTicket->foodType = $data['foodType'][$i];
-            $eventTicket->ticketPrice = $data['FoodticketPrice'][$i];
-            if($data['FoodticketPrice'][$i]!=null)
-            {
-                $eventTicket->save();
-            }  
-        }
+       $eventId = Session::get('competitionChecks');
+           
               if($request->has('competition_id'))
             {
                 $competition_Count = count($request->competition_id); 
@@ -218,14 +227,20 @@ class EventController extends Controller
             {
               
                 $EventCompetition = new EventCompetition();
-                $EventCompetition->event_id = $event->id;
+                $EventCompetition->event_id = $eventId;
                 $EventCompetition->competition_id = $request->competition_id[$i];
                 $EventCompetition->member_fee = $request->member_fee[$i];
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
-                $EventCompetition->save();
+                if($EventCompetition->save())
+                {
+
+                }
+                else
+                {
+                    $Event = Event::where('id',$eventId)->delete();
+                }
             }  
-        }
-        Session::forget('competitionCheck');
+        Session::forget('competitionChecks');
          return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
     }
 
@@ -237,11 +252,12 @@ class EventController extends Controller
     {
         $eventTicket = new EventEntryTickets();
         $eventTicket->eventId = $request->eventId;
-        $eventTicket->ageGroup = $request->ageGroup;
+        $eventTicket->min_age = $request->min_age;
+        $eventTicket->max_age = $request->max_age;
         $eventTicket->memberType =$request->memberType;
         $eventTicket->ticketPrice = $request->ticketPrice;
         $eventTicket->save();
-         return redirect(url('admin/eventTickets/'.$request->eventId));
+         return redirect(url('admin/eventTickets/'.$request->eventId))->withInput(["tab" =>"nav-profile"])->withSuccess('Entry Ticket Added Successfully');
     }
 
     public function addEventFoodTicket($id)
@@ -252,12 +268,13 @@ class EventController extends Controller
     {
         $eventTicket = new EventTicket();
         $eventTicket->eventId = $request->eventId;
-        $eventTicket->ageGroup = $request->FoodageGroup;
+        $eventTicket->min_age = $request->min_age;
+        $eventTicket->max_age = $request->max_age;
         $eventTicket->memberType =$request->FoodmemberType;
         $eventTicket->foodType = $request->foodType;
         $eventTicket->ticketPrice = $request->FoodticketPrice;
         $eventTicket->save();
-         return redirect(url('admin/eventTickets/'.$request->eventId))->withSuccess('Food Ticket Added Successfully');
+         return redirect(url('admin/eventTickets/'.$request->eventId))->withInput(["tab" =>"nav-contact"])->withSuccess('Food Ticket Added Successfully');
 
     }
 
@@ -288,22 +305,10 @@ class EventController extends Controller
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
                 $EventCompetition->save();
             }  
-         return redirect(url('admin/eventTickets/'.$request->id))->withSuccess('Food Ticket Added Successfully');
+         return redirect(url('admin/eventTickets/'.$request->id))->withInput(["tab" =>"nav-competition"])->withSuccess('Competition Added Successfully');
     }
 
-      public function addEventTicketPost(Request $request)
-    {   
-        $eventTicket = new EventTicket;
-        $eventTicket->eventId = $request->eventId;
-        $eventTicket->eventName = $request->eventName;
-        $eventTicket->ageGroup = $request->ageGroup;
-        $eventTicket->memberType =$request->memberType;
-        $eventTicket->foodType = $request->foodType;
-        $eventTicket->ticketPrice = $request->ticketPrice;
-        $eventTicket->save();
-         return redirect()->back()->withSuccess('Event Ticket Added Successfully');
-
-    }
+   
     
     public function eventUpdate(Request $request)
     {
@@ -348,12 +353,12 @@ class EventController extends Controller
 
             if($event->save()){
 
-                        return redirect('/admin/manageEvent')->withSuccess('Event Updated Successfully');
+                       return redirect(url('admin/eventTickets/'.$request->id))->withInput(["tab" =>"nav-home"])->withSuccess('Event Updated Successfully');
 
             
             }else{
 
-                         return redirect('/admin/manageEvent')->withSuccess('Event Updated Successfully');
+                    return redirect(url('admin/eventTickets/'.$request->id))->withInput(["tab" =>"nav-home"])->withSuccess('Event Updated Successfully');
 
             }
     }
@@ -406,17 +411,32 @@ class EventController extends Controller
 
    
 
-    public function eventTicketDelete($id)
+    public function eventTicketDelete(Request $request)
     {
-        $eventTicket = EventEntryTickets::find($id);
+        $eventTicket = EventEntryTickets::find($request->id);
         if($eventTicket->delete()){
 
-                     return redirect()->back()->withSuccess('Event Ticket Removed Successfully');
+             return response()->json(['success'=>$eventTicket]);
 
 
         }else{
             
-                     return redirect()->back()->withSuccess('Event Ticket Removed Successfully');
+          return response()->json(['success'=>$eventTicket]);
+
+        }
+    }
+
+    public function EventFoodTicketDelete(Request $request)
+    {
+        $eventTicket = EventTicket::find($request->id);
+        if($eventTicket->delete()){
+
+             return response()->json(['success'=>$eventTicket]);
+
+
+        }else{
+            
+          return response()->json(['success'=>$eventTicket]);
 
         }
     }
@@ -442,7 +462,8 @@ class EventController extends Controller
     public function UpdateEventFoodTicket(Request $request)
     {
         $eventTicket = EventTicket::find($request['event_food_id']);
-        $eventTicket->ageGroup = $request['event_age'];
+        $eventTicket->min_age = $request['event_min_age'];
+        $eventTicket->max_age = $request['event_max_age'];
         $eventTicket->memberType =$request['event_type'];
         $eventTicket->foodType = $request['event_food'];
         $eventTicket->ticketPrice = $request['event_price'];
@@ -453,7 +474,8 @@ class EventController extends Controller
     public function UpdateEventEntryTicket(Request $request)
     {
          $eventTicket = EventEntryTickets::find($request['event_entry_id']);
-        $eventTicket->ageGroup = $request->event_age;
+        $eventTicket->min_age = $request['event_min_age'];
+        $eventTicket->max_age = $request['event_max_age'];
         $eventTicket->memberType =$request->event_type;
         $eventTicket->ticketPrice = $request->event_price;
         $eventTicket->save();

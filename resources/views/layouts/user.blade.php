@@ -8,22 +8,14 @@
     <title>{{ config('app.name', 'Blackstone') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/jqvmap/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap-datetimepicker.min.css') }}">
-     <link rel="stylesheet" href="{{ asset('assets/dist/css/bootstrap-datetimepicker.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/timepicker.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
-
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
   <Style>
     .field-icon {
     float: right;
@@ -179,6 +171,21 @@ background-color: #fff;
 .button1:hover {
   opacity: 0.8;
 }
+
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  border:3px solid white;
+}
+.info{
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
   </Style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
@@ -198,29 +205,13 @@ background-color: #fff;
     <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <script> $.widget.bridge('uibutton', $.ui.button); </script>
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/sparklines/sparkline.js') }}"></script>
-    <!-- <script src="{{ asset('assets/plugins/jqvmap/jquery.vmap.min.js') }}"></script> -->
-    <!-- <script src="{{ asset('assets/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script> -->
-    <link rel="stylesheet" href="{{ asset('assets/plugins/time-picker-bootstrap/timepicker.css')}}">
-    <script src="{{ asset('assets/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/bootstrap-datetimepicker.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
     <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
-    <script src="{{ asset('assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
 
-    <!-- Toaster -->
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
-    <!-- Toaster -->
         <!-- DataTables -->
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -228,15 +219,10 @@ background-color: #fff;
 <script src="{{asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
   <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{{asset('assets/plugins/timepicker.js')}}"></script>
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+
 <script>
   $(function () {
     // Summernote
@@ -296,49 +282,22 @@ background-color: #fff;
 
 <script>
     $(function () {
-          $('.select2').select2({
-    placeholder: "Select Current Location",
-});
-          $('.selectprefer2').select2({
-    placeholder: "Select Preferred Location",
-})
-      $("#example1").DataTable({
+
+      $("#user_membership_list").DataTable({
         "responsive": true,
         "autoWidth": false,
         "iDisplayLength":25,
+        "bSort": true,
+       
 
       });
-       $("#example2").DataTable({
+        $("#family_members_list").DataTable({
         "responsive": true,
         "autoWidth": false,
         "iDisplayLength":25,
-         "order": [[ 0, "desc" ]]
-      });
-         $("#employer").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        "iDisplayLength":25,
-         "order": [[ 0, "desc" ]]
-      });
-  $("#jobs").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        "iDisplayLength":25,
-         "order": [[ 3, "desc" ]]
-      });
+        "bSort": true,
       
-      $("#example11").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        "iDisplayLength":25
       });
-      $('#example21').DataTable({
-        "autoWidth": false,
-        "responsive": true,
-      });
-      
-      
-     
      
 }); 
   </script>

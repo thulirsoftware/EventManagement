@@ -11,7 +11,7 @@ class MembershipConfig extends Model
     						'membership_desc',
     						'membership_amount',
     						'is_visible',
-    						'open_date',
+    						'starting_date',
     						'closing_date',
     						];
 }

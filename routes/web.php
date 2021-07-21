@@ -56,8 +56,8 @@ Route::get('/user_home','MemberController@user_home');
 Route::get('/renew_membership','MemberController@renew_membership');
 Route::get('/editProfile','MemberController@editProfile');
 Route::post('/editProfilePost','MemberController@editProfilePost');
-
-
+Route::get('/ChangePassword','MemberController@ChangePassword');
+Route::post('/UpdatePassword','MemberController@UpdatePassword');
 
 
 
@@ -120,6 +120,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
 
   Route::get('/Event/addEventFoodTicket/{id}', 'EventController@addEventFoodTicket');
   Route::post('/Event/addEventFoodTicketPost', 'EventController@addEventFoodTicketPost');
+  Route::get('/Event/FoodTicket/Delete','EventController@EventFoodTicketDelete');
 
   Route::get('/Event/addCompetition/{id}', 'EventController@addEventCompetition');
   Route::post('/Event/addEventCompetitionPost', 'EventController@addEventCompetitionPost');
@@ -185,7 +186,8 @@ Route::get('/VolunteerReports', 'AdminController@VolunteerReports');
   Route::get('/Payments', 'AdminController@PaymentList');
   Route::get('/PaymentEdit/{id}', 'AdminController@PaymentEdit');
     Route::post('/UpdatePayment','AdminController@UpdatePayment');
-
+  Route::get('/Member/EditMembership/{id}', 'AdminController@EditMembership');
+Route::post('/Member/UpdateMembership', 'AdminController@UpdateMembership');
 
 });
 

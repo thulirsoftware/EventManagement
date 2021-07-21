@@ -39,7 +39,8 @@
 										<td>{{ $member['Email_Id'] }}</td>
 										<td>{{ $member['mobile_number'] }}</td>
 										<td>{{ $member['addressLine1'] }}</td>
-										<td><a href="/admin/viewFamilyMember/{{ $member['id'] }}" ><i class="fa fa-eye fa-lg" style="text-align:center;"></i></a></td>
+										<td><a href="/admin/viewFamilyMember/{{ $member['id'] }}" ><i class="fa fa-eye fa-lg" style="text-align:center;"></i></a>&nbsp;&nbsp;
+											<a href="/admin/Member/EditMembership/{{ $member['id'] }}" ><i class="fa fa-edit fa-md" style="text-align:center;"></i></a></td>
 									</tr>
 									@endforeach
 								</tbody>

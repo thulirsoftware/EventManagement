@@ -24,6 +24,7 @@ use App\Competition;
 use App\CompetitionRegistered;
 use App\EventRegistration;
 use App\Volunteer;
+use Hash;
 
 class MemberController extends Controller
 {
@@ -349,8 +350,8 @@ class MemberController extends Controller
         {
             $member = NonMember::where('Email_Id',$email)->first();
         }
-         $date = Carbon::now()->format('Y');
-         $membership = DB::table('membership_configs')->where('is_visible','yes')->where('year',$date)->get();
+         $date = Carbon::now()->format('Y-m-d');
+         $membership = DB::table('membership_configs')->where('is_visible','yes')->where('closing_date','>=',$date)->get();
 
         return view('user.membership',compact('membership'));
     }
@@ -435,7 +436,64 @@ class MemberController extends Controller
         $member = Member::where('user_id',Auth::user()->id)->first();
         if($member!=null)
         {
-            $member = Member::where('user_id',Auth::user()->id)->update([
+            if ($request->hasFile('profile')){  
+                 
+             $file = $request->file('profile');
+             
+             $extension = $file->getClientOriginalExtension(); 
+             
+             $fileName = time().'.'.$extension;
+             
+             $path = public_path().'/profiles';
+             
+             $uplaod = $file->move($path,$fileName);
+                $member = Member::where('user_id',Auth::user()->id)->update([
+                'gender' => $request->gender,
+                'addressLine1' => $request->address1,
+                'addressLine2' => $request->address2,
+                'country' => $request->city,
+                'state' => $request->state,
+                'zipCode' => $request->zipCode,
+                'maritalStatus' => $request->marital,
+                'dob' => $request->dob,
+                'mobile_number' => $request->mobile,
+                'firstName' => $request->firstName,
+                'lastName' => $request->lastName,
+                'profile'=>$fileName
+                ]);
+             
+             }
+             else{
+                $member = Member::where('user_id',Auth::user()->id)->update([
+                'gender' => $request->gender,
+                'addressLine1' => $request->address1,
+                'addressLine2' => $request->address2,
+                'country' => $request->city,
+                'state' => $request->state,
+                'zipCode' => $request->zipCode,
+                'maritalStatus' => $request->marital,
+                'dob' => $request->dob,
+                'mobile_number' => $request->mobile,
+                'firstName' => $request->firstName,
+                'lastName' => $request->lastName,
+                ]);
+             }   
+            
+        }
+        else
+        {  
+            if ($request->hasFile('profile')){  
+                 
+             $file = $request->file('profile');
+             
+             $extension = $file->getClientOriginalExtension(); 
+             
+             $fileName = time().'.'.$extension;
+             
+             $path = public_path().'/profiles';
+             
+             $uplaod = $file->move($path,$fileName); 
+              $NonMember = NonMember::where('user_id',Auth::user()->id)->update([
             'gender' => $request->gender,
             'addressLine1' => $request->address1,
             'addressLine2' => $request->address2,
@@ -447,10 +505,11 @@ class MemberController extends Controller
             'mobile_number' => $request->mobile,
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
+            'profile'=>$fileName
             ]);
-        }
-        else
-        {     
+            }
+            else
+            {
             $NonMember = NonMember::where('user_id',Auth::user()->id)->update([
             'gender' => $request->gender,
             'addressLine1' => $request->address1,
@@ -464,6 +523,7 @@ class MemberController extends Controller
             'firstName' => $request->firstName,
             'lastName' => $request->lastName,
             ]);
+        }
         }
 
         
@@ -559,6 +619,33 @@ class MemberController extends Controller
                 return redirect()->back()->withSuccess('Volunteer added Successfully');
             }
 
+        }
+
+        public function ChangePassword()
+        {
+           return view('user.changepassword');
+        }
+
+        public function UpdatePassword(Request $request)
+        {
+            $this->validate($request, [
+                'old_password' => 'required',
+                'password'     => 'required|confirmed',
+            ]);
+            $data = $request->all();
+         
+            $user = User::find(auth()->user()->id);
+            if(!Hash::check($data['old_password'], $user->password))
+                {
+                 return back()->withWarning('Your Old Password is does not match');
+                }
+                else
+                {
+                    $user = User::find(auth()->user()->id);
+                    $user->password = bcrypt($request['password']);
+                    $user->save();
+                    return back()->withSuccess('Password Updated Successfully');
+                }
         }
 
 

@@ -67,7 +67,7 @@
                 <input type="text" class="form-control" id="membershipAmount" placeholder="" name="membershipAmount" value="{{$membership->membership_amount}}" required readonly="">
               
             </div>
-             <input type="hidden" class="form-control" id="Validity" placeholder="" name="Validity" value="{{$membership->year}}">
+             <input type="hidden" class="form-control" id="Validity" placeholder="" name="Validity" value="{{$membership->closing_date}}">
              <input type="hidden" class="form-control" id="membership_id" placeholder="" name="membership_id" value="{{$membership->id}}">
             
             

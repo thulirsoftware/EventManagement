@@ -25,7 +25,7 @@
 </div>
 @endif
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table table-bordered table-striped" id="family_members_list">
      <thead >
       <th>SI.No</th>
             <th>First Name</th>

@@ -74,7 +74,7 @@
      <div class="col-md-12">
           <div class="form-group">
             <label>Confirm Password&nbsp;<span style="color:red">*</span><br></label>
-            <input id="confirm_password" type="password" class="form-control" name="confirm_password" placeholder="Re-type Password" required>
+            <input id="confirm_password" type="password" class="form-control" name="password_confirmation" placeholder="Re-type Password" required>
         </div>
     </div>
     <div class="col-md-12">

@@ -16,7 +16,7 @@ class MembershipController extends Controller
     public function ListMembership()
         {
             $date = Carbon::now()->format('Y');
-            $memberships = MembershipConfig::where('year',$date)->get();
+            $memberships = MembershipConfig::orderby('id','desc')->get();
             return view('admin.Membership.list', compact('memberships'));
         }
 
@@ -32,7 +32,8 @@ class MembershipController extends Controller
             $membership->membership_desc = $request->description;
             $membership->membership_amount = $request->amount;
             $membership->is_visible = $request->isVisible;
-            $membership->year = $request->year;
+            $membership->starting_date = $request->starting_date;
+            $membership->closing_date = $request->closing_date;
             $membership->save();
             return redirect(route('admin.membership.list'));
         }
@@ -50,7 +51,8 @@ class MembershipController extends Controller
                 'membership_desc' => $request->description,
                 'membership_amount' => $request->amount,
                 'is_visible' => $request->isVisible,
-                'year' => $request->year,
+                'starting_date' => $request->starting_date,
+                'closing_date' => $request->closing_date
             ]);
 
             return redirect(route('admin.membership.list'));

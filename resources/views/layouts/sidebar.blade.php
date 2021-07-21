@@ -1,34 +1,39 @@
 
-
+<?php
+     
+      use Illuminate\Support\Str;
+      $path = Request::path();
+       $member = App\Member::where('user_id',Auth::user()->id)->first();
+       if($member==null)
+       {
+         $member = App\NonMember::where('user_id',Auth::user()->id)->first();
+       }
+     ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <img src="https://www.thulirsoft.com/assets/img/thulir-logo-1.png" class="brand-image img-circle elevation-7"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light"></span>
-    </a>
-    
-<br>
+
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-     
-     <?php
-     
-      use Illuminate\Support\Str;
-      $path = Request::path();
-     ?>
+      <br>
+        <div class="image">
+          <img src="{{ URL::to('/') }}/profiles/{{$member->profile}}" class="img-circle center" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{{$member->firstName}}<br>
+          {{$member->Member_Id}}</p>
+        </div>
+     <hr style="color:white">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
            <?php
-           $this_year =  Carbon\Carbon::now()->format('Y');
+           $this_year =  Carbon\Carbon::now()->format('Y-m-d');
             $Member = App\Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
        ?>
-        @if($Member==null)
          
           <li class="nav-item">
                 <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
@@ -36,7 +41,6 @@
                 <p>MemberShip</p>
                 </a>
             </li>
-          @endif
             
             <li class="nav-item">
                 <a href="{{ url('memberTickets') }}" class="nav-link {{ Str::contains($path, ['memberTickets','memberBuyTicket']) ? 'active' : '' }}">
@@ -68,7 +72,12 @@
                 </a>
             </li>
             @endif
-
+              <li class="nav-item">
+                <a href="{{ url('ChangePassword') }}" class="nav-link {{ Str::contains($path, ['ChangePassword']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-key"></i>
+                <p>Change Password</p>
+                </a>
+            </li>
 
            
             

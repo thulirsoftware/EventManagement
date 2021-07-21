@@ -97,13 +97,14 @@ class RegisterController extends Controller
     $NonMember->mobile_number =$request['phoneNo1'];
     $NonMember->user_id =$users->id;
     $NonMember->save();
-
-    
+    $details = [
+        'email' => $request->email,
+        'token' =>  $users->token
+    ];
+                
+    \Mail::to($request->email)->send(new \App\Mail\VerifyMail($details));
 
     return redirect('/')->withSuccess('Registered Successfully');
-
-        //$user->notify(new VerifyEmail($user));
-        //$user->sendVerificationEmail();
 
 }
 }

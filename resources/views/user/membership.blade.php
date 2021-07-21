@@ -16,14 +16,15 @@
           <div class="card">
               
               <div class="card-body">
-                <table class="table" style="width:100%">
+                <table class="table table-bordered table-striped" style="width:100%" id="user_membership_list">
                   <thead>
                     <tr>
                       <th>SI.No</th>
                       <th>Code</th>
                       <th>Description</th>
                       <th>Amount</th>
-                      <th>Year</th>
+                      <th>Starting Date</th>
+                       <th>Closing Date</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -36,20 +37,21 @@
                           <td>{{ $membership->membership_code}}</td>
                           <td>{{ $membership->membership_desc }}</td>
                           <td>{{ $membership->membership_amount }}</td>
-                          <td>{{ $membership->year}}</td>
+                          <td>{{ $membership->starting_date}}</td>
+                          <td>{{ $membership->closing_date}}</td>
                           <?php 
                             $MembershipBuy = App\MembershipBuy::where('user_id',Auth::user()->id)->first();
 
-                           $this_year =  Carbon\Carbon::now()->format('Y');
+                           $this_year =  Carbon\Carbon::now()->format('Y-m-d');
 
-                          $Member = App\Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
+                          $Member = App\Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','<=',$this_year)->first();
                         ?>
                         @if($MembershipBuy==null)
                           <td><a href="/MemberShipAdd/{{ $membership->id }}" ><i class="fa fa-shopping-cart fa-lg" style="text-align:center;"></i></a></td>
-                          @elseif($Member==null)
+                          @elseif($Member!=null)
                           <td><a href="/MemberShipAdd/{{ $membership->id }}" class="badge badge-danger">Renew</a></td>
                           @else
-
+                          <td><a  class="badge badge-success" style="color:white">Member</a></td>
                         @endif
 
                         </tr>

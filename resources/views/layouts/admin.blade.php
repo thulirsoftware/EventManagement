@@ -329,6 +329,9 @@ $('#Amount').keypress(function(e) {
         "autoWidth": false,
         "iDisplayLength":25,
         "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "New Events Not Available"
+        }   
 
       });
      $("#event_entry_list").DataTable({
@@ -336,6 +339,9 @@ $('#Amount').keypress(function(e) {
         "autoWidth": false,
         "iDisplayLength":25,
         "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Entry Tickets Not Available for Event"
+        }   
 
       });
      $("#event_food_list").DataTable({
@@ -343,6 +349,9 @@ $('#Amount').keypress(function(e) {
         "autoWidth": false,
         "iDisplayLength":25,
         "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Food Tickets Not Available for Event"
+        }  
 
       });
      $("#event_competition_list").DataTable({
@@ -350,6 +359,9 @@ $('#Amount').keypress(function(e) {
         "autoWidth": false,
         "iDisplayLength":25,
         "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Competition Not Available for Event"
+        }  
 
       });
       $("#membership_list").DataTable({
@@ -357,6 +369,9 @@ $('#Amount').keypress(function(e) {
         "autoWidth": false,
         "iDisplayLength":25,
         "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Membership Not available"
+        }  
 
       });
       $("#payments_list").DataTable({
@@ -401,7 +416,13 @@ $('#Amount').keypress(function(e) {
         "bSort": true,
 
       });
+       $("#family_members_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
 
+      });
          
   
 }); 
