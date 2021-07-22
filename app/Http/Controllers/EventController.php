@@ -444,6 +444,12 @@ class EventController extends Controller
     public function manageEvent()
     {
         $events = Event::orderby('id','desc')->get();
+        $eventId = Session::get('competitionChecks');
+
+        $eventTicket = EventEntryTickets::where('eventId',$eventId)->count();
+        $eventFoodTicket = EventTicket::where('eventId',$eventId)->count();
+        $EventCompetition = EventCompetition::where('event_id',$eventId)->count();
+       
         return view('admin.event.manageEvent',compact('events'));
     }
 

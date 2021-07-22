@@ -79,14 +79,25 @@
             <input type="hidden" name="memberType" value="member">
 
             @for($i=0; $i<$Entrytickets; $i++)
+            <?php
+            $ageGroup="";
+            if($memberEventTickets[$i]['min_age']>=9 && $memberEventTickets[$i]['max_age']>=16)
+            {
+              $ageGroup = "Adult";
+            }
+            else 
+            {
+              $ageGroup = "Kids";
+            }
+          ?>
               <div class="col-md-6 form-group">
                 
-                @if($memberEventTickets[$i]['ageGroup']=="Adult")
-                <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</label>
+                @if($memberEventTickets[$i]['min_age']>="16")
+                <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</label>
 
                   <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
                   @else
-                  <label  for="" style="font-weight:normal">{{ $memberEventTickets[$i]['ageGroup'] }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
+                  <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
                   <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
                   @endif
@@ -109,14 +120,26 @@
           <div class="row">
               @if($tickets>0)
             @for($i=0; $i<$tickets; $i++)
+            <?php 
+            $ageGroup="";
+            if($memberEventTickets[$i]['min_age']>=9 && $memberEventTickets[$i]['max_age']>=16)
+            {
+              $ageGroup = "Adult";
+            }
+            else 
+            {
+              $ageGroup = "Kids";
+            }
+
+          ?>
               <div class="col-md-6 form-group">
-                <label  for="" style="font-weight:normal">{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }} ({{"$".$memberTickets[$i]['ticketPrice'] }}):</label>
+                <label  for="" style="font-weight:normal">{{ $ageGroup }}-{{ $memberTickets[$i]['foodType'] }} ({{"$".$memberTickets[$i]['ticketPrice'] }}):</label>
 
                   <input type="number" class="form-control" id="ticketQty{{ $i }}" min="0" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodTicketId[]" value="{{$memberTickets[$i]['id'] }}" indexValue="{{ $i }}">
 
 
-                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketType[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{ $memberTickets[$i]['ageGroup'] }}-{{ $memberTickets[$i]['foodType'] }}">
+                  <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketType[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{ $memberTickets[$i]['min_age'] }}-{{ $memberTickets[$i]['foodType'] }}">
 
 
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodticketPrice[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  value="{{$memberTickets[$i]['ticketPrice'] }}" required>
@@ -150,7 +173,7 @@
               @endif
                   <div class="form-group" id="submit">        
                     <center>
-                      <button type="submit"   class="btn btn-primary" name="submit" id="myBtn">Register</button>
+                      <button type="submit" class="btn btn-primary" name="submit" id="myBtn">Register</button>
                       <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
                     </center>
 

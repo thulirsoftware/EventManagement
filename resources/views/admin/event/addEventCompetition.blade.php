@@ -64,7 +64,7 @@
             </div>
                      <div class="col-md-2 form-group">
                         <br>
-                      <button type="button" class="button1 add-row" onclick="add()">Add</button>
+                      <button type="button" class="button1 add-row">Add</button>
                     </div>
     </div>
      <table class="table">
@@ -81,7 +81,7 @@
               </table><br>
                <div style="overflow:auto;">
     <center >
-      <button type="submit" class="button nextBtn" id="nextBtn" >Submit</button>
+      <button type="submit" class="button nextBtn" id="nextBtn" disabled="">Submit</button>
     </center>
   </div>
           </div>
@@ -103,7 +103,7 @@
 
         $(document).ready(function () {
             $(".add-row").click(function () {
-                
+               
                 var member_fee = document.getElementById("member_fee").value;
                 var non_member_fee = document.getElementById("non_member_fee").value;
                 var e = document.getElementById("ddlViewBy");
@@ -144,7 +144,9 @@
                          markup = "<tr><td>"+strUser+ "<input type='hidden' name='competition_id[]' value="+ id +"></td><td>"+ member_fee +  "<input type='hidden' name='member_fee[]' value="+ member_fee +"></td><td>"+ non_member_fee + "<input type='hidden' name='non_member_fee[]' value="+ non_member_fee +"></td></tr>";
             
                 tableBody = $("table tbody");
+                
                 tableBody.append(markup);
+
                 lineNo++;
             }
             });

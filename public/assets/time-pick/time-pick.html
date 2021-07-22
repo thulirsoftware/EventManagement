@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Javascript Time Picker Demo
+    </title>
+
+    <!-- (A) LOAD THE CSS + JS -->
+    <link href="time-pick-dark.css" rel="stylesheet">
+    <!--
+    <link href="time-pick-light.css" rel="stylesheet">
+    -->
+    <script src="time-pick.js"></script>
+  </head>
+  <body>
+    <!-- (B) POPUP TIME PICKER -->
+    <h1>Popup Time Picker</h1>
+    <input type="text" id="demoA"/>
+
+    <!-- (C) INLINE TIME PICKER -->
+    <h1>Inline Time Picker</h1>
+    <input type="text" id="demoB1"/>
+    <div id="demoB2"></div>
+
+    <!-- (D) INIT -->
+    <script>
+    window.addEventListener("load", function(){
+      tp.attach({
+        target: "demoA"
+      });
+      tp.attach({
+        target: "demoB1",
+        wrap: "demoB2"
+      });
+    });
+    </script>
+  </body>
+</html>

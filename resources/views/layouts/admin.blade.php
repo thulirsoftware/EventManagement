@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
-
+<link rel="stylesheet" href="{{ asset('assets/time-pick/time-pick-dark.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/time-pick/time-pick-light.css') }}">
   <Style>
     .field-icon {
     float: right;
@@ -152,6 +153,13 @@ input.invalid {
 .button1:hover {
   opacity: 0.8;
 }
+button[disabled]{
+background-color: #cccccc;
+color: #666666;
+cursor: not-allowed;
+  pointer-events: all !important;
+}
+
   </Style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
@@ -182,18 +190,36 @@ input.invalid {
     <script src="{{ asset('assets/dist/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
      <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <!-- Toaster -->
         <!-- DataTables -->
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/time-pick/time-pick.js')}}"></script>
 
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
 <script>
+window.addEventListener("load", function(){
+ 
+  tp.attach({
+    target: "event_time",
+  });
+});
+</script>
+<script>
   $(function () {
     // Summernote
+
+
+$('.timepicker').timepicker({
+    timeFormat: 'h:mm p',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+});
+
 
     $('#editor1').summernote();
      var x = localStorage.getItem("Emails"); 

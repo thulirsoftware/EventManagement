@@ -122,7 +122,7 @@
                      
                   <div class="form-group" id="submit">        
                     <center>
-                      <button type="submit"  class="btn btn-primary" name="submit" >Submit</button>
+                      <button type="submit"  class="btn btn-primary" name="submit" id="Submitbtn" disabled="">Submit</button>
                     </center>
 
                   </div>
@@ -170,7 +170,7 @@
 
         $(document).ready(function () {
             $(".added-row").click(function () {
-                console.log("aded");
+                document.getElementById("Submitbtn").disabled=false;
                 var Competition_id = document.getElementById("Competition");
                 var Competition_id = Competition_id.options[Competition_id.selectedIndex].text;
                 var competition_value = document.getElementById("Competition");
@@ -227,7 +227,7 @@
 
         $(document).ready(function () {
             $(".solo-add-row").click(function () {
-                
+                document.getElementById("Submitbtn").disabled=false;
                 var Competition_id = document.getElementById("Competition");
                 var Competition_id = Competition_id.options[Competition_id.selectedIndex].text;
                 var competition_value = document.getElementById("Competition");
@@ -249,7 +249,10 @@
                 var substateArray =  @json($EventCompetitionAJax);
                 var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
                 console.log(substateArray);
-                 markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td>"+ participant_id + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ filteredArray1[0]['Member_Id'] +"></td><td></td><td></td><td>"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                const myArr = participant_id.split(" ");
+                                console.log(myArr[0]);
+
+                 markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td>"+ myArr[0] + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ filteredArray1[0]['Member_Id'] +"></td><td>"+ myArr[1] + "</td><td></td><td>"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             
                 tableBody = $("table tbody");
                 tableBody.append(markup);

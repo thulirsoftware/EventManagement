@@ -31,93 +31,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-.red,.orange,.green,.blue .fa
-{
-  font-size: 30px;
-}
-.red .fa
-{ color: #FA2A02; }
-.orange .fa
-{ color: #FFB402; }
-.green .fa
-{ color: #19BC9C; }
-.blue .fa
-{ color: #21A7F0; }
 
-.panel-primary {
-    border-color: #19BC9C;
-}
-.panel-primary>.panel-heading {
-    color: #fff;
-    background-color: #19BC9C;
-    border-color: #19BC9C;
-}
-.panel-primary .panel-body th
-{ color: red; }
-.fa-pencil-square-o
-{ color: #0662FE; }
-.fa-trash-o
-{ color: red; }
-.red .panel-primary,.red .panel-primary .panel-heading
-{
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #FA2A02;
-}
-.orange .panel-primary,.orange .panel-primary .panel-heading
-{
-background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #FFB402;
-}
-.green .panel-primary,.green .panel-primary .panel-heading
-{
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #19BC9C;
-}
-.blue .panel-primary,.blue .panel-primary .panel-heading
-{
- background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-color: #21A7F0;
-}
-.flex-wrapper {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.select2-selection__choice{
-    background-color: #3c8dbc !important;
-    border:#3c8dbc !important;
-     color: #ffffff !important;
-    font-weight:bold !important;
-}
-.select2-selection__choice__remove{
-    border: none!important;
-    border-radius: 0!important;
-    padding: 0 2px!important;
-    background-color: transparent!important;
-    color: #ffffff !important;
-}
 
-.select2-selection__choice__remove:hover{
-    background-color: transparent!important;
-    color: #ffffff !important;
-}
-.select2-container .select2-selection--single {
-    height: 35px !important;
-}
-.panel >.card-header{
-   border-top-style: solid;
-  border-top-color: #00a65a;
-
-}
 .btn-primary{
   background-color: #4267B2;
   border:1px solid #4267B2;
@@ -126,26 +41,7 @@ background-color: #fff;
   background-color: #4267B2;
   border:1px solid #4267B2;
 }
-.separator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
 
-.separator::before,
-.separator::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid rgba(0,0,0,.1);
-}
-
-.separator:not(:empty)::before {
-  margin-right: .25em;
-}
-
-.separator:not(:empty)::after {
-  margin-left: .25em;
-}
   h4{ font-size: 18px; }
   h3{ font-size: 20px ; font-weight: bolder;}
   body{ font-family: "Source Sans Pro", serif; }
@@ -185,6 +81,43 @@ background-color: #fff;
     font-weight: bold;
     text-align: center;
 }
+.accordion {
+  background-color: #1f5387;
+  color: #fff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active1, .accordion:hover {
+ background-color: #1f5387;
+  color: #fff;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #fff;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active1:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: #eee;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
 
   </Style>
   </head>
@@ -222,7 +155,22 @@ background-color: #fff;
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
 
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active1");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+</script>
 <script>
   $(function () {
     // Summernote

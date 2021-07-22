@@ -32,6 +32,7 @@ class MembershipController extends Controller
             $membership->membership_desc = $request->description;
             $membership->membership_amount = $request->amount;
             $membership->is_visible = $request->isVisible;
+            $membership->membership_type = $request->membership_type;
             $membership->starting_date = $request->starting_date;
             $membership->closing_date = $request->closing_date;
             $membership->save();
@@ -52,7 +53,8 @@ class MembershipController extends Controller
                 'membership_amount' => $request->amount,
                 'is_visible' => $request->isVisible,
                 'starting_date' => $request->starting_date,
-                'closing_date' => $request->closing_date
+                'closing_date' => $request->closing_date,
+               'membership_type' => $request->membership_type
             ]);
 
             return redirect(route('admin.membership.list'));

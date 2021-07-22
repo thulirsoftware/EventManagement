@@ -30,35 +30,43 @@
 
                       <div class="row">
                           <div class="col-md-6 form-group">
-                            <label for="membershipCode">Membership Code :</label>
+                            <label for="membershipCode">Membership Code :&nbsp;<span style="color:red">* </span></label>
                             <input type="text" class="form-control" id="membershipCode" placeholder="Enter Membership Short Code" name="membershipCode" required>
                         </div>
 
                         <div class="col-md-6 form-group">
-                            <label for="Description">Description :</label>
+                            <label for="Description">Description :&nbsp;<span style="color:red">* </span></label>
                             <input type="text" class="form-control" id="Description" placeholder="Enter Membership Description" name="description" required>
                         </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6 form-group">
-                        <label for="Amount">Membership Amount:($)</label>
+                        <label for="Amount">Membership Amount:($)&nbsp;<span style="color:red">* </span></label>
                         <input type="text" class="form-control" id="Amount" placeholder="Enter Membership Amount" name="amount" required>
                     </div><span id="errmsg" style="color:red;"></span>
-                     <div class="col-md-6 form-group">
-                    <label for="openDate">Starting Date:</label>
-                    <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" required>
-                </div>
+                    <div class="col-md-6 form-group">
+                        <label for="membership_type">Membership Type:&nbsp;<span style="color:red">* </span></label>
+                        <select name="membership_type" class="form-control">
+                          <option value="">Select Membership Type</option>
+                            <option value="Family">Family</option>
+                            <option value="Single">Single</option>
+                        </select>
+                    </div>
+                     
 
                   
                 </div>
                 <div class="row">
-                 
+                 <div class="col-md-6 form-group">
+                    <label for="openDate">Starting Date:&nbsp;<span style="color:red">* </span></label>
+                    <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" required>
+                </div>
                 <div class="col-md-6 form-group">
-                    <label for="openDate">Closing Date:</label>
+                    <label for="openDate">Closing Date:&nbsp;<span style="color:red">* </span></label>
                     <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" required>
                 </div>
                   <div class="col-md-6 form-group">
-                        <label for="isVisible">Is Visible:</label>
+                        <label for="isVisible">Is Visible:&nbsp;<span style="color:red">* </span></label>
                         <select name="isVisible" class="form-control">
                             <option value="yes">yes</option>
                             <option value="no">no</option>

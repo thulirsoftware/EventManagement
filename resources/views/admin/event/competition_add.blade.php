@@ -81,7 +81,7 @@
               </table><br>
                <div style="overflow:auto;">
     <center >
-      <button type="submit" class="button nextBtn" id="nextBtn" >Submit</button>
+      <button type="submit" class="button nextBtn" id="nextBtn" disabled="">Submit</button>
     </center>
   </div>
           </div>
@@ -102,7 +102,8 @@
 
         $(document).ready(function () {
             $(".add-row").click(function () {
-                
+                 document.getElementById('nextBtn').disabled=false;
+                 console.log("dis");
                 var member_fee = document.getElementById("member_fee").value;
                 var non_member_fee = document.getElementById("non_member_fee").value;
 

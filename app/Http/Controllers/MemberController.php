@@ -25,6 +25,7 @@ use App\CompetitionRegistered;
 use App\EventRegistration;
 use App\Volunteer;
 use Hash;
+use App\MembershipConfig;
 
 class MemberController extends Controller
 {
@@ -344,76 +345,106 @@ class MemberController extends Controller
 
     public function membership()
     {  
-        $email = Auth::user()->email;
-        $member = Member::where('Email_Id',$email)->first();
+        $email = Auth::user()->id;
+        $member = Member::where('user_id',$email)->first();
+        $date = Carbon::now()->format('Y-m-d');
         if($member==null)
         {
-            $member = NonMember::where('Email_Id',$email)->first();
+            $member = NonMember::where('user_id',$email)->first();
+            $MembershipBuy = MembershipBuy::where('user_id',$email)->pluck('membership_id');
+            $membershipcount = MembershipConfig::orderby('id','desc')->whereIn('id',$MembershipBuy)->where('is_visible','yes')->where('closing_date','>=',$date)->count();
+            if($membershipcount<=0)
+            {
+               $membership = MembershipConfig::orderby('id','desc')->where('is_visible','yes')->where('closing_date','>=',$date)->get(); 
+            }
+            else
+            {
+              $membership = MembershipConfig::orderby('id','desc')->whereIn('id',$MembershipBuy)->where('is_visible','yes')->where('closing_date','>=',$date)->get();  
+            }
         }
-         $date = Carbon::now()->format('Y-m-d');
-         $membership = DB::table('membership_configs')->where('is_visible','yes')->where('closing_date','>=',$date)->get();
+        else
+        {
+            $MembershipBuy = MembershipBuy::where('user_id',$email)->pluck('membership_id');
+            $membershipcount = MembershipConfig::orderby('id','desc')->whereIn('id',$MembershipBuy)->where('is_visible','yes')->where('closing_date','>=',$date)->count();
+            if($membershipcount<=0)
+            {
+               $membership = MembershipConfig::orderby('id','desc')->where('is_visible','yes')->where('closing_date','>=',$date)->get(); 
+            }
+            else
+            {
+              $membership = MembershipConfig::orderby('id','desc')->whereIn('id',$MembershipBuy)->where('is_visible','yes')->where('closing_date','>=',$date)->get();  
+            }
+        }
 
         return view('user.membership',compact('membership'));
+        
     }
      public function membershipAdd($id)
     {  
         $email = Auth::user()->email;
         $member = Member::where('Email_Id',$email)->first();
-         $date = Carbon::now()->format('Y');
-         $membership = DB::table('membership_configs')->where('id',$id)->first();
-
-        return view('user.buymembership',compact('membership'));
-    }
-
-
-    public function membershipPost(Request $request)
-    {    
+        $date = Carbon::now()->format('Y');
+        $membership = MembershipConfig::where('id',$id)->first();
         $Member = Member::where('user_id',Auth::user()->id)->first();
+        Session::put('membership',$membership);
         if($Member==null)
         {
+            $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
+            $member = NonMember::where('user_id',Auth::user()->id)->first();
+               if($NonMember->firstName==null || $NonMember->lastName==null ||$NonMember->mobile_number==null ||$NonMember->Email_Id==null ||$NonMember->addressLine1==null || $NonMember->country==null || $NonMember->state==null || $NonMember->zipCode==null || $NonMember->gender==null  || $NonMember->maritalStatus==null)
 
+                {
+                    
+                    return view('user.membership.update_profile',compact('member'));
+                }
+                elseif($membership->membership_type=="Family")
+                {
+                    return view('user.membership.addFamilyMember');
+                } 
 
-        $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
-        if($NonMember->firstName==null || $NonMember->lastName==null ||$NonMember->mobile_number==null ||$NonMember->Email_Id==null ||$NonMember->addressLine1==null || $NonMember->addressLine2==null || $NonMember->country==null || $NonMember->state==null || $NonMember->zipCode==null || $NonMember->gender==null || $NonMember->dob==null || $NonMember->maritalStatus==null)
-        {
-             return redirect('/editProfile')->withWarning('Must Fill ur Profile');
-        } 
+                else
+                {
+                    return view('user.buymembership',compact('membership'));
+                }
+        }
+
         else
         {
+            $Member = Member::where('user_id',Auth::user()->id)->first();
+            if($Member->firstName==null || $Member->lastName==null ||$Member->mobile_number==null ||$Member->Email_Id==null ||$Member->addressLine1==null || $Member->addressLine2==null || $Member->country==null || $Member->state==null || $Member->zipCode==null || $Member->gender==null || $Member->dob==null || $Member->maritalStatus==null)
+            {
+                return view('user.membership.update_profile',compact('member'));
+            } 
+            elseif($membership->membership_type=="Family")
+            {
+                return view('user.membership.addFamilyMember');
+            } 
 
-            $membershipBuy = new MembershipBuy();
-            $membershipBuy->user_id = Auth::user()->id;
-            $membershipBuy->membership_id = $request->membership_id;
-            $membershipBuy->membership_code = $request->membershipType;;
-            $membershipBuy->membership_amount =$request->membershipAmount;
-            $membershipBuy->payment_status = "Pending";
-            $membershipBuy->save();
-
-           return redirect('/memberTickets')->withSuccess('Membership Added Successfully');
+            else
+            {
+                return view('user.buymembership',compact('membership'));
+            }
+           
         }
+       // return view('user.buymembership',compact('membership'));
     }
-    else
+    public function membershipPost(Request $request)
     {
-        $Member = Member::where('user_id',Auth::user()->id)->first();
-        if($Member->firstName==null || $Member->lastName==null ||$Member->mobile_number==null ||$Member->Email_Id==null ||$Member->addressLine1==null || $Member->addressLine2==null || $Member->country==null || $Member->state==null || $Member->zipCode==null || $Member->gender==null || $Member->dob==null || $Member->maritalStatus==null)
-        {
-             return redirect('/editProfile')->withWarning('Must Fill ur Profile');
-        } 
-        else
-        {
 
             $membershipBuy = new MembershipBuy();
             $membershipBuy->user_id = Auth::user()->id;
             $membershipBuy->membership_id = $request->membership_id;
-            $membershipBuy->membership_code = $request->membershipType;;
+            $membershipBuy->membership_code = $request->membership_code;;
             $membershipBuy->membership_amount =$request->membershipAmount;
+             $membershipBuy->Inst_type =$request->payment_method;
             $membershipBuy->payment_status = "Pending";
             $membershipBuy->save();
 
            return redirect('/memberTickets')->withSuccess('Membership Added Successfully');
-        }
     }
-    }
+
+
+   
 
     public function editProfile()
     {

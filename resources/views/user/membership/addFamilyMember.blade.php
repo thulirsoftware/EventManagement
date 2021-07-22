@@ -27,9 +27,9 @@
       </div>
     </div>
      <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-1">
       </div>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card panel-default">
                  @if(Session::has('success'))
                     <div class="alert alert-success alert-dismissible" role="alert">
@@ -40,22 +40,24 @@
               <div class="card-header"><center><h4>Add Family Member</h4></center></div>
 
                 <div class="card-body">
-                  <form class="form-horizontal" action="{{ url('/addFamilyMembers') }}" method="POST">
+                     <div class="add-button" >
+                        <button type="button" class="btn btn-primary btn-sm" style="float:right;color:white"  onclick="Add()">Add</button> 
+                    </div><br><br>
+                  <form class="form-horizontal" action="{{ route('membership.save.familyMembers') }}" method="POST">
                       {{ csrf_field() }}
-                                <input type="hidden" name="tagDvId" value="{{ $tagDvId }}">
 
                   <div class="row">
-                     <div class="col-md-6 form-group">
+                     <div class="col-md-3 form-group">
                         <label class="control-label" for="firstName">First Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName" required="">
+                        <input type="text" class="form-control" id="firstName[]" placeholder="First Name" name="firstName" required="">
                     </div>
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-3 form-group">
                         <label class="control-label" for="lastName">Last Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName">
+                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName[]">
                     </div>
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-3 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <select class="form-control" name="relationshipType" required="">
+                        <select class="form-control" name="relationshipType[]" required="">
                             <option value="">Select Relationship</option>
                              <option value="Spouse">Spouse</option>
                             <option value="Daughter">Daughter</option>
@@ -63,18 +65,19 @@
                             <option value="Son">Son</option>
                         </select>
                     </div>
-                    <div class="col-md-6 form-group">
+                    <div class="col-md-2 form-group">
                         <label class="control-label" for="phoneNo">Phone No:</label>
-                        <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phoneNo" >
+                        <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phoneNo[]" >
                     </div>
                    
                    
                    
                 </div> 
+                <div id="link-list"></div>
                             
                 <div style="max-width: 200px; margin: auto;">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                <a href="/familyMembers" class="btn btn-warning">Cancel</a>
+                        <button type="submit" class="btn btn-primary" id="submit" disabled="">Submit</button>
+                                                <a href="{{ route('membership.add.familyMembers') }}" class="btn btn-warning">Skip</a>
 
                     </div><br>
 
@@ -99,7 +102,8 @@
 </section>
 </div>
 
-
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function () {
@@ -132,6 +136,20 @@ $(document).ready(function(){
   $("#dobMonth").focus(function(){
     $("#month").hide();
   });
+});
+</script>
+<script>
+ var j=1;
+ function Add()
+ {
+    document.getElementById('submit').disabled=false;
+  j++;
+  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" name="firstName[]" placeholder="First Name" id="firstName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" placeholder="Last Name" name="lastName[]" id="lastName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="relationshipType[]" id="sel1"><option value="">Select Relationship</option><option value="Spouse">Spouse</option><option value="Daughter">Daughter</option><option value="Son">Son</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="phoneNo[]" id="phoneNo'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+}
+$(document).on('click', '.spf_btn_remove', function(){  
+ var button_idspf = $(this).attr("id");   
+ $('#row'+button_idspf+'').remove();  
+ $(this).hide();
 });
 </script>
 @endsection

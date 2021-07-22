@@ -6,15 +6,6 @@ Auth::routes();
 Route::post('/member_register', 'Auth\RegisterController@create')->name('member.register');
 
 
-//  Non Member Event
-Route::get('/nonMemberTicket','nonMemberController@nonMemberTicket');
-Route::get('/nonMemberBuyTicket/{id}','nonMemberController@nonMemberBuyTicket');
-Route::post('/nonMemberBuyTicketPost', 'nonMemberController@nonMemberBuyTicketPost');
-Route::get('/nonMemberTicketView','nonMemberController@nonMemberTicketView');
-Route::get('/execute-payment', 'PaymentController@execute');
-
-Route::post('nonMemberEventPaymentCreate', 'PaymentController@nonMemberEventPaymentCreate')->name('nonMemberEventPaymentCreate');
-Route::get('nonMemberEventPaymentExecute', 'PaymentController@nonMemberEventPaymentExecute');
 
 Route::get('/verify/{token}', 'VerifyController@verify')->name('verify');
 //Route::get('/home1', 'VerifyController@verify')->name('verify');
@@ -75,6 +66,15 @@ Route::get('/ViewEvent/{id}', 'MemberController@ViewEvent');
 
 Route::get('/AddVolunteer', 'MemberController@AddVolunteer');
 Route::post('/AddVolunteer', 'MemberController@AddVolunteerSave');
+
+
+Route::get('/MemberShip/Skip/FamilyMembers', 'FamilyMemberController@SkipFamilyMembers/{id}')->name('membership.add.familyMembers');
+
+Route::post('/MemberShip/Add/FamilyMembers', 'FamilyMemberController@AddMembershipFamilyMembers')->name('membership.save.familyMembers');
+
+Route::get('/MemberShip/Buy', 'FamilyMemberController@MembershipBuy')->name('membership.buy');
+
+Route::get('/MemberShip/{id}', 'MemberController@membershipAdd');
 
 // Admin Dashboard
 

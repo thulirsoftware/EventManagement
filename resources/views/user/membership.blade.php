@@ -23,6 +23,7 @@
                       <th>Code</th>
                       <th>Description</th>
                       <th>Amount</th>
+                       <th>Type</th>
                       <th>Starting Date</th>
                        <th>Closing Date</th>
                       <th>Action</th>
@@ -37,6 +38,7 @@
                           <td>{{ $membership->membership_code}}</td>
                           <td>{{ $membership->membership_desc }}</td>
                           <td>{{ $membership->membership_amount }}</td>
+                           <td>{{ $membership->membership_type}}</td>
                           <td>{{ $membership->starting_date}}</td>
                           <td>{{ $membership->closing_date}}</td>
                           <?php 
