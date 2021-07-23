@@ -462,7 +462,7 @@ class EventController extends Controller
         $events = Event::where('id',$id)->first();
                 $event = Event::where('id',$id)->first();
 
-         return view('admin.event.tickets',compact('eventFoodTicket','eventTicket','Competition','events','event'));
+         return view('admin.event.tickets',compact('eventFoodTicket','eventTicket','Competition','events','event','id'));
     }
 
     public function UpdateEventFoodTicket(Request $request)

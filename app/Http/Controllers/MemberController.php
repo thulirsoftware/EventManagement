@@ -37,7 +37,7 @@ class MemberController extends Controller
         $EventCompetition = EventRegistration::where('user_id',Auth::user()->id)->pluck('event_id');
         //$EventRegistration->user_id = Auth::user()->id;
 
-        $events = Event::whereNotIn('id',$EventCompetition)->where('eventDate','>=',$toDay)->get();
+        $events = Event::whereNotIn('id',$EventCompetition)->where('eventDate','>=',$toDay)->orderby('id','desc')->get();
        
         return view('user.memberTickets',compact('events'));
     }
@@ -47,6 +47,9 @@ class MemberController extends Controller
         $this_year = Carbon::now()->format('Y');
         $events = Event::where('id', $id)->first();
         $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','<=',$this_year)->first();
+        $this_year = Carbon::now()->format('Y-m-d');
+        $events = Event::where('id', $id)->first();
+        $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
         if($Member!=null)
          {
             $memberTickets = EventTicket::where('eventId', $id)->where('memberType','member')->get();
@@ -192,7 +195,7 @@ class MemberController extends Controller
         }
         return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
     }
-    public function memberTicketAmountPay(Request $request)
+    public function memberTicketAmountPay(Request $req)
     {
         
         $request = Session::get('TicketStore');
@@ -251,6 +254,7 @@ class MemberController extends Controller
         $TicketPurchase->eventId = $request['eventId'];
         $TicketPurchase->eventName = $request['eventName'];
         $TicketPurchase->totalAmount = $totalAmount;
+        $TicketPurchase->payment_type = $req['payment_type'];
         $TicketPurchase->save();
 
         $EventRegistration = new EventRegistration();
@@ -331,7 +335,7 @@ class MemberController extends Controller
     {
         $email = Auth::user()->tagDvid;
         $member = Member::where('tagDvId',Auth::user()->tagDvid)->first();
-        $membership = DB::table('membership_configs')->where('membership_code','<=',$member->membershipType)->get();
+        $membership = MembershipConfig::where('membership_code','<=',$member->membershipType)->get();
 
         $PurchasedEventFoodTickets = PurchasedEventFoodTickets::groupBy(DB::raw("eventId"))   ->selectRaw('sum(ticketQty) as sum, eventId,userId,ticketAmount')
                         ->where('userId',Auth::user()->id)
@@ -677,6 +681,22 @@ class MemberController extends Controller
                     $user->save();
                     return back()->withSuccess('Password Updated Successfully');
                 }
+        }
+
+        public function AgeValidation(Request $request)
+        {
+                $Competition = Competition::where('id',$request->id)->first();
+                $familyMembers = FamilyMember::where('user_id',Auth::user()->id)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->get();
+                $familyMembersCount = FamilyMember::where('user_id',Auth::user()->id)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->count();
+                if($familyMembersCount>0)
+                {
+                    return response($familyMembers, 200);
+                }
+                else
+                {
+                    return response($familyMembers, 400);
+                }
+                
         }
 
 

@@ -47,13 +47,13 @@
                       {{ csrf_field() }}
 
                   <div class="row">
-                     <div class="col-md-3 form-group">
+                     <div class="col-md-2 form-group">
                         <label class="control-label" for="firstName">First Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="firstName[]" placeholder="First Name" name="firstName" required="">
+                        <input type="text" class="form-control" id="firstName[]" placeholder="First Name" name="firstName[]" required="">
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
                         <label class="control-label" for="lastName">Last Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName[]">
+                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName[]" required>
                     </div>
                     <div class="col-md-3 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
@@ -69,6 +69,14 @@
                         <label class="control-label" for="phoneNo">Phone No:</label>
                         <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phoneNo[]" >
                     </div>
+                    <?php
+                    $date =  Carbon\Carbon::now();
+                    $dates = $date->toDateString();
+                    ?>
+                     <div class="col-md-2 form-group">
+                        <label class="control-label" for="DOB">DOB:</label>
+                        <input type="date" class="form-control" id="DOB"  placeholder="DOB" name="dob[]"  max="{{$dates}}" required>
+                    </div>
                    
                    
                    
@@ -76,7 +84,7 @@
                 <div id="link-list"></div>
                             
                 <div style="max-width: 200px; margin: auto;">
-                        <button type="submit" class="btn btn-primary" id="submit" disabled="">Submit</button>
+                        <button type="submit" class="btn btn-primary" id="submit" >Submit</button>
                                                 <a href="{{ route('membership.add.familyMembers') }}" class="btn btn-warning">Skip</a>
 
                     </div><br>
@@ -142,9 +150,8 @@ $(document).ready(function(){
  var j=1;
  function Add()
  {
-    document.getElementById('submit').disabled=false;
   j++;
-  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" name="firstName[]" placeholder="First Name" id="firstName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" placeholder="Last Name" name="lastName[]" id="lastName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="relationshipType[]" id="sel1"><option value="">Select Relationship</option><option value="Spouse">Spouse</option><option value="Daughter">Daughter</option><option value="Son">Son</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="phoneNo[]" id="phoneNo'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="firstName[]" placeholder="First Name" id="firstName'+j+'" >'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" placeholder="Last Name" name="lastName[]" id="lastName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="relationshipType[]" id="sel1"><option value="">Select Relationship</option><option value="Spouse">Spouse</option><option value="Daughter">Daughter</option><option value="Son">Son</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="phoneNo[]" id="phoneNo'+j+'" >'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="date" name="dob[]" id="dob'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
 }
 $(document).on('click', '.spf_btn_remove', function(){  
  var button_idspf = $(this).attr("id");   

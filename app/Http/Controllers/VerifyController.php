@@ -7,11 +7,12 @@ use App\User;
 
 class VerifyController extends Controller
 {
-    public function verify($token)
+    public function verify($email,$token)
     {
-    	User::where('token', $token)->firstOrFail()->update(['token'=>null]);
-    	return redirect('/membership');
-    			//->with('success','Account Verified!');
+    	$user = User::where('token', $token)->where('email', $email)->first();
+        $user->status ="Active";
+        $user->save();
+    	return redirect('/login')->withSuccess('Account Verified!');
 
     }
 }

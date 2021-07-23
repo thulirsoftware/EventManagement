@@ -122,7 +122,7 @@
             @for($i=0; $i<$tickets; $i++)
             <?php 
             $ageGroup="";
-            if($memberEventTickets[$i]['min_age']>=9 && $memberEventTickets[$i]['max_age']>=16)
+            if($memberTickets[$i]['min_age']>=9 && $memberTickets[$i]['max_age']>=16)
             {
               $ageGroup = "Adult";
             }

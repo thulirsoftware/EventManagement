@@ -65,6 +65,19 @@
               <td >Total Amount</td>
               <td>{{$totalAmount}}</td> 
         </tr>
+        <tr>
+          <td>Payment Type</td>
+          <td>
+          <input type="radio" class="minimal" id="Cash" name="payment_type" value="cash"><br>Cash
+           </td>
+           <td>
+          <input type="radio" class="minimal" id="cheque" name="payment_type" value="cheque"><br>Cheque
+           </td>
+           <td>
+          <input type="radio" class="minimal" id="paypal" name="payment_type" value="paypal"><br>Paypal
+           </td>
+
+        </tr>
         
        </table>
        <div class="form-group" id="submit">        

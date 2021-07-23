@@ -30,7 +30,7 @@
                 <thead>
                   <tr>
                     <th>S.No</th>
-                    <th>Membership Code</th>
+                    <th>Membership Name</th>
                     <th>Description</th>
                     <th>Amount</th>
                     <th>Is Visible</th>

@@ -278,8 +278,11 @@ class AdminController extends Controller
                 $User->save();
                 
                 $FamilyMember = FamilyMember::where('user_id',$request->user_id)->first();
-                $FamilyMember->Member_Id = $Member_Id;
-                $FamilyMember->save();
+                if($FamilyMember)
+                {
+                    $FamilyMember->Member_Id = $Member_Id;
+                    $FamilyMember->save();
+                }
                 
                 $NonMember = NonMember::where('user_id',$request->user_id)->delete();
             }

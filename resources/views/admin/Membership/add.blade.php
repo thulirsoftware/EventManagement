@@ -30,8 +30,8 @@
 
                       <div class="row">
                           <div class="col-md-6 form-group">
-                            <label for="membershipCode">Membership Code :&nbsp;<span style="color:red">* </span></label>
-                            <input type="text" class="form-control" id="membershipCode" placeholder="Enter Membership Short Code" name="membershipCode" required>
+                            <label for="membershipCode">Membership Name :&nbsp;<span style="color:red">* </span></label>
+                            <input type="text" class="form-control" id="membershipCode" placeholder="Enter Membership Name" name="membershipCode" required>
                         </div>
 
                         <div class="col-md-6 form-group">

@@ -5,9 +5,13 @@ Auth::routes();
 
 Route::post('/member_register', 'Auth\RegisterController@create')->name('member.register');
 
+Route::post('/login', [
+    'uses'          => 'Auth\AuthController@login',
+    'middleware'    => 'IsMember',
+]);
 
 
-Route::get('/verify/{token}', 'VerifyController@verify')->name('verify');
+Route::get('/verify/{email}/{token}', 'VerifyController@verify')->name('verify');
 //Route::get('/home1', 'VerifyController@verify')->name('verify');
 
 
@@ -75,6 +79,7 @@ Route::post('/MemberShip/Add/FamilyMembers', 'FamilyMemberController@AddMembersh
 Route::get('/MemberShip/Buy', 'FamilyMemberController@MembershipBuy')->name('membership.buy');
 
 Route::get('/MemberShip/{id}', 'MemberController@membershipAdd');
+Route::get('/Competition/AgeValidation', 'MemberController@AgeValidation');
 
 // Admin Dashboard
 
@@ -111,7 +116,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
 
   Route::get('/addEventTicket','EventController@addEventTicket');
   Route::post('/addEventTicket', 'EventController@addEventTicketPost');
-  Route::get('/eventTicketDelete/{id}','EventController@eventTicketDelete');
+  Route::get('/eventTicketDelete','EventController@eventTicketDelete');
 
   Route::get('/Event/addEventEntryTicket/{id}', 'EventController@addEventEntryTicket');
   Route::post('/Event/addEventEntryTicketPost', 'EventController@addEventEntryTicketPost');

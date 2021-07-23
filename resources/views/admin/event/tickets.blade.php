@@ -237,7 +237,6 @@
     <thead style="background-color:white">
       <tr>
         <th>Competition Name</th>
-        <th>Type</th>
         <th>Member Fees </th>
         <th>Non Member Fees</th>
         <th>Actions</th>
@@ -247,12 +246,12 @@
   <?php $i = 1 ?>  
   @foreach($Competition as $Competition)
   <?php
-  $event = \App\Event::where('id',$Competition['eventId'])->first();
   $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->first();
+  $CompetitionRegistered = \App\CompetitionRegistered::where('competition_id',$Competition['id'])->where('event_id',$id)->count();
+
 ?>
 <tr id="row_competition_{{ $Competition['id'] }}">
    <td>{{$Competition->name}}</td>
-   <td>{{$Competition->competition_type}}</td>
    <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $EventCompetition['member_fee'] }}</td>
    <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $EventCompetition['non_member_fee'] }}</td>
 
@@ -261,7 +260,10 @@
         <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
     </a>
     <input type="button" id="Competition_save_button{{ $Competition['id'] }}" value="Save" class="btn btn-primary" onclick="save_competition_row('{{ $Competition['id'] }}')" style="display:none">&nbsp;&nbsp;
-    <a onclick="myFunction({{$Competition['id']}})"  id="row_Competition_delete{{ $Competition['id'] }}"  style="cursor:pointer;color:#0069d9"> <i class="fa fa-trash" ></i></a></td>
+    @if($CompetitionRegistered<=0)
+    <a onclick="myFunction({{$Competition['id']}})"  id="row_Competition_delete{{ $Competition['id'] }}"  style="cursor:pointer;color:#0069d9"> <i class="fa fa-trash" ></i></a>
+@endif
+  </td>
 
 
 </tr>

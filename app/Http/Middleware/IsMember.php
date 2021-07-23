@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use Auth;
 class IsMember
 {
     /**
@@ -15,9 +15,11 @@ class IsMember
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->check()){
-            return redirect()->guest('home');
+        $response = $next($request);
+        if(Auth::check() && Auth::user()->status == 'Inactive'){
+            Auth::logout();
+            return redirect('/login')->withSuccess('Your error text');
         }
-        return $next($request);
+        return $response;
     }
 }

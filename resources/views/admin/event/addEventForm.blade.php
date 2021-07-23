@@ -116,13 +116,18 @@
               <label class="names">Member</label>
 
           </div>
-          <div class="col-md-3 form-group ">
-              <label class="names">Price ($):</label>
+          <div class="col-md-2 form-group ">
+              <label class="names">Price ($)</label>
+
+          </div>
+           <div class="col-md-1 form-group ">
+               <a type="button" name="remove"  class="btn btn-warning" onclick="AddEntryTicket()"><i class="fa fa-plus"></i></a>
+
 
           </div>
       </div>
       <div id="link-list"></div>
-      <div class="row">
+      <div class="row" id="row0">
         <div class="col-md-3 form-group ">
          <input class="form-control" type="text" name="min_age[]" id="min_age">
         </div>
@@ -140,7 +145,8 @@
   <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice" >
 </div>
 <div class="col-md-1 ">
-  <button type="button" onclick="AddEntryTicket()" id="sel1" class="btn btn-warning">Add</button>
+  <a type="button" name="remove"  class="btn btn-warning spf_btn_remove" id="0"><i class="fa fa-trash"></i></a>
+
 </div>
 
 
@@ -167,12 +173,15 @@
           <label class="names">Food</label>
       </div>
       <div class="col-md-2 form-group ">
-          <label class="names">Price ($):</label>
+          <label class="names">Price ($)</label>
       </div>
+      <div class="col-md-1">
+    <button type="button" onclick="AddFoodTicket()" id="sel1" class="btn btn-warning"><i class="fa fa-plus"></i></button>
+  </div>
   </div>
   <div id="food-list"></div>
 
-  <div class="row">
+  <div class="row" id="row_food0">
 
       <div class="col-md-2 form-group ">
          <input class="form-control" type="text" name="food_min_age[]" id="food_min_age">
@@ -199,8 +208,10 @@
 <div class="col-md-2 form-group ">
     <input class="form-control" type="text" name="FoodticketPrice[]" id="FoodticketPrice" >
 </div>
-<div class="col-md-1">
-    <button type="button" onclick="AddFoodTicket()" id="sel1" class="btn btn-warning">Add</button>
+
+    <div class="col-md-1 ">
+  <a type="button" name="remove"  class="btn btn-warning spf_btn_remove1" id="0"><i class="fa fa-trash"></i></a>
+
 </div>
 </div>
 
@@ -280,7 +291,7 @@
  function AddEntryTicket()
  {
   j++;
-  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="number" name="min_age[]" id="min_age'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="number" name="max_age[]" id="max_age'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice_'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" name="min_age[]" id="min_age'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" name="max_age[]" id="max_age'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice_'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
 
   $("#ticketPrice_"+j).keypress(function(e) {
     var a = [];

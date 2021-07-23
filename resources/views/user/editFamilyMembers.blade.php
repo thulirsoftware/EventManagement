@@ -42,11 +42,19 @@
                   <div class="row">
                      <div class="col-md-6 form-group">
                         <label class="control-label" for="firstName">First Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter Name" name="firstName" value="{{ $family['firstName']}}" required="">
+                        <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" name="firstName" value="{{ $family['firstName']}}" required="">
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="lastName">Last Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter Name" name="lastName" value="{{ $family['lastName']}}">
+                        <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" name="lastName" value="{{ $family['lastName']}}">
+                    </div>
+                    <?php
+                    $date =  Carbon\Carbon::now();
+                    $dates = $date->toDateString();
+                    ?>
+                     <div class="col-md-6 form-group">
+                        <label class="control-label" for="lastName">DOB:&nbsp;<span style="color:red">*</span></label>
+                        <input type="date" class="form-control" id="dob" placeholder="DOB" name="dob"  max="{{$dates}}" value="{{ $family['dob']}}">
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
@@ -60,7 +68,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="phoneNo">Phone No:</label>
-                        <input type="text" class="form-control" id="EditphoneNo" maxlength="10" placeholder="Enter Name" name="phoneNo" value="{{ $family['phoneNo']}}">
+                        <input type="text" class="form-control" id="EditphoneNo" maxlength="10" placeholder="Enter Phone No" name="phoneNo" value="{{ $family['phoneNo']}}">
                     </div>
                     
 

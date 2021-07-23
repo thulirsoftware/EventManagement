@@ -51,6 +51,7 @@
             </select>
          </div>
      </div>
+     <p class="alert alert-warning" id="competitionError" style="display:none">Select Competition</p>
      
                 <div id="groupForm" style="display:none">
                 <div class="row">
@@ -81,17 +82,16 @@
      </div>
           
             </div> 
+            <p class="alert alert-warning" id="soloParticipantError" style="display:none">participant available not available</p>
              <div class="row" >
+
      <div  class="col-md-6"  id="solo" style="display: none;"  >
        
     <div class="form-group ">
         <label class="names">Select Participant</label>
             <select class="form-control" name="familyMembers" id="solofamilyMembers">
                 <option value="">Select</option>
-                    @foreach($familyMembers as $familyMembers) 
-                        <option value="{{$familyMembers->id}}">{{$familyMembers->firstName}} {{$familyMembers->lastName}}</option>
-                              
-                     @endforeach
+                   
             </select>
          </div>
             
@@ -99,7 +99,7 @@
         </div>
          <div class="col-md-6 form-group" id="solo-add-row" style="padding-top:6px;display: none;">
                         <br>
-                       <button type="button"  class="button1 solo-add-row" onclick="add()"  >Add Participant</button>
+                       <button type="button"  class="button1 solo-add-row"  >Add Participant</button>
                     </div> 
                </div>
              <table class="table" id="added" style="display:none;width:100%; ">
@@ -143,23 +143,55 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     function  getcompetitionType(id) {
-        const slug = id.split('_').pop();
+        var Competition_value  = id.split('_', 2);
+        const slug = Competition_value[1];
         if(slug=="solo")
         {
-            document.getElementById("groupForm").style.display = "none";
-            document.getElementById("solo-add-row").style.display = "block";
-            document.getElementById("solo").style.display = "block";
-            document.getElementById("added").style.display = "block";
+               
+            const id = Competition_value[0];
+            $.ajax({
+               type : 'get',
+               url : '{{URL::to('Competition/AgeValidation')}}',
+                data : {'id':id},
+                success:function(data){
+                    document.getElementById("groupForm").style.display = "none";
+                    document.getElementById("solo-add-row").style.display = "block";
+                    document.getElementById("solo").style.display = "block";
+                    document.getElementById("added").style.display = "block";
+                    document.getElementById("soloParticipantError").style.display = "none";
+                    document.getElementById("competitionError").style.display = "none";
+                    $("#solofamilyMembers").empty();
+                    var $select = $("#solofamilyMembers");
+                    $('#solofamilyMembers').append('<option value="">Select Participant</option>');
+                    $.each(data, function (index, value) {
+                    // APPEND OR INSERT DATA TO SELECT ELEMENT.
+                    $('#solofamilyMembers').append('<option value="' + value.id + '">' + value.firstName +' '+ value.lastName + '</option>');
+                    });
+                },
+                error: function(data){
+                    document.getElementById("soloParticipantError").style.display = "block";
+                    document.getElementById("competitionError").style.display = "none";
+                }
+                 
+              });
+           
 
         }
-        else
+        else if(slug=="group")
         {
              document.getElementById("solo-add-row").style.display = "none";
             document.getElementById("solo").style.display = "none";
            document.getElementById("groupForm").style.display = "block";
 
            document.getElementById("added").style.display = "block";
+           document.getElementById("soloParticipantError").style.display = "none";
+           document.getElementById("competitionError").style.display = "none";
 
+        }
+        else
+        {
+            document.getElementById("competitionError").style.display = "block";
+            document.getElementById("soloParticipantError").style.display = "none";
         }
     }
 </script>
@@ -205,18 +237,20 @@
                 var substateArray =  @json($EventCompetitionAJax);
                 var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
 
-                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>$"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             }
             else
             {
                 var substateArray =  @json($EventCompetitionAJax);
                 var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
-                    console.log(filteredArray);;
-                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>"+filteredArray[0]['non_member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['non_member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>$"+filteredArray[0]['non_member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['non_member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             }
                 tableBody = $("table tbody");
                 tableBody.append(markup);
-                        
+                document.getElementById("addedparticpantId").value="";
+                document.getElementById("addedparticpantName").value="";
+                document.getElementById("addedparticpantLastName").value="";
+                document.getElementById("addedparticpantage").value="";
                 lineNos++;
             });
         }); 
@@ -233,7 +267,6 @@
                 var competition_value = document.getElementById("Competition");
                 var Competition_values = competition_value.value;
                  var Competition_value  = Competition_values.split('_', 2);
-                 console.log(Competition_value[0]);
 
                 var participant_id = document.getElementById("solofamilyMembers");
                 var participant_id = participant_id.options[participant_id.selectedIndex].text;
@@ -243,16 +276,24 @@
               
                 var substateArray1 =  @json($familyMembersAjax);
                 var filteredArray1 = substateArray1.filter(x => x.id == particpant_value);
-                console.log("fm",filteredArray1);
-
+                console.log(filteredArray1);
 
                 var substateArray =  @json($EventCompetitionAJax);
                 var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
-                console.log(substateArray);
                 const myArr = participant_id.split(" ");
-                                console.log(myArr[0]);
+                if(filteredArray1[0]['Member_Id']!=null)
+                {
+                    MemberId = filteredArray1[0]['Member_Id'];
+                    fee = filteredArray[0]['member_fee'];
+                }
+                else
+                {
+                    MemberId = filteredArray1[0]['id'];
+                    fee = filteredArray[0]['non_member_fee'];
+                }
 
-                 markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td>"+ myArr[0] + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ filteredArray1[0]['Member_Id'] +"></td><td>"+ myArr[1] + "</td><td></td><td>"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                 markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td>"+ myArr[0] + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ MemberId +"></td><td>"+ myArr[1] + "</td><td>"+filteredArray1[0]['age']+"</td><td>$"+fee+"<input type='hidden' name='member_fee[]' value="+ fee +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                
             
                 tableBody = $("table tbody");
                 tableBody.append(markup);

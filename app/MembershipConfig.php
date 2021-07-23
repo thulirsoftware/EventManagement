@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MembershipConfig extends Model
 {
-    protected $table    ='membership_configs';
+    protected $table    ='cfg_membership';
     protected $fillable =[	'membership_code',
     						'membership_desc',
     						'membership_amount',

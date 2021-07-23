@@ -35,9 +35,9 @@
                 <input type="hidden" name="membershipId" value="{{ $membership['id']}}">
                 <div class="row">
                   <div class="col-md-6 form-group">
-                    <label for="membershipCode">Membership Code :</label>
+                    <label for="membershipCode">Membership Name :</label>
                     
-                    <input type="text" class="form-control" id="membershipCode" placeholder="Enter Membership Short Code" name="membershipCode" value="{{ $membership['membership_code'] }}" required>
+                    <input type="text" class="form-control" id="membershipCode" placeholder="Enter Membership Name" name="membershipCode" value="{{ $membership['membership_code'] }}" required>
                   </div>
 
                   <div class="col-md-6 form-group">

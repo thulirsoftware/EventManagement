@@ -31,20 +31,29 @@
 
 								?>
 
-								@foreach($PurchasedEventEntryTickets as $member)
+								@foreach($PurchasedEventEntryTickets as $PurchasedEventEntryTickets)
 								<?php
-								$user =  App\User::where('id',$member->userId)->first();
-								$event  = App\Event::where('id',$member->eventId)->first();
-								$EventTicket  = App\EventEntryTickets::where('id',$member->ticketId)->first();
+								$user =  App\User::where('id',$PurchasedEventEntryTickets->userId)->first();
+								$event  = App\Event::where('id',$PurchasedEventEntryTickets->eventId)->first();
+								$EventTicket  = App\EventEntryTickets::where('id',$PurchasedEventEntryTickets->ticketId)->first();
+
+								 if($PurchasedEventEntryTickets[$i]['min_age']>=9 && $member[$i]['PurchasedEventEntryTickets']>=16)
+					            {
+					              $ageGroup = "Adult";
+					            }
+					            else 
+					            {
+					              $ageGroup = "Kids";
+					            }
 							?>
 							<tr>
 								<td> {{ $i++ }} </td>
 
 								<td>{{ $event['eventName'] }}</td>
 								<td>{{ $user['name'] }}</td>
-								<td>{{ $EventTicket['ageGroup'] }}</td>
-								<td>{{ $member['ticketQty'] }}</td>
-								<td>${{ $member['ticketAmount'] }}</td>
+								<td>{{ $ageGroup }}</td>
+								<td>{{ $PurchasedEventEntryTickets['ticketQty'] }}</td>
+								<td>${{ $PurchasedEventEntryTickets['ticketAmount'] }}</td>
 
 
 							</tr>

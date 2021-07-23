@@ -7,6 +7,8 @@ use App\FamilyMember;
 use Auth;
 use App\MembershipConfig;
 use Session;
+use Carbon\Carbon; 
+
 class FamilyMemberController extends Controller
 {
     public function familyMembers()
@@ -25,6 +27,8 @@ class FamilyMemberController extends Controller
 
     public function addFamilyMembers(Request $request)
     {
+        $age = Carbon::parse($request->dob)->diff(Carbon::now())->y;
+
         $family = new FamilyMember;
          $family->user_id = Auth::user()->id;
         $family->Member_Id = $request->tagDvId;
@@ -33,8 +37,7 @@ class FamilyMemberController extends Controller
         $family->relationshipType = $request->relationshipType;
         $family->phoneNo = $request->phoneNo;
         $family->dob = $request->dob;
-        $family->mob = $request->mob;
-        $family->schoolName = $request->schoolName;
+        $family->age = $age;
         $family->save();
         return redirect()->back()->withSuccess('Family Member added Successfully');
     }
@@ -52,13 +55,15 @@ class FamilyMemberController extends Controller
 
     public function familyUpdate(Request $request)
     {
+        $age = Carbon::parse($request->dob)->diff(Carbon::now())->y;
         $family = FamilyMember::find($request->id);
 
             $family->firstName = $request->firstName;
             $family->lastName = $request->lastName;
             $family->relationshipType = $request->relationshipType;
             $family->phoneNo = $request->phoneNo;
-
+            $family->dob = $request->dob;
+            $family->age = $age;
             if($family->save()){
 
                 return redirect('/familyMembers')->withSuccess('Family Member updated Successfully');
@@ -102,12 +107,16 @@ class FamilyMemberController extends Controller
 
             for($i = 0;$i < $firstNameCount; $i++)
             {   
+                 $age = Carbon::parse($request->dob[$i])->diff(Carbon::now())->y; 
                 $family = new FamilyMember;
                 $family->user_id = Auth::user()->id;
+                $family->Member_Id = Auth::user()->Member_Id;
                 $family->firstName = $request->firstName[$i];
                 $family->lastName = $request->lastName[$i];
                 $family->relationshipType = $request->relationshipType[$i];
                 $family->phoneNo = $request->phoneNo[$i];
+                $family->dob = $request->dob[$i];
+                $family->age = $age;
                 if($request->relationshipType[$i]!=null)
                 {
                     $family->save();

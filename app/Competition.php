@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competition extends Model
 {
-     protected $table    ='competition_cfg';
+     protected $table    ='cfg_competition';
     protected $fillable =[  'name',
                             'member_fee',
                             'non_member_fee',

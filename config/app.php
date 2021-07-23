@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'NETS',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://www.thulirsoft.com/event/'),
+    'url' => env('APP_URL', 'http://event.thulirsoft.com/'),
 
     /*
     |--------------------------------------------------------------------------

@@ -274,6 +274,61 @@ $('#Amount').keypress(function(e) {
         e.preventDefault();
     
 });
+    $("#free_count").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+
+    for (i = 48; i < 58; i++)
+      a.push(i);
+
+  if (!(a.indexOf(k)>=0))
+      e.preventDefault();
+
+}); 
+      $("#min_age").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+
+    for (i = 48; i < 58; i++)
+      a.push(i);
+
+  if (!(a.indexOf(k)>=0))
+      e.preventDefault();
+
+}); 
+        $("#max_age").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+
+    for (i = 48; i < 58; i++)
+      a.push(i);
+
+  if (!(a.indexOf(k)>=0))
+      e.preventDefault();
+
+}); 
+$("#food_min_age").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+
+    for (i = 48; i < 58; i++)
+      a.push(i);
+
+  if (!(a.indexOf(k)>=0))
+      e.preventDefault();
+
+}); 
+$("#food_max_age").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+
+    for (i = 48; i < 58; i++)
+      a.push(i);
+
+  if (!(a.indexOf(k)>=0))
+      e.preventDefault();
+
+}); 
 </script>
  <script>
     $('#member_fee').keypress(function(e) {

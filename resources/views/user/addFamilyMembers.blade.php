@@ -53,6 +53,14 @@
                         <label class="control-label" for="lastName">Last Name:&nbsp;<span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName">
                     </div>
+                    <?php
+                    $date =  Carbon\Carbon::now();
+                    $dates = $date->toDateString();
+                    ?>
+                     <div class="col-md-6 form-group">
+                        <label class="control-label" for="lastName">DOB:&nbsp;<span style="color:red">*</span></label>
+                        <input type="date" class="form-control" id="dob" placeholder="DOB" name="dob"  max="{{$dates}}">
+                    </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
                         <select class="form-control" name="relationshipType" required="">

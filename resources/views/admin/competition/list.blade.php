@@ -30,7 +30,8 @@
                  <th>Name</th>
                  <th>Awards</th>
                  <th>Age Limit</th>
-                 <th>Edit</th>
+                 <th>Type</th>
+                 <th>Action</th>
                </tr>
              </thead>
              <tbody>  
@@ -44,6 +45,7 @@
               <td>{!! nl2br(e($name)) !!}</td>
               <td>{!! nl2br(e($awards)) !!}</td>
               <td>{{ $competition['min_age'] }} - {{ $competition['max_age'] }}</td>
+              <td>{{ $competition['competition_type'] }} </td>
               <td><a href="{{ route('admin.competition.edit', ['id' => $competition['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
             </tr>
             @endforeach

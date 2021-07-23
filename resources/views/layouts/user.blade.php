@@ -226,6 +226,18 @@ for (i = 0; i < acc.length; i++) {
         e.preventDefault();
     
 });
+  $('#addedparticpantage').keypress(function(e) {
+    var a = [];
+    var k = e.which;
+    
+    for (i = 48; i < 58; i++)
+        a.push(i);
+    
+    if (!(a.indexOf(k)>=0))
+        e.preventDefault();
+    
+});
+  
 </script>
 
 <script>

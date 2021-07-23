@@ -103,7 +103,7 @@
 
         $(document).ready(function () {
             $(".add-row").click(function () {
-               
+               document.getElementById('nextBtn').disabled=false;
                 var member_fee = document.getElementById("member_fee").value;
                 var non_member_fee = document.getElementById("non_member_fee").value;
                 var e = document.getElementById("ddlViewBy");
