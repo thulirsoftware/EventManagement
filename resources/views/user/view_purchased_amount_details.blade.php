@@ -68,13 +68,10 @@
         <tr>
           <td>Payment Type</td>
           <td>
-          <input type="radio" class="minimal" id="Cash" name="payment_type" value="cash"><br>Cash
-           </td>
-           <td>
-          <input type="radio" class="minimal" id="cheque" name="payment_type" value="cheque"><br>Cheque
-           </td>
-           <td>
-          <input type="radio" class="minimal" id="paypal" name="payment_type" value="paypal"><br>Paypal
+          <input type="radio" class="minimal" id="Cash" name="payment_type" value="cash">&nbsp;&nbsp;Cash&nbsp;&nbsp;&nbsp;
+           
+          <input type="radio" class="minimal" id="cheque" name="payment_type" value="cheque">&nbsp;&nbsp;Cheque&nbsp;&nbsp;&nbsp;
+          <input type="radio" class="minimal" id="paypal" name="payment_type" value="paypal">&nbsp;&nbsp;Paypal
            </td>
 
         </tr>

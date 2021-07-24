@@ -604,7 +604,12 @@ class MemberController extends Controller
         public function ViewEvent($id)
         {
             $events = Event::where('id',$id)->first();
-            return view('user.ViewEvents',compact('events'));
+            
+            $Purchased_Entry_Tickets = PurchasedEventEntryTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
+            $Purchased_Food_Tickets = PurchasedEventFoodTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
+            $CompetitionRegistered = CompetitionRegistered::where('event_id',$id)->where('user_id',Auth::user()->id)->get();
+            //dd(Auth::user()->id);
+            return view('user.ViewEvents',compact('events','CompetitionRegistered','id','Purchased_Entry_Tickets','Purchased_Food_Tickets'));
         }
 
         public function AddVolunteer()

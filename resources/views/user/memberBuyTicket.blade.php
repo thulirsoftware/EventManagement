@@ -81,25 +81,25 @@
             @for($i=0; $i<$Entrytickets; $i++)
             <?php
             $ageGroup="";
-            if($memberEventTickets[$i]['min_age']>=9 && $memberEventTickets[$i]['max_age']>=16)
+            if($memberEventTickets[$i]['max_age']<=9)
             {
-              $ageGroup = "Adult";
+              $ageGroup = "Kids";
             }
             else 
             {
-              $ageGroup = "Kids";
+              $ageGroup = "Adult";
             }
           ?>
               <div class="col-md-6 form-group">
                 
-                @if($memberEventTickets[$i]['min_age']>="16")
-                <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</label>
-
-                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
-                  @else
-                  <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
+                @if($memberEventTickets[$i]['max_age']<=9)
+                <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
                   <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
+                  @else
+                  <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</span></label>
+
+                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
                   @endif
 
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="EntryTicketId[]" value="{{$memberEventTickets[$i]['id'] }}" indexValue="{{ $i }}" >

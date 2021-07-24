@@ -40,8 +40,8 @@
                       ?>
                       <button class="accordion">{!! nl2br(e($newtext)) !!}</button>
 <div class="panel">
-  <div class="panel-body">
-				<p>Date & Time:&nbsp;{{ $event['eventDate'] }} &nbsp;{{ $event['eventTime'] }}<a href="/ViewEvent/{{ $event['id'] }}" class="btn btn-primary" style="float:right;margin-right: 40%;display: none;">View</a></p>
+  <div class="panel-body"  style="padding-top:22px">
+				<p>Date & Time:&nbsp;{{ $event['eventDate'] }} &nbsp;{{ $event['eventTime'] }}<a href="/ViewEvent/{{ $event['id'] }}" class="btn btn-primary" style="float:right;margin-right: 40%;">View</a></p>
 				<p>Location:&nbsp;{{ $event['eventLocation'] }}</p>
 			 
 			</div>

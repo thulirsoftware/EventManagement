@@ -121,7 +121,7 @@
 
           </div>
            <div class="col-md-1 form-group ">
-               <a type="button" name="remove"  class="btn btn-warning" onclick="AddEntryTicket()"><i class="fa fa-plus"></i></a>
+               <a type="button" name="remove"  class="btn btn-success" onclick="AddEntryTicket()"><i class="fa fa-plus"></i></a>
 
 
           </div>
@@ -176,7 +176,7 @@
           <label class="names">Price ($)</label>
       </div>
       <div class="col-md-1">
-    <button type="button" onclick="AddFoodTicket()" id="sel1" class="btn btn-warning"><i class="fa fa-plus"></i></button>
+    <button type="button" onclick="AddFoodTicket()" id="sel1" class="btn btn-success"  style="color:black"><i class="fa fa-plus"></i></button>
   </div>
   </div>
   <div id="food-list"></div>
