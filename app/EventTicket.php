@@ -13,4 +13,6 @@ class EventTicket extends Model
     						'foodType',
     						'ticketPrice',
     						];
+
+    
 }

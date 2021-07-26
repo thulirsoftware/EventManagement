@@ -13,6 +13,10 @@ use DB;
 use Carbon\Carbon;
 use App\EventCompetition;
 use Session;
+use App\PurchasedEventEntryTickets;
+use App\PurchasedEventFoodTickets;
+use App\CompetitionRegistered;
+
 class EventController extends Controller
 {
     public function __construct()
@@ -462,8 +466,25 @@ class EventController extends Controller
         $events = Event::where('id',$id)->first();
                 $event = Event::where('id',$id)->first();
 
-         return view('admin.event.tickets',compact('eventFoodTicket','eventTicket','Competition','events','event','id'));
+        $Purchased_Entry_Tickets = PurchasedEventEntryTickets::where('eventId',$id)->get();
+
+        $Purchased_Food_Tickets = PurchasedEventFoodTickets::where('eventId',$id)->get();
+
+        $CompetitionRegistration = CompetitionRegistered::where('event_id',$id)->get();
+
+         return view('admin.event.tickets',compact('eventFoodTicket','eventTicket','Competition','events','event','id','Purchased_Entry_Tickets','Purchased_Food_Tickets','CompetitionRegistration'));
     }
+    public static function getFoodTickets($eventId,$agegroup,$membertype,$foodtype,$age)
+    {
+        $eventticket = EventTicket::where('eventId',$eventId)->where('memberType',$membertype)->where('max_age',$agegroup,$age)->where('foodType',$foodtype)->count();
+        return $eventticket;
+    }
+    public static function getParticipantCounts($eventId,$competition_id)
+    {
+        $CompetitionRegistered = CompetitionRegistered::where('eventId',$eventId)->where('competition_id',$competition_id)->count();
+        return $CompetitionRegistered;
+    }
+
 
     public function UpdateEventFoodTicket(Request $request)
     {

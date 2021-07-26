@@ -1,6 +1,41 @@
 @extends('layouts.admin')
 
 @section('content')
+<style>
+.notice {
+    padding: 15px;
+    background-color: #fafafa;
+    border-left: 6px solid #7f7f84;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+       -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+            box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+}
+.notice-sm {
+    padding: 10px;
+    font-size: 80%;
+}
+.notice-lg {
+    padding: 35px;
+    font-size: large;
+}
+.notice-info {
+    border-color: #45ABCD;
+}
+.notice-success {
+    border-color:green;
+}
+
+
+.boxed {
+  width: 25px;
+  height: 25px;
+    background-color: #4bb8a9;
+    color: white;
+    text-align: center;
+}
+
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -115,6 +150,7 @@
           <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Entry Ticket</a>
           <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Food Ticket</a>
           <a class="nav-item nav-link" id="nav-competition-tab" data-toggle="tab" href="#nav-competition" role="tab" aria-controls="nav-competition" aria-selected="false">Competition</a>
+           <a class="nav-item nav-link" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false">Summary</a>
       </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">
@@ -271,6 +307,210 @@
 </tbody>
 </table>
 </div>
+<div class="tab-pane fade" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab"> <br>
+ 
+  @foreach($Purchased_Entry_Tickets as $Purchased_Entry_Ticket)
+      <?php
+       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','Member')->where('max_age','<=','16')->first();
+      if($EventEntryTickets!=null)
+      {
+       $TotalEntryTicketsKidsMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
+     }
+
+
+       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','Member')->where('max_age','>','16')->first();
+      if($EventEntryTickets!=null)
+      {
+       $TotalEntryTicketsAdultMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
+     }
+       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','NonMember')->where('max_age','>','16')->first();
+      if($EventEntryTickets!=null)
+      {
+       $TotalEntryTicketsKidsNonMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
+     }
+       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','NonMember')->where('max_age','>','16')->first();
+      if($EventEntryTickets!=null)
+      {
+       $TotalEntryTicketsAdultNonMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
+     }
+      
+
+    ?>
+      
+     @endforeach
+     <h4><center>Entry Tickets</center></h4>
+
+      <table class="table table-bordered table-striped" id="event_competition_list">
+    <thead style="background-color:white">
+       
+       <tr>
+        <th>Age Group</th>
+        <th>Member/Non Member</th>
+        <th>No Of Tickets</th>
+    </tr>
+</thead>
+<tbody>
+   <tr>
+        <td>Kids</td>
+        <td>Member</td>
+        <td>{{ $TotalEntryTicketsKidsMember}}</td>
+    </tr>
+     <tr>
+        <td>Adult</td>
+        <td>Member</td>
+        <td>{{ $TotalEntryTicketsAdultMember}}</td>
+    </tr>
+    <tr>
+        <td>Kids</td>
+        <td>Non Member</td>
+        <td>{{ $TotalEntryTicketsKidsNonMember}}</td>
+    </tr>
+     <tr>
+        <td>Adult</td>
+        <td>Non Member</td>
+        <td>{{ $TotalEntryTicketsAdultNonMember}}</td>
+    </tr>
+  </tbody>
+</table>
+<h4><center>Food Tickets</center></h4>
+    @foreach($Purchased_Food_Tickets as $Purchased_Food_Ticket)
+      <?php
+
+      
+
+    ?>
+      
+     @endforeach
+      <table class="table table-bordered table-striped" id="event_competition_list">
+    <thead style="background-color:white">
+       
+       <tr>
+        <th>Age Group</th>
+        <th>Member/Non Member</th>
+        <th>Food Type</th>
+        <th>No Of Tickets</th>
+    </tr>
+</thead>
+<tbody>
+   <tr>
+        <td>Kids</td>
+        <td>Member</td>
+        <td>Veg</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','veg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Kids</td>
+        <td>Member</td>
+        <td>Non Veg</td>
+         <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','nveg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Kids</td>
+        <td>Member</td>
+        <td>No Food</td>
+         <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','nfood','16')}}</td>
+    </tr>
+    <tr>
+        <td>Adult</td>
+        <td>Member</td>
+        <td>Veg</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','veg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Adult</td>
+        <td>Member</td>
+        <td>Non Veg</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','nveg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Adult</td>
+        <td>Member</td>
+        <td>No Food</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','nfood','16')}}</td>
+    </tr>
+     <tr>
+        <td>Kids</td>
+        <td>Non Member</td>
+        <td>Veg</td>
+         <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','veg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Kids</td>
+        <td>Non Member</td>
+        <td>Non Veg</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','nveg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Kids</td>
+        <td>Non Member</td>
+        <td>No Food</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','nfood','16')}}</td>
+    </tr>
+    <tr>
+        <td>Adult</td>
+        <td>Non Member</td>
+        <td>Veg</td>
+       <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','veg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Adult</td>
+        <td>Non Member</td>
+        <td>Non Veg</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','nveg','16')}}</td>
+    </tr>
+    <tr>
+        <td>Adult</td>
+        <td>Non Member</td>
+        <td>No Food</td>
+        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','nfood','16')}}</td>
+    </tr>
+     
+  
+  </tbody>
+</table>
+<h4><center>Competition</center></h4>
+
+    
+      <table class="table table-bordered table-striped" id="event_competition_list">
+    <thead style="background-color:white">
+       
+       <tr>
+        <th>Competition Name</th>
+        <th>No Of Participants</th>
+    </tr>
+</thead>
+<tbody>
+  @foreach($CompetitionRegistration as $CompetitionRegistered)
+     <?php 
+     $Competition = \App\Competition::where('id',$CompetitionRegistered['competition_id'])->first();
+     $EventCompetition = \App\EventCompetition::where('competition_id',$CompetitionRegistered['competition_id'])->first();
+    if($Competition->competition_type=="group")
+    {
+      $noOfParticipants= "1";
+
+    }
+    
+    else
+    {
+      $fee= $EventCompetition['member_fee'];
+      $noOfParticipants= "1";
+    }
+      ?>
+   <tr>
+        <td>{{$Competition->name}}</td>
+        <td>{{$noOfParticipants}}</td>
+    </tr>
+  
+      @endforeach
+  
+  </tbody>
+</table>
+    </div>
+
+     
+                          
+  </div>
+
 </div>
 </section>
 
