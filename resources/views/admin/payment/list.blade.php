@@ -12,7 +12,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-11 col-md-offset-2">
-
+          
           <div class="card">
            @if(Session::has('success'))
            <div class="alert alert-success alert-dismissible" role="alert">
@@ -20,6 +20,9 @@
             {{Session::get('success')}}
           </div>
           @endif
+          <div class="card-header">
+            <center><h4>Membership Purchase</h4></center>
+          </div>
           <div class="card-body">
             <table class="table table-bordered table-striped" id="payments_list">
               <thead>
@@ -74,10 +77,63 @@
               @endforeach
             </tbody> 
           </table>
+
         </div>
       </div>
     </div>
   </div>
+  <div class="col-md-11 col-md-offset-2">
+
+          <div class="card">
+          <div class="card-header">
+            <center><h4>Events Tickets</h4></center>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped" id="payments_tickets_list">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>User Email</th>
+                  <th>Event Name</th>
+                  <th>Payment Type</th>
+                  <th>Payment Status</th>
+                  <th>Total Amount</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>  
+                @foreach($TicketPurchase as $TicketPurchase)
+               
+
+              <tr>
+
+                <td>{{ $TicketPurchase->name }}</td>
+                <td>{{ $TicketPurchase->email }}</td>
+                <td>{{ $TicketPurchase->eventName}}</td>
+                <td>{{ $TicketPurchase->payment_type}}</td>
+                @if($TicketPurchase->paymentStatus=="Completed")
+                <td><span class="badge bg-success">{{ $TicketPurchase->paymentStatus }}</span>
+                </td>
+                @else
+                <td><span class="badge bg-danger">Pending</span>
+                </td>
+                @endif
+                 <td>${{ $TicketPurchase->totalAmount}}</td>
+                @if($TicketPurchase->paymentStatus!="Completed")
+                <td><a href="/admin/RegistrationPaymentEdit/{{ $TicketPurchase->id}}" ><i class="fa fa-edit fa-lg" style="text-align:center;"></i></a></td>
+                @else
+                <td></td>
+                @endif
+
+
+              </tr>
+              @endforeach
+            </tbody> 
+          </table>
+          
+        </div>
+      </div>
+    </div>
 </div>
 </section>
 </div>

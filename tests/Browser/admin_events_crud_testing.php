@@ -1,55 +1,4 @@
-<?php
-
-namespace Tests\Browser;
-
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Carbon\Carbon;
-use App\Event;
-use App\EventEntryTickets;
-use App\EventTicket;
-use App\EventCompetition;
-use App\Competition;
-use Auth;
-use App\EventRegistration;
-
-class ExampleTest extends DuskTestCase
-{
-    protected $events;
-
-  
-
-    /**
-     * A basic browser test example.
-     *
-     * @return void
-     */
-    public function testBasicExample()
-    {
-        $events = Event::orderby('id','desc')->first();
-        if($events!=null)
-        {
-            $entry = EventEntryTickets::where('eventId',$events->id)->orderby('id','desc')->first();
-            $food = EventTicket::where('eventId',$events->id)->orderby('id','desc')->first();
-            $competition = EventCompetition::where('event_id',$events->id)->orderby('id','desc')->first();
-
-            $competitionId =Competition::orderby('id','desc')->first();
-        }
-        else
-        {
-            $entry = EventEntryTickets::orderby('id','desc')->first();
-            $food = EventTicket::orderby('id','desc')->first();
-            $competition = EventCompetition::orderby('id','desc')->first();
-
-            $competitionId =Competition::orderby('id','desc')->first();
-        }
-
-
-
-        $this->browse(function (Browser $browser) use($events,$entry,$food,$competition,$competitionId)
-        {
-            $browser->visit('admin/login')
+       $browser->visit('admin/login')
             ->pause(3000)
             ->type('email', 'admin@sangam.com')
             ->type('password', 'sangam@123')
@@ -69,11 +18,11 @@ class ExampleTest extends DuskTestCase
             ->clickLink('Manage Competition')
             ->visit('admin/Competition/Add')
             ->pause(4000)
-            ->type('Name', 'Poetry')
+            ->type('Name', 'lARAVEL duSK')
             ->type('age_limit','1')
             ->type('max_age','10')
-            ->keys('#Date','28/07/2021')
-            ->keys('#closing_date','28/07/2021')
+            ->keys('#Date','2021-28-07')
+            ->keys('#closing_date','2021-28-08')
             ->select('competition_type', 'group')
             ->press('Submit')
              ->visit('admin/Competition/Edit/'.$competitionId->id)
@@ -90,6 +39,7 @@ class ExampleTest extends DuskTestCase
             ->click('#event_time')
             ->click('.tp-ok')
             ->type('free_count', '0')
+            ->check('competitionCheck')
             ->check('EntryCheck')
             ->type('min_age[]', '1')
             ->type('max_age[]', '9')
@@ -106,12 +56,12 @@ class ExampleTest extends DuskTestCase
             ->click('#event_time')
             ->click('.tp-ok')
             ->type('free_count', '0')
-            ->check('FoodCheck')
-            ->type('food_min_age[]', '1')
-            ->type('food_max_age[]', '9')
-            ->select('FoodmemberType[]', 'Member')
-            ->select('foodType[]', 'veg')
-            ->type('FoodticketPrice[]', '120')
+            ->check('competitionCheck')
+            ->check('EntryCheck')
+            ->type('min_age[]', '1')
+            ->type('max_age[]', '9')
+            ->select('memberType[]', 'Member')
+            ->type('ticketPrice[]', '120')
             ->click('.nextBtn')
 
 
@@ -261,7 +211,7 @@ class ExampleTest extends DuskTestCase
             ->visit('admin/eventTickets/'.$events->id)
             ->pause(1000)
 
-            //Entry Ticket Edit
+            /*Entry Ticket Edit
             ->click('a[href="#nav-profile"]')
             ->pause(1000)
             ->click('a[id="row_entry_edit'.$entry->id)
@@ -270,7 +220,7 @@ class ExampleTest extends DuskTestCase
 
             //Food Ticket Edit
             ->click('a[href="#nav-contact"]')
-            ->pause(3000)
+            ->pause(1000)
             ->click('a[id="row_food_edit'.$food->id)
             ->type('#row_food_event_price_text'.$food->id, '20')
             ->click('#food_save_button'.$food->id)
@@ -298,14 +248,8 @@ class ExampleTest extends DuskTestCase
             ->click('a[href="#nav-competition"]')
             ->pause(1000)
             ->click('a[id="row_Competition_delete'.$competition->competition_id)
-            ->acceptDialog()
-            ->pause(3000)
-            ->clickLink('Logout')
-            ->visit('/')
-            ->pause(3000)
-            ->type('email', 'kani@mailinator.com')
-            ->type('password', '123456')
-            ->press('Submit')
+            ->acceptDialog()*/
+
 
             ->clickLink('Membership')
             ->clickLink('Events')
@@ -314,45 +258,3 @@ class ExampleTest extends DuskTestCase
             ->clickLink('Change Password')
             ->clickLink('Family Members')
             ->clickLink('Enroll as Volunteer')
-
-            ->visit('memberTickets')
-            ->clickLink('Register')
-            ->pause(3000)
-            //Entry Food Competition Register
-            ->type('ticketQty[]', '1')
-            ->type('FoodticketQty[]', '5')
-            ->pause(3000)
-            ->press('Register')
-            ->pause(3000)
-            ->select('Competition','1_solo')
-            ->select('familyMembers','1')
-            ->click('.solo-add-row')
-            ->press('Submit')
-            ->pause(3000)
-            ->radio('payment_type', 'cash')
-            ->press('Pay')
-
-            //Entry Food Register
-            ->type('ticketQty[]', '1')
-            ->type('FoodticketQty[]', '5')
-            ->radio('minimal', 'no')
-            ->pause(3000)
-            ->press('Register')
-            ->pause(3000)
-            ->radio('payment_type', 'cash')
-            ->press('Pay')
-            
-
-            //Entry Register
-            ->type('ticketQty[]', '1')
-            ->radio('minimal', 'no')
-            ->pause(3000)
-            ->press('Register')
-            ->pause(3000)
-            ->radio('payment_type', 'cash')
-            ->press('Pay')
-            ->pause(3000)
-            ->clickLink('Logout');
-        });
-    }
-}

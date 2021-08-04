@@ -82,7 +82,7 @@
      </div>
           
             </div> 
-            <p class="alert alert-warning" id="soloParticipantError" style="display:none">participant available not available</p>
+            <p class="alert alert-warning" id="soloParticipantError" style="display:none"></p>
              <div class="row" >
 
      <div  class="col-md-6"  id="solo" style="display: none;"  >

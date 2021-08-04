@@ -504,6 +504,13 @@ $("#food_max_age").keypress(function(e) {
         "bSort": true,
 
       });
+        $("#payments_tickets_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
+
+      });
          
   
 }); 

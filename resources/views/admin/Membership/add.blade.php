@@ -57,16 +57,20 @@
                   
                 </div>
                 <div class="row">
+                  <?php $date = Carbon\Carbon::now();
+                  $start_date = $date->toDateString();
+                  $year = $date->format('Y');
+                  ?>
                  <div class="col-md-6 form-group">
                     <label for="openDate">Starting Date:&nbsp;<span style="color:red">* </span></label>
-                    <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" required>
+                    <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" value="{{$start_date}}" required>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="openDate">Closing Date:&nbsp;<span style="color:red">* </span></label>
-                    <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" required>
+                    <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" value="{{$year}}-12-31"required>
                 </div>
                   <div class="col-md-6 form-group">
-                        <label for="isVisible">Is Visible:&nbsp;<span style="color:red">* </span></label>
+                        <label for="isVisible">Active:&nbsp;<span style="color:red">* </span></label>
                         <select name="isVisible" class="form-control">
                             <option value="yes">yes</option>
                             <option value="no">no</option>

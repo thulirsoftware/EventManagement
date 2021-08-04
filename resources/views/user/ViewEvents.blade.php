@@ -20,7 +20,7 @@
           <div class="col-sm-8">
           </div>
           <div class="col-sm-2">
-            <a href="/memberBuyTicket/{{$id}}" class="btn btn-primary" >Add</i>&nbsp;</a>
+            <a href="/EditmemberBuyTicket/{{$id}}" class="btn btn-primary" >Add</i>&nbsp;</a>
 
           </div>
       </div>
@@ -253,7 +253,7 @@
 </thead>
 <tbody >
   <?php $i = 1 ?>  
-  <?php $totalAmount=0;?>
+  <?php $totalAmount=0; $participant ="";?>
   @foreach($CompetitionRegistered as $CompetitionRegistered)
   <?php
     $Competition = \App\Competition::where('id',$CompetitionRegistered['competition_id'])->first();
@@ -267,14 +267,16 @@
     {
       $fee= $EventCompetition['non_member_fee'];
     }
-    else
+     else if($Competition->competition_type=="solo" && $CompetitionRegistered->participant_id!=null)
     {
       $fee= $EventCompetition['member_fee'];
       $noOfParticipants= "1";
-       $participant = \App\Member::where('Member_Id',$CompetitionRegistered['participant_id'])->first();
+      $participant = \App\Member::where('Member_Id',$CompetitionRegistered['participant_id'])->first();
+
     }
-    $totalAmount=$totalAmount+$fee;
    
+    
+    $totalAmount=$totalAmount+$fee;
 
 ?>
 <tr >
@@ -282,7 +284,11 @@
    <td>{{$Competition->competition_type}}</td>
    <td>${{ $fee }}</td>
 <td>{{ $noOfParticipants }}</td>
+@if($participant!="")
 <td>{{$participant->firstName}} {{$participant->lastName}}</td>
+@else
+<td></td>
+@endif
   </tr>
 @endforeach
 </tbody>

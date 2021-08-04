@@ -20,6 +20,7 @@ use App\PurchasedEventFoodTickets;
 use App\MembershipBuy;
 use App\Volunteer;
 use Auth;
+use App\TicketPurchase;
 
 class AdminController extends Controller
 {
@@ -192,7 +193,7 @@ class AdminController extends Controller
 
     public function FoodTicketsReport()
     {
-        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::where('ticketQty','!=',null)->where('ticketQty','!=',0)->get();
+        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::get();
         return view('admin.PurchasedEventFoodTickets',compact('PurchasedEventFoodTickets'));
     }
 
@@ -211,7 +212,8 @@ class AdminController extends Controller
     public function PaymentList()
     {
         $MembershipBuy = MembershipBuy::get();
-        return view('admin.payment.list',compact('MembershipBuy'));
+        $TicketPurchase = TicketPurchase::get();
+        return view('admin.payment.list',compact('MembershipBuy','TicketPurchase'));
     }
 
     public function PaymentEdit($id)
@@ -298,6 +300,20 @@ class AdminController extends Controller
             
 
        return redirect('/admin/Payments')->withSuccess('Membership Updated Successfully');
+        }
+
+        public function RegistrationPaymentEdit($id)
+        {
+            $TicketPurchase = TicketPurchase::where('id',$id)->first();
+            return view('admin.payment.registration-edit',compact('TicketPurchase'));
+        }
+        public function RegistrationPaymentUpdate(Request $request)
+        {
+            $TicketPurchase = TicketPurchase::find($request->id);
+            $TicketPurchase->payment_type = $request->paymentType;
+            $TicketPurchase->paymentStatus = $request->payment_status;
+            $TicketPurchase->save();
+             return redirect('/admin/Payments')->withSuccess('Payment Updated Successfully');
         }
 
     /**** User Membership Update*******/

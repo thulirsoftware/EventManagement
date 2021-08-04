@@ -32,9 +32,13 @@ Route::get('add/familyMembers','FamilyMemberController@ShowFamilyMembers');
 
 Route::get('/memberTickets','MemberController@memberTickets')->name('member.tickets');
 Route::get('/memberBuyTicket/{id}','MemberController@memberBuyTicket');
+Route::get('/EditmemberBuyTicket/{id}','MemberController@EditmemberBuyTicket');
+
 Route::post('/memberBuyTicketPost', 'MemberController@memberBuyTicketPost');
 Route::post('/memberAddCompetition', 'MemberController@memberAddCompetition');
 Route::get('/memberAddCompetition/{id}', 'MemberController@memberAddCompetition');
+
+
 
 Route::get('/memberTicketView','MemberController@memberTicketView');
 Route::post('memberPaymentCreate', 'MemberController@memberTicketAmountPay')->name('memberPaymentCreate');
@@ -132,8 +136,8 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
 
   Route::get('/manageEvent', 'EventController@manageEvent');
   Route::get('/eventEdit/{id}', 'EventController@eventEdit');
-    Route::get('/eventTickets/{id}', 'EventController@eventTickets');
-
+  Route::get('/eventTickets/{id}', 'EventController@eventTickets');
+  Route::get('/createDuplicateEvent/{id}', 'EventController@createDuplicateEvent');
   Route::post('/eventUpdate','EventController@eventUpdate');
   Route::get('/eventDelete', 'EventController@eventDelete');
   Route::get('/editEventTicket/{id}','EventController@editEventTicket');
@@ -191,6 +195,10 @@ Route::get('/VolunteerReports', 'AdminController@VolunteerReports');
   Route::get('/Payments', 'AdminController@PaymentList');
   Route::get('/PaymentEdit/{id}', 'AdminController@PaymentEdit');
     Route::post('/UpdatePayment','AdminController@UpdatePayment');
+
+    Route::get('/RegistrationPaymentEdit/{id}', 'AdminController@RegistrationPaymentEdit');
+    Route::post('/RegistrationPaymentUpdate','AdminController@RegistrationPaymentUpdate');
+
   Route::get('/Member/EditMembership/{id}', 'AdminController@EditMembership');
 Route::post('/Member/UpdateMembership', 'AdminController@UpdateMembership');
 

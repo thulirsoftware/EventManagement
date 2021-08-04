@@ -129,10 +129,21 @@
       <div id="link-list"></div>
       <div class="row" id="row0">
         <div class="col-md-3 form-group ">
-         <input class="form-control" type="text" name="min_age[]" id="min_age">
+          <select class="form-control"  name="min_age[]" id="min_age">
+        </div>
+           @for ($i = 0; $i <=50; $i++)
+        <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
+         </select>
         </div>
          <div class="col-md-3 form-group ">
-         <input class="form-control" type="text" name="max_age[]" id="max_age">
+           <select class="form-control"  name="max_age[]" id="max_age">
+        </div>
+           @for ($i = 0; $i <=50; $i++)
+        <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
+         </select>
+       
         </div>
          <div class="col-md-3 form-group ">
             <select class="form-control" name="memberType[]" id="sel1">
@@ -184,10 +195,23 @@
   <div class="row" id="row_food0">
 
       <div class="col-md-2 form-group ">
-         <input class="form-control" type="text" name="food_min_age[]" id="food_min_age">
+        <select class="form-control"  name="food_min_age[]" id="food_min_age">
+        </div>
+           @for ($i = 0; $i <=50; $i++)
+        <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
+         </select>
+       
+        
         </div>
          <div class="col-md-2 form-group ">
-         <input class="form-control" type="text" name="food_max_age[]" id="food_max_age">
+          <select class="form-control"  name="food_max_age[]" id="food_max_age">
+        </div>
+           @for ($i = 0; $i <=50; $i++)
+        <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
+         </select>
+         
         </div>
   <div class="col-md-3 form-group ">
     <select class="form-control" name="FoodmemberType[]" id="FoodmemberType">
@@ -291,7 +315,7 @@
  function AddEntryTicket()
  {
   j++;
-  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" name="min_age[]" id="min_age'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<input class="form-control" type="text" name="max_age[]" id="max_age'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice_'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="min_age[]" id="min_age'+j+'" ></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="max_age[]" id="max_age'+j+'" ></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice_'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
 
   $("#ticketPrice_"+j).keypress(function(e) {
     var a = [];
@@ -304,28 +328,16 @@
       e.preventDefault();
 
 }); 
-   $("#min_age"+j).keypress(function(e) {
-    var a = [];
-    var k = e.which;
+  var $select = $("#min_age"+j);
+    for (i=0;i<=50;i++){
+      $select.append($('<option></option>').val(i).html(i))
+    }
 
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-}); 
-    $("#max_age"+j).keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-}); 
+     var $select = $("#max_age"+j);
+    for (i=0;i<=50;i++){
+      $select.append($('<option></option>').val(i).html(i))
+    }
+   
   $("#ticketPrice").keypress(function(e) {
     var a = [];
     var k = e.which;
@@ -337,28 +349,7 @@
       e.preventDefault();
 
 }); 
-   $("#max_age").keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-}); 
-    $("#min_age").keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-}); 
+   
 }
 $(document).on('click', '.spf_btn_remove', function(){  
  var button_idspf = $(this).attr("id");   
@@ -371,7 +362,7 @@ $(document).on('click', '.spf_btn_remove', function(){
  function AddFoodTicket()
  {
   l++;
-  $('<div id="row_food'+l+'" class="row" >'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="food_min_age[]" id="food_min_age'+l+'">'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="food_max_age[]" id="food_max_age'+l+'">'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="FoodmemberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<select class="form-control" name="foodType[]" id="sel1"><option value="">Select</option><option value="veg">Veg</option><option value="nveg">Non-Veg</option><option value="no-food">No Food</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="FoodticketPrice[]" id="FoodticketPrice_'+l+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+l+'" class="btn btn-warning spf_btn_remove1" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#food-list');
+  $('<div id="row_food'+l+'" class="row" >'+'<div class="col-md-2 form-group">'+'<select class="form-control"  name="food_min_age[]" id="food_min_age'+l+'"></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <select class="form-control"   name="food_max_age[]" id="food_max_age'+l+'"></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="FoodmemberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<select class="form-control" name="foodType[]" id="sel1"><option value="">Select</option><option value="veg">Veg</option><option value="nveg">Non-Veg</option><option value="no-food">No Food</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="FoodticketPrice[]" id="FoodticketPrice_'+l+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+l+'" class="btn btn-warning spf_btn_remove1" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#food-list');
 
   $("#FoodticketPrice_"+l).keypress(function(e) {
     var a = [];
@@ -396,52 +387,20 @@ $(document).on('click', '.spf_btn_remove', function(){
       e.preventDefault();
 
 });
-  $("#food_max_age"+l).keypress(function(e) {
-    var a = [];
-    var k = e.which;
+  var $select = $("#food_max_age"+l);
+    for (i=0;i<=50;i++){
+      $select.append($('<option></option>').val(i).html(i))
+    }
 
-    for (i = 48; i < 58; i++)
-      a.push(i);
+     var $select = $("#food_min_age"+l);
+    for (i=0;i<=50;i++){
+      $select.append($('<option></option>').val(i).html(i))
+    }
+ 
 
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
+ 
 
-});
-
-  $("#food_max_age").keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-});
-   $("#food_min_age"+l).keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-});
-
-  $("#food_min_age").keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-});
+ 
 }
 
 

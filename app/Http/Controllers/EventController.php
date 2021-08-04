@@ -474,9 +474,22 @@ class EventController extends Controller
 
          return view('admin.event.tickets',compact('eventFoodTicket','eventTicket','Competition','events','event','id','Purchased_Entry_Tickets','Purchased_Food_Tickets','CompetitionRegistration'));
     }
+     public static function getEventTickets($eventId,$agegroup,$membertype,$age)
+    {
+        $EventEntryTickets = EventEntryTickets::where('eventId',$eventId)->where('memberType',$membertype)->where('max_age',$agegroup,$age)->pluck('id');
+
+
+        $EventEntryTickets = PurchasedEventEntryTickets::whereIn('ticketId',$EventEntryTickets)->count();
+
+        return $EventEntryTickets;
+    }
+
     public static function getFoodTickets($eventId,$agegroup,$membertype,$foodtype,$age)
     {
-        $eventticket = EventTicket::where('eventId',$eventId)->where('memberType',$membertype)->where('max_age',$agegroup,$age)->where('foodType',$foodtype)->count();
+        $eventticket = EventTicket::where('eventId',$eventId)->where('memberType',$membertype)->where('max_age',$agegroup,$age)->where('foodType',$foodtype)->pluck('id');
+
+        $eventticket = PurchasedEventFoodTickets::whereIn('ticketId',$eventticket)->count();
+
         return $eventticket;
     }
     public static function getParticipantCounts($eventId,$competition_id)
@@ -511,7 +524,7 @@ class EventController extends Controller
 
      public function UpdateCompetition(Request $request)
     {
-        $Competition = EventCompetition::find($request->event_competition_id);
+        $Competition = EventCompetition::where('competition_id',$request->event_competition_id)->first();
         $Competition->member_fee = $request->competition_fee;
         $Competition->non_member_fee = $request->competition_nonfee;
         $Competition->save();
@@ -560,5 +573,8 @@ class EventController extends Controller
             return view('admin.event.eventEditForm',$event);
         }
 
+    /*** Event Duplication****/
+
+     
         
 }

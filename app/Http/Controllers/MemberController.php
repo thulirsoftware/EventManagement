@@ -67,6 +67,33 @@ class MemberController extends Controller
         $todayDate =Carbon::now()->toDateString();
         return view('user.memberBuyTicket',compact('memberTickets','user','todayDate','memberEventTickets','events','id','competitionCount'));
     }
+
+    public function EditmemberBuyTicket($id)
+    {
+        $this_year = Carbon::now()->format('Y');
+        $events = Event::where('id', $id)->first();
+        $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','<=',$this_year)->first();
+        $this_year = Carbon::now()->format('Y-m-d');
+        $events = Event::where('id', $id)->first();
+        $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
+        if($Member!=null)
+         {
+            $memberTickets = EventTicket::where('eventId', $id)->where('memberType','member')->get();
+            $memberEventTickets = EventEntryTickets::where('eventId',$id)->where('memberType',"=", 'member')->get();
+         }
+         else
+         {
+            $memberTickets = EventTicket::where('eventId', $id)->where('memberType','NonMember')->get();
+         $memberEventTickets = EventEntryTickets::where('eventId',$id)->where('memberType',"=", 'NonMember')->get();
+         }
+        
+        $member = Auth::user()->email;
+        $user = Member::where('Email_Id',$member)->get();
+        $competitionCount = EventCompetition::where('event_id',$id)->where('competition_id','!=',NULL)->count();
+        $todayDate =Carbon::now()->toDateString();
+        return view('user.EditmemberBuyTicket',compact('memberTickets','user','todayDate','memberEventTickets','events','id','competitionCount'));
+    }
+    
     
 
     public function memberBuyTicketPost(Request $request)
@@ -255,6 +282,7 @@ class MemberController extends Controller
         $TicketPurchase->eventName = $request['eventName'];
         $TicketPurchase->totalAmount = $totalAmount;
         $TicketPurchase->payment_type = $req['payment_type'];
+        $TicketPurchase->user_id = Auth::user()->id;
         $TicketPurchase->save();
 
         $EventRegistration = new EventRegistration();

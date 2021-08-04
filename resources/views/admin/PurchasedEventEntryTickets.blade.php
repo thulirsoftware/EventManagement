@@ -20,6 +20,7 @@
 								<thead>
 									<th>S.No</th>
 									<th>Event Name</th>
+									<th>Event Date</th>
 									<th>User Name</th>
 									<th>Age Group</th>
 									<th>Qty</th>
@@ -50,6 +51,7 @@
 								<td> {{ $i++ }} </td>
 
 								<td>{{ $event['eventName'] }}</td>
+								<td>{{ $event['eventDate'] }}</td>
 								<td>{{ $user['name'] }}</td>
 								<td>{{ $ageGroup }}</td>
 								<td>{{ $PurchasedEventEntryTickets['ticketQty'] }}</td>

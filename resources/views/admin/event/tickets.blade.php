@@ -3,36 +3,36 @@
 @section('content')
 <style>
 .notice {
-    padding: 15px;
-    background-color: #fafafa;
-    border-left: 6px solid #7f7f84;
-    margin-bottom: 10px;
-    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
-       -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
-            box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+  padding: 15px;
+  background-color: #fafafa;
+  border-left: 6px solid #7f7f84;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+  -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+  box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
 }
 .notice-sm {
-    padding: 10px;
-    font-size: 80%;
+  padding: 10px;
+  font-size: 80%;
 }
 .notice-lg {
-    padding: 35px;
-    font-size: large;
+  padding: 35px;
+  font-size: large;
 }
 .notice-info {
-    border-color: #45ABCD;
+  border-color: #45ABCD;
 }
 .notice-success {
-    border-color:green;
+  border-color:green;
 }
 
 
 .boxed {
   width: 25px;
   height: 25px;
-    background-color: #4bb8a9;
-    color: white;
-    text-align: center;
+  background-color: #4bb8a9;
+  color: white;
+  text-align: center;
 }
 
 </style>
@@ -136,87 +136,87 @@
 
 
 <div class="card">
- @if(Session::has('success'))
- <div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-    {{Session::get('success')}}
-</div>
-@endif
-<div class="card-body">
-    <section id="tabs" class="project-tab">
-      <nav>
-        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Events</a>
-          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Entry Ticket</a>
-          <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Food Ticket</a>
-          <a class="nav-item nav-link" id="nav-competition-tab" data-toggle="tab" href="#nav-competition" role="tab" aria-controls="nav-competition" aria-selected="false">Competition</a>
-           <a class="nav-item nav-link" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false">Summary</a>
-      </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
-       <table class="table table-striped table-bordered" id="event_edit_list">
-          <thead style="background-color: white;">
-            <tr>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Location</th>
-              <th>Action</th>
-          </tr>
-      </thead>
-      <tbody> 
-        <?php $i=1 ?> 
-        <?php
-        $string = str_replace(" ","\r\n",$event['eventName']);
-        ;
-        $newtext = wordwrap($event['eventName'], 20, "\n");
-    ?>
-    <tr>
+   @if(Session::has('success'))
+   <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      {{Session::get('success')}}
+  </div>
+  @endif
+  <div class="card-body">
+      <section id="tabs" class="project-tab">
+        <nav>
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Events</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Entry Ticket</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Food Ticket</a>
+            <a class="nav-item nav-link" id="nav-competition-tab" data-toggle="tab" href="#nav-competition" role="tab" aria-controls="nav-competition" aria-selected="false">Competition</a>
+            <a class="nav-item nav-link" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false">Summary</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
+         <table class="table table-striped table-bordered" id="event_edit_list">
+            <thead style="background-color: white;">
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody> 
+          <?php $i=1 ?> 
+          <?php
+          $string = str_replace(" ","\r\n",$event['eventName']);
+          ;
+          $newtext = wordwrap($event['eventName'], 20, "\n");
+      ?>
+      <tr>
 
-        <td>{!! nl2br(e($newtext)) !!}</td>
-        <td>{{ $event['eventDate'] }}</td>
-        <td>{{ $event['eventTime'] }}</td>
-        <td>{{ $event['eventLocation'] }}</td>
-        <td><button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit" style="text-align:center;"></i>&nbsp;</button>&nbsp;&nbsp;<a onclick="DeleteEvent({{$event['id']}})"  > <i class="fa fa-trash" style="cursor:pointer;color:#0069d9"></i></a></td>
-    </tr>
-</tbody> 
+          <td>{!! nl2br(e($newtext)) !!}</td>
+          <td>{{ $event['eventDate'] }}</td>
+          <td>{{ $event['eventTime'] }}</td>
+          <td>{{ $event['eventLocation'] }}</td>
+          <td><button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit" style="text-align:center;"></i>&nbsp;</button>&nbsp;&nbsp;<a onclick="DeleteEvent({{$event['id']}})"  > <i class="fa fa-trash" style="cursor:pointer;color:#0069d9"></i></a></td>
+      </tr>
+  </tbody> 
 </table>
 </div>
 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-  <br>
-  <div class="add-button" >
-    <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventEntryTicket',$event['id']) }}">Add</a> 
-</div><br><br>
-<table class="table table-bordered table-striped" id="event_entry_list">
-    <thead style="background-color:white">
-      <tr>
-        <th>Min Age</th>
-        <th>Max Age</th>
-        <th>Member Type</th>
-        <th>Ticket Price</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody >
-  <?php $i = 1 ?>  
-  @foreach($eventTicket as $ticket)
-  <tr id="row_event_{{ $ticket['id'] }}">
+    <br>
+    <div class="add-button" >
+      <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventEntryTicket',$event['id']) }}">Add</a> 
+  </div><br><br>
+  <table class="table table-bordered table-striped" id="event_entry_list">
+      <thead style="background-color:white">
+        <tr>
+          <th>Min Age</th>
+          <th>Max Age</th>
+          <th>Member Type</th>
+          <th>Ticket Price</th>
+          <th>Actions</th>
+      </tr>
+  </thead>
+  <tbody >
+    <?php $i = 1 ?>  
+    @foreach($eventTicket as $ticket)
+    <tr id="row_event_{{ $ticket['id'] }}">
 
-    <?php
-    $event = \App\Event::where('id',$ticket['eventId'])->first();
-?>
-<td id="row_entry_age{{ $ticket['id'] }}">{{ $ticket['min_age'] }}</td>
-<td id="row_entry_max_age{{ $ticket['id'] }}">{{ $ticket['max_age'] }}</td>
-<td id="row_entry_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
-<td id="row_entry_price{{ $ticket['id'] }}">${{ $ticket['ticketPrice'] }}</td>
-<td>
-    <a style="cursor:pointer;color:#0069d9" onclick="edit_Entry_row('{{ $ticket['id'] }}')" id="row_entry_edit{{ $ticket['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>
+      <?php
+      $event = \App\Event::where('id',$ticket['eventId'])->first();
+  ?>
+  <td id="row_entry_age{{ $ticket['id'] }}">{{ $ticket['min_age'] }}</td>
+  <td id="row_entry_max_age{{ $ticket['id'] }}">{{ $ticket['max_age'] }}</td>
+  <td id="row_entry_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
+  <td id="row_entry_price{{ $ticket['id'] }}">${{ $ticket['ticketPrice'] }}</td>
+  <td>
+      <a style="cursor:pointer;color:#0069d9" onclick="edit_Entry_row('{{ $ticket['id'] }}')" id="row_entry_edit{{ $ticket['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>
 
-    <input type="button" id="entry_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Entry_row('{{ $ticket['id'] }}')" style="display:none">
-    &nbsp;&nbsp;
-    <a id="row_entry_delete{{ $ticket['id'] }}" onclick="DeleteEntryTicket({{ $ticket['id'] }})"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
-</td>
+      <input type="button" id="entry_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Entry_row('{{ $ticket['id'] }}')" style="display:none">
+      &nbsp;&nbsp;
+      <a id="row_entry_delete{{ $ticket['id'] }}" onclick="DeleteEntryTicket({{ $ticket['id'] }})"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
+  </td>
 
 </tr>
 @endforeach
@@ -225,38 +225,38 @@
 
 </div>
 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
- <div class="add-button" >
-    <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventFoodTicket',$event['id']) }}">Add</a> 
-</div><br><br>
-<table class="table table-bordered table-striped" id="event_food_list">
-    <thead style="background-color:white">
-      <tr>
-        <th>Min Age</th>
-        <th>Max Age</th>
-        <th>Member Type</th>
-        <th>Food Type</th>
-        <th>Ticket Price</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody >
-  <?php $i = 1 ?>  
-  @foreach($eventFoodTicket as $ticket)
-  <tr id="row_food_{{ $ticket['id'] }}">
+   <div class="add-button" >
+      <a class="btn btn-primary btn-sm" style="float:right;color:white" href="{{ url('admin/Event/addEventFoodTicket',$event['id']) }}">Add</a> 
+  </div><br><br>
+  <table class="table table-bordered table-striped" id="event_food_list">
+      <thead style="background-color:white">
+        <tr>
+          <th>Min Age</th>
+          <th>Max Age</th>
+          <th>Member Type</th>
+          <th>Food Type</th>
+          <th>Ticket Price</th>
+          <th>Actions</th>
+      </tr>
+  </thead>
+  <tbody >
+    <?php $i = 1 ?>  
+    @foreach($eventFoodTicket as $ticket)
+    <tr id="row_food_{{ $ticket['id'] }}">
 
-    <td id="row_food_event_age{{ $ticket['id'] }}">{{ $ticket['min_age'] }}</td>
-    <td id="row_food_event_max_age{{ $ticket['id'] }}">{{ $ticket['max_age'] }}</td>
-    <td id="row_food_event_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
-    <td id="row_food_event_food{{ $ticket['id'] }}">{{ $ticket['foodType'] }}</td>
-    <td id="row_food_event_price{{ $ticket['id'] }}">{{ $ticket['ticketPrice'] }}</td>
+      <td id="row_food_event_age{{ $ticket['id'] }}">{{ $ticket['min_age'] }}</td>
+      <td id="row_food_event_max_age{{ $ticket['id'] }}">{{ $ticket['max_age'] }}</td>
+      <td id="row_food_event_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
+      <td id="row_food_event_food{{ $ticket['id'] }}">{{ $ticket['foodType'] }}</td>
+      <td id="row_food_event_price{{ $ticket['id'] }}">{{ $ticket['ticketPrice'] }}</td>
 
-    <td>
-      <a  id="row_food_edit{{ $ticket['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row('{{ $ticket['id'] }}')">
-        <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
-    </a>
-    <input type="button" id="food_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Food_row('{{ $ticket['id'] }}')" style="display:none">
-    <a  onclick="DeleteEventFoodTicket({{$ticket['id']}})" id="row_food_delete{{ $ticket['id'] }}"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
-</td>
+      <td>
+        <a  id="row_food_edit{{ $ticket['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row('{{ $ticket['id'] }}')">
+          <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
+      </a>
+      <input type="button" id="food_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Food_row('{{ $ticket['id'] }}')" style="display:none">
+      <a  onclick="DeleteEventFoodTicket({{$ticket['id']}})" id="row_food_delete{{ $ticket['id'] }}"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
+  </td>
 
 
 </tr>
@@ -298,8 +298,8 @@
     <input type="button" id="Competition_save_button{{ $Competition['id'] }}" value="Save" class="btn btn-primary" onclick="save_competition_row('{{ $Competition['id'] }}')" style="display:none">&nbsp;&nbsp;
     @if($CompetitionRegistered<=0)
     <a onclick="myFunction({{$Competition['id']}})"  id="row_Competition_delete{{ $Competition['id'] }}"  style="cursor:pointer;color:#0069d9"> <i class="fa fa-trash" ></i></a>
-@endif
-  </td>
+    @endif
+</td>
 
 
 </tr>
@@ -307,38 +307,35 @@
 </tbody>
 </table>
 </div>
-<div class="tab-pane fade" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab"> <br>
- 
-  @foreach($Purchased_Entry_Tickets as $Purchased_Entry_Ticket)
+<div class="tab-pane fade" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab"><br>
+    <?php 
+        $TotalEntryTicketsKidMember=0;
+        $TotalEntryTicketsAdultMember=0;
+        $TotalEntryTicketsKidsNonMember=0;
+        $TotalEntryTicketsAdultNonMember=0;
+
+    ?>
+     @foreach($Purchased_Entry_Tickets as $Purchased_Entry_Ticket)
       <?php
-       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','Member')->where('max_age','<=','16')->first();
-      if($EventEntryTickets!=null)
-      {
-       $TotalEntryTicketsKidsMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
-     }
+
+       $TotalEntryTicketsKidMember =  \App\Http\Controllers\EventController::getEventTickets($Purchased_Entry_Ticket['eventId'],'<=','Member','16');
+     
 
 
-       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','Member')->where('max_age','>','16')->first();
-      if($EventEntryTickets!=null)
-      {
-       $TotalEntryTicketsAdultMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
-     }
-       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','NonMember')->where('max_age','>','16')->first();
-      if($EventEntryTickets!=null)
-      {
-       $TotalEntryTicketsKidsNonMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
-     }
-       $EventEntryTickets = \App\EventEntryTickets::where('eventId',$Purchased_Entry_Ticket['eventId'])->where('memberType','NonMember')->where('max_age','>','16')->first();
-      if($EventEntryTickets!=null)
-      {
-       $TotalEntryTicketsAdultNonMember = \App\PurchasedEventEntryTickets::where('eventId',$EventEntryTickets['eventId'])->where('ticketId',$EventEntryTickets->id)->count();
-     }
+       $TotalEntryTicketsAdultMember =  \App\Http\Controllers\EventController::getEventTickets($Purchased_Entry_Ticket['eventId'],'>','Member','16');
+
+      
+     
+       $TotalEntryTicketsKidsNonMember  = \App\Http\Controllers\EventController::getEventTickets($Purchased_Entry_Ticket['eventId'],'<=','NonMember','16');
+     
+     
+       $TotalEntryTicketsAdultNonMember =  \App\Http\Controllers\EventController::getEventTickets($Purchased_Entry_Ticket['eventId'],'>','NonMember','16');
       
 
     ?>
       
      @endforeach
-     <h4><center>Entry Tickets</center></h4>
+         <h4><center>Entry Tickets</center></h4>
 
       <table class="table table-bordered table-striped" id="event_competition_list">
     <thead style="background-color:white">
@@ -353,7 +350,7 @@
    <tr>
         <td>Kids</td>
         <td>Member</td>
-        <td>{{ $TotalEntryTicketsKidsMember}}</td>
+        <td>{{$TotalEntryTicketsKidMember}}</td>
     </tr>
      <tr>
         <td>Adult</td>
@@ -373,15 +370,48 @@
   </tbody>
 </table>
 <h4><center>Food Tickets</center></h4>
-    @foreach($Purchased_Food_Tickets as $Purchased_Food_Ticket)
-      <?php
 
-      
+ <?php 
+        $TotalFoodTicketsKidVegMember=0;
+        $TotalFoodTicketsKidNonVegMember=0;
+        $TotalFoodTicketsKidNoFoodMember=0;
+
+        $TotalFoodTicketsAdultVegMember=0;
+        $TotalFoodTicketsAdultNonVegMember=0;
+        $TotalFoodTicketsAdultNoFoodMember=0;
+
+        $TotalFoodTicketsKidVegNonMember=0;
+        $TotalFoodTicketsKidNonVegNonMember=0;
+        $TotalFoodTicketsKidNoFoodNonMember=0;
+
+        $TotalFoodTicketsAdultVegNonMember=0;
+        $TotalFoodTicketsAdultNonVegNonMember=0;
+        $TotalFoodTicketsAdultNoFoodNonMember=0;
+
 
     ?>
-      
+     @foreach($Purchased_Food_Tickets as $Purchased_Food_Ticket)
+      <?php
+      $TotalFoodTicketsKidVegMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','veg','16');
+       $TotalFoodTicketsKidNonVegMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','nveg','16');
+
+        $TotalFoodTicketsKidNoFoodMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','nfood','16');
+        $TotalFoodTicketsAdultVegMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','veg','16');
+        $TotalFoodTicketsAdultNonVegMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','nveg','16');
+        $TotalFoodTicketsAdultNoFoodMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','nfood','16');
+
+
+        $TotalFoodTicketsKidVegNonMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','veg','16');
+        $TotalFoodTicketsKidNonVegNonMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','nveg','16');
+        $TotalFoodTicketsKidNoFoodNonMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','nfood','16');
+
+         $TotalFoodTicketsAdultVegNonMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','veg','16');
+        $TotalFoodTicketsAdultNonVegNonMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','nveg','16');
+        $TotalFoodTicketsAdultNoFoodNonMember = \App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','nfood','16');
+
+    ?>
      @endforeach
-      <table class="table table-bordered table-striped" id="event_competition_list">
+     <table class="table table-bordered table-striped" id="event_competition_list">
     <thead style="background-color:white">
        
        <tr>
@@ -396,73 +426,73 @@
         <td>Kids</td>
         <td>Member</td>
         <td>Veg</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','veg','16')}}</td>
+        <td>{{$TotalFoodTicketsKidVegMember}}</td>
     </tr>
     <tr>
         <td>Kids</td>
         <td>Member</td>
         <td>Non Veg</td>
-         <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','nveg','16')}}</td>
+        <td>{{$TotalFoodTicketsKidNonVegMember}}</td>
     </tr>
     <tr>
         <td>Kids</td>
         <td>Member</td>
         <td>No Food</td>
-         <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','Member','nfood','16')}}</td>
+        <td>{{$TotalFoodTicketsKidNoFoodMember}}</td>
     </tr>
     <tr>
         <td>Adult</td>
         <td>Member</td>
         <td>Veg</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','veg','16')}}</td>
+        <td>{{$TotalFoodTicketsAdultVegMember}}</td>
     </tr>
     <tr>
         <td>Adult</td>
         <td>Member</td>
         <td>Non Veg</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','nveg','16')}}</td>
+        <td>{{$TotalFoodTicketsAdultNonVegMember}}</td>
     </tr>
     <tr>
         <td>Adult</td>
         <td>Member</td>
         <td>No Food</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','Member','nfood','16')}}</td>
+        <td>{{$TotalFoodTicketsAdultNoFoodMember}}</td>
     </tr>
      <tr>
         <td>Kids</td>
         <td>Non Member</td>
         <td>Veg</td>
-         <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','veg','16')}}</td>
+         <td>{{$TotalFoodTicketsKidVegNonMember}}</td>
     </tr>
     <tr>
         <td>Kids</td>
         <td>Non Member</td>
         <td>Non Veg</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','nveg','16')}}</td>
+        <td>{{$TotalFoodTicketsKidNonVegNonMember}}</td>
     </tr>
     <tr>
         <td>Kids</td>
         <td>Non Member</td>
         <td>No Food</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'<=','NonMember','nfood','16')}}</td>
+        <td>{{$TotalFoodTicketsKidNoFoodNonMember}}</td>
     </tr>
     <tr>
         <td>Adult</td>
         <td>Non Member</td>
         <td>Veg</td>
-       <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','veg','16')}}</td>
+       <td>{{$TotalFoodTicketsAdultVegNonMember}}</td>
     </tr>
     <tr>
         <td>Adult</td>
         <td>Non Member</td>
         <td>Non Veg</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','nveg','16')}}</td>
+        <td>{{$TotalFoodTicketsAdultNonVegNonMember}}</td>
     </tr>
     <tr>
         <td>Adult</td>
         <td>Non Member</td>
         <td>No Food</td>
-        <td>{{\App\Http\Controllers\EventController::getFoodTickets($Purchased_Food_Ticket['eventId'],'>','NonMember','nfood','16')}}</td>
+        <td>{{$TotalFoodTicketsAdultNoFoodNonMember}}</td>
     </tr>
      
   
@@ -480,7 +510,7 @@
     </tr>
 </thead>
 <tbody>
-  @foreach($CompetitionRegistration as $CompetitionRegistered)
+    @foreach($CompetitionRegistration as $CompetitionRegistered)
      <?php 
      $Competition = \App\Competition::where('id',$CompetitionRegistered['competition_id'])->first();
      $EventCompetition = \App\EventCompetition::where('competition_id',$CompetitionRegistered['competition_id'])->first();
@@ -502,14 +532,10 @@
     </tr>
   
       @endforeach
-  
-  </tbody>
+    </tbody>
 </table>
-    </div>
-
-     
-                          
-  </div>
+</div>           
+</div>
 
 </div>
 </section>
@@ -534,13 +560,13 @@ $(document).ready(function () {
   console.log("{{ old('tab') }}");
   if("{{ old('tab') }}"=="")
   {
-       var nav = localStorage.getItem('nav');
-       $('#nav-tab a[href="#'+nav+'"]').tab('show')
-  }
-  else{
-    $('#nav-tab a[href="#{{ old('tab') }}"]').tab('show')
-  }
-  
+     var nav = localStorage.getItem('nav');
+     $('#nav-tab a[href="#'+nav+'"]').tab('show')
+ }
+ else{
+  $('#nav-tab a[href="#{{ old('tab') }}"]').tab('show')
+}
+
 });
 </script>
 <script>
@@ -582,7 +608,7 @@ function save_Food_row(no)
  var row_food_event_price_val=document.getElementById("row_food_event_price_text"+no).value;
 
  let _token   = $('meta[name="csrf-token"]').attr('content');
-  var table = $('#event_food_list').DataTable();
+ var table = $('#event_food_list').DataTable();
  $.ajax({
     url: "/admin/UpdateEventFoodTicket",
     type:"POST",
@@ -600,7 +626,7 @@ function save_Food_row(no)
       if(response) {
         localStorage.setItem('nav','nav-contact');
         window.location.reload();
-   }
+    }
 },
 });
 }
@@ -623,7 +649,7 @@ function edit_Entry_row(no)
   var row_entry_event_type_data=row_entry_event_type.innerHTML;
   var row_entry_event_price_data=row_entry_event_price.innerHTML;
 
-row_entry_event_max_age.innerHTML="<input type='text' id='row_entry_event_max_age_text"+no+"' class='form-control'  value='"+row_entry_event_max_age_data+"'>";
+  row_entry_event_max_age.innerHTML="<input type='text' id='row_entry_event_max_age_text"+no+"' class='form-control'  value='"+row_entry_event_max_age_data+"'>";
 
   row_entry_event_age.innerHTML="<input type='text' id='row_entry_event_age_text"+no+"' class='form-control'  value='"+row_entry_event_age_data+"'>";
 
@@ -635,7 +661,7 @@ row_entry_event_max_age.innerHTML="<input type='text' id='row_entry_event_max_ag
 function save_Entry_row(no)
 {
    var row_entry_event_age_val=document.getElementById("row_entry_event_age_text"+no).value;
-    var row_entry_event_max_age_val=document.getElementById("row_entry_event_max_age_text"+no).value;
+   var row_entry_event_max_age_val=document.getElementById("row_entry_event_max_age_text"+no).value;
    var row_entry_event_type_val=document.getElementById("row_entry_event_type_text"+no).value;
    var row_entry_event_price_val=document.getElementById("row_entry_event_price_text"+no).value;
 
@@ -655,8 +681,8 @@ function save_Entry_row(no)
     success:function(response){
         console.log(response);
         if(response) {
-            localStorage.setItem('nav','nav-profile');
-            window.location.reload();
+          localStorage.setItem('nav','nav-profile');
+          window.location.reload();
             //$("#ajaxform")[0].reset();
         }
     },
@@ -703,7 +729,7 @@ function save_competition_row(no)
       console.log(response);
       if(response) {
          localStorage.setItem('nav','nav-competition');
-            window.location.reload();
+         window.location.reload();
             //$("#ajaxform")[0].reset();
         }
     },
@@ -718,7 +744,7 @@ function myFunction(id) {
         data : {'id':id},
         success:function(data){
           localStorage.setItem('nav','nav-competition');
-            window.location.reload();
+          window.location.reload();
       } 
   });
 
@@ -749,7 +775,7 @@ function DeleteEntryTicket(id) {
         data : {'id':id},
         success:function(data){
           localStorage.setItem('nav','nav-profile');
-            window.location.reload();
+          window.location.reload();
       } 
   });
 
@@ -766,7 +792,7 @@ function DeleteEventFoodTicket(id) {
         data : {'id':id},
         success:function(data){
           localStorage.setItem('nav','nav-contact');
-            window.location.reload();
+          window.location.reload();
       } 
   });
 
