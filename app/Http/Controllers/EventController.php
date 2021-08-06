@@ -16,6 +16,9 @@ use Session;
 use App\PurchasedEventEntryTickets;
 use App\PurchasedEventFoodTickets;
 use App\CompetitionRegistered;
+use App\LocationModel;
+use App\CompetitionLocations;
+use App\FoodModel;
 
 class EventController extends Controller
 {
@@ -30,13 +33,17 @@ class EventController extends Controller
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
         $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
         $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
-        return view('admin.event.addEventForm',compact('Competition','CompetitionModal','CompetitionAjax'));
+        $FoodTypes = FoodModel::get();
+        return view('admin.event.addEventForm',compact('Competition','CompetitionModal','CompetitionAjax','FoodTypes'));
     }
 
     public function addEventPost(Request $request)
     { 
+        Session::put('eventsCompetition',$request->all());
+
         if($request->has('competitionCheck'))
         {
+  
              if ($request->hasFile('eventFlyer')){  
                  
              $file = $request->file('eventFlyer');
@@ -48,75 +55,11 @@ class EventController extends Controller
              $path = public_path().'/events';
              
              $uplaod = $file->move($path,$fileName);
-             
+            Session::put('eventsFlyer',$fileName); 
+
              }   
-              $event = new Event;
-        $event->eventName = $request->eventName;
-        $event->eventDescription = $request->eventDescription;
-
-        if($request->eventFlyer != "" || $request->eventFlyer != null){
-        $event->eventFlyer = $fileName;
-        }else{
-             $event->eventFlyer = $request->eventFlyer;
-        }
-
-        $event->eventDate = $request->eventDate;
-        $event->eventTime = $request->eventTime;
-        $event->free_count = $request->free_count;
-        $event->eventLocation = $request->eventLocation;
-        $event->eventLocationLink = $request->eventLocationLink;
-
-        if($event->save())
-        {
-            if($request->has('min_age'))
-            {
-                $ageGroupCount = count($request->min_age); 
-            }
-            else
-            {
-                 $ageGroupCount = 0;
-            }
-
-            for($i = 0;$i < $ageGroupCount; $i++)
-            {
-                $EventEntryTickets = new EventEntryTickets();
-                $EventEntryTickets->eventId = $event->id;
-                $EventEntryTickets->min_age = $request->min_age[$i];
-                $EventEntryTickets->max_age = $request->max_age[$i];
-                $EventEntryTickets->memberType =$request->memberType[$i];
-                $EventEntryTickets->ticketPrice = $request->ticketPrice[$i];
-                if($request->ticketPrice[$i]!=null)
-                {
-                    $EventEntryTickets->save();
-                }
-            }
-            if($request->has('food_min_age'))
-            {
-                $FoodageGroupCount = count($request->food_min_age); 
-            }
-            else
-            {
-                 $FoodageGroupCount = 0;
-            }
-
-            for($i = 0;$i < $FoodageGroupCount; $i++)
-            {
-                $eventTicket = new EventTicket;
-                $eventTicket->eventId = $event->id;
-                $eventTicket->eventName = $event->eventName;
-                $eventTicket->min_age = $request->food_min_age[$i];
-                $eventTicket->max_age = $request->food_max_age[$i];
-                $eventTicket->memberType =$request->FoodmemberType[$i];
-                $eventTicket->foodType = $request->foodType[$i];
-                $eventTicket->ticketPrice = $request->FoodticketPrice[$i];
-                if($request->FoodticketPrice[$i]!=null)
-                {
-                    $eventTicket->save();
-                }
-            }    
-        }
-            
-            Session::put('competitionChecks',$event->id);
+                
+           
            return redirect('/admin/addEventcompetitions');
 
             
@@ -175,26 +118,28 @@ class EventController extends Controller
                     $EventEntryTickets->save();
                 }
             }
-            if($request->has('food_min_age'))
+            if($request->has('food_id'))
             {
-                $FoodageGroupCount = count($request->food_min_age); 
+                $food_idCount = count($request->food_id); 
             }
             else
             {
-                 $FoodageGroupCount = 0;
+                 $food_idCount = 0;
             }
 
-            for($i = 0;$i < $FoodageGroupCount; $i++)
+            for($i = 0;$i < $food_idCount; $i++)
             {
+                $food = FoodModel::where('id',$request->food_id[$i])->first();
+
                 $eventTicket = new EventTicket;
                 $eventTicket->eventId = $event->id;
                 $eventTicket->eventName = $event->eventName;
-                $eventTicket->min_age = $request->food_min_age[$i];
-                $eventTicket->max_age = $request->food_max_age[$i];
-                $eventTicket->memberType =$request->FoodmemberType[$i];
-                $eventTicket->foodType = $request->foodType[$i];
-                $eventTicket->ticketPrice = $request->FoodticketPrice[$i];
-                if($request->FoodticketPrice[$i]!=null)
+                $eventTicket->min_age = $food->min_age;
+                $eventTicket->max_age = $food->max_age;
+                $eventTicket->memberType =$food->memberType;
+                $eventTicket->foodType = $food->food_type;
+                $eventTicket->ticketPrice = $food->price;
+                if($request->ticketPrice!=null)
                 {
                     $eventTicket->save();
                 }
@@ -211,15 +156,78 @@ class EventController extends Controller
     {
         $toDay = Carbon::now()->toDateString();
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
+        $locations = LocationModel::where('status','Y')->get();
         $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
         $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
-       return view('admin.event.competition_add',compact('CompetitionModal','CompetitionAjax','Competition'));
+       return view('admin.event.competition_add',compact('CompetitionModal','CompetitionAjax','Competition','locations'));
     }
     public function addEventcompetitionsSave(Request $request)
     {
-       $eventId = Session::get('competitionChecks');
+        $Events = Session::get('eventsCompetition');
+        $fileName = Session::get('eventsFlyer'); 
+        $event = new Event;
+        $event->eventName = $Events['eventName'];
+        $event->eventFlyer = $fileName;
+        $event->eventDate = $Events['eventDate'];
+        $event->eventTime = $Events['eventTime'];
+        $event->free_count = $Events['free_count'];
+        $event->eventLocation = $Events['eventLocation'];
+
+        if($event->save())
+        {
+            if(array_key_exists('min_age',$Events))
+            {
+                $ageGroupCount = count($Events['min_age']); 
+            }
+            else
+            {
+                 $ageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $ageGroupCount; $i++)
+            {
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->min_age = $Events['min_age'][$i];
+                $EventEntryTickets->max_age = $Events['max_age'][$i];
+                $EventEntryTickets->memberType =$Events['memberType'][$i];
+                $EventEntryTickets->ticketPrice = $Events['ticketPrice'][$i];
+                if($Events['ticketPrice'][$i]!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+            if(array_key_exists('food_id',$Events))
+            {
+                $FoodageGroupCount = count($Events['food_id']); 
+            }
+            else
+            {
+                 $FoodageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $FoodageGroupCount; $i++)
+            {
+                 $food = FoodModel::where('id',$Events['food_id'][$i])->first();
+
+                $eventTicket = new EventTicket;
+                $eventTicket->eventId = $event->id;
+                $eventTicket->eventName = $event->eventName;
+                $eventTicket->min_age = $food->min_age;
+                $eventTicket->max_age = $food->max_age;
+                $eventTicket->memberType =$food->memberType;
+                $eventTicket->foodType = $food->food_type;
+                $eventTicket->ticketPrice = $food->price;
+                if($food->price!=null)
+                {
+                    $eventTicket->save();
+                }
+
+               
+            }    
+        }
            
-              if($request->has('competition_id'))
+            if($request->has('competition_id'))
             {
                 $competition_Count = count($request->competition_id); 
             }
@@ -231,12 +239,31 @@ class EventController extends Controller
             {
               
                 $EventCompetition = new EventCompetition();
-                $EventCompetition->event_id = $eventId;
+                $EventCompetition->event_id = $event->id;;
                 $EventCompetition->competition_id = $request->competition_id[$i];
                 $EventCompetition->member_fee = $request->member_fee[$i];
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
                 if($EventCompetition->save())
                 {
+                    if($request->has('location'))
+                    {
+                        $CompetitionLocations_Count = count($request->location); 
+                    }
+                    else
+                    {
+                         $CompetitionLocations_Count = 0;
+                    }
+                    for($i = 0;$i < $CompetitionLocations_Count; $i++)
+                    {
+                        $pieces = explode("_", $request->location[$i]);
+                        $competition_id = $pieces[0];
+                        $location_id = $pieces[1];                      
+                        $CompetitionLocations = new CompetitionLocations();
+                        $CompetitionLocations->event_id = $event->id;
+                        $CompetitionLocations->competition_id = $competition_id;
+                        $CompetitionLocations->location_id = $location_id;
+                       $CompetitionLocations->save();
+                    }
 
                 }
                 else
@@ -244,7 +271,8 @@ class EventController extends Controller
                     $Event = Event::where('id',$eventId)->delete();
                 }
             }  
-        Session::forget('competitionChecks');
+            Session::forget('eventsCompetition');
+            Session::forget('eventsFlyer');
          return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
     }
 
@@ -291,7 +319,8 @@ class EventController extends Controller
     }
     public function addEventCompetitionPost(Request $request)
     {
-          if($request->has('competition_id'))
+
+             if($request->has('competition_id'))
             {
                 $competition_Count = count($request->competition_id); 
             }
@@ -301,15 +330,38 @@ class EventController extends Controller
             }
             for($i = 0;$i < $competition_Count; $i++)
             {
-                
+              
                 $EventCompetition = new EventCompetition();
-                $EventCompetition->event_id = $request->id;
+                $EventCompetition->event_id = $request->id;;
                 $EventCompetition->competition_id = $request->competition_id[$i];
                 $EventCompetition->member_fee = $request->member_fee[$i];
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
-                $EventCompetition->save();
-            }  
-         return redirect(url('admin/eventTickets/'.$request->id))->withInput(["tab" =>"nav-competition"])->withSuccess('Competition Added Successfully');
+                if($EventCompetition->save())
+                {
+                    if($request->has('location'))
+                    {
+                        $CompetitionLocations_Count = count($request->location); 
+                    }
+                    else
+                    {
+                         $CompetitionLocations_Count = 0;
+                    }
+                    for($i = 0;$i < $CompetitionLocations_Count; $i++)
+                    {
+                        $pieces = explode("_", $request->location[$i]);
+                        $competition_id = $pieces[0];
+                        $location_id = $pieces[1];                      
+                        $CompetitionLocations = new CompetitionLocations();
+                        $CompetitionLocations->event_id = $request->id;
+                        $CompetitionLocations->competition_id = $competition_id;
+                        $CompetitionLocations->location_id = $location_id;
+                       $CompetitionLocations->save();
+                    }
+
+                }
+               
+            }
+          return redirect(url('admin/eventTickets/'.$request->id))->withInput(["tab" =>"nav-competition"])->withSuccess('Competition Added Successfully');
     }
 
    
@@ -575,6 +627,254 @@ class EventController extends Controller
 
     /*** Event Duplication****/
 
-     
-        
+     public function createDuplicateEvent($id)
+     {
+        $events = Event::where('id',$id)->first();
+        $FoodTickets = EventTicket::where('eventId',$id)->get();
+         $eventFoodIds = EventTicket::where('eventId',$id)->pluck('food_id');
+        $FoodTypes = FoodModel::whereNotIn('id',$eventFoodIds)->get();
+        $FoodTicketsCount = count($FoodTickets); 
+        $EntryTickets = EventEntryTickets::where('eventId',$id)->get();
+        $EntryCount = count($EntryTickets); 
+        $EventCompetitions = EventCompetition::where('event_id',$id)->get();
+        $EventCompetitionsCount = count($EventCompetitions); 
+
+        return view('admin.event.create_duplicate_event',compact('events','FoodTickets','FoodTicketsCount','EntryTickets','EntryCount','EventCompetitions','EventCompetitionsCount','FoodTypes'));
+
+
+     }
+
+   public function addDuplicateEventPost(Request $request)
+    { 
+        if($request->has('competitionCheck'))
+        {
+            $eventId = $request->eventId;
+            Session::put('eventsCompetition',$request->all());
+             if ($request->hasFile('eventFlyer')){  
+                 
+             $file = $request->file('eventFlyer');
+             
+             $extension = $file->getClientOriginalExtension(); 
+             
+             $fileName = time().'.'.$extension;
+             
+             $path = public_path().'/events';
+             
+             $uplaod = $file->move($path,$fileName);
+             Session::put('eventsFlyer',$fileName);
+             Session::put('eventId',$eventId);
+             } 
+           return redirect('/admin/addDuplicateEventcompetitions/'.$eventId);
+        }
+        else
+        {
+            if ($request->hasFile('eventFlyer')){  
+                 
+             $file = $request->file('eventFlyer');
+             
+             $extension = $file->getClientOriginalExtension(); 
+             
+             $fileName = time().'.'.$extension;
+             
+             $path = public_path().'/events';
+             
+             $uplaod = $file->move($path,$fileName);
+             
+             }   
+              $event = new Event;
+        $event->eventName = $request->eventName;
+        $event->eventDescription = $request->eventDescription;
+
+        if($request->eventFlyer != "" || $request->eventFlyer != null){
+        $event->eventFlyer = $fileName;
+        }else{
+             $event->eventFlyer = $request->eventFlyer;
+        }
+
+        $event->eventDate = $request->eventDate;
+        $event->eventTime = $request->eventTime;
+        $event->eventLocation = $request->eventLocation;
+        $event->eventLocationLink = $request->eventLocationLink;
+        $event->free_count = $request->free_count;
+        if($event->save())
+        {
+            if($request->has('min_age'))
+            {
+                $ageGroupCount = count($request->min_age); 
+            }
+            else
+            {
+                 $ageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $ageGroupCount; $i++)
+            {
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->min_age = $request->min_age[$i];
+                $EventEntryTickets->max_age = $request->max_age[$i];
+                $EventEntryTickets->memberType =$request->memberType[$i];
+                $EventEntryTickets->ticketPrice = $request->ticketPrice[$i];
+                if($request->ticketPrice[$i]!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+            if($request->has('food_min_age'))
+            {
+                $FoodageGroupCount = count($request->food_min_age); 
+            }
+            else
+            {
+                 $FoodageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $FoodageGroupCount; $i++)
+            {
+                $eventTicket = new EventTicket;
+                $eventTicket->eventId = $event->id;
+                $eventTicket->eventName = $event->eventName;
+                $eventTicket->min_age = $request->food_min_age[$i];
+                $eventTicket->max_age = $request->food_max_age[$i];
+                $eventTicket->memberType =$request->FoodmemberType[$i];
+                $eventTicket->foodType = $request->foodType[$i];
+                $eventTicket->ticketPrice = $request->FoodticketPrice[$i];
+                if($request->FoodticketPrice[$i]!=null)
+                {
+                    $eventTicket->save();
+                }
+            }    
+        }
+                
+
+         
+        }
+        return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
+    }
+
+    public function addDuplicateEventcompetitions($id)
+    {
+        $eventId = $id;
+        $EventCompetitions = EventCompetition::where('event_id',$eventId)->get();
+        $CompetitionLocations = CompetitionLocations::where('event_id',$eventId)->get();
+        $EventCompetitionFound = EventCompetition::where('event_id',$eventId)->pluck('competition_id');
+
+        $toDay = Carbon::now()->toDateString();
+        $Competition=Competition::where('closing_date','>=',$toDay)->get();
+        $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
+        $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
+       return view('admin.event.duplicate_competition_add',compact('CompetitionModal','CompetitionAjax','Competition','EventCompetitions','CompetitionLocations'));
+    }
+    public function addDuplicateEventcompetitionsSave(Request $request)
+    {
+        $Events = Session::get('eventsCompetition');
+        $fileName = Session::get('eventsFlyer'); 
+        $event = new Event;
+        $event->eventName = $Events['eventName'];
+        $event->eventFlyer = $fileName;
+        $event->eventDate = $Events['eventDate'];
+        $event->eventTime = $Events['eventTime'];
+        $event->free_count = $Events['free_count'];
+        $event->eventLocation = $Events['eventLocation'];
+
+        if($event->save())
+        {
+            if(array_key_exists('min_age',$Events))
+            {
+                $ageGroupCount = count($Events['min_age']); 
+            }
+            else
+            {
+                 $ageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $ageGroupCount; $i++)
+            {
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->min_age = $Events['min_age'][$i];
+                $EventEntryTickets->max_age = $Events['max_age'][$i];
+                $EventEntryTickets->memberType =$Events['memberType'][$i];
+                $EventEntryTickets->ticketPrice = $Events['ticketPrice'][$i];
+                if($Events['ticketPrice'][$i]!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+            if(array_key_exists('food_id',$Events))
+            {
+                $FoodageGroupCount = count($Events['food_id']); 
+            }
+            else
+            {
+                 $FoodageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $FoodageGroupCount; $i++)
+            {
+                $food = FoodModel::where('id',$Events['food_id'][$i])->first();
+
+                $eventTicket = new EventTicket;
+                $eventTicket->eventId = $event->id;
+                $eventTicket->eventName = $event->eventName;
+                $eventTicket->min_age = $food->min_age;
+                $eventTicket->max_age = $food->max_age;
+                $eventTicket->memberType =$food->memberType;
+                $eventTicket->foodType = $food->food_type;
+                $eventTicket->ticketPrice = $food->price;
+                if($food->price!=null)
+                {
+                    $eventTicket->save();
+                }
+            }    
+        }
+           if($request->has('competition_id'))
+            {
+                $competition_Count = count($request->competition_id); 
+            }
+            else
+            {
+                 $competition_Count = 0;
+            }
+            for($i = 0;$i < $competition_Count; $i++)
+            {
+              
+                $EventCompetition = new EventCompetition();
+                $EventCompetition->event_id = $event->id;;
+                $EventCompetition->competition_id = $request->competition_id[$i];
+                $EventCompetition->member_fee = $request->member_fee[$i];
+                $EventCompetition->non_member_fee = $request->non_member_fee[$i];
+                if($EventCompetition->save())
+                {
+                   
+                }
+                else
+                {
+                    $Event = Event::where('id',$eventId)->delete();
+                }
+            }
+             if($request->has('location'))
+                    {
+                        $CompetitionLocations_Count = count($request->location); 
+                    }
+                    else
+                    {
+                         $CompetitionLocations_Count = 0;
+                    }
+                    for($i = 0;$i < $CompetitionLocations_Count; $i++)
+                    {
+                        $pieces = explode("_", $request->location[$i]);
+                        $competition_id = $pieces[0];
+                        $location_id = $pieces[1];                      
+                        $CompetitionLocations = new CompetitionLocations();
+                        $CompetitionLocations->event_id = $event->id;
+                        $CompetitionLocations->competition_id = $competition_id;
+                        $CompetitionLocations->location_id = $location_id;
+                       $CompetitionLocations->save();
+                    }
+   
+        Session::forget('eventsCompetition');
+         return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
+    }
+
 }

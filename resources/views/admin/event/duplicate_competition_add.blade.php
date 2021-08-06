@@ -44,8 +44,8 @@ a.disabled {
         <div class="col-md-1">
       </div>
        <div class="col-md-10">
-        <form method="post" action="{{ url('admin/Event/addEventCompetitionPost') }}" enctype="multipart/form-data" id="regForm">
-            <input type="hidden" name="id" value="{{$id}}">
+        <form method="post" action="{{ url('admin/addDuplicateEventcompetitionsSave') }}" enctype="multipart/form-data" id="regForm">
+
     {{ csrf_field() }}
         <div class="card">
                @if(Session::has('success'))
@@ -73,7 +73,8 @@ a.disabled {
                   <tbody> 
                   @foreach($Competition as $i=>$competition)
               <?php
-              
+              $EventCompetition = \App\EventCompetition::where('competition_id',$competition->id)->first();
+              $EventLocation = \App\CompetitionLocations::where('competition_id',$competition->id)->first();
            $str_arr = explode (",", $competition->location); 
                $locations = \App\LocationModel::whereIn('id',$str_arr)->pluck('location_name')->implode(',');
 
@@ -86,8 +87,12 @@ a.disabled {
               <td>{{ $competition['non_member_fee'] }}
               <input type="hidden" name="non_member_fee[]"  value="{{$competition['non_member_fee']}}">
           </td>
-              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;&nbsp;Competition </td>
-              <td><a class="btn btn-info disabled" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
+              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)" <?=($competition['id'] == $EventCompetition['competition_id'])?'checked':''?>>&nbsp;&nbsp;Competition </td>
+              @if($competition['id']==$EventCompetition['competition_id'])
+              <td><a class="btn btn-info" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
+              @else
+               <td><a class="btn btn-info disabled" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
+              @endif
             </tr>
              <div class="modal" id="{{ $competition['id'] }}Modal"  >
   <div class="modal-dialog" role="document">
@@ -105,7 +110,8 @@ a.disabled {
          <input type="hidden" id="location_competition_id_{{ $competition['id'] }}" name="location_competition_id[]"  > 
          @foreach($locations as  $location)
         <label class=" col-md-10">
-            <input name="location[]" class="form-control" type="checkbox" value="{{$competition->id}}_{{$location->id}}">
+            
+            <input name="location[]" class="form-control" type="checkbox" value="{{$competition->id}}_{{$location->id}}" <?=($location['id'] == $EventLocation['location_id'])?'checked':''?>>
             <i class="fa fa-check glyphicon glyphicon-ok"></i>
             {{$location->location_name}}
        </label><br>

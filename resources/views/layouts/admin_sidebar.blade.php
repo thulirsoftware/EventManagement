@@ -63,6 +63,22 @@
                 </a>
             </li>
          @endif
+           @if(Auth::user()->job_title=='SAdmin')
+             <li class="nav-item">
+                <a href="{{ route('admin.location.list') }}" class="nav-link {{ Str::contains($path, ['Location','location']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-map-marker"></i>
+                <p>Manage Location</p>
+                </a>
+            </li>
+            @endif
+             @if(Auth::user()->job_title=='SAdmin')
+             <li class="nav-item">
+                <a href="{{ route('admin.food.list') }}" class="nav-link {{ Str::contains($path, ['food','Food']) ? 'active' : '' }}">
+                <i class="nav-icon fas fas fa-bacon"></i>
+                <p>Manage Food</p>
+                </a>
+            </li>
+            @endif
           @if(Auth::user()->job_title=='SAdmin')
              <li class="nav-item">
                 <a href="{{ url('/admin/Payments') }}" class="nav-link {{ Str::contains($path, ['Payments','UpdatePayment','PaymentEdit']) ? 'active' : '' }}">

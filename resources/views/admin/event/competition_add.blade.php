@@ -1,6 +1,25 @@
 @extends('layouts.admin')
 
 @section('content')
+<style>
+    .dlk-radio input[type="radio"],
+.dlk-radio input[type="checkbox"] 
+{
+    display:none;
+}
+.dlk-radio input[type="radio"] + .fa ,
+.dlk-radio input[type="checkbox"] + .fa {
+     opacity:0.15
+}
+.dlk-radio input[type="radio"]:checked + .fa,
+.dlk-radio input[type="checkbox"]:checked + .fa{
+    opacity:1
+}
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -39,53 +58,81 @@
               <div class="card-header"><center><strong>Add Competition</strong></center></div>
               <div class="card-body">
 
-<div class="row">
-    <div class="col-md-3 form-group ">
-        <label class="names">Competition</label>
-            <select class="form-control" name="FoodmemberType" id="ddlViewBy">
-                <option value="">Select</option>
-                    @foreach($Competition as $Competition) 
-                        <option value="{{$Competition->id}}">{{$Competition->name}}</option>
-                              
-                     @endforeach
-            </select>
-            <p id="competitionerror" style="color:red"></p>
-         </div>                  
-            <div class="col-md-3 form-group">
-                <label for="Description">Member Fees :</label>
-                <input type="text" class="form-control" id="member_fee" name="member_fee" required>
-                 <p id="member_fee_error" style="color:red"></p>
-            </div>
-           <div class="col-md-3 form-group">
-                    <label for="Description">Non Member Fees :</label>
-                      <input type="text" class="form-control" id="non_member_fee" name="non_member_fee" required>
-                       <p id="non_member_fee_error" style="color:red"></p>
-            </div>
-                     <div class="col-md-2 form-group">
-                        <br>
-                      <button type="button" class="button1 add-row" onclick="add()">Add</button>
-                    </div>
-    </div>
-     <table class="table">
+
+     <table class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                        <th>Name</th>
-                      <th>Member Fee</th>
-                       <th>Non Member Fee</th>
-                       <th>Delete</th>
-                       
+                     <th>Competition Name</th>
+                     <th>Age</th>
+                    <th>Member Fee</th>
+                    <th>Non Member Fee</th>
+                    <th>Select</th>
+                    <th>Add</th>
                     </tr>
                   </thead>
-                  <tbody>  
+                  <tbody> 
+                  @foreach($Competition as $i=>$competition)
+              <?php
+              
+           $str_arr = explode (",", $competition->location); 
+               $locations = \App\LocationModel::whereIn('id',$str_arr)->pluck('location_name')->implode(',');
+
+            ?>
+            <tr>
+                <td>{{ $competition['name'] }} </td>
+              <td>{{ $competition['min_age'] }} - {{ $competition['max_age'] }}</td>
+              <td>{{ $competition['member_fee'] }}
+               <input type="hidden" name="member_fee[]"  value="{{$competition['member_fee']}}"> </td>
+              <td>{{ $competition['non_member_fee'] }}
+              <input type="hidden" name="non_member_fee[]"  value="{{$competition['non_member_fee']}}">
+          </td>
+              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;&nbsp;Competition </td>
+              <td><a class="btn btn-info disabled" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
+            </tr>
+             <div class="modal" id="{{ $competition['id'] }}Modal"  >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="{{ $competition['id'] }}ModalLabel">Add Location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="well well-sm ">
+    <div class="dlk-radio">
+        <?php $locations = \App\LocationModel::where('status','Y')->get();?>
+         <input type="hidden" id="location_competition_id_{{ $competition['id'] }}" name="location_competition_id[]"  > 
+         @foreach($locations as  $location)
+        <label class=" col-md-10">
+            <input name="location[]" class="form-control" type="checkbox" value="{{$competition->id}}_{{$location->id}}">
+            <i class="fa fa-check glyphicon glyphicon-ok"></i>
+            {{$location->location_name}}
+       </label><br>
+       @endforeach
+       
+      
+    </div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"   data-dismiss="modal">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+            @endforeach 
                   </tbody>
               </table><br>
                <div style="overflow:auto;">
     <center >
-      <button type="submit" class="button nextBtn" id="nextBtn" disabled="">Submit</button>
+      <button type="submit" class="button nextBtn" id="nextBtn" >Submit</button>
     </center>
   </div>
           </div>
       </div>
+
   </form>
           </div>
       </div>
@@ -158,5 +205,23 @@
         {
             console.log(rowId);
             document.getElementById(rowId).remove();
+        }
+    </script>
+    <script>
+        function EnableLocation(checkbox)
+        {
+            if(checkbox.checked==true)
+            {
+                
+                var elements = document.getElementById("dis_btn_"+checkbox.value);
+                document.getElementById("location_competition_id_"+checkbox.value).value=checkbox.value;
+                elements.classList.remove("disabled");
+            }
+            else
+            {
+               var elements = document.getElementById("dis_btn_"+checkbox.value);
+                elements.classList.add("disabled"); 
+            }
+            
         }
     </script>

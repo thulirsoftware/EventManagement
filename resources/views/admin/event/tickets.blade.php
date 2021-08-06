@@ -150,6 +150,7 @@
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Entry Ticket</a>
             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Food Ticket</a>
             <a class="nav-item nav-link" id="nav-competition-tab" data-toggle="tab" href="#nav-competition" role="tab" aria-controls="nav-competition" aria-selected="false">Competition</a>
+
             <a class="nav-item nav-link" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false">Summary</a>
         </div>
     </nav>
@@ -275,6 +276,7 @@
         <th>Competition Name</th>
         <th>Member Fees </th>
         <th>Non Member Fees</th>
+        <th>Locations</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -284,12 +286,16 @@
   <?php
   $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->first();
   $CompetitionRegistered = \App\CompetitionRegistered::where('competition_id',$Competition['id'])->where('event_id',$id)->count();
+  $CompetitionLocations = \App\CompetitionLocations::where('competition_id',$Competition['id'])->pluck('location_id');
+   $Locations = \App\LocationModel::whereIn('id',$CompetitionLocations)->pluck('location_name')->implode(',');
 
 ?>
 <tr id="row_competition_{{ $Competition['id'] }}">
    <td>{{$Competition->name}}</td>
    <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $EventCompetition['member_fee'] }}</td>
    <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $EventCompetition['non_member_fee'] }}</td>
+   <td  >{{ $Locations}}</td>
+
 
    <td>
       <a  id="row_competition_edit{{ $Competition['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row_competition('{{ $Competition['id'] }}')">

@@ -76,7 +76,7 @@ Route::get('/AddVolunteer', 'MemberController@AddVolunteer');
 Route::post('/AddVolunteer', 'MemberController@AddVolunteerSave');
 
 
-Route::get('/MemberShip/Skip/FamilyMembers', 'FamilyMemberController@SkipFamilyMembers/{id}')->name('membership.add.familyMembers');
+Route::get('/MemberShip/Skip/FamilyMembers', 'FamilyMemberController@SkipFamilyMembers')->name('membership.add.familyMembers');
 
 Route::post('/MemberShip/Add/FamilyMembers', 'FamilyMemberController@AddMembershipFamilyMembers')->name('membership.save.familyMembers');
 
@@ -117,6 +117,11 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::post('/addEvent', 'EventController@addEventPost');
   Route::get('/addEventcompetitions', 'EventController@addEventcompetitions');
   Route::post('/addEventcompetitionsSave', 'EventController@addEventcompetitionsSave');
+
+  Route::post('/addDuplicateEvent', 'EventController@addDuplicateEventPost')->name('admin.duplicateEventSave');
+  Route::get('/addDuplicateEventcompetitions/{id}', 'EventController@addDuplicateEventcompetitions');
+  Route::post('/addDuplicateEventcompetitionsSave', 'EventController@addDuplicateEventcompetitionsSave');
+
 
   Route::get('/addEventTicket','EventController@addEventTicket');
   Route::post('/addEventTicket', 'EventController@addEventTicketPost');
@@ -183,6 +188,27 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
       Route::get('/Edit/{id}', 'CompetitionController@EditCompetition')->name('admin.competition.edit');
       Route::post('/Update','CompetitionController@UpdateCompetition')->name('admin.competition.update');
       Route::get('/Delete/{id}','CompetitionController@DeleteCompetition');
+  });
+
+Route::prefix('Location')->group(function() {
+
+      Route::get('/List','LocationController@ListLocation')->name('admin.location.list');
+
+      Route::get('/Add', 'LocationController@AddLocation')->name('admin.location.add');
+      Route::post('/Save', 'LocationController@SaveLocation')->name('admin.location.save');
+      Route::get('/Edit/{id}', 'LocationController@EditLocation')->name('admin.location.edit');
+      Route::post('/Update','LocationController@UpdateLocation')->name('admin.location.update');
+      Route::get('/Delete','LocationController@DeleteLocation')->name('admin.location.delete');
+  });
+Route::prefix('Food')->group(function() {
+
+      Route::get('/List','FoodController@ListFoodTypes')->name('admin.food.list');
+
+      Route::get('/Add', 'FoodController@AddFoodTypes')->name('admin.food.add');
+      Route::post('/Save', 'FoodController@SaveFoodTypes')->name('admin.food.save');
+      Route::get('/Edit/{id}', 'FoodController@EditFoodTypes')->name('admin.food.edit');
+      Route::post('/Update','FoodController@UpdateFoodTypes')->name('admin.food.update');
+      Route::get('/Delete','FoodController@DeleteFoodTypes')->name('admin.food.delete');
   });
 
   Route::get('/member_details', 'AdminController@member_details');

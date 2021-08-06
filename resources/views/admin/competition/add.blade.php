@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -33,6 +34,15 @@
                     <label for="Name">Name :&nbsp;<span style="color:red">*</span></label>
                     <input type="text" class="form-control" id="Name" placeholder="Enter Competition Name" name="Name" required>
                   </div>
+                   <div class="col-md-6 form-group">
+                  <label for="type">Type:&nbsp;<span style="color:red">*</span></label>
+
+                  <select name="competition_type" class="form-control" required>
+                    <option value="">Select Type</option>
+                    <option value="group">Group</option>
+                    <option value="solo">Solo</option>
+                  </select>
+                </div>
                   
                   <div class="col-md-6 form-group">
                     <label for="Description">Min Age :&nbsp;<span style="color:red">*</span></label>
@@ -54,13 +64,18 @@
                   <input type="date" class="form-control" id="closing_date" placeholder="Enter Closing Date" name="closing_date" min="{{$date}}" required>
                 </div>
 
+               
+               
                 <div class="col-md-6 form-group">
-                  <label for="type">Type:&nbsp;<span style="color:red">*</span></label>
-                  <select name="competition_type" class="form-control" required>
-                    <option value="group">Group</option>
-                    <option value="solo">Solo</option>
-                  </select>
-                </div>
+                <label for="Description">Member Fees :&nbsp;<span style="color:red">*</span></label>
+                <input type="text" class="form-control" id="member_fee" name="member_fee" required>
+                 <p id="member_fee_error" style="color:red"></p>
+            </div>
+           <div class="col-md-6 form-group">
+                    <label for="Description">Non Member Fees :&nbsp;<span style="color:red">*</span></label>
+                      <input type="text" class="form-control" id="non_member_fee" name="non_member_fee" required>
+                       <p id="non_member_fee_error" style="color:red"></p>
+            </div>
                 
                 
               </div>

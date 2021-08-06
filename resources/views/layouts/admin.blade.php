@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="{{ asset('assets/time-pick/time-pick-dark.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/time-pick/time-pick-light.css') }}">
+ <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
   <Style>
     .field-icon {
     float: right;
@@ -159,8 +161,56 @@ color: #666666;
 cursor: not-allowed;
   pointer-events: all !important;
 }
-
-  </Style>
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: solid #ded4d4 1px;
+    outline: 0;
+}
+.select2-container--default .select2-selection--multiple {
+    background-color: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    cursor: text;
+    padding-bottom: 15px;
+    padding-right: 5px;
+    position: relative;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    background-color: transparent;
+    border: none;
+        border-right-color: currentcolor;
+        border-right-style: none;
+        border-right-width: medium;
+    border-right: 1px solid #ffffff;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #2981cf;
+    border: 1px solid #2981cf;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 0;
+        padding-left: 0px;
+    padding-left: 20px;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+}
+ </Style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper flex-wrapper">
@@ -198,8 +248,17 @@ cursor: not-allowed;
 <script src="{{asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/time-pick/time-pick.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
+<script>
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2({
+       width: 'resolve', // need to override the changed default
+        placeholder: "Select a Location"
+    });
+});
+  </script>
 <script>
 window.addEventListener("load", function(){
  
@@ -308,6 +367,17 @@ $('#Amount').keypress(function(e) {
 
 }); 
 $("#food_min_age").keypress(function(e) {
+    var a = [];
+    var k = e.which;
+
+    for (i = 48; i < 58; i++)
+      a.push(i);
+
+  if (!(a.indexOf(k)>=0))
+      e.preventDefault();
+
+});
+$("#price").keypress(function(e) {
     var a = [];
     var k = e.which;
 
@@ -452,6 +522,26 @@ $("#food_max_age").keypress(function(e) {
         "bSort": true,
         "oLanguage": {
         "sEmptyTable": "Membership Not available"
+        }  
+
+      });
+      $("#location_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Locations Not available"
+        }  
+
+      });
+      $("#Food_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Food Not available"
         }  
 
       });

@@ -1,42 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-<style>
-            .custom-control-input:focus ~ 
-          .custom-control-label::before {
-                /* when the button is toggled off 
-  it is still in focus and a violet border will appear */
-                border-color: violet !important;
-                /* box shadow is blue by default
-  but we do not want any shadow hence we have set 
-  all the values as 0 */
-                box-shadow:
-                  0 0 0 0rem rgba(0, 0, 0, 0) !important;
-            }
-  
-            /*sets the background color of
-          switch to violet when it is checked*/
-            .custom-control-input:checked ~ 
-          .custom-control-label::before {
-                border-color: #5cb85c !important;
-                background-color: #5cb85c !important;
-            }
-  
-            /*sets the background color of
-          switch to violet when it is active*/
-            .custom-control-input:active ~ 
-          .custom-control-label::before {
-                background-color: #5cb85c !important;
-                border-color: #5cb85c !important;
-            }
-  
-            /*sets the border color of switch
-          to violet when it is not checked*/
-            .custom-control-input:focus:
-          not(:checked) ~ .custom-control-label::before {
-                border-color: #5cb85c !important;
-            }
-        </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -61,7 +25,7 @@
   <div class="col-md-2">
   </div>
   <div class="col-md-8">
-    <form method="post" action="{{ url('admin/addEvent') }}" enctype="multipart/form-data" id="regForm">
+    <form method="post" action="{{ route('admin.duplicateEventSave') }}" enctype="multipart/form-data" id="regForm">
 
       {{ csrf_field() }}
       <div class="card">
@@ -77,7 +41,8 @@
        <div class="row">
         <div class="form-group col-md-6">
           <label class="names">Event Name&nbsp;<span style="color:red">*</span></label>
-          <input type="text" class="form-control"  name="eventName" required="">
+          <input type="text" class="form-control"  name="eventName" required="" value="{{$events->eventName}}">
+           <input type="hidden" class="form-control"  name="eventId" required="" value="{{$events->id}}">
       </div>
       <div class="form-group col-md-6">
           <div class="form-group">
@@ -100,22 +65,22 @@
 <div class="row">
     <div class="col-md-4 form-group ">
       <label class="names">Venue&nbsp;<span style="color:red">*</span></label>
-      <input class="form-control" type="text" name="eventLocation" required="">
+      <input class="form-control" type="text" name="eventLocation" required="" value="{{$events->eventLocation}}">
   </div>
   <div class="col-md-4 form-group ">
      <?php
      $date =  Carbon\Carbon::tomorrow()->toDateString();
  ?>
  <label class="names">Date&nbsp;<span style="color:red">*</span></label>
- <input class="form-control" type="date" name="eventDate" id="eventDate"  min="{{$date}}" required="">
+ <input class="form-control" type="date" name="eventDate" id="eventDate"  min="{{$date}}" value="{{$events->eventDate}}" required="">
 </div>
 <div class="form-group col-md-4">
   <label class="names">Time&nbsp;<span style="color:red">*</span></label>
-<input type="text"  class="form-control" name="eventTime" id="event_time"/>
+<input type="text"  class="form-control" name="eventTime" id="event_time" value="{{$events->eventTime}}" />
 </div>
 <div class="form-group col-md-6">
   <label class="names">Judges/Vip/Others&nbsp;<span style="color:red">*</span></label>
-  <input class="form-control" type="number" name="free_count" id="free_count">
+  <input class="form-control" type="number" name="free_count" id="free_count"  value="{{$events->free_count}}" >
 
 </div>
 </div>
@@ -126,13 +91,13 @@
       <!-- checkbox -->
       <div class="form-group">
         <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck">&nbsp;&nbsp;Entry Ticket 
+          <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck" <?=($EntryCount >0)?'checked':''?>>&nbsp;&nbsp;Entry Ticket 
       </label>
       <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck" name="FoodCheck">&nbsp;&nbsp;Food Ticket
+          <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck" name="FoodCheck" >&nbsp;&nbsp;Food Ticket
       </label>
       <label class="col-md-3">
-          <input type="checkbox" class="minimal" name="competitionCheck"   id="CompetitionCheck">&nbsp;&nbsp;Competition
+          <input type="checkbox" class="minimal" name="competitionCheck"   id="CompetitionCheck" <?=($EventCompetitionsCount >0)?'checked':''?>>&nbsp;&nbsp;Competition
       </label>
   </div>
   <div id="EntryDIV" style="display:none">
@@ -163,52 +128,59 @@
           </div>
       </div>
       <div id="link-list"></div>
-      <div class="row" id="row0">
+      <?php $loop=0;?>
+      <div class="row" id="row">
+        @foreach($EntryTickets as $i=>$EntryTicket)
         <div class="col-md-3 form-group ">
-          <select class="form-control"  name="min_age[]" id="min_age">
-        </div>
+          <select class="form-control"  name="min_age[]" id="{{$i}}">
+        
            @for ($i = 0; $i <=50; $i++)
-        <option value="{{ $i }}">{{ $i }}</option>
+        }
+        }
+        <option value="{{ $i }}" <?=($EntryTicket['min_age'] ==$i )?'selected':''?>>{{ $i }}</option>
         @endfor
          </select>
         </div>
          <div class="col-md-3 form-group ">
-           <select class="form-control"  name="max_age[]" id="max_age">
-        </div>
+           <select class="form-control"  name="max_age[]" id="{{$i}}">
            @for ($i = 0; $i <=50; $i++)
-        <option value="{{ $i }}">{{ $i }}</option>
+        <option value="{{ $i }}" <?=($EntryTicket['max_age'] ==$i )?'selected':''?>>{{ $i }}</option>
         @endfor
          </select>
        
         </div>
          <div class="col-md-3 form-group ">
-            <select class="form-control" name="memberType[]" id="sel1">
+            <select class="form-control" name="memberType[]" id="{{$i}}">
                 <option value="">Select</option>
-                <option value="Member">Member</option>
-                <option value="NonMember">NonMember</option>
+                <option value="Member" <?=($EntryTicket['memberType'] =='Member' )?'selected':''?>>Member</option>
+                <option value="NonMember" <?=($EntryTicket['memberType'] =='NonMember' )?'selected':''?>>NonMember</option>
             </select>
         </div>
 <div class="col-md-2 form-group ">
-  <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice" >
+  <input class="form-control" type="text" name="ticketPrice[]" id="{{$i}}" value="{{$EntryTicket['ticketPrice']}}">
 </div>
 <div class="col-md-1 ">
-  <a type="button" name="remove"  class="btn btn-warning spf_btn_remove" id="0"><i class="fa fa-trash"></i></a>
+  <a type="button" name="remove"  class="btn btn-warning spf_btn_remove" id="{{$i}}"><i class="fa fa-trash"></i></a>
+
+</div>
+<?php $loop++; ?>
+@endforeach
 
 </div>
 
 
 </div>
-
-
 </div>
-</div>
-<div id="FoodDIV" style="display:none">
+<div id="FoodDIV">
    <div class="card-header"><center><strong>Event Food Ticket</strong></center></div>
-   <br>
-   <table class="table table-bordered table-striped" id="Food_table">
+   <div class="col-md-12">
+  
+  <div id="food-list"></div>
+
+  <div class="row" id="row_food0">
+  <table class="table table-bordered table-striped" id="Food_table">
                 <thead>
                   <tr>
-                    <th>S.No</th>
                     <th>Min Age</th>
                     <th>Max Age</th>
                     <th>Member Type</th>
@@ -218,13 +190,32 @@
                 </tr>
             </thead>
             <tbody>
+               @foreach($FoodTickets as $i=>$food)
+               <tr id="remove_food_row_{{ $food['id'] }}">
+                 <td>{{ $food['min_age'] }}</td>
+                <td>{{ $food['max_age'] }}</td>
+                <td>{{ $food['memberType'] }}</td>
+                <td>{{ $food['foodType'] }}</td>
+                <td>${{ $food['price'] }}</td>
+                <td> <div class="custom-control custom-switch">
+                <input type="checkbox" 
+                       class="custom-control-input" 
+                       id="AddedFood{{ $food['id'] }}" name="food_id[]" value="{{ $food['id'] }}" onclick="AddedFoodType(this)" checked/>
+                <label class="custom-control-label"
+                       for="AddedFood{{ $food['id'] }}">
+                  </label>
+            </div></td>
+               </tr>
+               @endforeach
+
             </tbody>
           </table>
+</div>
 
 
 
 </div>
-
+</div>
 <!-- Modal -->
 <div class="modal fade" id="FoodModal" tabindex="-1" role="dialog" aria-labelledby="FoodModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -316,6 +307,14 @@
 </div>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script language="javascript">
+$(document).ready(function()
+{ 
+    $('#EntryCheck').trigger('onclick'); 
+    $('#CompetitionCheck').trigger('onclick'); 
+});
+</script>
+
 <script>
   function showname () {
     var name = document.getElementById('exampleInputFile'); 
@@ -344,6 +343,33 @@
         $('#FoodModal').modal();
 }
 }
+</script>
+<script type="text/javascript">
+  function AddedFoodType(foodCheckbox)
+  {
+
+    if(foodCheckbox.checked==true)
+    {
+     
+    }
+    else {
+      $('#remove_food_row_'+foodCheckbox.value).remove();  
+    }
+  }
+</script>
+<script>
+  function AddFoodType()
+  {
+     $('#FoodModal').modal('hide');
+      var x = document.getElementById('FoodDIV');
+    x.style.display = "block";
+  }
+  function CloseFoodModal()
+  {
+     $('#FoodModal').modal('hide');
+      var x = document.getElementById('FoodDIV');
+    x.style.display = "none";
+  }
 </script>
 <script>
  var j=1;
@@ -445,35 +471,5 @@ $(document).on('click', '.spf_btn_remove1', function(){
  $(this).hide();
 });
 </script>
-<script type="text/javascript">
-  function FoodType(foodCheckbox)
-  {
-  var x = document.getElementById('FoodDIV');
 
-    if(foodCheckbox.checked==true)
-    {
-      document.getElementById("customSwitch"+foodCheckbox.value).checked = true;
-      table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
-     tableBody = $("#Food_table tbody");
-       tableBody.append("<tr>"+table_row.innerHTML+"</tr>");
-    }
-    else {
-      $('#FoodModal').modal();
-    }
-  }
-</script>
-<script>
-  function AddFoodType()
-  {
-     $('#FoodModal').modal('hide');
-      var x = document.getElementById('FoodDIV');
-    x.style.display = "block";
-  }
-  function CloseFoodModal()
-  {
-     $('#FoodModal').modal('hide');
-      var x = document.getElementById('FoodDIV');
-    x.style.display = "none";
-  }
-</script>
 @endsection

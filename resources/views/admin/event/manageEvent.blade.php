@@ -50,7 +50,7 @@
                   <td>{{ $event['eventDate'] }}</td>
                   <td>{{ $event['eventTime'] }}</td>
                   <td>{{ $event['eventLocation'] }}</td>
-                  <td><a href="/admin/eventTickets/{{ $event['id'] }}" class="btn btn-success btn-sm"><i class="fa fa-eye" style="text-align:center;"></i></a>&nbsp;&nbsp;<a onclick="myFunction({{$event['id']}})"  class="btn btn-warning btn-sm"> <i class="fa fa-trash" style="text-align:center;"></i></a>&nbsp;&nbsp;</td></td>
+                  <td><a href="/admin/eventTickets/{{ $event['id'] }}" class="btn btn-success btn-sm"><i class="fa fa-eye" style="text-align:center;"></i></a>&nbsp;&nbsp;<a onclick="myFunction({{$event['id']}})"  class="btn btn-warning btn-sm"> <i class="fa fa-trash" style="text-align:center;"></i></a>&nbsp;&nbsp;<a href="/admin/createDuplicateEvent/{{ $event['id'] }}" class="btn btn-info btn-sm"><i class="fa fa-clone" style="text-align:center;"></i></a></td></td>
                  
 
 
