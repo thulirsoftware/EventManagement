@@ -79,6 +79,14 @@
                 </a>
             </li>
             @endif
+             @if(Auth::user()->job_title=='SAdmin')
+             <li class="nav-item">
+                <a href="{{ route('admin.entry.list') }}" class="nav-link {{ Str::contains($path, ['entry','Entry']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-ticket-alt"></i>
+                <p>Manage Entry</p>
+                </a>
+            </li>
+            @endif
           @if(Auth::user()->job_title=='SAdmin')
              <li class="nav-item">
                 <a href="{{ url('/admin/Payments') }}" class="nav-link {{ Str::contains($path, ['Payments','UpdatePayment','PaymentEdit']) ? 'active' : '' }}">

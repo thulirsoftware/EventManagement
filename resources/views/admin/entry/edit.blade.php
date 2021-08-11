@@ -11,7 +11,7 @@
 
               <div class="row mb-2">
                 <div class="col-sm-2">
-                  <a href="/admin/Food/List" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+                  <a href="/admin/Entry/List" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
               </div>
 
           </div>
@@ -29,7 +29,7 @@
           </div>
           @endif
               <div class="card-body">
-                  <form class="form-horizontal" action="{{ route('admin.food.update') }}" method="POST">
+                  <form class="form-horizontal" action="{{ route('admin.entry.update') }}" method="POST">
                       {{ csrf_field() }}
      
   <div id="food-list"></div>
@@ -40,7 +40,7 @@
          <label class="names">Min Age:&nbsp;<span style="color:red">*</span></label>
         <select class="form-control"  name="min_age" id="food_min_age">
            @for ($i = 0; $i <=50; $i++)
-        <option value="{{ $i }}" <?=($food['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
+        <option value="{{ $i }}" <?=($entry['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
         @endfor
          </select>
         
@@ -49,35 +49,25 @@
           <label class="names">Max Age:&nbsp;<span style="color:red">*</span></label>
           <select class="form-control"  name="max_age" id="food_max_age">
             @for ($i = 0; $i <=50; $i++)
-        <option value="{{ $i }}" <?=($food['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
+        <option value="{{ $i }}" <?=($entry['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
         @endfor
          </select>           
          
         </div>
   <div class="col-md-6 form-group ">
     <label class="names">Member Type:&nbsp;<span style="color:red">*</span></label>
-    <select class="form-control" name="memberType" id="FoodmemberType">
+    <select class="form-control" name="member_type" id="FoodmemberType">
       <option value="">Select</option>
-      <option value="Member" <?=($food['memberType'] == 'Member')?'selected':''?>>Member</option>
-      <option value="NonMember" <?=($food['memberType'] == 'NonMember')?'selected':''?>>NonMember</option>
+      <option value="Member" <?=($entry['member_type'] == 'Member')?'selected':''?>>Member</option>
+      <option value="NonMember" <?=($entry['member_type'] == 'NonMember')?'selected':''?>>NonMember</option>
   </select>
 </div>
-<div class="col-md-6 form-group ">
-    <label class="names">Food Type&nbsp;<span style="color:red">*</span></label>
-    <select class="form-control" name="food_type" id="food_type" required="">
-      <option value="">Select</option>
-      <option value="Veg-Box" <?=($food['food_type'] == 'Veg-Box')?'selected':''?>>Veg-Box</option>
-      <option value="Veg-Banana-Leaf" <?=($food['food_type'] == 'Veg-Banana-Leaf')?'selected':''?>>Veg-Banana-Leaf</option>
-       <option value="Non-Veg-Box" <?=($food['food_type'] == 'Non-Veg-Box')?'selected':''?>>Non-Veg-Box</option>
-        <option value="Non-Veg-Banana-Leaf" <?=($food['food_type'] == '"Non-Veg-Banana-Leaf')?'selected':''?>>Non-Veg-Banana-Leaf</option>
-        <option value="Snack" <?=($food['food_type'] == 'Snack')?'selected':''?>>Snack</option>
-  </select>
-   <input type="hidden"  name="FoodId" value="{{$food->id}}" required>
-</div>
+ 
+   <input type="hidden"  name="EntryId" value="{{$entry->id}}" required>
 
 <div class="col-md-6 form-group ">
   <label class="names">Price ($)&nbsp;<span style="color:red">*</span></label>
-    <input class="form-control" type="text" name="price" id="FoodticketPrice"  value="{{$food->price}}">
+    <input class="form-control" type="text" name="price" id="FoodticketPrice"  value="{{$entry->price}}">
 </div>
 
    

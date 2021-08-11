@@ -286,7 +286,7 @@
   <?php
   $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->first();
   $CompetitionRegistered = \App\CompetitionRegistered::where('competition_id',$Competition['id'])->where('event_id',$id)->count();
-  $CompetitionLocations = \App\CompetitionLocations::where('competition_id',$Competition['id'])->pluck('location_id');
+  $CompetitionLocations = \App\CompetitionLocations::where('competition_id',$Competition['id'])->groupBy('location_id')->pluck('location_id');
    $Locations = \App\LocationModel::whereIn('id',$CompetitionLocations)->pluck('location_name')->implode(',');
 
 ?>

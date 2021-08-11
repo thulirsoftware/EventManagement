@@ -211,6 +211,17 @@ Route::prefix('Food')->group(function() {
       Route::get('/Delete','FoodController@DeleteFoodTypes')->name('admin.food.delete');
   });
 
+Route::prefix('Entry')->group(function() {
+
+      Route::get('/List','EntryConfigurationController@ListEntries')->name('admin.entry.list');
+
+      Route::get('/Add', 'EntryConfigurationController@AddEntries')->name('admin.entry.add');
+      Route::post('/Save', 'EntryConfigurationController@SaveEntries')->name('admin.entry.save');
+      Route::get('/Edit/{id}', 'EntryConfigurationController@EditEntries')->name('admin.entry.edit');
+      Route::post('/Update','EntryConfigurationController@UpdateEntries')->name('admin.entry.update');
+      Route::get('/Delete','EntryConfigurationController@DeleteEntries')->name('admin.entry.delete');
+  });
+
   Route::get('/member_details', 'AdminController@member_details');
   Route::get('/membersearch', 'AdminController@membersearch');
 

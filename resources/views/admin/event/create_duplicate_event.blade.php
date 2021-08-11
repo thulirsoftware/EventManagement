@@ -100,71 +100,41 @@
           <input type="checkbox" class="minimal" name="competitionCheck"   id="CompetitionCheck" <?=($EventCompetitionsCount >0)?'checked':''?>>&nbsp;&nbsp;Competition
       </label>
   </div>
-  <div id="EntryDIV" style="display:none">
+  <div id="EntryDIV">
     <div class="card-header"><center><strong>Add Event Entry Ticket</strong></center></div>
-    <br>
 
 
     <div class="col-md-12">
-      <div class="row">
-          <div class="col-md-3 form-group ">
-              <label class="names">Min Age</label>
-          </div>
-          <div class="col-md-3 form-group ">
-              <label class="names">Max Age</label>
-          </div>
-          <div class="col-md-3 form-group ">
-              <label class="names">Member</label>
-
-          </div>
-          <div class="col-md-2 form-group ">
-              <label class="names">Price ($)</label>
-
-          </div>
-           <div class="col-md-1 form-group ">
-               <a type="button" name="remove"  class="btn btn-success" onclick="AddEntryTicket()"><i class="fa fa-plus"></i></a>
-
-
-          </div>
-      </div>
-      <div id="link-list"></div>
-      <?php $loop=0;?>
+     
       <div class="row" id="row">
-        @foreach($EntryTickets as $i=>$EntryTicket)
-        <div class="col-md-3 form-group ">
-          <select class="form-control"  name="min_age[]" id="{{$i}}">
-        
-           @for ($i = 0; $i <=50; $i++)
-        }
-        }
-        <option value="{{ $i }}" <?=($EntryTicket['min_age'] ==$i )?'selected':''?>>{{ $i }}</option>
-        @endfor
-         </select>
-        </div>
-         <div class="col-md-3 form-group ">
-           <select class="form-control"  name="max_age[]" id="{{$i}}">
-           @for ($i = 0; $i <=50; $i++)
-        <option value="{{ $i }}" <?=($EntryTicket['max_age'] ==$i )?'selected':''?>>{{ $i }}</option>
-        @endfor
-         </select>
-       
-        </div>
-         <div class="col-md-3 form-group ">
-            <select class="form-control" name="memberType[]" id="{{$i}}">
-                <option value="">Select</option>
-                <option value="Member" <?=($EntryTicket['memberType'] =='Member' )?'selected':''?>>Member</option>
-                <option value="NonMember" <?=($EntryTicket['memberType'] =='NonMember' )?'selected':''?>>NonMember</option>
-            </select>
-        </div>
-<div class="col-md-2 form-group ">
-  <input class="form-control" type="text" name="ticketPrice[]" id="{{$i}}" value="{{$EntryTicket['ticketPrice']}}">
-</div>
-<div class="col-md-1 ">
-  <a type="button" name="remove"  class="btn btn-warning spf_btn_remove" id="{{$i}}"><i class="fa fa-trash"></i></a>
+        <table class="table table-bordered table-striped" id="Entry_table">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Min Age</th>
+                    <th>Max Age</th>
+                    <th>Member Type</th>
+                    <th>Amount</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach($EntryTickets as $i=>$entry)
+       <tr id="entry_row_remove_{{$entry['id']}}">
 
-</div>
-<?php $loop++; ?>
-@endforeach
+                <td>{{ $i++ }}</td>
+
+                <td>{{ $entry['min_age'] }}</td>
+                <td>{{ $entry['max_age'] }}</td>
+                <td>{{ $entry['memberType'] }}</td>
+                <td>${{ $entry['ticketPrice'] }}</td>
+                <input type="hidden" name="entry_id[]" value="{{$entry['id']}}">
+                <td><a class="btn btn-warning" onclick="DeleteEntry({{$entry['id']}})" style="color:black"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+
+            </tr>
+        @endforeach
+      </tbody>
+    </table>
 
 </div>
 
@@ -196,15 +166,11 @@
                 <td>{{ $food['max_age'] }}</td>
                 <td>{{ $food['memberType'] }}</td>
                 <td>{{ $food['foodType'] }}</td>
-                <td>${{ $food['price'] }}</td>
-                <td> <div class="custom-control custom-switch">
-                <input type="checkbox" 
-                       class="custom-control-input" 
-                       id="AddedFood{{ $food['id'] }}" name="food_id[]" value="{{ $food['id'] }}" onclick="AddedFoodType(this)" checked/>
-                <label class="custom-control-label"
-                       for="AddedFood{{ $food['id'] }}">
-                  </label>
-            </div></td>
+                <td>${{ $food['ticketPrice'] }}</td>
+                <input type="hidden" name="food_id[]" value="{{$food['id']}}">
+                <td> 
+                  <a type="button" name="remove"  class="btn btn-warning spf_btn_remove"id="AddedFood{{ $food['id'] }}" onclick="DeleteFoodType({{$food['id']}})"><i class="fa fa-trash"></i></a>
+                 </td>
                </tr>
                @endforeach
 
@@ -273,6 +239,60 @@
   </div>
 </div>
 
+<!-- Entry Modal -->
+<div class="modal fade" id="EntryModal" tabindex="-1" role="dialog" aria-labelledby="EntryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <h4 class="modal-title" id="EntryModalLabel">Add Entry Tickets</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+           <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Min Age</th>
+                    <th>Max Age</th>
+                    <th>Member Type</th>
+                    <th>Amount</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+              <?php $i=1; ?>  
+              @foreach($Entry as $entry)
+              <tr id="entry_mod_row_{{ $entry['id'] }}">
+
+                <td>{{ $i++ }}</td>
+
+                <td>{{ $entry['min_age'] }}</td>
+                <td>{{ $entry['max_age'] }}</td>
+                <td>{{ $entry['member_type'] }}</td>
+                <td>${{ $entry['price'] }}</td>
+                <td> <div class="custom-control custom-switch">
+                <input type="checkbox" 
+                       class="custom-control-input" 
+                       id="customSwitch_entry{{ $entry['id'] }}" name="entry_id[]" value="{{ $entry['id'] }}" onclick="getEntryType(this)" />
+                <label class="custom-control-label"
+                       for="customSwitch_entry{{ $entry['id'] }}">
+                  </label>
+            </div></td>
+              
+
+            </tr>
+            @endforeach
+        </tbody> 
+    </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseEntryModal()">Close</button>
+        <button type="button" class="btn btn-primary" onclick="AddEntryType()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 <!-- /.box -->
 </div>
@@ -310,7 +330,6 @@
 <script language="javascript">
 $(document).ready(function()
 { 
-    $('#EntryCheck').trigger('onclick'); 
     $('#CompetitionCheck').trigger('onclick'); 
 });
 </script>
@@ -327,9 +346,9 @@ $(document).ready(function()
   var checkBox = document.getElementById("EntryCheck");
   var x = document.getElementById('EntryDIV');
   if (checkBox.checked == true) {
-    x.style.display = "block";
+   $('#EntryModal').modal();
 } else {
-   x.style.display = "none";
+   $('#EntryModal').modal();
 }
 }
 </script>
@@ -350,13 +369,28 @@ $(document).ready(function()
 
     if(foodCheckbox.checked==true)
     {
-     
+     document.getElementById("customSwitch"+foodCheckbox.value).checked = true;
+      table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
+      console.log(table_row.cells[0].innerHTML);
+     tableBody = $("#Food_table tbody");
+       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td></tr>");
     }
     else {
       $('#remove_food_row_'+foodCheckbox.value).remove();  
     }
   }
+  function DeleteFoodType(foodCheckbox)
+  {
+    console.log(foodCheckbox);
+    $('#remove_food_row_'+foodCheckbox).remove(); 
+  }
+  function DeleteEntry(foodCheckbox)
+  {
+    console.log(foodCheckbox);
+    $('#entry_row_remove_'+foodCheckbox).remove(); 
+  }
 </script>
+
 <script>
   function AddFoodType()
   {
@@ -471,5 +505,66 @@ $(document).on('click', '.spf_btn_remove1', function(){
  $(this).hide();
 });
 </script>
+<script type="text/javascript">
+  function FoodType(foodCheckbox)
+  {
+  var x = document.getElementById('FoodDIV');
 
+    if(foodCheckbox.checked==true)
+    {
+      document.getElementById("customSwitch"+foodCheckbox.value).checked = true;
+      table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
+      console.log(table_row.cells[0].innerHTML);
+     tableBody = $("#Food_table tbody");
+       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td></tr>");
+    }
+    else {
+      $('#FoodModal').modal();
+    }
+  }
+</script>
+<script>
+  function AddFoodType()
+  {
+     $('#FoodModal').modal('hide');
+      var x = document.getElementById('FoodDIV');
+    x.style.display = "block";
+  }
+  function CloseFoodModal()
+  {
+     $('#FoodModal').modal('hide');
+      var x = document.getElementById('FoodDIV');
+    x.style.display = "none";
+  }
+</script>
+<script type="text/javascript">
+  function getEntryType(entryCheckbox)
+  {
+
+    if(entryCheckbox.checked==true)
+    {
+      document.getElementById("customSwitch_entry"+entryCheckbox.value).checked = true;
+      table_row = document.getElementById("entry_mod_row_"+entryCheckbox.value);
+     tableBody = $("#Entry_table tbody");
+       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td></tr>");
+    }
+    else {
+      $('#EntryModal').modal();
+    }
+  }
+</script>
+<script>
+  function AddEntryType()
+  {
+     $('#EntryModal').modal('hide');
+      var x = document.getElementById('EntryDIV');
+    x.style.display = "block";
+  }
+  function CloseEntryModal()
+  {
+     $('#EntryModal').modal('hide');
+      var x = document.getElementById('EntryDIV');
+    x.style.display = "none";
+  }
+</script>
 @endsection

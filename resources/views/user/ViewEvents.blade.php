@@ -17,10 +17,10 @@
             <div class="col-sm-2">
               <a href="/MyEvents" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
           </div>
-          <div class="col-sm-8">
+          <div class="col-sm-7">
           </div>
-          <div class="col-sm-2">
-            <a href="/EditmemberBuyTicket/{{$id}}" class="btn btn-primary" >Add</i>&nbsp;</a>
+          <div class="col-sm-3">
+            <a href="/EditmemberBuyTicket/{{$id}}" class="btn btn-primary btn-sm" >Update Competition</i>&nbsp;</a>
 
           </div>
       </div>

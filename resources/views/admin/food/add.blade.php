@@ -11,7 +11,7 @@
 
               <div class="row mb-2">
                 <div class="col-sm-2">
-                  <a href="/admin/Location/List" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+                  <a href="/admin/Food/List" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
               </div>
 
           </div>
@@ -64,7 +64,14 @@
 </div>
 <div class="col-md-6 form-group ">
     <label class="names">Food Type:&nbsp;<span style="color:red">*</span></label>
-  <input type="text" class="form-control" id="food_type" placeholder="Enter Food Type" name="food_type" required>
+  <select class="form-control" name="food_type" id="food_type" required="">
+      <option value="">Select</option>
+      <option value="Veg-Box">Veg-Box</option>
+      <option value="Veg-Banana-Leaf">Veg-Banana-Leaf</option>
+       <option value="Non-Veg-Box">Non-Veg-Box</option>
+        <option value="Non-Veg-Banana-Leaf">Non-Veg-Banana-Leaf</option>
+        <option value="Snack">Snack</option>
+  </select>
 </div>
 
 <div class="col-md-6 form-group ">

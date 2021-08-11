@@ -545,6 +545,16 @@ $("#food_max_age").keypress(function(e) {
         }  
 
       });
+      $("#entry_cfg_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Entry Not available"
+        }  
+
+      });
       $("#payments_list").DataTable({
         "responsive": true,
         "autoWidth": false,
