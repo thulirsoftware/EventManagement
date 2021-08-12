@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="{{ asset('assets/time-pick/time-pick-dark.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/time-pick/time-pick-light.css') }}">
+
+<link rel="stylesheet" href="{{ asset('assets/wickedpicker/dist/wickedpicker.min.css') }}">
+
  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   <Style>
@@ -210,6 +213,9 @@ cursor: not-allowed;
     vertical-align: bottom;
     white-space: nowrap;
 }
+.timepicker {
+      z-index: 1050!important;
+}
  </Style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
@@ -248,6 +254,7 @@ cursor: not-allowed;
 <script src="{{asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{asset('assets/time-pick/time-pick.js')}}"></script>
+<script src="{{ asset('assets/wickedpicker/dist/wickedpicker.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
@@ -259,25 +266,14 @@ cursor: not-allowed;
     });
 });
   </script>
-<script>
-window.addEventListener("load", function(){
- 
-  tp.attach({
-    target: "event_time",
-  });
-});
-</script>
+
 <script>
   $(function () {
     // Summernote
 
 
-$('.timepicker').timepicker({
-    timeFormat: 'h:mm p',
-    dynamic: false,
-    dropdown: true,
-    scrollbar: true
-});
+ $('#event_time_edit').wickedpicker();
+ $('#event_time').wickedpicker();
 
 
     $('#editor1').summernote();

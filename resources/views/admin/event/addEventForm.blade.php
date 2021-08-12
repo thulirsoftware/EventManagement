@@ -146,6 +146,7 @@
                     <th>Max Age</th>
                     <th>Member Type</th>
                     <th>Amount</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -164,6 +165,7 @@
                     <th>Member Type</th>
                      <th>Food Type</th>
                     <th>Amount</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -280,7 +282,7 @@
     </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseEntryModal()">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
         <button type="button" class="btn btn-primary" onclick="AddEntryType()">Add</button>
       </div>
     </div>
@@ -461,7 +463,7 @@ $(document).on('click', '.spf_btn_remove1', function(){
       table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
       console.log(table_row.cells[0].innerHTML);
      tableBody = $("#Food_table tbody");
-       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td></tr>");
+       tableBody.append("<tr id=remove-added-row-food"+foodCheckbox.value+"><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td><td><a class='btn btn-warning' id="+foodCheckbox.value+" onclick='DeleteFood(this.id)' style='color:black'><i class='fa fa-trash fa-lg' style='text-align:cenetr;'></i></a></td></tr>");
     }
     else {
       $('#FoodModal').modal();
@@ -491,7 +493,7 @@ $(document).on('click', '.spf_btn_remove1', function(){
       document.getElementById("customSwitch_entry"+entryCheckbox.value).checked = true;
       table_row = document.getElementById("entry_mod_row_"+entryCheckbox.value);
      tableBody = $("#Entry_table tbody");
-       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td></tr>");
+       tableBody.append("<tr id=remove-added-row-"+entryCheckbox.value+"><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td><a class='btn btn-warning' id="+entryCheckbox.value+" onclick='DeleteEntry(this.id)' style='color:black'><i class='fa fa-trash fa-lg' style='text-align:cenetr;'></i></a></td></tr>");
     }
     else {
       $('#EntryModal').modal();
@@ -505,11 +507,15 @@ $(document).on('click', '.spf_btn_remove1', function(){
       var x = document.getElementById('EntryDIV');
     x.style.display = "block";
   }
-  function CloseEntryModal()
+  function DeleteEntry(foodCheckbox)
   {
-     $('#EntryModal').modal('hide');
-      var x = document.getElementById('EntryDIV');
-    x.style.display = "none";
+    console.log(foodCheckbox);
+    $('#remove-added-row-'+foodCheckbox).remove(); 
+  }
+  function DeleteFood(foodCheckbox)
+  {
+    console.log(foodCheckbox);
+    $('#remove-added-row-food'+foodCheckbox).remove(); 
   }
 </script>
 @endsection

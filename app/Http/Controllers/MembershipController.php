@@ -61,9 +61,9 @@ class MembershipController extends Controller
         }
 
 
-        public function DeleteMembership($id)
+        public function DeleteMembership(Request $request)
         {
-            $membership = MembershipConfig::find($id);
+            $membership = MembershipConfig::find($request->membershipId);
 
             if($membership->delete()){
             return redirect(route('admin.membership.list'))->withSuccess('Membership Removed Successfully');

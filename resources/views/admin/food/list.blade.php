@@ -51,7 +51,7 @@
                 <td>{{ $food['food_type'] }}</td>
                 <td>${{ $food['price'] }}</td>
                 
-                <td><a class="btn btn-primary" href="{{ route('admin.food.edit', ['id' => $food['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>&nbsp;&nbsp;<a class="btn btn-warning" onclick="Delete({{$food['id']}})" style="color:white"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+                <td><a class="btn btn-primary" href="{{ route('admin.food.edit', ['id' => $food['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>&nbsp;&nbsp;<a class="btn btn-warning" onclick="Delete({{$food['id']}})" style="color:black"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
             </tr>
             @endforeach

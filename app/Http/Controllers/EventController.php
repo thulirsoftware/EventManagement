@@ -156,11 +156,12 @@ class EventController extends Controller
         return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
     }
 
-    public function addEventCompetitions()
+    public function addEventCompetitions($id)
     {
         $toDay = Carbon::now()->toDateString();
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
         $locations = LocationModel::where('status','Y')->get();
+
         $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
         $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
        return view('admin.event.competition_add',compact('CompetitionModal','CompetitionAjax','Competition','locations'));
@@ -250,8 +251,11 @@ class EventController extends Controller
                 $EventCompetition->competition_id = $request->competition_id[$i];
                 $EventCompetition->member_fee = $request->member_fee[$i];
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
-                if($EventCompetition->save())
-                {
+                $EventCompetition->save();
+               
+                
+            }  
+
                     if($request->has('location'))
                     {
                         $CompetitionLocations_Count = count($request->location); 
@@ -272,12 +276,6 @@ class EventController extends Controller
                        $CompetitionLocations->save();
                     }
 
-                }
-                else
-                {
-                    $Event = Event::where('id',$eventId)->delete();
-                }
-            }  
             Session::forget('eventsCompetition');
             Session::forget('eventsFlyer');
          return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
@@ -320,14 +318,17 @@ class EventController extends Controller
     public function addEventCompetition($id)
     {
        $toDay = Carbon::now()->toDateString();
-        $Competition=Competition::where('closing_date','>=',$toDay)->get();
-        $CompetitionAjax=Competition::where('closing_date','>=',$toDay)->get();
-        return view('admin.event.addEventCompetition',compact('id','Competition','CompetitionAjax'));
+       $competition_added = EventCompetition::where('event_id',$id)->pluck('competition_id');
+        $Competition=Competition::where('closing_date','>=',$toDay)->whereNotIn('id',$competition_added)->get();
+        $CompetitionId=Competition::where('closing_date','>=',$toDay)->pluck('id');
+        $Locations = LocationModel::get();
+        return view('admin.event.addEventCompetition',compact('id','Competition','CompetitionId','CompetitionLocations','Locations'));
     }
+
     public function addEventCompetitionPost(Request $request)
     {
 
-             if($request->has('competition_id'))
+            if($request->has('competition_id'))
             {
                 $competition_Count = count($request->competition_id); 
             }
@@ -343,9 +344,11 @@ class EventController extends Controller
                 $EventCompetition->competition_id = $request->competition_id[$i];
                 $EventCompetition->member_fee = $request->member_fee[$i];
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
-                if($EventCompetition->save())
-                {
-                    if($request->has('location'))
+                $EventCompetition->save();
+               
+            }
+
+            if($request->has('location'))
                     {
                         $CompetitionLocations_Count = count($request->location); 
                     }
@@ -357,17 +360,14 @@ class EventController extends Controller
                     {
                         $pieces = explode("_", $request->location[$i]);
                         $competition_id = $pieces[0];
-                        $location_id = $pieces[1];                      
+                        $location_id = $pieces[1];          
+                      
                         $CompetitionLocations = new CompetitionLocations();
                         $CompetitionLocations->event_id = $request->id;
-                        $CompetitionLocations->competition_id = $competition_id;
+                        $CompetitionLocations->competition_id =  $competition_id;
                         $CompetitionLocations->location_id = $location_id;
                        $CompetitionLocations->save();
                     }
-
-                }
-               
-            }
           return redirect(url('admin/eventTickets/'.$request->id))->withInput(["tab" =>"nav-competition"])->withSuccess('Competition Added Successfully');
     }
 
@@ -581,13 +581,43 @@ class EventController extends Controller
         return response()->json(['success'=>$eventTicket]);
     }
 
-     public function UpdateCompetition(Request $request)
+    public function EditEventCompetition($id)
     {
-        $Competition = EventCompetition::where('competition_id',$request->event_competition_id)->first();
-        $Competition->member_fee = $request->competition_fee;
-        $Competition->non_member_fee = $request->competition_nonfee;
+        $EventCompetition = EventCompetition::where('competition_id',$id)->first();
+        $CompetitionLocations = CompetitionLocations::where('competition_id',$id)->groupBy('location_id')->pluck('location_id');
+        $AddedLocations = LocationModel::whereIn('id',$CompetitionLocations)->get();
+        $Locations = LocationModel::whereNotIn('id',$CompetitionLocations)->get();
+        return view('admin.event.editEventCompetition',compact('EventCompetition','CompetitionLocations','id','AddedLocations','Locations'));
+    }
+
+    public function UpdateCompetition(Request $request)
+    {
+         CompetitionLocations::where('competition_id',$request->competition_id)->delete();
+
+        $Competition = EventCompetition::where('competition_id',$request->competition_id)->first();
+        $Competition->member_fee = $request->member_fee;
+        $Competition->non_member_fee = $request->non_member_fee;
         $Competition->save();
-        return response()->json(['success'=>$Competition]);
+
+        if($request->has('location'))
+        {
+            $CompetitionLocations_Count = count($request->location); 
+        }
+        else
+        {
+            $CompetitionLocations_Count = 0;
+        }
+        for($i = 0;$i < $CompetitionLocations_Count; $i++)
+        {
+
+            $CompetitionLocations = new CompetitionLocations();
+            $CompetitionLocations->event_id = $request->eventId;
+            $CompetitionLocations->competition_id = $request->competition_id;
+            $CompetitionLocations->location_id =$request->location[$i];
+            $CompetitionLocations->save();
+        }
+
+        return redirect(url('admin/eventTickets/'.$request->eventId))->withInput(["tab" =>"nav-competition"])->withSuccess('Competition Update Successfully');
     }
 
     public function DeleteEventCompetition(Request $request)
@@ -862,14 +892,8 @@ class EventController extends Controller
                 $EventCompetition->competition_id = $request->competition_id[$i];
                 $EventCompetition->member_fee = $request->member_fee[$i];
                 $EventCompetition->non_member_fee = $request->non_member_fee[$i];
-                if($EventCompetition->save())
-                {
-                   
-                }
-                else
-                {
-                    $Event = Event::where('id',$eventId)->delete();
-                }
+                $EventCompetition->save();
+               
             }
              if($request->has('location'))
                     {

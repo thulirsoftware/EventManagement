@@ -72,12 +72,12 @@ a.disabled {
                     </tr>
                   </thead>
                   <tbody> 
+                   <?php $AddedLocations="";?>
                   @foreach($Competition as $i=>$competition)
               <?php
               $EventCompetition = \App\EventCompetition::where('competition_id',$competition->id)->first();
-              $EventLocation = \App\CompetitionLocations::where('competition_id',$competition->id)->first();
-           $str_arr = explode (",", $competition->location); 
-               $locations = \App\LocationModel::whereIn('id',$str_arr)->pluck('location_name')->implode(',');
+              
+                
 
             ?>
             <tr>
@@ -88,9 +88,15 @@ a.disabled {
               <td>{{ $competition['non_member_fee'] }}
               <input type="hidden" name="non_member_fee[]"  value="{{$competition['non_member_fee']}}">
           </td>
-              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)" <?=($competition['id'] == $EventCompetition['competition_id'])?'checked':''?>>&nbsp;&nbsp;Competition </td>
+              <td>
+                @if($competition['id']==$EventCompetition['competition_id'])
+                 <input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;&nbsp;Competition 
+                @else
+                    <input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;&nbsp;Competition 
+                @endif
+            </td>
               @if($competition['id']==$EventCompetition['competition_id'])
-              <td><a class="btn btn-info" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
+              <td><a class="btn btn-info disabled" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
               @else
                <td><a class="btn btn-info disabled" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
               @endif
@@ -109,12 +115,12 @@ a.disabled {
     <div class="dlk-radio">
         <?php $locations = \App\LocationModel::where('status','Y')->get();?>
          <input type="hidden" id="location_competition_id_{{ $competition['id'] }}" name="location_competition_id[]"  > 
-         @foreach($locations as  $location)
+         @foreach($locations as  $AddedLocation)
         <label class=" col-md-10">
             
-            <input name="location[]" class="form-control" type="checkbox" value="{{$competition->id}}_{{$location->id}}" <?=($location['id'] == $EventLocation['location_id'])?'checked':''?>>
+            <input name="location[]" class="form-control" type="checkbox" value="{{$competition->id}}_{{$AddedLocation->id}}">
             <i class="fa fa-check glyphicon glyphicon-ok"></i>
-            {{$location->location_name}}
+            {{$AddedLocation->location_name}}
        </label><br>
        @endforeach
        
@@ -151,62 +157,7 @@ a.disabled {
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <!-- Modal -->
    
-<script>
-        let lineNo = 1;
 
-        $(document).ready(function () {
-            $(".add-row").click(function () {
-                 document.getElementById('nextBtn').disabled=false;
-                 console.log("dis");
-                var member_fee = document.getElementById("member_fee").value;
-                var non_member_fee = document.getElementById("non_member_fee").value;
-
-                var e = document.getElementById("ddlViewBy");
-                var strUser = e.options[e.selectedIndex].text;
-
-                var e = document.getElementById("ddlViewBy");
-                var id = e.value;
-                if(member_fee=="" && non_member_fee=="" && id=="")
-                {
-                    document.getElementById('member_fee_error').innerHTML="Enter Member Fee";
-                    document.getElementById('non_member_fee_error').innerHTML="Enter Non Member Fee";
-                    document.getElementById('competitionerror').innerHTML="Select Competition";
-                }
-                else if(member_fee=="")
-                {
-                    document.getElementById('member_fee_error').innerHTML="Enter Member Fee";
-                    document.getElementById('non_member_fee_error').innerHTML="";
-                    document.getElementById('competitionerror').innerHTML="";
-                }
-                else if(non_member_fee=="")
-                {
-                    document.getElementById('member_fee_error').innerHTML="";
-                    document.getElementById('non_member_fee_error').innerHTML="Enter Non Member Fee";
-                    document.getElementById('competitionerror').innerHTML="";
-                }
-                else if(id=="")
-                {
-                    document.getElementById('member_fee_error').innerHTML="";
-                    document.getElementById('non_member_fee_error').innerHTML="";
-                    document.getElementById('competitionerror').innerHTML="Select Competition";
-                }
-                else
-                {
-                    document.getElementById('member_fee_error').innerHTML="";
-                    document.getElementById('non_member_fee_error').innerHTML="";
-                    document.getElementById('competitionerror').innerHTML="";
-                var substateArray =  @json($CompetitionAjax);
-                var filteredArray = substateArray.filter(x => x.id == id);
-                console.log(filteredArray);
-                         markup = "<tr id=row_"+ lineNo +"><td>"+strUser+ "<input type='hidden' name='competition_id[]' value="+ id +"></td><td>"+ member_fee +  "<input type='hidden' name='member_fee[]' value="+ member_fee +"></td><td>"+ non_member_fee + "<input type='hidden' name='non_member_fee[]' value="+ non_member_fee +"></td><td><a  id='row_"+ lineNo +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
-            
-                tableBody = $("table tbody");
-                tableBody.append(markup);
-                lineNo++;
-            }
-            });
-        }); 
-    </script>
     <script type="text/javascript">
         function deleterow(rowId)
         {
@@ -223,6 +174,8 @@ a.disabled {
                 var elements = document.getElementById("dis_btn_"+checkbox.value);
                 document.getElementById("location_competition_id_"+checkbox.value).value=checkbox.value;
                 elements.classList.remove("disabled");
+
+                
             }
             else
             {

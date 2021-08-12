@@ -46,7 +46,7 @@
                     </div><span id="errmsg" style="color:red;"></span>
                     <div class="col-md-6 form-group">
                         <label for="membership_type">Membership Type:&nbsp;<span style="color:red">* </span></label>
-                        <select name="membership_type" class="form-control">
+                        <select name="membership_type" class="form-control" required>
                           <option value="">Select Membership Type</option>
                             <option value="Family">Family</option>
                             <option value="Single">Single</option>

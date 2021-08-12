@@ -91,7 +91,7 @@
       <!-- checkbox -->
       <div class="form-group">
         <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck" <?=($EntryCount >0)?'checked':''?>>&nbsp;&nbsp;Entry Ticket 
+          <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck">&nbsp;&nbsp;Entry Ticket 
       </label>
       <label class="col-md-3">
           <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck" name="FoodCheck" >&nbsp;&nbsp;Food Ticket
@@ -115,7 +115,7 @@
                     <th>Max Age</th>
                     <th>Member Type</th>
                     <th>Amount</th>
-                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,7 +156,8 @@
                     <th>Member Type</th>
                      <th>Food Type</th>
                     <th>Amount</th>
-                    <th>Select</th>
+                    <th>Delete</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -232,7 +233,7 @@
     </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseFoodModal()">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="AddFoodType()">Add</button>
       </div>
     </div>
@@ -287,7 +288,7 @@
     </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="CloseEntryModal()">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="AddEntryType()">Add</button>
       </div>
     </div>
@@ -373,7 +374,7 @@ $(document).ready(function()
       table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
       console.log(table_row.cells[0].innerHTML);
      tableBody = $("#Food_table tbody");
-       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td></tr>");
+       tableBody.append("<tr id=remove-added-row-food"+foodCheckbox.value+"><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td><td><a class='btn btn-warning' id="+foodCheckbox.value+" onclick='DeleteAddedFood(this.id)' style='color:black'><i class='fa fa-trash fa-lg' style='text-align:cenetr;'></i></a></td></tr>");
     }
     else {
       $('#remove_food_row_'+foodCheckbox.value).remove();  
@@ -516,7 +517,7 @@ $(document).on('click', '.spf_btn_remove1', function(){
       table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
       console.log(table_row.cells[0].innerHTML);
      tableBody = $("#Food_table tbody");
-       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td></tr>");
+       tableBody.append("<tr  id=remove-added-row-food"+foodCheckbox.value+"><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td><td><a class='btn btn-warning' id="+foodCheckbox.value+" onclick='DeleteAddedFood(this.id)' style='color:black'><i class='fa fa-trash fa-lg' style='text-align:cenetr;'></i></a></td></tr>");
     }
     else {
       $('#FoodModal').modal();
@@ -530,12 +531,7 @@ $(document).on('click', '.spf_btn_remove1', function(){
       var x = document.getElementById('FoodDIV');
     x.style.display = "block";
   }
-  function CloseFoodModal()
-  {
-     $('#FoodModal').modal('hide');
-      var x = document.getElementById('FoodDIV');
-    x.style.display = "none";
-  }
+ 
 </script>
 <script type="text/javascript">
   function getEntryType(entryCheckbox)
@@ -546,7 +542,7 @@ $(document).on('click', '.spf_btn_remove1', function(){
       document.getElementById("customSwitch_entry"+entryCheckbox.value).checked = true;
       table_row = document.getElementById("entry_mod_row_"+entryCheckbox.value);
      tableBody = $("#Entry_table tbody");
-       tableBody.append("<tr><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td></tr>");
+       tableBody.append("<tr id=remove-added-row"+entryCheckbox.value+"><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td><a class='btn btn-warning' id="+entryCheckbox.value+" onclick='DeleteAddedEntry(this.id)' style='color:black'><i class='fa fa-trash fa-lg' style='text-align:cenetr;'></i></a></td></tr>");
     }
     else {
       $('#EntryModal').modal();
@@ -560,11 +556,15 @@ $(document).on('click', '.spf_btn_remove1', function(){
       var x = document.getElementById('EntryDIV');
     x.style.display = "block";
   }
-  function CloseEntryModal()
+  function DeleteAddedEntry(foodCheckbox)
   {
-     $('#EntryModal').modal('hide');
-      var x = document.getElementById('EntryDIV');
-    x.style.display = "none";
+    console.log(foodCheckbox);
+    $('#remove-added-row-'+foodCheckbox).remove(); 
+  }
+  function DeleteAddedFood(foodCheckbox)
+  {
+    console.log(foodCheckbox);
+    $('#remove-added-row-food'+foodCheckbox).remove(); 
   }
 </script>
 @endsection

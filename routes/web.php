@@ -148,6 +148,9 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/editEventTicket/{id}','EventController@editEventTicket');
   Route::post('/UpdateEventEntryTicket','EventController@UpdateEventEntryTicket');
   Route::post('/UpdateEventFoodTicket','EventController@UpdateEventFoodTicket');
+
+  Route::get('/editEventCompetition/{id}','EventController@EditEventCompetition')->name('admin.event.competition.edit');
+
   Route::post('/UpdateCompetition','EventController@UpdateCompetition');
 
   Route::get('/DeleteEventCompetition','EventController@DeleteEventCompetition');
@@ -177,7 +180,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
       Route::post('/Save', 'MembershipController@SaveMembership')->name('admin.membership.save');
       Route::get('/Edit/{id}', 'MembershipController@EditMembership')->name('admin.membership.edit');
       Route::post('/Update','MembershipController@UpdateMembership')->name('admin.membership.update');
-      Route::get('/Delete/{id}','MembershipController@DeleteMembership');
+      Route::get('/Delete','MembershipController@DeleteMembership')->name('admin.membership.delete');
   });
   Route::prefix('Competition')->group(function() {
 

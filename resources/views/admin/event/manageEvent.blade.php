@@ -42,6 +42,7 @@
                   $string = str_replace(" ","\r\n",$event['eventName']);
                   ;
                   $newtext = wordwrap($event['eventName'], 20, "\n");
+                  $EventRegistration = \App\EventRegistration::where('event_id',$event->id)->count();
               ?>
               <tr>
 
@@ -50,7 +51,16 @@
                   <td>{{ $event['eventDate'] }}</td>
                   <td>{{ $event['eventTime'] }}</td>
                   <td>{{ $event['eventLocation'] }}</td>
-                  <td><a href="/admin/eventTickets/{{ $event['id'] }}" class="btn btn-success btn-sm"><i class="fa fa-eye" style="text-align:center;"></i></a>&nbsp;&nbsp;<a onclick="myFunction({{$event['id']}})"  class="btn btn-warning btn-sm"> <i class="fa fa-trash" style="text-align:center;"></i></a>&nbsp;&nbsp;<a href="/admin/createDuplicateEvent/{{ $event['id'] }}" class="btn btn-info btn-sm"><i class="fa fa-clone" style="text-align:center;"></i></a></td></td>
+                  <td>
+                   
+                    <a href="/admin/eventTickets/{{ $event['id'] }}" class="btn btn-success btn-sm"><i class="fa fa-eye" style="text-align:center;"></i></a>&nbsp;&nbsp; 
+                    @if($EventRegistration==0)
+                    <a onclick="myFunction({{$event['id']}})"  class="btn btn-warning btn-sm"> <i class="fa fa-trash" style="text-align:center;"></i></a>
+                    @endif
+
+                    &nbsp;&nbsp;<a href="/admin/createDuplicateEvent/{{ $event['id'] }}" class="btn btn-info btn-sm"><i class="fa fa-clone" style="text-align:center;"></i></a>
+                    
+                  </td></td>
                  
 
 

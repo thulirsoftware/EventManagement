@@ -53,18 +53,26 @@
                     <input type="text" class="form-control" id="Amount" placeholder="Enter Membership Amount" name="amount" required value="{{ $membership['membership_amount'] }}">
                   </div>
                   <div class="col-md-6 form-group">
+                        <label for="membership_type">Membership Type:&nbsp;<span style="color:red">* </span></label>
+                        <select name="membership_type" class="form-control" required>
+                          <option value="">Select Membership Type</option>
+                            <option value="Family" <?=($membership['membership_type'] == 'Family')?'selected':''?>>Family</option>
+                            <option value="Single" <?=($membership['membership_type'] == 'Single')?'selected':''?>>Single</option>
+                        </select>
+                    </div>
+                  <div class="col-md-6 form-group">
                     <label for="openDate">Starting Date:</label>
                     <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" value="{{ $membership['starting_date'] }}" required>
                   </div>
-
+ <div class="col-md-6 form-group">
+                  <label for="openDate">Closing Date:</label>
+                  <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" value="{{ $membership['closing_date'] }}" required>
+                </div>
 
 
                 </div>
                 <div class="row">
-                 <div class="col-md-6 form-group">
-                  <label for="openDate">Closing Date:</label>
-                  <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" value="{{ $membership['closing_date'] }}" required>
-                </div>
+                
                 <div class="col-md-6 form-group">
                   <label for="isVisible">Is Visible:</label>
 

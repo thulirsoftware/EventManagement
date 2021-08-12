@@ -114,7 +114,8 @@
         </div>
         <div class="form-group col-md-4">
             <label class="names">Time&nbsp;<span style="color:red">*</span></label>
-            <input class="form-control" type="time" name="eventTime" value="{{ $event['eventTime'] }}">
+            <input type="text"  name="eventTime" class="form-control timepicker"value="{{ $event['eventTime'] }}"  id="event_time_edit"/>
+
         </div>
     </div>
 
@@ -290,18 +291,17 @@
    $Locations = \App\LocationModel::whereIn('id',$CompetitionLocations)->pluck('location_name')->implode(',');
 
 ?>
-<tr id="row_competition_{{ $Competition['id'] }}">
+<tr>
    <td>{{$Competition->name}}</td>
-   <td id="row_competition_mFee{{ $Competition['id'] }}">{{ $EventCompetition['member_fee'] }}</td>
-   <td id="row_competition_nonFee{{ $Competition['id'] }}">{{ $EventCompetition['non_member_fee'] }}</td>
-   <td  >{{ $Locations}}</td>
+   <td>{{ $EventCompetition['member_fee'] }}</td>
+   <td>{{ $EventCompetition['non_member_fee'] }}</td>
+   <td>{{ $Locations}}</td>
 
 
    <td>
-      <a  id="row_competition_edit{{ $Competition['id'] }}" style="cursor:pointer;color:#0069d9" onclick="edit_row_competition('{{ $Competition['id'] }}')">
+      <a href="{{ route('admin.event.competition.edit', ['id' => $Competition['id']]) }}" style="cursor:pointer;color:#0069d9">
         <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
     </a>
-    <input type="button" id="Competition_save_button{{ $Competition['id'] }}" value="Save" class="btn btn-primary" onclick="save_competition_row('{{ $Competition['id'] }}')" style="display:none">&nbsp;&nbsp;
     @if($CompetitionRegistered<=0)
     <a onclick="myFunction({{$Competition['id']}})"  id="row_Competition_delete{{ $Competition['id'] }}"  style="cursor:pointer;color:#0069d9"> <i class="fa fa-trash" ></i></a>
     @endif
@@ -599,8 +599,9 @@ $(document).ready(function () {
 
     row_food_event_age.innerHTML="<input type='text' id='row_food_event_age_text"+no+"' class='form-control'  value='"+row_food_event_age_data+"'>";
 
-    row_food_event_type.innerHTML="<input type='text' id='row_food_event_type_text"+no+"' class='form-control' value='"+row_food_event_type_data+"'>";
-    row_food_event_food.innerHTML="<input type='text' id='row_food_event_food_text"+no+"' class='form-control' value='"+row_food_event_food_data+"'>";
+    row_food_event_type.innerHTML="<select class='form-control' id='row_food_event_type_text"+no+"'  name='memberType' id='FoodmemberType' required=''><option value='Member'>Member</option><option value='NonMember'>NonMember</option></select>";
+
+    row_food_event_food.innerHTML="<select class='form-control' id='row_food_event_food_text"+no+"' required=''><option value='Veg-Box'>Veg-Box</option><option value='Veg-Banana-Leaf'>Veg-Banana-Leaf</option><option value='Non-Veg-Box'>Non-Veg-Box</option><option value='Non-Veg-Banana-Leaf'>Non-Veg-Banana-Leaf</option><option value='Snack'>Snack</option></select>";
 
     row_food_event_price.innerHTML="<input type='text' id='row_food_event_price_text"+no+"' class='form-control' value='"+row_food_event_price_data+"'>";
 
@@ -659,7 +660,7 @@ function edit_Entry_row(no)
 
   row_entry_event_age.innerHTML="<input type='text' id='row_entry_event_age_text"+no+"' class='form-control'  value='"+row_entry_event_age_data+"'>";
 
-  row_entry_event_type.innerHTML="<input type='text' id='row_entry_event_type_text"+no+"' class='form-control' value='"+row_entry_event_type_data+"'>";
+  row_entry_event_type.innerHTML="<select class='form-control' id='row_entry_event_type_text"+no+"'  name='memberType' required=''><option value='Member'>Member</option><option value='NonMember'>NonMember</option></select>";
 
   row_entry_event_price.innerHTML="<input type='text' id='row_entry_event_price_text"+no+"' class='form-control' value='"+row_entry_event_price_data+"'>";
 
@@ -696,52 +697,7 @@ function save_Entry_row(no)
 
 }
 
-/*Compeitition*/
 
-function edit_row_competition(no)
-{
-  document.getElementById("row_Competition_delete"+no).style.display="none";
-  document.getElementById("row_competition_edit"+no).style.display="none";
-  document.getElementById("Competition_save_button"+no).style.display="block";
-  
-  var row_competition_mFee=document.getElementById("row_competition_mFee"+no);
-  var row_competition_nonFee=document.getElementById("row_competition_nonFee"+no);
-
-  var row_competition_mFee_data=row_competition_mFee.innerHTML;
-  var row_competition_nonFee_data=row_competition_nonFee.innerHTML;
-
-  row_competition_mFee.innerHTML="<input type='text' id='row_competition_mFee_text"+no+"' class='form-control' value='"+row_competition_mFee_data+"'>";
-
-  row_competition_nonFee.innerHTML="<input type='text' id='row_competition_nonFee_text"+no+"' class='form-control' value='"+row_competition_nonFee_data+"'>";
-
-}
-function save_competition_row(no)
-{
-  var row_competition_mFee_val=document.getElementById("row_competition_mFee_text"+no).value;
-  var row_competition_nonFee_val=document.getElementById("row_competition_nonFee_text"+no).value;
-
-  let _token   = $('meta[name="csrf-token"]').attr('content');
-
-  $.ajax({
-    url: "/admin/UpdateCompetition",
-    type:"POST",
-    data:{
-      competition_fee:row_competition_mFee_val,
-      competition_nonfee:row_competition_nonFee_val,
-      event_competition_id:no,
-      _token: _token
-  },
-  success:function(response){
-      console.log(response);
-      if(response) {
-         localStorage.setItem('nav','nav-competition');
-         window.location.reload();
-            //$("#ajaxform")[0].reset();
-        }
-    },
-});
-
-}
 function myFunction(id) {
    if (confirm("Are you Sure you want to delete the competiton for the event?")) {
       $.ajax({
