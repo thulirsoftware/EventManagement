@@ -113,6 +113,7 @@ class EventController extends Controller
 
                 $EventEntryTickets = new EventEntryTickets();
                 $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->entry_id = $Entry->id;
                 $EventEntryTickets->min_age = $Entry->min_age;
                 $EventEntryTickets->max_age = $Entry->max_age;
                 $EventEntryTickets->memberType =$Entry->member_type;
@@ -195,6 +196,7 @@ class EventController extends Controller
 
                 $EventEntryTickets = new EventEntryTickets();
                 $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->entry_id = $Entry->id;
                 $EventEntryTickets->min_age = $Entry->min_age;
                 $EventEntryTickets->max_age = $Entry->max_age;
                 $EventEntryTickets->memberType =$Entry->member_type;
@@ -753,6 +755,7 @@ class EventController extends Controller
 
                 $EventEntryTickets = new EventEntryTickets();
                 $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->entry_id = $Entry->id;
                 $EventEntryTickets->min_age = $Entry->min_age;
                 $EventEntryTickets->max_age = $Entry->max_age;
                 $EventEntryTickets->memberType =$Entry->member_type;
@@ -839,6 +842,7 @@ class EventController extends Controller
 
                 $EventEntryTickets = new EventEntryTickets();
                 $EventEntryTickets->eventId = $event->id;
+                $EventEntryTickets->entry_id = $Entry->id;
                 $EventEntryTickets->min_age = $Entry->min_age;
                 $EventEntryTickets->max_age = $Entry->max_age;
                 $EventEntryTickets->memberType =$Entry->member_type;
