@@ -157,7 +157,7 @@ class EventController extends Controller
         return redirect('/admin/manageEvent')->withSuccess('Event Added Successfully');
     }
 
-    public function addEventCompetitions($id)
+    public function addEventCompetitions()
     {
         $toDay = Carbon::now()->toDateString();
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
@@ -324,7 +324,7 @@ class EventController extends Controller
         $Competition=Competition::where('closing_date','>=',$toDay)->whereNotIn('id',$competition_added)->get();
         $CompetitionId=Competition::where('closing_date','>=',$toDay)->pluck('id');
         $Locations = LocationModel::get();
-        return view('admin.event.addEventCompetition',compact('id','Competition','CompetitionId','CompetitionLocations','Locations'));
+        return view('admin.event.addEventCompetition',compact('id','Competition','CompetitionId','Locations'));
     }
 
     public function addEventCompetitionPost(Request $request)
@@ -583,13 +583,13 @@ class EventController extends Controller
         return response()->json(['success'=>$eventTicket]);
     }
 
-    public function EditEventCompetition($id)
+    public function EditEventCompetition($id,$eventId)
     {
         $EventCompetition = EventCompetition::where('competition_id',$id)->first();
         $CompetitionLocations = CompetitionLocations::where('competition_id',$id)->groupBy('location_id')->pluck('location_id');
         $AddedLocations = LocationModel::whereIn('id',$CompetitionLocations)->get();
         $Locations = LocationModel::whereNotIn('id',$CompetitionLocations)->get();
-        return view('admin.event.editEventCompetition',compact('EventCompetition','CompetitionLocations','id','AddedLocations','Locations'));
+        return view('admin.event.editEventCompetition',compact('EventCompetition','CompetitionLocations','id','AddedLocations','Locations','eventId'));
     }
 
     public function UpdateCompetition(Request $request)

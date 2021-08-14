@@ -34,7 +34,7 @@ a.disabled {
 
                   <div class="row mb-2">
                     <div class="col-sm-2">
-                        <a href="/admin/eventTickets/{{$EventCompetition->event_id}}" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+                        <a href="/admin/eventTickets/{{$eventId}}" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
                   </div>
 
               </div>
@@ -55,7 +55,7 @@ a.disabled {
                     </div>
                     @endif
                     <input type="hidden" name="competition_id" value="{{$id}}">
-                    <input type="hidden" name="eventId" value="{{$EventCompetition->event_id}}">
+                    <input type="hidden" name="eventId" value="{{$eventId}}">
                     <div class="card-header"><center><strong>Edit Competition</strong></center></div>
                     <div class="card-body">
                         <div class="row">

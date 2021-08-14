@@ -718,17 +718,20 @@ class MemberController extends Controller
 
         public function AgeValidation(Request $request)
         {
-                $Competition = Competition::where('id',$request->id)->first();
-                $familyMembers = FamilyMember::where('user_id',Auth::user()->id)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->get();
-                $familyMembersCount = FamilyMember::where('user_id',Auth::user()->id)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->count();
-                if($familyMembersCount>0)
-                {
-                    return response($familyMembers, 200);
-                }
-                else
-                {
-                    return response($familyMembers, 400);
-                }
+            $Competition = Competition::where('id',$request->id)->first();
+
+            $CompetitionRegistered = CompetitionRegistered::where('competition_id',$request->id)->where('user_id',Auth::user()->id)->pluck('participant_id');
+
+            $familyMembers = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->get();
+            $familyMembersCount = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->count();
+            if($familyMembersCount>0)
+            {
+                return response($familyMembers, 200);
+            }
+            else
+            {
+                return response($familyMembers, 400);
+            }
                 
         }
 

@@ -149,7 +149,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::post('/UpdateEventEntryTicket','EventController@UpdateEventEntryTicket');
   Route::post('/UpdateEventFoodTicket','EventController@UpdateEventFoodTicket');
 
-  Route::get('/editEventCompetition/{id}','EventController@EditEventCompetition')->name('admin.event.competition.edit');
+  Route::get('/editEventCompetition/{id}/{eventId}','EventController@EditEventCompetition')->name('admin.event.competition.edit');
 
   Route::post('/UpdateCompetition','EventController@UpdateCompetition');
 

@@ -50,6 +50,7 @@
                      @endforeach
             </select>
          </div>
+         <input type="hidden" id="eventId" value="{{ $event->id }}">
      </div>
      <p class="alert alert-warning" id="competitionError" style="display:none">Select Competition</p>
      
@@ -82,7 +83,7 @@
      </div>
           
             </div> 
-            <p class="alert alert-warning" id="soloParticipantError" style="display:none"></p>
+            <p class="alert alert-warning" id="soloParticipantError" style="display:none">Not a Valid Participant</p>
              <div class="row" >
 
      <div  class="col-md-6"  id="solo" style="display: none;"  >
@@ -145,6 +146,8 @@
     function  getcompetitionType(id) {
         var Competition_value  = id.split('_', 2);
         const slug = Competition_value[1];
+        eventId =  document.getElementById("eventId").value;
+        console.log(eventId);
         if(slug=="solo")
         {
                
@@ -152,12 +155,14 @@
             $.ajax({
                type : 'get',
                url : '{{URL::to('Competition/AgeValidation')}}',
-                data : {'id':id},
+                data : {'id':id,'eventId':eventId},
                 success:function(data){
+                    console.log(data);
                     document.getElementById("groupForm").style.display = "none";
                     document.getElementById("solo-add-row").style.display = "block";
                     document.getElementById("solo").style.display = "block";
                     document.getElementById("added").style.display = "block";
+
                     document.getElementById("soloParticipantError").style.display = "none";
                     document.getElementById("competitionError").style.display = "none";
                     $("#solofamilyMembers").empty();
@@ -169,6 +174,8 @@
                     });
                 },
                 error: function(data){
+                    document.getElementById("groupForm").style.display = "none";
+                     document.getElementById("added").style.display = "none";
                     document.getElementById("soloParticipantError").style.display = "block";
                     document.getElementById("competitionError").style.display = "none";
                 }
@@ -179,12 +186,13 @@
         }
         else if(slug=="group")
         {
+             document.getElementById("soloParticipantError").style.display = "none";
              document.getElementById("solo-add-row").style.display = "none";
             document.getElementById("solo").style.display = "none";
            document.getElementById("groupForm").style.display = "block";
 
            document.getElementById("added").style.display = "block";
-           document.getElementById("soloParticipantError").style.display = "none";
+          
            document.getElementById("competitionError").style.display = "none";
 
         }

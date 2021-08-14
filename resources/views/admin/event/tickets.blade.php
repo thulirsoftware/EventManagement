@@ -299,7 +299,7 @@
 
 
    <td>
-      <a href="{{ route('admin.event.competition.edit', ['id' => $Competition['id']]) }}" style="cursor:pointer;color:#0069d9">
+      <a href="{{ route('admin.event.competition.edit', ['id' => $Competition['id'],'eventId'=>$event['id']]) }}" style="cursor:pointer;color:#0069d9">
         <i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i>
     </a>
     @if($CompetitionRegistered<=0)

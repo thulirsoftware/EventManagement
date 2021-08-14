@@ -20,7 +20,7 @@
           <div class="col-sm-7">
           </div>
           <div class="col-sm-3">
-            <a href="/EditmemberBuyTicket/{{$id}}" class="btn btn-primary btn-sm" >Update Competition</i>&nbsp;</a>
+            <a href="/EditmemberBuyTicket/{{$id}}" class="btn btn-primary btn-sm" >Add More Tickets</i>&nbsp;</a>
 
           </div>
       </div>
@@ -271,7 +271,7 @@
     {
       $fee= $EventCompetition['member_fee'];
       $noOfParticipants= "1";
-      $participant = \App\Member::where('Member_Id',$CompetitionRegistered['participant_id'])->first();
+      $participant = \App\FamilyMember::where('id',$CompetitionRegistered['participant_id'])->first();
 
     }
    
