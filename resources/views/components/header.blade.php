@@ -1,7 +1,9 @@
 <link href="/dist/modules/core/common/img/favicon.ico" rel="shortcut icon">
 <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">
 
-
+<noscript>
+ <a href="https://www.enable-javascript.com/">
+</noscript>
     <!-- VENDORS -->
     <!-- v2.0.0 -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

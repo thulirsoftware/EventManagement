@@ -81,7 +81,7 @@
             @for($i=0; $i<$Entrytickets; $i++)
             <?php
             $ageGroup="";
-            if($memberEventTickets[$i]['max_age']<=9)
+            if($memberEventTickets[$i]['min_age']>=18 && $memberEventTickets[$i]['max_age']>=18)
             {
               $ageGroup = "Kids";
             }
@@ -92,7 +92,7 @@
           ?>
               <div class="col-md-6 form-group">
                 
-                @if($memberEventTickets[$i]['max_age']<=9)
+                @if($memberEventTickets[$i]['min_age']>=18 && $memberEventTickets[$i]['max_age']>=18)
                 <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
                   <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >

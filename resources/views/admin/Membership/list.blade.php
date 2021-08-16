@@ -30,7 +30,7 @@
                 <thead>
                   <tr>
                     <th>S.No</th>
-                    <th>Membership Name</th>
+                    <th>Membership Type</th>
                     <th>Type</th>
                     <th>Description</th>
                     <th>Amount</th>

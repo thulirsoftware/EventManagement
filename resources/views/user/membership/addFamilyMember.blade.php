@@ -74,7 +74,7 @@
                     $dates = $date->toDateString();
                     ?>
                      <div class="col-md-2 form-group">
-                        <label class="control-label" for="DOB">DOB:</label>
+                        <label class="control-label" for="DOB">DOB:&nbsp;<span style="color:red">*</span></label>
                         <input type="date" class="form-control" id="DOB"  placeholder="DOB" name="dob[]"  max="{{$dates}}" required>
                     </div>
                    

@@ -79,8 +79,8 @@ $dates = $date->toDateString();
 
 <div class="col-md-6">
    <div class="form-group">
-      <label class="control-label" for="dob">DOB </label>
-      <input type="date" class="form-control"  name="dob" value="{{$member['dob']}}" max="{{$dates}}">
+      <label class="control-label" for="dob">DOB&nbsp;<span style="color:red">*</span></label>
+      <input type="date" class="form-control"  name="dob" value="{{$member['dob']}}" max="{{$dates}}" required>
 
   </div>
 

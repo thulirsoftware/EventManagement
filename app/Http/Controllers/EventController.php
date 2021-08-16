@@ -41,7 +41,8 @@ class EventController extends Controller
 
     public function addEventPost(Request $request)
     { 
-        Session::put('eventsCompetition',$request->all());
+        $values = array_except($request->all(), ['eventFlyer']);
+        Session::put('eventsCompetition',$values);
 
         if($request->has('competitionCheck'))
         {
@@ -285,34 +286,82 @@ class EventController extends Controller
 
     public function addEventEntryTicket($id)
     {
-        return view('admin.event.addEventEntryTicket',compact('id'));
+        $entry_added = EventEntryTickets::where('eventId',$id)->pluck('entry_id');
+        $Entry=Entry::whereNotIn('id',$entry_added)->get();
+
+        return view('admin.event.addEventEntryTicket',compact('id','Entry'));
     }
     public function addEventEntryTicketPost(Request $request)
     {
-        $eventTicket = new EventEntryTickets();
-        $eventTicket->eventId = $request->eventId;
-        $eventTicket->min_age = $request->min_age;
-        $eventTicket->max_age = $request->max_age;
-        $eventTicket->memberType =$request->memberType;
-        $eventTicket->ticketPrice = $request->ticketPrice;
-        $eventTicket->save();
+
+         if($request->has('entry_id'))
+            {
+                $ageGroupCount = count($request->entry_id); 
+            }
+            else
+            {
+                 $ageGroupCount = 0;
+            }
+
+            for($i = 0;$i < $ageGroupCount; $i++)
+            {
+                $Entry = Entry::where('id',$request->entry_id[$i])->first();
+
+                $EventEntryTickets = new EventEntryTickets();
+                $EventEntryTickets->eventId = $request->eventId;
+                $EventEntryTickets->entry_id = $Entry->id;
+                $EventEntryTickets->min_age = $Entry->min_age;
+                $EventEntryTickets->max_age = $Entry->max_age;
+                $EventEntryTickets->memberType =$Entry->member_type;
+                $EventEntryTickets->ticketPrice = $Entry->price;
+                if($Entry->price!=null)
+                {
+                    $EventEntryTickets->save();
+                }
+            }
+
+        
          return redirect(url('admin/eventTickets/'.$request->eventId))->withInput(["tab" =>"nav-profile"])->withSuccess('Entry Ticket Added Successfully');
     }
 
     public function addEventFoodTicket($id)
     {
-        return view('admin.event.addEventFoodTicket',compact('id'));
+        $food_added = EventTicket::where('eventId',$id)->pluck('food_id');
+        $FoodTypes=FoodModel::whereNotIn('id',$food_added)->get();
+
+
+        return view('admin.event.addEventFoodTicket',compact('id','FoodTypes'));
     }
     public function addEventFoodTicketPost(Request $request)
     {
-        $eventTicket = new EventTicket();
-        $eventTicket->eventId = $request->eventId;
-        $eventTicket->min_age = $request->min_age;
-        $eventTicket->max_age = $request->max_age;
-        $eventTicket->memberType =$request->FoodmemberType;
-        $eventTicket->foodType = $request->foodType;
-        $eventTicket->ticketPrice = $request->FoodticketPrice;
-        $eventTicket->save();
+            if($request->has('food_id'))
+            {
+                $food_idCount = count($request->food_id); 
+            }
+            else
+            {
+                 $food_idCount = 0;
+            }
+
+            for($i = 0;$i < $food_idCount; $i++)
+            {
+                $food = FoodModel::where('id',$request->food_id[$i])->first();
+
+                $eventTicket = new EventTicket;
+                $eventTicket->food_id = $food->id;
+                $eventTicket->eventId = $request->eventId;
+                $eventTicket->min_age = $food->min_age;
+                $eventTicket->max_age = $food->max_age;
+                $eventTicket->memberType =$food->memberType;
+                $eventTicket->foodType = $food->food_type;
+                $eventTicket->ticketPrice = $food->price;
+                if($food->price!=null)
+                {
+                    $eventTicket->save();
+                }
+            } 
+
+       
          return redirect(url('admin/eventTickets/'.$request->eventId))->withInput(["tab" =>"nav-contact"])->withSuccess('Food Ticket Added Successfully');
 
     }

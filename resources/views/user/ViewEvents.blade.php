@@ -261,11 +261,14 @@
     if($Competition->competition_type=="group" && $CompetitionRegistered->participant_id!=null)
     {
       $fee= $EventCompetition['member_fee'];
+      $participant = \App\FamilyMember::where('id',$CompetitionRegistered['participant_id'])->first();
 
     }
     else if($Competition->competition_type=="group" && $CompetitionRegistered->participant_id==null)
     {
       $fee= $EventCompetition['non_member_fee'];
+      $participant = null;
+
     }
      else if($Competition->competition_type=="solo" && $CompetitionRegistered->participant_id!=null)
     {
@@ -274,7 +277,6 @@
       $participant = \App\FamilyMember::where('id',$CompetitionRegistered['participant_id'])->first();
 
     }
-   
     
     $totalAmount=$totalAmount+$fee;
 
@@ -284,7 +286,7 @@
    <td>{{$Competition->competition_type}}</td>
    <td>${{ $fee }}</td>
 <td>{{ $noOfParticipants }}</td>
-@if($participant!="")
+@if($participant!=null)
 <td>{{$participant->firstName}} {{$participant->lastName}}</td>
 @else
 <td></td>

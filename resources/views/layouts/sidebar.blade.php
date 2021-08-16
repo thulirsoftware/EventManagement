@@ -88,7 +88,7 @@
                 </a>
             </li> 
             <li class="nav-item">
-                <a href="{{ url('AddVolunteer') }}" class="nav-link {{ Str::contains($path, ['AddVolunteer']) ? 'active' : '' }}">
+                <a href="{{ url('AddVolunteer') }}" class="nav-link {{ Str::contains($path, ['AddVolunteer','AddAsVolunteer']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-handshake"></i>
                 <p> Enroll as Volunteer</p>
                 </a>

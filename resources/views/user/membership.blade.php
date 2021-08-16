@@ -20,7 +20,7 @@
                   <thead>
                     <tr>
                       <th>SI.No</th>
-                      <th>Code</th>
+                      <th>Type</th>
                       <th>Description</th>
                       <th>Amount</th>
                        <th>Type</th>
@@ -52,6 +52,8 @@
                           <td><a href="/MemberShipAdd/{{ $membership->id }}" ><i class="fa fa-shopping-cart fa-lg" style="text-align:center;"></i></a></td>
                           @elseif($Member!=null)
                           <td><a href="/MemberShipAdd/{{ $membership->id }}" class="badge badge-danger">Renew</a></td>
+                           @elseif($MembershipBuy->payment_status=="Pending")
+                          <td><a  class="badge badge-danger" style="color:white">Pending</a></td>
                           @else
                           <td><a  class="badge badge-success" style="color:white">Member</a></td>
                         @endif

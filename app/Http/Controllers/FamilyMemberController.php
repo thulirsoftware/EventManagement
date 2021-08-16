@@ -8,6 +8,7 @@ use Auth;
 use App\MembershipConfig;
 use Session;
 use Carbon\Carbon; 
+use App\Volunteer;
 
 class FamilyMemberController extends Controller
 {
@@ -130,4 +131,44 @@ class FamilyMemberController extends Controller
         $membership = MembershipConfig::where('id',$membership['id'])->first();
         return view('user.buymembership',compact('membership'));
     }
+    public function AddAsVolunteer($id)
+    {
+        return view('user.familyMember.make_volunteer',compact('id'));
+    }
+
+    public function AddVolunteerSave(Request $request)
+    {            
+
+            $Volunteer = Volunteer::where('family_member_id',$request->familyMemberId)->count();
+            if($Volunteer>0)
+            {
+                return redirect()->back()->withWarning('Your Already an volunteer');
+            }
+            else
+            {
+                $str = implode (", ", $request->opportunities);
+                $FamilyMember = FamilyMember::where('id',$request->familyMemberId)->first();
+                if($FamilyMember!=null)
+                {
+                    $Volunteer = new Volunteer();
+                    $Volunteer->family_member_id = $request->familyMemberId;
+                    $Volunteer->user_id = Auth::user()->id;
+                    $Volunteer->name = $FamilyMember->firstName;
+                    $Volunteer->email = Auth::user()->email;
+                    $Volunteer->mobile_number =$FamilyMember->phoneNo;
+                    $Volunteer->email_group = $request->email_group;
+                    $Volunteer->opportunities =$str;
+                    $Volunteer->comments =$request->comments;
+                    $Volunteer->youth_volunteer =$request->youth_volunteer;
+                    $Volunteer->save();
+                }
+                
+                return redirect()->back()->withSuccess('Volunteer added Successfully');
+            }
+
+        }
+
+
+
+    
 }

@@ -151,7 +151,9 @@
 <script src="{{asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
   <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
-
+<noscript>
+ <a href="https://www.enablejavascript.io/">
+</noscript>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">

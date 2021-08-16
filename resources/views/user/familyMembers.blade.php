@@ -35,6 +35,7 @@
                       <th>Relationship</th>
                       <th>Edit</th>
                       <th>Delete</th>
+                      <th>Make Volunteer</th>
                   </thead>
                   <tbody>
                     <?php $i=1; ?> 
@@ -48,6 +49,13 @@
                         <td>{{ $family['relationshipType'] }}</td>
                         <td><a href="/familyEdit/{{ $family['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
                         <td><a href="/familyDelete/{{ $family['id'] }}" ><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+                        <?php $volunteer = \App\Volunteer::where('family_member_id',$family['id'])->count();
+                      ?>
+                      @if($volunteer>0)
+                        <td><a class="badge badge-success" style="color:white">Volunteer</a></td>
+                        @else
+                         <td><a class="badge badge-info" href="/AddAsVolunteer/Family/{{ $family['id'] }}" class="badge badge-success">Add As Voluntter</a></td>
+                        @endif
                     </tr>
                     @endforeach
 

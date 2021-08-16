@@ -26,6 +26,8 @@ use App\EventRegistration;
 use App\Volunteer;
 use Hash;
 use App\MembershipConfig;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class MemberController extends Controller
 {
@@ -411,7 +413,8 @@ class MemberController extends Controller
         return view('user.membership',compact('membership'));
         
     }
-     public function membershipAdd($id)
+
+    public function membershipAdd($id)
     {  
         $email = Auth::user()->email;
         $member = Member::where('Email_Id',$email)->first();
@@ -496,6 +499,9 @@ class MemberController extends Controller
 
     public function editProfilePost(Request $request)
     {
+       // dd(URL::previous());
+        $path = URL::previous();
+        $age = Carbon::parse($request->dob)->diff(Carbon::now())->y;
         $member = Member::where('user_id',Auth::user()->id)->first();
         if($member!=null)
         {
@@ -589,9 +595,22 @@ class MemberController extends Controller
         }
         }
 
+        if(Str::contains($path,['editProfile']))
+        {
+            return redirect()->back()->withSuccess('Profile Updated Successfully'); 
+        }
+        else
+        {
+            if($age>18)
+            {
+                 return redirect()->back()->withSuccess('Profile Updated Successfully');
+            }
+            else
+            {
+                 return redirect('/editProfile')->withWarning('You are age is less than 18');
+            }
+        }
         
-       
-       return redirect()->back()->withSuccess('Profile Updated Successfully');
     }
 
 
@@ -636,7 +655,6 @@ class MemberController extends Controller
             $Purchased_Entry_Tickets = PurchasedEventEntryTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
             $Purchased_Food_Tickets = PurchasedEventFoodTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
             $CompetitionRegistered = CompetitionRegistered::where('event_id',$id)->where('user_id',Auth::user()->id)->get();
-            //dd(Auth::user()->id);
             return view('user.ViewEvents',compact('events','CompetitionRegistered','id','Purchased_Entry_Tickets','Purchased_Food_Tickets'));
         }
 

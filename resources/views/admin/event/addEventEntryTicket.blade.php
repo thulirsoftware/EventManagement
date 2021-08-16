@@ -1,6 +1,42 @@
 @extends('layouts.admin')
 
 @section('content')
+<style>
+            .custom-control-input:focus ~ 
+          .custom-control-label::before {
+                /* when the button is toggled off 
+  it is still in focus and a violet border will appear */
+                border-color: violet !important;
+                /* box shadow is blue by default
+  but we do not want any shadow hence we have set 
+  all the values as 0 */
+                box-shadow:
+                  0 0 0 0rem rgba(0, 0, 0, 0) !important;
+            }
+  
+            /*sets the background color of
+          switch to violet when it is checked*/
+            .custom-control-input:checked ~ 
+          .custom-control-label::before {
+                border-color: #5cb85c !important;
+                background-color: #5cb85c !important;
+            }
+  
+            /*sets the background color of
+          switch to violet when it is active*/
+            .custom-control-input:active ~ 
+          .custom-control-label::before {
+                background-color: #5cb85c !important;
+                border-color: #5cb85c !important;
+            }
+  
+            /*sets the border color of switch
+          to violet when it is not checked*/
+            .custom-control-input:focus:
+          not(:checked) ~ .custom-control-label::before {
+                border-color: #5cb85c !important;
+            }
+        </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -15,7 +51,7 @@
 
       <div class="row mb-2">
         <div class="col-sm-2">
-          <a href="/admin/manageEvent" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+          <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
         </div>
         
       </div>
@@ -40,35 +76,51 @@
             <input type="hidden" name="eventId" value="{{$id}}">
 <div class="card-body">
         <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-6 form-group ">
-              <label class="names">Min Age:&nbsp;<span style="color: red">*</span></label>
-              <input class="form-control" type="text" name="min_age" id="min_age">
-            </div>
-            <div class="col-md-6 form-group ">
-              <label class="names">Max Age:&nbsp;<span style="color: red">*</span></label>
-              <input class="form-control" type="text" name="max_age" id="max_age">
-            </div>
-        <div class="col-md-6 form-group ">
-          <label class="names">Member:&nbsp;<span style="color: red">*</span></label>
-          <select class="form-control" name="memberType" id="sel1" required>
-            <option value="">Select</option>
-            <option value="Member">Member</option>
-             <option value="NonMember">NonMember</option>
-          </select>
-        </div>
-         
-         <div class="col-md-6 form-group ">
-          <label class="names">Price ($):&nbsp;<span style="color: red">*</span></label>
-          <input class="form-control" type="text" name="ticketPrice" id="price" required>
-        </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Min Age</th>
+                    <th>Max Age</th>
+                    <th>Member Type</th>
+                    <th>Amount</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+              <?php $i=1; ?>  
+              @foreach($Entry as $entry)
+              <tr id="entry_mod_row_{{ $entry['id'] }}">
 
-      </div>
+                <td>{{ $i++ }}</td>
+
+                <td>{{ $entry['min_age'] }}</td>
+                <td>{{ $entry['max_age'] }}</td>
+                <td>{{ $entry['member_type'] }}</td>
+                <td>${{ $entry['price'] }}</td>
+                <td> <div class="custom-control custom-switch">
+                <input type="checkbox" 
+                       class="custom-control-input" 
+                       id="customSwitch_entry{{ $entry['id'] }}" name="entry_id[]" value="{{ $entry['id'] }}" onclick="getEntryType(this)" />
+                <label class="custom-control-label"
+                       for="customSwitch_entry{{ $entry['id'] }}">
+                  </label>
+            </div></td>
+              
+
+            </tr>
+            @endforeach
+        </tbody> 
+    </table>
         
     </div>
     <div style="overflow:auto;">
     <center>
+      @if($Entry->count()>0)
       <button type="submit" class="button nextBtn" id="nextBtn" >Submit</button>
+      @else
+      <button type="submit" class="button nextBtn" id="nextBtn" disabled="">Submit</button>
+      @endif
     </center>
   </div>
 </div>

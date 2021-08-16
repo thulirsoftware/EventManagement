@@ -15,7 +15,7 @@
 
           <div class="row mb-2">
             <div class="col-sm-2">
-              <a href="/admin/manageEvent" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
+              <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
           </div>
           
       </div>
@@ -39,49 +39,55 @@
           <br>
           <input type="hidden" name="eventId" value="{{$id}}">
           <div class="card-body">
-           <div class="col-md-12">
-              <div class="row">
-                
-                <div class="col-md-6 form-group ">
-                  <label class="names">Min Age:&nbsp;<span style="color: red">*</span></label>
-                  <input class="form-control" type="text" name="min_age" id="min_age">
-              </div>
-              <div class="col-md-6 form-group ">
-                  <label class="names">Max Age:&nbsp;<span style="color: red">*</span></label>
-                  <input class="form-control" type="text" name="max_age" id="max_age">
-              </div>
-              <div class="col-md-6 form-group ">
-                  <label class="names">Member:&nbsp;<span style="color: red">*</span></label>
-                  <select class="form-control" name="FoodmemberType" id="sel1" required>
-                    <option value="">Select</option>
-                    <option value="Member">Member</option>
-                    <option value="NonMember">NonMember</option>
-                </select>
-            </div>
-            <div class="col-md-6 form-group ">
-              <label class="names">Food:&nbsp;<span style="color: red">*</span></label>
-              <select class="form-control" name="foodType" id="sel1" required>
-                <option value="">Select</option>
-                <option value="veg">Veg</option>
-                <option value="nveg">Non-VEg</option>
-                <option value="no-food">No Food</option>
-            </select>
-        </div>
-        
-        <div class="col-md-6 form-group ">
-          <label class="names">Price ($):&nbsp;<span style="color: red">*</span></label>
-          <input class="form-control" type="text" name="FoodticketPrice" id="price" required>
-      </div>
-  </div>
-  
-  
-  
-</div>
-<div style="overflow:auto;">
-    <center>
+        <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Min Age</th>
+                    <th>Max Age</th>
+                    <th>Member Type</th>
+                     <th>Food Type</th>
+                    <th>Amount</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+              <?php $i=1; ?>  
+              @foreach($FoodTypes as $food)
+              <tr id="food_mod_row_{{ $food['id'] }}">
+
+                <td>{{ $i++ }}</td>
+
+                <td>{{ $food['min_age'] }}</td>
+                <td>{{ $food['max_age'] }}</td>
+                <td>{{ $food['memberType'] }}</td>
+                <td>{{ $food['food_type'] }}</td>
+                <td>${{ $food['price'] }}</td>
+                <td> <div class="custom-control custom-switch">
+                <input type="checkbox" 
+                       class="custom-control-input" 
+                       id="customSwitch{{ $food['id'] }}" name="food_id[]" value="{{ $food['id'] }}" onclick="FoodType(this)" />
+                <label class="custom-control-label"
+                       for="customSwitch{{ $food['id'] }}">
+                  </label>
+            </div></td>
+              
+
+            </tr>
+            @endforeach
+        </tbody> 
+    </table><br>
+    <div style="overflow:auto;">
+  <center>
+       @if($FoodTypes->count()>0)
       <button type="submit" class="button nextBtn" id="nextBtn" >Submit</button>
+      @else
+      <button type="submit" class="button nextBtn" id="nextBtn" disabled="">Submit</button>
+      @endif
   </center>
 </div>
+     </div>
+
 </div>
 
 </div>

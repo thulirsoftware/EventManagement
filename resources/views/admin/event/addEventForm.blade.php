@@ -126,10 +126,10 @@
       <!-- checkbox -->
       <div class="form-group">
         <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck">&nbsp;&nbsp;Entry Ticket 
+          <input type="button" class="btn btn-info"  onclick="getEntryforms()" value="Entry Ticket" style="font-weight:bold">
       </label>
       <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck" name="FoodCheck">&nbsp;&nbsp;Food Ticket
+        <input type="button" class="btn btn-info"  onclick="getFoodforms()" value="Food Ticket" style="font-weight:bold">
       </label>
       <label class="col-md-3">
           <input type="checkbox" class="minimal" name="competitionCheck"   id="CompetitionCheck">&nbsp;&nbsp;Competition
@@ -301,7 +301,7 @@
 
 <!-- Circles which indicates the steps of the form: -->
 <div style="text-align:center;margin-top:40px;">
-  <span class="step"></span>
+  <span class="step active" ></span>
   <span class="step"></span>
 </div>
 
@@ -331,13 +331,8 @@
 <script>
   function getEntryforms() {
   // Get the checkbox
-  var checkBox = document.getElementById("EntryCheck");
   var x = document.getElementById('EntryDIV');
-  if (checkBox.checked == true) {
     $('#EntryModal').modal();
-} else {
-  $('#EntryModal').modal();
-}
 
 }
 </script>
@@ -345,113 +340,12 @@
   function getFoodforms() {
   // Get the checkbox
   var checkBox = document.getElementById("FoodCheck");
-  if (checkBox.checked == true) {
          $('#FoodModal').modal();
-} else {
-        $('#FoodModal').modal();
-}
+
 }
 </script>
-<script>
- var j=1;
- function AddEntryTicket()
- {
-  j++;
-  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="min_age[]" id="min_age'+j+'" ></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="max_age[]" id="max_age'+j+'" ></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="memberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="ticketPrice[]" id="ticketPrice_'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
-
-  $("#ticketPrice_"+j).keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-}); 
-  var $select = $("#min_age"+j);
-    for (i=0;i<=50;i++){
-      $select.append($('<option></option>').val(i).html(i))
-    }
-
-     var $select = $("#max_age"+j);
-    for (i=0;i<=50;i++){
-      $select.append($('<option></option>').val(i).html(i))
-    }
-   
-  $("#ticketPrice").keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-}); 
-   
-}
-$(document).on('click', '.spf_btn_remove', function(){  
- var button_idspf = $(this).attr("id");   
- $('#row'+button_idspf+'').remove();  
- $(this).hide();
-});
-</script>
-<script>
- var l=1;
- function AddFoodTicket()
- {
-  l++;
-  $('<div id="row_food'+l+'" class="row" >'+'<div class="col-md-2 form-group">'+'<select class="form-control"  name="food_min_age[]" id="food_min_age'+l+'"></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <select class="form-control"   name="food_max_age[]" id="food_max_age'+l+'"></select>'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="FoodmemberType[]" id="sel1"><option value="">Select</option><option value="Member">Member</option><option value="NonMember">NonMember</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<select class="form-control" name="foodType[]" id="sel1"><option value="">Select</option><option value="veg">Veg</option><option value="nveg">Non-Veg</option><option value="no-food">No Food</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="FoodticketPrice[]" id="FoodticketPrice_'+l+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+l+'" class="btn btn-warning spf_btn_remove1" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#food-list');
-
-  $("#FoodticketPrice_"+l).keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-});
-
-  $("#FoodticketPrice").keypress(function(e) {
-    var a = [];
-    var k = e.which;
-
-    for (i = 48; i < 58; i++)
-      a.push(i);
-
-  if (!(a.indexOf(k)>=0))
-      e.preventDefault();
-
-});
-  var $select = $("#food_max_age"+l);
-    for (i=0;i<=50;i++){
-      $select.append($('<option></option>').val(i).html(i))
-    }
-
-     var $select = $("#food_min_age"+l);
-    for (i=0;i<=50;i++){
-      $select.append($('<option></option>').val(i).html(i))
-    }
- 
-
- 
-
- 
-}
 
 
-$(document).on('click', '.spf_btn_remove1', function(){  
- var button_idspf = $(this).attr("id");   
- $('#row_food'+button_idspf+'').remove();  
- $(this).hide();
-});
-</script>
 <script type="text/javascript">
   function FoodType(foodCheckbox)
   {
@@ -461,7 +355,6 @@ $(document).on('click', '.spf_btn_remove1', function(){
     {
       document.getElementById("customSwitch"+foodCheckbox.value).checked = true;
       table_row = document.getElementById("food_mod_row_"+foodCheckbox.value);
-      console.log(table_row.cells[0].innerHTML);
      tableBody = $("#Food_table tbody");
        tableBody.append("<tr id=remove-added-row-food"+foodCheckbox.value+"><td>"+table_row.cells[0].innerHTML+"</td><td>"+table_row.cells[1].innerHTML+"</td><td>"+table_row.cells[2].innerHTML+"</td><td>"+table_row.cells[3].innerHTML+"</td><td>"+table_row.cells[4].innerHTML+"</td><td>"+table_row.cells[5].innerHTML+"</td><td><a class='btn btn-warning' id="+foodCheckbox.value+" onclick='DeleteFood(this.id)' style='color:black'><i class='fa fa-trash fa-lg' style='text-align:cenetr;'></i></a></td></tr>");
     }
@@ -480,8 +373,6 @@ $(document).on('click', '.spf_btn_remove1', function(){
   function CloseFoodModal()
   {
      $('#FoodModal').modal('hide');
-      var x = document.getElementById('FoodDIV');
-    x.style.display = "none";
   }
 </script>
 <script type="text/javascript">
@@ -510,11 +401,14 @@ $(document).on('click', '.spf_btn_remove1', function(){
   function DeleteEntry(foodCheckbox)
   {
     console.log(foodCheckbox);
-    $('#remove-added-row-'+foodCheckbox).remove(); 
+     document.getElementById("customSwitch_entry"+foodCheckbox).checked = false;
+    $('#remove-added-row-'+foodCheckbox).remove();
+
   }
   function DeleteFood(foodCheckbox)
   {
     console.log(foodCheckbox);
+    document.getElementById("customSwitch"+foodCheckbox).checked = false;
     $('#remove-added-row-food'+foodCheckbox).remove(); 
   }
 </script>

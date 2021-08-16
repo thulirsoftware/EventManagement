@@ -26,8 +26,10 @@ Route::get('/familyEdit/{id}', 'FamilyMemberController@familyEdit');
 Route::post('/familyUpdate','FamilyMemberController@familyUpdate');
 Route::get('/familyDelete/{id}','FamilyMemberController@familyDelete');
 Route::get('add/familyMembers','FamilyMemberController@ShowFamilyMembers');
+Route::get('AddAsVolunteer/Family/{id}','FamilyMemberController@AddAsVolunteer');
 
 
+Route::post('/AddVolunteer/Family', 'FamilyMemberController@AddVolunteerSave');
 
 
 Route::get('/memberTickets','MemberController@memberTickets')->name('member.tickets');
@@ -228,9 +230,16 @@ Route::prefix('Entry')->group(function() {
   Route::get('/member_details', 'AdminController@member_details');
   Route::get('/membersearch', 'AdminController@membersearch');
 
-  Route::get('/FoodTicketsReport', 'AdminController@FoodTicketsReport');
-  Route::get('/EntryTicketsReport', 'AdminController@EntryTicketsReport');
-Route::get('/VolunteerReports', 'AdminController@VolunteerReports');
+  Route::get('/FoodTicketsReport', 'ReportsController@FoodTicketsReport');
+  
+  Route::get('/FoodTicketsReports/Filter', 'ReportsController@FoodTicketsReportFilter')->name('foodticket.reports.filter');
+
+
+  Route::get('/EntryTicketsReport', 'ReportsController@EntryTicketsReport');
+
+  Route::get('/EntryTicketsReports/Filter', 'ReportsController@EntryTicketsReportFilter')->name('entryticket.reports.filter');
+
+Route::get('/VolunteerReports', 'ReportsController@VolunteerReports');
 
   Route::get('/Payments', 'AdminController@PaymentList');
   Route::get('/PaymentEdit/{id}', 'AdminController@PaymentEdit');

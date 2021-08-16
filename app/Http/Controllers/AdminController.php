@@ -191,24 +191,7 @@ class AdminController extends Controller
 
 
 
-    public function FoodTicketsReport()
-    {
-        $PurchasedEventFoodTickets = PurchasedEventFoodTickets::get();
-        return view('admin.PurchasedEventFoodTickets',compact('PurchasedEventFoodTickets'));
-    }
-
-    public function EntryTicketsReport()
-    {
-        $PurchasedEventEntryTickets = PurchasedEventEntryTickets::where('ticketQty','!=',null)->get();
-        return view('admin.PurchasedEventEntryTickets',compact('PurchasedEventEntryTickets'));
-    }
-
-    public function VolunteerReports()
-    {
-        $Volunteers = Volunteer::get();
-        return view('admin.volunteer_reports',compact('Volunteers'));
-    }
-
+    
     public function PaymentList()
     {
         $MembershipBuy = MembershipBuy::get();

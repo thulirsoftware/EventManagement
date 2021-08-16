@@ -39,7 +39,7 @@
       <div class="col-md-6 form-group ">
          <label class="names">Min Age:&nbsp;<span style="color:red">*</span></label>
         <select class="form-control"  name="min_age" id="food_min_age" required="">
-           @for ($i = 0; $i <=50; $i++)
+           @for ($i = 0; $i <=100; $i++)
         <option value="{{ $i }}">{{ $i }}</option>
         @endfor
          </select>
@@ -48,7 +48,7 @@
          <div class="col-md-6 form-group ">
           <label class="names">Max Age:&nbsp;<span style="color:red">*</span></label>
           <select class="form-control"  name="max_age" id="food_max_age" required="">
-            @for ($i = 0; $i <=50; $i++)
+            @for ($i = 0; $i <=100; $i++)
         <option value="{{ $i }}">{{ $i }}</option>
         @endfor
          </select>           

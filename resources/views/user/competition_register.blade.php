@@ -68,12 +68,12 @@
 
          </div>
          <div class="col-md-2 form-group" id="group">
-        <label class="names">Age Group</label>
+        <label class="names">Age</label>
                        <input type="text" class="form-control" id="addedparticpantage">
 
          </div>
          <div class="col-md-3 form-group" id="group">
-        <label class="names">Member Id</label>
+        <label class="names">Email</label>
             <input type="text" class="form-control" id="addedparticpantId">
          </div>
          <center style="padding-top:5px">
@@ -231,7 +231,8 @@
                if(addedparticpantId!="")
                {
                 var substateArray1 =  @json($MembersAjax);
-                var filteredArray1 = substateArray1.filter(x => x.Member_Id == addedparticpantId);
+                var filteredArray1 = substateArray1.filter(x => x.Email_Id == addedparticpantId);
+                console.log(filteredArray1);
                }
                else
                {
