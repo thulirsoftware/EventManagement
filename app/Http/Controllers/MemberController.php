@@ -740,8 +740,8 @@ class MemberController extends Controller
 
             $CompetitionRegistered = CompetitionRegistered::where('competition_id',$request->id)->where('user_id',Auth::user()->id)->pluck('participant_id');
 
-            $familyMembers = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->get();
-            $familyMembersCount = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->orderby('id','desc')->count();
+            $familyMembers = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->where('user_id',Auth::user()->id)->orderby('id','desc')->get();
+            $familyMembersCount = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->where('user_id',Auth::user()->id)->orderby('id','desc')->count();
             if($familyMembersCount>0)
             {
                 return response($familyMembers, 200);
