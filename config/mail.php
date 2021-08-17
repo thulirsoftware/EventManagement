@@ -61,8 +61,8 @@ return [
     // ],
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@vmclinic.in'),
-        'name' => env('MAIL_FROM_NAME', 'TagDv'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@ongiljobs.in'),
+        'name' => env('MAIL_FROM_NAME', 'NETS'),
     ],
 
     /*

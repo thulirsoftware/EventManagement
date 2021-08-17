@@ -45,7 +45,7 @@
                        <select class="form-control" name="userName" id="userName"   required>
                 <option value=""> Choose Email</option>
                 @foreach($memberemail as $memberemail) 
-                <option value="{{$memberemail->primaryEmail}}">{{ $memberemail->primaryEmail}}</option>
+                <option value="{{$memberemail->Email_Id}}">{{ $memberemail->Email_Id}}</option>
                 @endforeach
             </select>
                   </div>
@@ -83,8 +83,14 @@
                 <div class="card-footer">
                  Admin will not have the following privileges  :
 <br><br>
-                    Updating the payment method manually.<br>
-                    Giving the privileges of Super Admin & Admin to others.<br>
+<ul>
+  <li>
+    admin who can make all in the admin app expect enabling the members</li><br>
+<li>
+
+    Super admin who can make all changes in the admin including enabling members who paid in cash or cheque.
+                </li>
+                </ul>   <br>
                  
                 </div>
                 @endif

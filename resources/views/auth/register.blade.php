@@ -68,13 +68,13 @@
         <div class="col-md-12">
           <div class="form-group">
             <label>Password&nbsp;<span style="color:red">*</span><br></label>
-            <input id="password" type="password" class="form-control" name="password" placeholder="Enter Password" required>
+            <input id="password" type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters" name="password" placeholder="Enter Password" required>
         </div>
     </div>
      <div class="col-md-12">
           <div class="form-group">
             <label>Confirm Password&nbsp;<span style="color:red">*</span><br></label>
-            <input id="confirm_password" type="password" class="form-control" name="password_confirmation" placeholder="Re-type Password" required>
+            <input id="confirm_password" type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters" name="password_confirmation" placeholder="Re-type Password" required>
         </div>
     </div>
     <div class="col-md-12">

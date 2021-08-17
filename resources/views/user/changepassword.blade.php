@@ -62,7 +62,7 @@
                <div class="col-md-12 form-group">
                 <label class="control-label" for="youth_volunteer">Old Password :&nbsp;<span style="color:red">*</span></label>
                 <div class="input-group input-group-md">
-                    <input type="password" class="form-control"  name="old_password" id="old_password" required="">
+                    <input type="password" class="form-control"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters" name="old_password" id="old_password" required="">
                     <span class="input-group-addon">
                       <button type="button" id="old_password" class="btn btn-default" onclick="viewPassword(this.id)">
                         <i class="fa fa-eye-slash" id="togglePassword_old" ></i></button>
@@ -73,7 +73,7 @@
             <div class="col-md-12 form-group">
                 <label class="control-label" for="youth_volunteer">New Password :&nbsp;<span style="color:red">*</span></label>
                <div class="input-group input-group-md">
-                    <input type="password" class="form-control"  name="password" id="new_password" required>
+                    <input type="password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters" name="password" id="new_password" required>
                     <span class="input-group-addon">
                       <button type="button" id="new_password" onclick="viewPassword(this.id)" class="btn btn-default">
                         <i class="fa fa-eye-slash" id="togglePassword_new" ></i></button>
@@ -83,7 +83,7 @@
             <div class="col-md-12 form-group">
                 <label class="control-label" for="youth_volunteer">Confirm Password :&nbsp;<span style="color:red">*</span></label>
                 <div class="input-group input-group-md">
-                    <input type="password" class="form-control"  name="password_confirmation" id="confirm_password" required>
+                    <input type="password" class="form-control"  name="password_confirmation" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 5 or more characters" id="confirm_password" required>
                     <span class="input-group-addon">
                       <button type="button" id="confirm_password" onclick="viewPassword(this.id)" class="btn btn-default">
                         <i class="fa fa-eye-slash" id="togglePassword_confirm" ></i></button>

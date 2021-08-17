@@ -38,6 +38,20 @@
 
                   
                 </div>
+                   <div class="row">
+                          <div class="col-md-6 form-group">
+                            <label for="location_name">Duration From :&nbsp;<span style="color:red">* </span></label>
+                            <input type="number" class="form-control" id="duration_from"  name="duration_from" required>
+                        </div>
+                         <div class="col-md-6 form-group">
+                            <label for="location_name">Duration To :&nbsp;<span style="color:red">* </span></label>
+                            <input type="number" class="form-control" id="duration_to"  name="duration_to" required>
+                        </div>
+
+                     
+
+                  
+                </div>
                 <div class="row">
                 
                   <div class="col-md-12 form-group">

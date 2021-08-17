@@ -20,15 +20,14 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library 
-          
+         @if(Auth::user()->job_title=='SAdmin')
              <li class="nav-item">
                 <a href="{{ url('/admin/manageAdmin') }}" class="nav-link {{ Str::contains($path, ['manageAdmin','addAdmin','adminEdit']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user-cog"></i>
                 <p> Manage Admin</p>
                 </a>
-            </li>-->
+            </li>
+            @endif
            
             
              <!---@if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
@@ -63,7 +62,7 @@
                 </a>
             </li>
          @endif
-           @if(Auth::user()->job_title=='SAdmin')
+           @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
              <li class="nav-item">
                 <a href="{{ route('admin.location.list') }}" class="nav-link {{ Str::contains($path, ['Location','location']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-map-marker"></i>
@@ -71,7 +70,7 @@
                 </a>
             </li>
             @endif
-             @if(Auth::user()->job_title=='SAdmin')
+             @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
              <li class="nav-item">
                 <a href="{{ route('admin.food.list') }}" class="nav-link {{ Str::contains($path, ['food','Food']) ? 'active' : '' }}">
                 <i class="nav-icon fas fas fa-bacon"></i>
@@ -79,7 +78,7 @@
                 </a>
             </li>
             @endif
-             @if(Auth::user()->job_title=='SAdmin')
+             @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
              <li class="nav-item">
                 <a href="{{ route('admin.entry.list') }}" class="nav-link {{ Str::contains($path, ['entry','Entry']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-ticket-alt"></i>
@@ -87,7 +86,7 @@
                 </a>
             </li>
             @endif
-          @if(Auth::user()->job_title=='SAdmin')
+          @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
              <li class="nav-item">
                 <a href="{{ url('/admin/Payments') }}" class="nav-link {{ Str::contains($path, ['Payments','UpdatePayment','PaymentEdit']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-dollar-sign"></i>

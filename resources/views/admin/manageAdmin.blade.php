@@ -26,7 +26,7 @@
 </div>
 @endif
 <div class="card-body">
-                <table class="table">
+                <table  class="table table-bordered table-striped" id="manageadmin_list">
                   <thead>
                     <tr>
                       <th>Name</th>

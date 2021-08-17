@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-md-4 form-group ">
         <label class="names">Select Competition</label>
-            <select class="form-control" name="Competition" id="Competition" onchange="getcompetitionType(this.value)">
+            <select class="form-control" name="Competition" id="getCompetition" onchange="getcompetitionType(this.value)">
                 <option value="">Select Competition</option>
                     @foreach($Competition as $Competition) 
                         <option value="{{$Competition->id}}_{{$Competition->competition_type}}">{{$Competition->name}}</option>
@@ -142,6 +142,9 @@
       
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script>
+    
+</script>
 <script type="text/javascript">
     function  getcompetitionType(id) {
         var Competition_value  = id.split('_', 2);

@@ -607,6 +607,13 @@ $("#food_max_age").keypress(function(e) {
         "bSort": true,
 
       });
+        $("#manageadmin_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
+       
+      });
          
   
 }); 

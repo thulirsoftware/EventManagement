@@ -27,6 +27,8 @@ class LocationController extends Controller
         {
             $Location = new LocationModel;
             $Location->location_name = $request->location_name;
+            $Location->duration_from = $request->duration_from;
+            $Location->duration_to = $request->duration_to;
             $Location->status = $request->status;
             $Location->save();
             return redirect(route('admin.location.list'));
@@ -42,6 +44,8 @@ class LocationController extends Controller
         {
             $Location = LocationModel::find($request->LocationId);
             $Location->location_name = $request->location_name;
+            $Location->duration_from = $request->duration_from;
+            $Location->duration_to = $request->duration_to;
             $Location->status = $request->status;
             $Location->save();
                
