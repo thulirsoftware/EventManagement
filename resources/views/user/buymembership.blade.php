@@ -81,9 +81,7 @@
              <select class="form-control" name="payment_method" required="">
                             <option value="">Select Payment Method</option>
                              <option value="Paypal">Paypal</option>
-                            <option value="Cash">Cash</option>
-
-                            <option value="Cheque">Cheque</option>
+                           
              </select>
               
           </div>
@@ -93,10 +91,11 @@
 
       </div>
 
+<input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">  I solemnly agree that the information provided is true to the best of my knowledge and I am older than 18 years.<br>    
+      <div class="form-group">   <br>
 
-      <div class="form-group">        
           <div class="col-sm-offset-4 col-sm-4">
-            <button type="submit" class="btn btn-sm btn-primary" name="submit">Submit</button>
+            <button type="submit" class="btn btn-sm btn-primary" name="submit" id="myBtn" disabled="">Submit</button>
         </div>
     </div>
 
@@ -109,6 +108,22 @@
 </section>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+ function disableSubmit() {
+  document.getElementById("myBtn").disabled = true;
+ }
+
+  function activateButton(element) {
+
+      if(element.checked) {
+        document.getElementById("myBtn").disabled = false;
+       }
+       else  {
+        document.getElementById("myBtn").disabled = true;
+      }
+
+  }
+</script>
 <script>
     function getPayment(type)
     {

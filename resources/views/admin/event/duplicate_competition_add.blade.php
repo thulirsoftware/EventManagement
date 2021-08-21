@@ -87,7 +87,7 @@ a.disabled {
               <td>{{ $competition['non_member_fee'] }}
               <input type="hidden" name="non_member_fee[]"  value="{{$competition['non_member_fee']}}">
           </td>
-              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)" <?=($competition['id'] == $EventCompetition['competition_id'])?'checked':''?>>&nbsp;&nbsp;Competition </td>
+              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;&nbsp;Competition </td>
               @if($competition['id']==$EventCompetition['competition_id'])
               <td><a class="btn btn-info" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
               @else

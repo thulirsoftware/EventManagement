@@ -214,9 +214,9 @@
         $(document).ready(function () {
             $(".added-row").click(function () {
                 document.getElementById("Submitbtn").disabled=false;
-                var Competition_id = document.getElementById("Competition");
-                var Competition_id = Competition_id.options[Competition_id.selectedIndex].text;
-                var competition_value = document.getElementById("Competition");
+                var Competition_id = document.getElementById("getCompetition");
+                Competition_id = Competition_id.options[Competition_id.selectedIndex].text;
+                var competition_value = document.getElementById("getCompetition");
                 var Competition_values = competition_value.value;
                  var Competition_value  = Competition_values.split('_', 2);
                  console.log(Competition_value[0]);

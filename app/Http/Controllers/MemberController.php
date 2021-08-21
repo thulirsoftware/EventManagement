@@ -472,9 +472,75 @@ class MemberController extends Controller
             $membershipBuy->membership_code = $request->membership_code;;
             $membershipBuy->membership_amount =$request->membershipAmount;
              $membershipBuy->Inst_type =$request->payment_method;
-            $membershipBuy->payment_status = "Pending";
+            $membershipBuy->payment_status = "Completed";
             $membershipBuy->save();
+            
+ $member = Member::where('user_id',Auth::user()->id)->first();
+        if($member==null)
+        {
+              $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
+       }
+        else
+       {
+                $NonMember = Member::where('user_id',Auth::user()->id)->first();
+        }
 
+      
+
+        $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
+
+        if($user){
+        $userId=$user[0]['id'];
+
+        $Member_Id='NETS'.sprintf("%07d", ++$userId);
+        }else{
+            $Member_Id = "NETS0000001";
+        }
+        $this_year =  Carbon::now()->format('Y');
+        if($member==null)
+        {
+
+            $Member = new Member();
+            $Member->Member_Id = $Member_Id;
+            $Member->firstName = $NonMember->firstName;
+            $Member->lastName = $NonMember->lastName;
+            $Member->mobile_number = $NonMember->mobile_number;
+            $Member->Email_Id = $NonMember->Email_Id;
+            $Member->user_id = Auth::user()->id;
+            $Member->addressLine1 = $NonMember->addressLine1;
+            $Member->addressLine2 = $NonMember->addressLine2;
+            $Member->country = $NonMember->country;
+            $Member->state = $NonMember->state;
+            $Member->zipCode = $NonMember->zipCode;
+            $Member->gender = $NonMember->gender;
+            $Member->dob = $NonMember->dob;
+            $Member->maritalStatus = $NonMember->maritalStatus;
+            $Member->membershipAmount = $request->membershipAmount;
+            $Member->membershipType =$request->membership_code;
+            $Member->membershipExpiryDate = "2021-12-31";
+            
+            if($Member->save()){
+                $User = User::find(Auth::user()->id);
+                $User->Member_Id = $Member_Id;
+                $User->save();
+                
+                $FamilyMember = FamilyMember::where('user_id',Auth::user()->id)->first();
+                if($FamilyMember)
+                {
+                    $FamilyMember->Member_Id = $Member_Id;
+                    $FamilyMember->save();
+                }
+                
+                $NonMember = NonMember::where('user_id',Auth::user()->id)->delete();
+            }
+        }
+        else
+        {
+            $Member = Member::where('Email_Id',$NonMember->Email_Id)->first();
+            $Member->membershipExpiryDate =$request->closing_date;
+            $Member->save();
+
+        }
            return redirect('/memberTickets')->withSuccess('Membership Added Successfully');
     }
 
@@ -500,7 +566,7 @@ class MemberController extends Controller
     public function editProfilePost(Request $request)
     {
        // dd(URL::previous());
-        $path = URL::previous();
+        $paths = URL::previous();
         $age = Carbon::parse($request->dob)->diff(Carbon::now())->y;
         $member = Member::where('user_id',Auth::user()->id)->first();
         if($member!=null)
@@ -595,7 +661,7 @@ class MemberController extends Controller
         }
         }
 
-        if(Str::contains($path,['editProfile']))
+        if(Str::contains($paths,['editProfile']))
         {
             return redirect()->back()->withSuccess('Profile Updated Successfully'); 
         }
@@ -607,7 +673,7 @@ class MemberController extends Controller
             }
             else
             {
-                 return redirect('/editProfile')->withWarning('You are age is less than 18');
+                  return redirect()->back()->withWarning('You are age is less than 18');
             }
         }
         

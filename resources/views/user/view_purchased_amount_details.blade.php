@@ -75,11 +75,13 @@
            </td>
 
         </tr>
+
         
        </table>
-       <div class="form-group" id="submit">        
-                    <center>
-                      <button type="submit" class="btn btn-primary btn-sm" name="submit">Pay</button>
+       <div class="form-group" id="submit">     
+        <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">  I solemnly agree that the information provided is true to the best of my knowledge and I am older than 18 years.<br>    
+                    <center><br>   
+                      <button type="submit" class="btn btn-primary btn-sm" name="submit" disabled="" id="myBtn">Pay</button>
                       <a class="btn btn-warning btn-sm" href="{{ url('memberTickets') }}">Cancel</a>
                     </center>
 
@@ -93,5 +95,20 @@
 </section>
 </div>
 
+<script>
+ function disableSubmit() {
+  document.getElementById("myBtn").disabled = true;
+ }
 
+  function activateButton(element) {
+
+      if(element.checked) {
+        document.getElementById("myBtn").disabled = false;
+       }
+       else  {
+        document.getElementById("myBtn").disabled = true;
+      }
+
+  }
+</script>
 @endsection

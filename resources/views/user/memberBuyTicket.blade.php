@@ -171,13 +171,14 @@
                 
               </div>
               @endif
-                  <div class="form-group" id="submit">        
+                  <div class="form-group" id="submit">       
                     <center>
-                      <button type="submit" class="btn btn-primary" name="submit" id="myBtn">Register</button>
+                      <button type="submit" class="btn btn-primary" name="submit" id="myBtn" disabled="">Register</button>
                       <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
                     </center>
 
                   </div>
+
                     </form>
                 </div>
             </div>
@@ -265,5 +266,20 @@
      }
   }
 </script>
+<script>
+ function disableSubmit() {
+  document.getElementById("myBtn").disabled = true;
+ }
 
+  function activateButton(element) {
+
+      if(element.checked) {
+        document.getElementById("myBtn").disabled = false;
+       }
+       else  {
+        document.getElementById("myBtn").disabled = true;
+      }
+
+  }
+</script>
 @endsection

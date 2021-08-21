@@ -96,7 +96,6 @@ class EventController extends Controller
         $event->eventTime = $request->eventTime;
         $event->eventLocation = $request->eventLocation;
         $event->eventLocationLink = $request->eventLocationLink;
-        $event->free_count = $request->free_count;
         if($event->save())
         {
             if($request->has('entry_id'))
@@ -164,7 +163,7 @@ class EventController extends Controller
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
         $locations = LocationModel::where('status','Y')->get();
 
-        $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
+        $CompetitionModal = Competition::get();
         $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
        return view('admin.event.competition_add',compact('CompetitionModal','CompetitionAjax','Competition','locations'));
     }
@@ -177,7 +176,6 @@ class EventController extends Controller
         $event->eventFlyer = $fileName;
         $event->eventDate = $Events['eventDate'];
         $event->eventTime = $Events['eventTime'];
-        $event->free_count = $Events['free_count'];
         $event->eventLocation = $Events['eventLocation'];
 
         if($event->save())
@@ -786,7 +784,6 @@ class EventController extends Controller
         $event->eventTime = $request->eventTime;
         $event->eventLocation = $request->eventLocation;
         $event->eventLocationLink = $request->eventLocationLink;
-        $event->free_count = $request->free_count;
         if($event->save())
         {
             if($request->has('entry_id'))
@@ -857,9 +854,9 @@ class EventController extends Controller
         $EventCompetitionFound = EventCompetition::where('event_id',$eventId)->pluck('competition_id');
 
         $toDay = Carbon::now()->toDateString();
-        $Competition=Competition::where('closing_date','>=',$toDay)->get();
-        $CompetitionModal = Competition::where('closing_date','>=',$toDay)->get();
-        $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
+        $Competition=Competition::whereNotIn('id',$EventCompetitionFound)->get();
+        $CompetitionModal = Competition::whereNotIn('id',$EventCompetitionFound)->get();
+        $CompetitionAjax = Competition::whereNotIn('id',$EventCompetitionFound)->get();
        return view('admin.event.duplicate_competition_add',compact('CompetitionModal','CompetitionAjax','Competition','EventCompetitions','CompetitionLocations'));
     }
     public function addDuplicateEventcompetitionsSave(Request $request)
@@ -871,8 +868,8 @@ class EventController extends Controller
         $event->eventFlyer = $fileName;
         $event->eventDate = $Events['eventDate'];
         $event->eventTime = $Events['eventTime'];
-        $event->free_count = $Events['free_count'];
         $event->eventLocation = $Events['eventLocation'];
+        
 
         if($event->save())
         {

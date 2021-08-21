@@ -113,11 +113,7 @@
   <label class="names">Time&nbsp;<span style="color:red">*</span></label>
 <input type="text"  class="form-control" name="eventTime" id="event_time"/>
 </div>
-<div class="form-group col-md-6">
-  <label class="names">Judges/Vip/Others&nbsp;<span style="color:red">*</span></label>
-  <input class="form-control" type="number" name="free_count" id="free_count">
 
-</div>
 </div>
 
 <div class="row">

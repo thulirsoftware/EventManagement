@@ -78,11 +78,7 @@
   <label class="names">Time&nbsp;<span style="color:red">*</span></label>
 <input type="text"  class="form-control" name="eventTime" id="event_time" value="{{$events->eventTime}}" />
 </div>
-<div class="form-group col-md-6">
-  <label class="names">Judges/Vip/Others&nbsp;<span style="color:red">*</span></label>
-  <input class="form-control" type="number" name="free_count" id="free_count"  value="{{$events->free_count}}" >
 
-</div>
 </div>
 
 <div class="row">
@@ -120,7 +116,7 @@
             </thead>
             <tbody>
         @foreach($EntryTickets as $i=>$entry)
-       <tr id="entry_row_remove_{{$entry['id']}}">
+       <tr id="entry_row_remove_{{$entry['entry_id']}}">
 
                 <td>{{ $i++ }}</td>
 
@@ -128,8 +124,8 @@
                 <td>{{ $entry['max_age'] }}</td>
                 <td>{{ $entry['memberType'] }}</td>
                 <td>${{ $entry['ticketPrice'] }}</td>
-                <input type="hidden" name="entry_id[]" value="{{$entry['id']}}">
-                <td><a class="btn btn-warning" onclick="DeleteEntry({{$entry['id']}})" style="color:black"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
+                <input type="text" name="entry_id[]" value="{{$entry['entry_id']}}">
+                <td><a class="btn btn-warning" onclick="DeleteEntry({{$entry['entry_id']}})" style="color:black"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
             </tr>
         @endforeach
