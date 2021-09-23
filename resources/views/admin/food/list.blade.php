@@ -69,7 +69,8 @@
 @endsection
 <script>
     function Delete (value) {
-      if (confirm("Are your sure you want to delete the location?")) {
+      console.log(value);
+      if (confirm("Are your sure you want to delete the food?")) {
         $.ajax({
             type : 'get',
             url : '{{route('admin.food.delete')}}',

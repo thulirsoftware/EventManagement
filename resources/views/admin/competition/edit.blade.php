@@ -64,7 +64,7 @@
                 
               </div>
               <div class="col-md-12 form-group">
-                <label for="Description">Awards:&nbsp;<span style="color:red">*</span></label>
+                <label for="Description">Awards:</label>
                 
                 <textarea class="form-control" name="awards" rows="2" cols="30">{{ $competition['awards'] }}
                 </textarea>

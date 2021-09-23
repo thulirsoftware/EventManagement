@@ -731,6 +731,10 @@ class MemberController extends Controller
 
         public function AddVolunteerSave(Request $request)
         {
+            if($request->opportunities[0]==null)
+            {
+                return redirect()->back()->withWarning('Must Enable one opportunities');
+            }
             $Volunteer = Volunteer::where('user_id',Auth::user()->id)->count();
             if($Volunteer>0)
             {

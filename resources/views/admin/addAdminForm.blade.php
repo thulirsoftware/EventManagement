@@ -54,7 +54,7 @@
                 <div class="row"> 
                   <div class="col-md-6 form-group">
                     <label for="password">Password:&nbsp;<span style="color:red">*</span></label>
-                      <input type="password" class="form-control" id="password-field" placeholder="Password" name="password">
+                      <input type="password" class="form-control" id="password-field" placeholder="Password" name="password" required="">
                        <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                   </div>
 

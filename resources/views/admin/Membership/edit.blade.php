@@ -62,11 +62,11 @@
                     </div>
                   <div class="col-md-6 form-group">
                     <label for="openDate">Starting Date:</label>
-                    <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" value="{{ $membership['starting_date'] }}" required>
+                    <input type="date" class="form-control" id="starting_date" placeholder="Enter Year" name="starting_date" value="{{ $membership['starting_date'] }}" disabled required>
                   </div>
  <div class="col-md-6 form-group">
                   <label for="openDate">Closing Date:</label>
-                  <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" value="{{ $membership['closing_date'] }}" required>
+                  <input type="date" class="form-control" id="closing_date" placeholder="Enter Year" name="closing_date" value="{{ $membership['closing_date'] }}"  disabled required>
                 </div>
 
 

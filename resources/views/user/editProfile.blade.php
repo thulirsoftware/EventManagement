@@ -138,11 +138,11 @@ $dates = $date->toDateString();
 <div class="col-md-6">
   <div class="form-group">
     @if($member['profile']=="icon-5359553_1280.webp")
-    <label>Upload Member Image&nbsp;<span style="color:red">*</span><br></label>
+    <label>Upload Member Image</label>
  <div class="input-group">
               <div class="custom-file">
               
-                <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()" required>
+                <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()">
                
                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
             </div>

@@ -124,7 +124,7 @@
                 <td>{{ $entry['max_age'] }}</td>
                 <td>{{ $entry['memberType'] }}</td>
                 <td>${{ $entry['ticketPrice'] }}</td>
-                <input type="text" name="entry_id[]" value="{{$entry['entry_id']}}">
+                <input type="hidden" name="entry_id[]" value="{{$entry['entry_id']}}">
                 <td><a class="btn btn-warning" onclick="DeleteEntry({{$entry['entry_id']}})" style="color:black"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
             </tr>

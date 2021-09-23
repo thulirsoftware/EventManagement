@@ -173,7 +173,7 @@
               @endif
                   <div class="form-group" id="submit">       
                     <center>
-                      <button type="submit" class="btn btn-primary" name="submit" id="myBtn" disabled="">Register</button>
+                      <button type="submit" class="btn btn-primary" name="submit" id="myBtn">Register</button>
                       <a class="btn btn-warning col-md-offset-1" href="{{ url('memberTickets') }}">Cancel</a>
                     </center>
 

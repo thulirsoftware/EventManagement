@@ -38,8 +38,8 @@
 
       <div class="col-md-6 form-group ">
          <label class="names">Min Age:&nbsp;<span style="color:red">*</span></label>
-        <select class="form-control"  name="min_age" id="food_min_age">
-           @for ($i = 0; $i <=100; $i++)
+        <select class="form-control"  name="min_age" id="food_min_age" required="">
+           @for ($i = 1; $i <=100; $i++)
         <option value="{{ $i }}" <?=($entry['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
         @endfor
          </select>
@@ -47,8 +47,8 @@
         </div>
          <div class="col-md-6 form-group ">
           <label class="names">Max Age:&nbsp;<span style="color:red">*</span></label>
-          <select class="form-control"  name="max_age" id="food_max_age">
-            @for ($i = 0; $i <=100; $i++)
+          <select class="form-control"  name="max_age" id="food_max_age" required="">
+            @for ($i = 1; $i <=100; $i++)
         <option value="{{ $i }}" <?=($entry['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
         @endfor
          </select>           
@@ -56,7 +56,7 @@
         </div>
   <div class="col-md-6 form-group ">
     <label class="names">Member Type:&nbsp;<span style="color:red">*</span></label>
-    <select class="form-control" name="member_type" id="FoodmemberType">
+    <select class="form-control" name="member_type" id="FoodmemberType" required="">
       <option value="">Select</option>
       <option value="Member" <?=($entry['member_type'] == 'Member')?'selected':''?>>Member</option>
       <option value="NonMember" <?=($entry['member_type'] == 'NonMember')?'selected':''?>>NonMember</option>
@@ -67,7 +67,7 @@
 
 <div class="col-md-6 form-group ">
   <label class="names">Price ($)&nbsp;<span style="color:red">*</span></label>
-    <input class="form-control" type="text" name="price" id="FoodticketPrice"  value="{{$entry->price}}">
+    <input class="form-control" type="text" name="price" id="FoodticketPrice"  value="{{$entry->price}}" required="">
 </div>
 
    

@@ -97,6 +97,7 @@
                   </div>
               </div>
               <div id="editor"></div>
+              <p>{{ $event['eventFlyer'] }}</p>
           </div>
 
 

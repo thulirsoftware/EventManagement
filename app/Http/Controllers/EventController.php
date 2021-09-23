@@ -20,6 +20,7 @@ use App\LocationModel;
 use App\CompetitionLocations;
 use App\FoodModel;
 use App\Entry;
+use File;
 
 class EventController extends Controller
 {
@@ -885,18 +886,21 @@ class EventController extends Controller
             for($i = 0;$i < $ageGroupCount; $i++)
             {
                 $Entry = Entry::where('id',$Events['entry_id'][$i])->first();
-
-                $EventEntryTickets = new EventEntryTickets();
-                $EventEntryTickets->eventId = $event->id;
-                $EventEntryTickets->entry_id = $Entry->id;
-                $EventEntryTickets->min_age = $Entry->min_age;
-                $EventEntryTickets->max_age = $Entry->max_age;
-                $EventEntryTickets->memberType =$Entry->member_type;
-                $EventEntryTickets->ticketPrice = $Entry->price;
-                if($Entry->price!=null)
+                if($Entry!=null)
                 {
-                    $EventEntryTickets->save();
+                    $EventEntryTickets = new EventEntryTickets();
+                    $EventEntryTickets->eventId = $event->id;
+                    $EventEntryTickets->entry_id = $Entry->id;
+                    $EventEntryTickets->min_age = $Entry->min_age;
+                    $EventEntryTickets->max_age = $Entry->max_age;
+                    $EventEntryTickets->memberType =$Entry->member_type;
+                    $EventEntryTickets->ticketPrice = $Entry->price;
+                    if($Entry->price!=null)
+                    {
+                        $EventEntryTickets->save();
+                    } 
                 }
+               
             }
             if(array_key_exists('food_id',$Events))
             {
@@ -910,7 +914,8 @@ class EventController extends Controller
             for($i = 0;$i < $FoodageGroupCount; $i++)
             {
                 $food = FoodModel::where('id',$Events['food_id'][$i])->first();
-
+                if($food!=null)
+                {
                 $eventTicket = new EventTicket;
                  $eventTicket->food_id = $food->id;
                   $eventTicket->eventId = $event->id;
@@ -923,6 +928,7 @@ class EventController extends Controller
                 if($food->price!=null)
                 {
                     $eventTicket->save();
+                }
                 }
             }    
         }

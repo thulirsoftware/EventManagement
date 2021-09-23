@@ -59,7 +59,7 @@ class FoodController extends Controller
 
         public function DeleteFoodTypes(Request $request)
         {
-            $food = FoodModel::find($request->FoodId);
+            $food = FoodModel::find($request->foodId);
 
             if($food->delete()){
             return redirect(route('admin.food.list'))->withSuccess('food Removed Successfully');
