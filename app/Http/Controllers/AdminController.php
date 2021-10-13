@@ -67,8 +67,9 @@ class AdminController extends Controller
 
     public function addAdmin()
     {
-        $membername = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->get();
-        $memberemail = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->get();
+        $admin = Admin::pluck('email');
+        $membername = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->whereNotIn('Email_Id',$admin)->get();
+        $memberemail = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->whereNotIn('Email_Id',$admin)->get();
         return view('admin.addAdminForm',compact('membername','memberemail'));
     }
 

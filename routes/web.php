@@ -87,6 +87,13 @@ Route::get('/MemberShip/Buy', 'FamilyMemberController@MembershipBuy')->name('mem
 Route::get('/MemberShip/{id}', 'MemberController@membershipAdd');
 Route::get('/Competition/AgeValidation', 'MemberController@AgeValidation');
 
+
+Route::get('/donations', 'MemberController@Donation');
+Route::post('/donation/add', 'MemberController@AddDonation');
+Route::get('/sponsors', 'MemberController@Sponsorship');
+Route::post('/sponsors/add', 'MemberController@AddSponsorship');
+
+
 // Admin Dashboard
 
 Route::prefix('admin')->group(function() {

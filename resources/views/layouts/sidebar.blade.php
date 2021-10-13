@@ -54,6 +54,19 @@
                 <p>My Events</p>
                 </a>
             </li>
+              <li class="nav-item">
+                <a href="{{ url('donations') }}" class="nav-link {{ Str::contains($path, ['donations']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>Donations</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ url('sponsors') }}" class="nav-link {{ Str::contains($path, ['sponsors']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-donate"></i>
+                <p>Sponsors</p>
+                </a>
+            </li>
             <?php
                 $member = App\Member::where('user_id',Auth::user()->id)->first();
             ?>

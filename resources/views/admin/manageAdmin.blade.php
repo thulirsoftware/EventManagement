@@ -44,11 +44,14 @@
                           <td>{{ $admin['name'] }}</td>
                           <td>{{ $admin['email'] }}</td>
                           <td>{{ $admin['job_title'] }}</td>
-
+                        @if($admin['job_title']!='SAdmin')
                           <td><a href="/admin/adminEdit/{{ $admin['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:center;"></i></a></td>
                           
                           <td><a  onclick="myFunction({{$admin['id']}})"><i class="fa fa-trash fa-lg" style="text-align:center;color: #0069d9;cursor:pointer"></i></a></td>
-
+                          @else
+                          <td></td>
+                          <td></td>
+                        @endif
                         </tr>
                       @endforeach
                   </tbody> 

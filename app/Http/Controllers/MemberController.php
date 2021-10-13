@@ -28,6 +28,9 @@ use Hash;
 use App\MembershipConfig;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use App\Donation;
+use App\SponsorshipCfg;
+use App\Sponsorship;
 
 class MemberController extends Controller
 {
@@ -810,8 +813,8 @@ class MemberController extends Controller
 
             $CompetitionRegistered = CompetitionRegistered::where('competition_id',$request->id)->where('user_id',Auth::user()->id)->pluck('participant_id');
 
-            $familyMembers = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->where('user_id',Auth::user()->id)->orderby('id','desc')->get();
-            $familyMembersCount = FamilyMember::whereNotIn('id',$CompetitionRegistered)->whereBetween('age',[$Competition->min_age,$Competition->max_age])->where('user_id',Auth::user()->id)->orderby('id','desc')->count();
+            $familyMembers = FamilyMember::whereNotIn('id',$CompetitionRegistered)->where('user_id',Auth::user()->id)->orderby('id','desc')->get();
+            $familyMembersCount = FamilyMember::whereNotIn('id',$CompetitionRegistered)->where('user_id',Auth::user()->id)->orderby('id','desc')->count();
             if($familyMembersCount>0)
             {
                 return response($familyMembers, 200);
@@ -821,6 +824,49 @@ class MemberController extends Controller
                 return response($familyMembers, 400);
             }
                 
+        }
+
+        /******** Donation *********/
+
+        public function Donation()
+        {
+            return view('user.donation.add');
+        }
+
+        public function AddDonation(Request $request)
+        {
+            $donation = new Donation();
+            $donation->user_id = Auth::user()->id;
+            $donation->name = $request->name;
+            $donation->email = $request->email;
+            $donation->mobile_no =$request->phone;
+            $donation->amount =$request->amount;
+            $donation->address =$request->address;
+            $donation->city =$request->city;
+            $donation->pincode =$request->pincode;
+            $donation->comments =$request->comments;
+            $donation->save();
+            return back()->withSuccess('Donation added Successfully');
+        }
+
+        /******** Sponsorship *********/
+        
+        public function Sponsorship()
+        {
+            $configs = SponsorshipCfg::get();
+            $configsAjax = SponsorshipCfg::get();
+            return view('user.sponsor.add',compact('configs','configsAjax'));
+        }
+
+        public function AddSponsorship(Request $request)
+        {
+            $sponsorship = new Sponsorship();
+            $sponsorship->user_id = Auth::user()->id;
+            $sponsorship->sponsorship_id = $request->sponsorship_id;
+            $sponsorship->amount = $request->amount;
+            $sponsorship->payment_status = "Pending";
+            $sponsorship->save();
+            return back()->withSuccess('Sponsor package  added Successfully');
         }
 
 
