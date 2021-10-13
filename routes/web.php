@@ -246,7 +246,10 @@ Route::prefix('Entry')->group(function() {
 
   Route::get('/EntryTicketsReports/Filter', 'ReportsController@EntryTicketsReportFilter')->name('entryticket.reports.filter');
 
-Route::get('/VolunteerReports', 'ReportsController@VolunteerReports');
+  Route::get('/VolunteerReports', 'ReportsController@VolunteerReports');
+
+  Route::get('/donations', 'ReportsController@DonationsReport');
+  Route::get('/sponsors', 'ReportsController@SponsorsReport');
 
   Route::get('/Payments', 'AdminController@PaymentList');
   Route::get('/PaymentEdit/{id}', 'AdminController@PaymentEdit');
@@ -257,6 +260,8 @@ Route::get('/VolunteerReports', 'ReportsController@VolunteerReports');
 
   Route::get('/Member/EditMembership/{id}', 'AdminController@EditMembership');
 Route::post('/Member/UpdateMembership', 'AdminController@UpdateMembership');
+
+  Route::get('/Member/EditMembership/{id}', 'AdminController@EditMembership');
 
 });
 

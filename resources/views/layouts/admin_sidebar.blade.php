@@ -110,6 +110,18 @@
                 <p> Food Tickets</p>
                 </a>
             </li>
+             <li class="nav-item">
+                <a href="{{ url('/admin/donations') }}" class="nav-link {{ Str::contains($path, ['donations']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-ticket-alt"></i>
+                <p> Donations</p>
+                </a>
+            </li>
+             <li class="nav-item">
+                <a href="{{ url('/admin/sponsors') }}" class="nav-link {{ Str::contains($path, ['sponsors']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-ticket-alt"></i>
+                <p> Sponsors</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ url('/admin/EntryTicketsReport') }}" class="nav-link {{ Str::contains($path, ['EntryTicketsReport']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-ticket-alt"></i>

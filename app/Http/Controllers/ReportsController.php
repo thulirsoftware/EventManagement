@@ -12,6 +12,9 @@ use View;
 use Response;
 use DB;
 use App\EventTicket;
+use App\Donation;
+use App\Sponsorship;
+
 
 class ReportsController extends Controller
 {
@@ -109,6 +112,18 @@ class ReportsController extends Controller
     {
         $Volunteers = Volunteer::get();
         return view('admin.volunteer_reports',compact('Volunteers'));
+    }
+
+    public function DonationsReport()
+    {
+        $Donation = Donation::get();
+        return view('admin.donation_reports',compact('Donation'));
+    }
+
+    public function SponsorsReport()
+    {
+        $Sponsorship = Sponsorship::get();
+        return view('admin.sponsors_reports',compact('Sponsorship'));
     }
 
 }
