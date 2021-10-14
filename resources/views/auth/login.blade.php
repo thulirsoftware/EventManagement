@@ -44,6 +44,15 @@
 {{Session::get('success')}}
 </div>
 @endif
+@if (Session::has('message'))
+
+                         <div class="alert alert-success" role="alert">
+
+                            {{ Session::get('message') }}
+
+                        </div>
+
+                    @endif
 
           <div class="row">
            <form id="form-validation" name="form-validation" method="POST" action="{{ route('login') }}">
@@ -65,11 +74,24 @@
                                        data-validation="[NOTEMPTY]">
                                        <span toggle="#validation-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             </div>
+                                                      <div class="form-group row">
+
+                              
+                          </div>
+
+
+                         
+
               <div class="row">
                 <input type="submit" value="Submit" class="btn btn-back">
-              </div><br>
+              </div>
+
             </form>
           </div>
+           <div class="row" style="padding-bottom:10px">
+                <h5><b><a href="{{ route('forget.password.get') }}">Forgot Password?</a></b></h5>
+            </div>
+
           <div class="row">
             <p>Don't have an account? <a href="{{route('register')}}">Register Here</a></p>
           </div>

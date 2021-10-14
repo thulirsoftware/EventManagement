@@ -1,20 +1,37 @@
-@extends('layouts.app')
 
-@section('content')
-<div class="container">
+@section('title', 'Login')
+@include('main')
+ <nav class="navbar navbar-expand-md fixed-top" style="background-color: white;box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);height:65px">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><img src="../../assets/img/thulir-logo-1.png"></a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+
+      <li><a href="{{route('login')}}"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
+            <li><a href="{{route('register')}}" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+
+    </ul>
+  </div>
+</nav> <br>
+<body style="background-color:#f4f6f9">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+                    @if (Session::has('message'))
+
+                         <div class="alert alert-success" role="alert">
+
+                            {{ Session::get('message') }}
+
                         </div>
+
                     @endif
 
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('forget.password.post') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -44,4 +61,3 @@
         </div>
     </div>
 </div>
-@endsection
