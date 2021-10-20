@@ -94,6 +94,14 @@
                 </a>
             </li>
             @endif
+             @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
+             <li class="nav-item">
+                <a href="{{ route('admin.sponsorship.list') }}" class="nav-link {{ Str::contains($path, ['sponsorship']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-calendar-plus"></i>
+                <p> Manage Sponsorship</p>
+                </a>
+            </li>
+            @endif
          @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
          <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">

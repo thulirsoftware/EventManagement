@@ -242,6 +242,16 @@ Route::prefix('Entry')->group(function() {
       Route::get('/Delete','EntryConfigurationController@DeleteEntries')->name('admin.entry.delete');
   });
 
+  Route::prefix('sponsorship')->group(function() {
+
+      Route::get('/List','SponsorshipController@List')->name('admin.sponsorship.list');
+      Route::get('/Add', 'SponsorshipController@Add')->name('admin.sponsorship.add');
+      Route::post('/Save', 'SponsorshipController@Save')->name('admin.sponsorship.save');
+      Route::get('/Edit/{id}', 'SponsorshipController@Edit')->name('admin.sponsorship.edit');
+      Route::post('/Update','SponsorshipController@Update')->name('admin.sponsorship.update');
+      Route::get('/Delete','SponsorshipController@Delete')->name('admin.sponsorship.delete');
+  });
+
   Route::get('/member_details', 'AdminController@member_details');
   Route::get('/membersearch', 'AdminController@membersearch');
 
