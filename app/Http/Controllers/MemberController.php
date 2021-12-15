@@ -31,6 +31,7 @@ use Illuminate\Support\Str;
 use App\Donation;
 use App\SponsorshipCfg;
 use App\Sponsorship;
+use App\MembershipMandatory;
 
 class MemberController extends Controller
 {
@@ -419,6 +420,7 @@ class MemberController extends Controller
 
     public function membershipAdd($id)
     {  
+        
         $email = Auth::user()->email;
         $member = Member::where('Email_Id',$email)->first();
         $date = Carbon::now()->format('Y');
@@ -435,9 +437,11 @@ class MemberController extends Controller
                     
                     return view('user.membership.update_profile',compact('member'));
                 }
-                elseif($membership->membership_type=="Family")
+               elseif($membership->membership_type=="Family"|| $membership->membership_type=="Special Membership" || $membership->membership_type=="Senior Membership")
                 {
-                    return view('user.membership.addFamilyMember');
+                    $mandatory = MembershipMandatory::where('membership_id',$membership->membership_type)->where('status','O')->get();
+                    $mandatoryAjax = MembershipMandatory::where('membership_id',$membership->membership_type)->where('status','O')->get();
+                    return view('user.membership.addFamilyMember',compact('mandatory','mandatoryAjax'));
                 } 
 
                 else
@@ -453,9 +457,11 @@ class MemberController extends Controller
             {
                 return view('user.membership.update_profile',compact('member'));
             } 
-            elseif($membership->membership_type=="Family")
+            elseif($membership->membership_type=="Family"|| $membership->membership_type=="Special Membership" || $membership->membership_type=="Senior Membership")
             {
-                return view('user.membership.addFamilyMember');
+                $mandatory = MembershipMandatory::where('membership_id',$membership->membership_type)->where('status','O')->get();
+                 $mandatoryAjax = MembershipMandatory::where('membership_id',$membership->membership_type)->where('status','O')->get();
+                 return view('user.membership.addFamilyMember',compact('mandatory','mandatoryAjax'));
             } 
 
             else
@@ -855,7 +861,9 @@ class MemberController extends Controller
         {
             $configs = SponsorshipCfg::get();
             $configsAjax = SponsorshipCfg::get();
-            return view('user.sponsor.add',compact('configs','configsAjax'));
+            $toDay = Carbon::now()->toDateString();
+            $Events = Event::where('eventDate','>=',$toDay)->get();
+            return view('user.sponsor.add',compact('configs','configsAjax','Events'));
         }
 
         public function AddSponsorship(Request $request)
@@ -863,7 +871,9 @@ class MemberController extends Controller
             $sponsorship = new Sponsorship();
             $sponsorship->user_id = Auth::user()->id;
             $sponsorship->sponsorship_id = $request->sponsorship_id;
+            $sponsorship->event_id = $request->event_id;
             $sponsorship->amount = $request->amount;
+            
             $sponsorship->payment_status = "Pending";
             $sponsorship->save();
             return back()->withSuccess('Sponsor package  added Successfully');

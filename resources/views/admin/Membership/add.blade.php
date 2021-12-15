@@ -48,8 +48,10 @@
                         <label for="membership_type">Membership Type:&nbsp;<span style="color:red">* </span></label>
                         <select name="membership_type" class="form-control" required>
                           <option value="">Select Membership Type</option>
-                            <option value="Family">Family</option>
+                           <option value="Family">Family</option>
                             <option value="Single">Single</option>
+                            <option value="Special Membership">Special Membership</option>
+                            <option value="Senior Membership">Senior Membership</option>
                         </select>
                     </div>
                      

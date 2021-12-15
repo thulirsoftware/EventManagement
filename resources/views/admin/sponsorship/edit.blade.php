@@ -35,6 +35,19 @@
 
   <div class="row" id="row_food0">
 <input type="hidden" name="sponsorshipId" class="form-control" value="{{$sponsorship->id}}"required>
+ <div class="col-md-12 form-group ">
+                    <label class="names">Name:&nbsp;<span style="color:red">*</span></label>
+                    <input type="text" name="name" class="form-control"  value="{{$sponsorship->name}}" required>
+                  </div>
+                  <div class="col-md-12 form-group ">
+                    <label class="names">Type:&nbsp;<span style="color:red">*</span></label>
+                    <select name="type" class="form-control"  required>
+                      <option value="">Select Package Type</option>
+                      <option value="General" <?=($sponsorship['type'] == 'General')?'selected':''?>>General</option>
+                      <option value="Event Sponsor" <?=($sponsorship['type'] == 'Event Sponsor')?'selected':''?>>Event Sponsor</option>
+                      <option value="Vendor" <?=($sponsorship['type'] == 'Vendor')?'selected':''?>>Vendor</option>
+                    </select>
+                  </div>
       <div class="col-md-12 form-group ">
          <label class="names">Amount:&nbsp;<span style="color:red">*</span></label>
           <input type="text" name="amount" class="form-control" value="{{$sponsorship->amount}}"required onkeypress="return onlyNumberKey(event)">

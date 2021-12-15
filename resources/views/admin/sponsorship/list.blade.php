@@ -26,10 +26,12 @@
           <div class="card-body">
 
 
-              <table class="table table-bordered table-striped" id="Food_list">
+              <table class="table table-bordered table-striped" id="sponsorship_list">
                 <thead>
                   <tr>
                     <th>S.No</th>
+                     <th>Name</th>
+                      <th>Type</th>
                     <th>Amount</th>
                     <th>Benefits</th>
                     <th>Edit</th>
@@ -41,7 +43,8 @@
               <tr>
 
                 <td>{{ $i++ }}</td>
-
+                <td>{{ $sponsorship['name'] }}</td>
+                <td>{{ $sponsorship['type'] }}</td>
                 <td>{{ $sponsorship['amount'] }}</td>
                 <td>{{ $sponsorship['benefits'] }}</td>
                 

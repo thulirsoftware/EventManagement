@@ -135,9 +135,17 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/addEventcompetitions', 'EventController@addEventcompetitions');
   Route::post('/addEventcompetitionsSave', 'EventController@addEventcompetitionsSave');
 
-  Route::post('/addDuplicateEvent', 'EventController@addDuplicateEventPost')->name('admin.duplicateEventSave');
-  Route::get('/addDuplicateEventcompetitions/{id}', 'EventController@addDuplicateEventcompetitions');
-  Route::post('/addDuplicateEventcompetitionsSave', 'EventController@addDuplicateEventcompetitionsSave');
+  /********* Duplicate Event *****************/
+
+  Route::get('/createDuplicateEvent/{id}', 'Admin\EventDuplicationController@createDuplicateEvent');
+  Route::post('/addDuplicateEvent', 'Admin\EventDuplicationController@addDuplicateEventPost')->name('admin.duplicateEventSave');
+  Route::get('/addDuplicateEventcompetitions/{id}', 'Admin\EventDuplicationController@addDuplicateEventcompetitions');
+  Route::post('/addDuplicateEventcompetitionsSave', 'Admin\EventDuplicationController@addDuplicateEventcompetitionsSave');
+
+  /*********** Vip Tickets ***************/
+  Route::get('/Event/addVipTicket/{id}','Admin\VipJudgeController@addVipTicket');
+  Route::post('/Event/createVipTicket','Admin\VipJudgeController@createVipTicket');
+
 
 
   Route::get('/addEventTicket','EventController@addEventTicket');
@@ -159,7 +167,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/manageEvent', 'EventController@manageEvent');
   Route::get('/eventEdit/{id}', 'EventController@eventEdit');
   Route::get('/eventTickets/{id}', 'EventController@eventTickets');
-  Route::get('/createDuplicateEvent/{id}', 'EventController@createDuplicateEvent');
+  
   Route::post('/eventUpdate','EventController@eventUpdate');
   Route::get('/eventDelete', 'EventController@eventDelete');
   Route::get('/editEventTicket/{id}','EventController@editEventTicket');

@@ -59,10 +59,9 @@
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
                         <select class="form-control" name="relationshipType[]" required="">
                             <option value="">Select Relationship</option>
-                             <option value="Spouse">Spouse</option>
-                            <option value="Daughter">Daughter</option>
-
-                            <option value="Son">Son</option>
+                            @foreach($mandatory as $Mandatory)
+                             <option value="{{$Mandatory->name}}">{{$Mandatory->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-2 form-group">
@@ -151,7 +150,16 @@ $(document).ready(function(){
  function Add()
  {
   j++;
-  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="firstName[]" placeholder="First Name" id="firstName'+j+'" >'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" placeholder="Last Name" name="lastName[]" id="lastName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="relationshipType[]" id="sel1"><option value="">Select Relationship</option><option value="Spouse">Spouse</option><option value="Daughter">Daughter</option><option value="Son">Son</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="phoneNo[]" id="phoneNo'+j+'" >'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="date" name="dob[]" id="dob'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+  $('<div id="row'+j+'" class="row" >'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" name="firstName[]" placeholder="First Name" id="firstName'+j+'" >'+'</div>'+'<div class="col-md-2 form-group">'+'<input class="form-control" type="text" placeholder="Last Name" name="lastName[]" id="lastName'+j+'" >'+'</div>'+'<div class="col-md-3 form-group">'+'<select class="form-control" name="relationshipType[]" id="relationShip'+j+'"><option value="">Select Relationship</option></select>'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="text" name="phoneNo[]" id="phoneNo'+j+'" >'+'</div>'+'<div class="col-md-2 form-group">'+' <input class="form-control" type="date" name="dob[]" id="dob'+j+'" >'+'</div>'+'<div class="col-md-1">'+'<a type="button" name="remove" id="'+j+'" class="btn btn-warning spf_btn_remove" >'+'<i class="fa fa-trash"></i>'+'</a>'+'</div>'+'</div>').appendTo('#link-list');
+
+        $('#relationShip'+j).empty();
+        var subcategory_id = $('#relationShip'+j).val();
+        var typeArr = @json($mandatoryAjax);
+        console.log('subcategory', typeArr);
+        $('#relationShip'+j).append('<option value="">Select Relationship</option>');
+        var options = typeArr.forEach( function(item, index){
+            $('#relationShip'+j).append('<option value="'+item.name+'">'+item.name+'</option>');
+        });
 }
 $(document).on('click', '.spf_btn_remove', function(){  
  var button_idspf = $(this).attr("id");   

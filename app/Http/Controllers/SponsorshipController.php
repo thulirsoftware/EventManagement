@@ -28,6 +28,8 @@ class SponsorshipController extends Controller
             $sponsorship = new SponsorshipCfg;
             $sponsorship->amount = $request->amount;
             $sponsorship->benefits = $request->benefits;
+            $sponsorship->name = $request->name;
+            $sponsorship->type = $request->type;
             $sponsorship->save();
            return redirect()->back()->withSuccess('Sponsorship Type Added Successfully');
 
@@ -44,6 +46,8 @@ class SponsorshipController extends Controller
             $sponsorship = SponsorshipCfg::find($request->sponsorshipId);
             $sponsorship->amount = $request->amount;
             $sponsorship->benefits = $request->benefits;
+            $sponsorship->name = $request->name;
+            $sponsorship->type = $request->type;
             $sponsorship->save();
                
             return redirect(route('admin.sponsorship.list'));

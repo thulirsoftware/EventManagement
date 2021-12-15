@@ -58,6 +58,8 @@
                           <option value="">Select Membership Type</option>
                             <option value="Family" <?=($membership['membership_type'] == 'Family')?'selected':''?>>Family</option>
                             <option value="Single" <?=($membership['membership_type'] == 'Single')?'selected':''?>>Single</option>
+                            <option value="Special Membership" <?=($membership['membership_type'] == 'Special Membership')?'selected':''?>>Special Membership</option>
+                            <option value="Senior Membership"  <?=($membership['membership_type'] == 'Senior Membership')?'selected':''?>>Senior Membership</option>
                         </select>
                     </div>
                   <div class="col-md-6 form-group">

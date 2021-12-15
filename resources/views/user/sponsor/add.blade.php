@@ -5,6 +5,10 @@
     padding-left: 10px;
     color: green;
 }
+.benefits{
+    padding-left: 10px;
+    color: brown;
+}
 </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -55,7 +59,20 @@
                         <select name="sponsorship_id" class="form-control" required="" onchange="getDetails(this.value)">
                             <option value="">Select Package</option>
                             @foreach($configs as $config)
-                                <option value="{{$config->id}}">{{$config->name}}</option>
+                                <option value="{{$config->id}}">{{$config->benefits}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                   
+                </div> 
+                <div class="row" id="event_sponsor" style="display:none">
+                     <div class="col-md-12 form-group">
+                        <label class="control-label" for="firstName">Select Event:&nbsp;<span style="color:red">*</span></label>
+                        <select name="event_id" class="form-control">
+                            <option value="">Select Event</option>
+                            @foreach($Events as $event)
+                                <option value="{{$event->id}}">{{$event->eventName}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -67,6 +84,11 @@
                         <h3 class="amount" id="amountP"></h3>
                      </div>
                      <input type="hidden" name="amount" id="addedAmount">
+                 </div>
+                  <div class="row" id="amount">
+                     <div class="col-md-12 form-group">
+                        <h5 class="benefits" id="benefits"></h5>
+                     </div>
                  </div>
                             
                 <div style="max-width: 200px; margin: auto;">
@@ -109,7 +131,19 @@
             element.innerHTML ="Amount :"+filteredArray1[0]['amount'];
             var element1 = document.getElementById("addedAmount");
             element1.value=filteredArray1[0]['amount'];
-
+            var benefits = document.getElementById("benefits");
+            benefits.innerHTML ="Benefits : "+filteredArray1[0]['benefits'];
+            console.log(filteredArray1[0]['type']);
+            if(filteredArray1[0]['type']=="Event Sponsor")
+            {
+                var event_sponsor = document.getElementById("event_sponsor");
+                event_sponsor.style.display= "block";
+            }
+            else
+            {
+                var event_sponsor = document.getElementById("event_sponsor");
+                event_sponsor.style.display= "none";
+            }
             
         }
     }

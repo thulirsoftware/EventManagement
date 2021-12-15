@@ -274,6 +274,8 @@ cursor: not-allowed;
 
  $('#event_time_edit').wickedpicker();
  $('#event_time').wickedpicker();
+ $('#start_time').wickedpicker();
+ $('#end_time').wickedpicker();
 
 
     $('#editor1').summernote();
@@ -501,6 +503,17 @@ $("#food_max_age").keypress(function(e) {
         }  
 
       });
+      $("#sponsorship_list").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        "iDisplayLength":25,
+        "bSort": true,
+        "oLanguage": {
+        "sEmptyTable": "Sponsorship Not Found"
+        }  
+
+      });
+     
      $("#event_competition_list").DataTable({
         "responsive": true,
         "autoWidth": false,

@@ -33,15 +33,28 @@
                       {{ csrf_field() }}
      
 
-  <div class="row" id="row_food0">
-      <div class="col-md-12 form-group ">
-         <label class="names">Amount:&nbsp;<span style="color:red">*</span></label>
-          <input type="text" name="amount" class="form-control" required onkeypress="return onlyNumberKey(event)">
-        </div>
-         <div class="col-md-12 form-group ">
-          <label class="names">Benefits:&nbsp;<span style="color:red">*</span></label>
-          <textarea name="benefits" class="form-control"  required></textarea>
-        </div>
+            <div class="row">
+               <div class="col-md-12 form-group ">
+                    <label class="names">Name:&nbsp;<span style="color:red">*</span></label>
+                    <input type="text" name="name" class="form-control"  required>
+                  </div>
+                  <div class="col-md-12 form-group ">
+                    <label class="names">Type:&nbsp;<span style="color:red">*</span></label>
+                    <select name="type" class="form-control"  required>
+                      <option value="">Select Package Type</option>
+                      <option value="General">General</option>
+                      <option value="Event Sponsor">Event Sponsor</option>
+                      <option value="Vendor">Vendor</option>
+                    </select>
+                  </div>
+                <div class="col-md-12 form-group ">
+                   <label class="names">Amount:&nbsp;<span style="color:red">*</span></label>
+                    <input type="text" name="amount" class="form-control" required onkeypress="return onlyNumberKey(event)">
+                  </div>
+                   <div class="col-md-12 form-group ">
+                    <label class="names">Benefits:&nbsp;<span style="color:red">*</span></label>
+                    <textarea name="benefits" class="form-control"  required></textarea>
+                  </div>
 
 
 
