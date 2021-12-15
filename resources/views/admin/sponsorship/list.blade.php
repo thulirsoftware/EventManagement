@@ -30,7 +30,7 @@
                 <thead>
                   <tr>
                     <th>S.No</th>
-                     <th>Name</th>
+                     <th>Package Name</th>
                       <th>Type</th>
                     <th>Amount</th>
                     <th>Benefits</th>

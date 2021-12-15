@@ -36,7 +36,7 @@
   <div class="row" id="row_food0">
 <input type="hidden" name="sponsorshipId" class="form-control" value="{{$sponsorship->id}}"required>
  <div class="col-md-12 form-group ">
-                    <label class="names">Name:&nbsp;<span style="color:red">*</span></label>
+                    <label class="names">Package Name:&nbsp;<span style="color:red">*</span></label>
                     <input type="text" name="name" class="form-control"  value="{{$sponsorship->name}}" required>
                   </div>
                   <div class="col-md-12 form-group ">
