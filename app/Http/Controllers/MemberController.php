@@ -484,7 +484,7 @@ class MemberController extends Controller
             $membershipBuy->payment_status = "Completed";
             $membershipBuy->save();
             
- $member = Member::where('user_id',Auth::user()->id)->first();
+    $member = Member::where('user_id',Auth::user()->id)->first();
         if($member==null)
         {
               $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
@@ -862,8 +862,8 @@ class MemberController extends Controller
             $configs = SponsorshipCfg::get();
             $configsAjax = SponsorshipCfg::get();
             $toDay = Carbon::now()->toDateString();
-            $Events = Event::where('eventDate','>=',$toDay)->get();
-            return view('user.sponsor.add',compact('configs','configsAjax','Events'));
+            
+            return view('user.sponsor.add',compact('configs','configsAjax'));
         }
 
         public function AddSponsorship(Request $request)

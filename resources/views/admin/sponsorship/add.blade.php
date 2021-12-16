@@ -40,13 +40,28 @@
                   </div>
                   <div class="col-md-12 form-group ">
                     <label class="names">Type:&nbsp;<span style="color:red">*</span></label>
-                    <select name="type" class="form-control"  required>
+                    <select name="type" class="form-control" onchange="getDetails(this.value)"  required>
                       <option value="">Select Package Type</option>
                       <option value="General">General</option>
                       <option value="Event Sponsor">Event Sponsor</option>
                       <option value="Vendor">Vendor</option>
                     </select>
                   </div>
+                  <div class="col-md-12 form-group "  id="event_sponsor" style="display:none">
+                  <div class="row">
+                     <div class="col-md-12 form-group">
+                        <label class="control-label" for="firstName">Select Event:&nbsp;<span style="color:red">*</span></label>
+                        <select name="event_id" class="form-control">
+                            <option value="">Select Event</option>
+                            @foreach($Events as $event)
+                                <option value="{{$event->id}}">{{$event->eventName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    </div>
+                    
+                   
+                </div> 
                 <div class="col-md-12 form-group ">
                    <label class="names">Amount:&nbsp;<span style="color:red">*</span></label>
                     <input type="text" name="amount" class="form-control" required onkeypress="return onlyNumberKey(event)">
@@ -88,5 +103,22 @@
         return true;
     }
 </script>
-
+<script type="text/javascript">
+    function getDetails(value)
+    {
+       
+            if(value=="Event Sponsor")
+            {
+                var event_sponsor = document.getElementById("event_sponsor");
+                event_sponsor.style.display= "block";
+            }
+            else
+            {
+                var event_sponsor = document.getElementById("event_sponsor");
+                event_sponsor.style.display= "none";
+            }
+            
+        
+    }
+</script>
 @endsection

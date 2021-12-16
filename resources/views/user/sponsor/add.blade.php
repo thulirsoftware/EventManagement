@@ -66,19 +66,7 @@
                     
                    
                 </div> 
-                <div class="row" id="event_sponsor" style="display:none">
-                     <div class="col-md-12 form-group">
-                        <label class="control-label" for="firstName">Select Event:&nbsp;<span style="color:red">*</span></label>
-                        <select name="event_id" class="form-control">
-                            <option value="">Select Event</option>
-                            @foreach($Events as $event)
-                                <option value="{{$event->id}}">{{$event->eventName}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                   
-                </div> 
+                
                  <div class="row" id="amount">
                      <div class="col-md-12 form-group">
                         <h3 class="amount" id="amountP"></h3>
@@ -120,7 +108,8 @@
 
 
 
-<script type="text/javascript">
+
+                <script type="text/javascript">
     function getDetails(value)
     {
         if(value!="")
@@ -134,16 +123,7 @@
             var benefits = document.getElementById("benefits");
             benefits.innerHTML ="Benefits : "+filteredArray1[0]['benefits'];
             console.log(filteredArray1[0]['type']);
-            if(filteredArray1[0]['type']=="Event Sponsor")
-            {
-                var event_sponsor = document.getElementById("event_sponsor");
-                event_sponsor.style.display= "block";
-            }
-            else
-            {
-                var event_sponsor = document.getElementById("event_sponsor");
-                event_sponsor.style.display= "none";
-            }
+            
             
         }
     }

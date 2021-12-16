@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SponsorshipCfg;
+use Carbon\Carbon;
+use App\Event;
 
 class SponsorshipController extends Controller
 {
@@ -20,7 +22,9 @@ class SponsorshipController extends Controller
 
         public function Add()
         {
-            return view('admin.sponsorship.add');
+            $toDay = Carbon::now()->toDateString();
+            $Events = Event::where('eventDate','>=',$toDay)->get();
+            return view('admin.sponsorship.add',compact('Events'));
         }
 
         public function Save(Request $request)
@@ -30,6 +34,7 @@ class SponsorshipController extends Controller
             $sponsorship->benefits = $request->benefits;
             $sponsorship->name = $request->name;
             $sponsorship->type = $request->type;
+            $sponsorship->event_id = $request->event_id;
             $sponsorship->save();
            return redirect()->back()->withSuccess('Sponsorship Type Added Successfully');
 
@@ -37,8 +42,10 @@ class SponsorshipController extends Controller
 
         public function Edit($id)
         {
+            $toDay = Carbon::now()->toDateString();
+            $Events = Event::where('eventDate','>=',$toDay)->get();
             $sponsorship = SponsorshipCfg::where('id',$id)->first();
-            return view('admin.sponsorship.edit',compact('sponsorship'));
+            return view('admin.sponsorship.edit',compact('sponsorship','Events'));
         }
 
         public function Update(Request $request)
@@ -48,6 +55,7 @@ class SponsorshipController extends Controller
             $sponsorship->benefits = $request->benefits;
             $sponsorship->name = $request->name;
             $sponsorship->type = $request->type;
+            $sponsorship->event_id = $request->event_id;
             $sponsorship->save();
                
             return redirect(route('admin.sponsorship.list'));

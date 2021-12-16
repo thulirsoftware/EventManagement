@@ -41,13 +41,27 @@
                   </div>
                   <div class="col-md-12 form-group ">
                     <label class="names">Type:&nbsp;<span style="color:red">*</span></label>
-                    <select name="type" class="form-control"  required>
+                    <select name="type" class="form-control"  id="package_type" required onchange="getDetails(this.value)" >
                       <option value="">Select Package Type</option>
                       <option value="General" <?=($sponsorship['type'] == 'General')?'selected':''?>>General</option>
                       <option value="Event Sponsor" <?=($sponsorship['type'] == 'Event Sponsor')?'selected':''?>>Event Sponsor</option>
                       <option value="Vendor" <?=($sponsorship['type'] == 'Vendor')?'selected':''?>>Vendor</option>
                     </select>
                   </div>
+                  <div class="col-md-12 form-group"  id="event_sponsor" style="display:none">
+                  <div class="row">
+                     <div class="col-md-12 form-group">
+                        <label class="control-label" for="firstName">Select Event:&nbsp;<span style="color:red">*</span></label>
+                        <select name="event_id" class="form-control">
+                            <option value="">Select Event</option>
+                            @foreach($Events as $event)
+                                <option value="{{$event->id}}" <?=($sponsorship['event_id'] == $event->id)?'selected':''?>>{{$event->eventName}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    </div>
+                </div>
+               
       <div class="col-md-12 form-group ">
          <label class="names">Amount:&nbsp;<span style="color:red">*</span></label>
           <input type="text" name="amount" class="form-control" value="{{$sponsorship->amount}}"required onkeypress="return onlyNumberKey(event)">
@@ -82,6 +96,19 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <script>
+$(function () {
+    var value = document.getElementById("package_type").value;
+    $("select#package_type").change(getDetails(value));
+});
+
+function yourFunction() {
+    var marca = $("select#marca option:selected").attr('value');
+    $("select#modello").html(attendere);
+    $.post("select.php", {id_marca:marca}, function(data){
+        $("select#modello").html(data);
+    });
+}
+
     function onlyNumberKey(evt) {
           
         // Only ASCII character in that range allowed
@@ -89,6 +116,26 @@
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
             return false;
         return true;
+    }
+</script>
+<script type="text/javascript">
+    function getDetails(value)
+    {
+            console.log(value);
+
+       
+            if(value=="Event Sponsor")
+            {
+                var event_sponsor = document.getElementById("event_sponsor");
+                event_sponsor.style.display= "block";
+            }
+            else
+            {
+                var event_sponsor = document.getElementById("event_sponsor");
+                event_sponsor.style.display= "none";
+            }
+            
+        
     }
 </script>
 @endsection
