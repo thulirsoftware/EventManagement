@@ -23,7 +23,7 @@
   <td id="row_entry_age{{ $ticket['id'] }}">{{ $ticket['min_age'] }}</td>
   <td id="row_entry_max_age{{ $ticket['id'] }}">{{ $ticket['max_age'] }}</td>
   <td id="row_entry_type{{ $ticket['id'] }}">{{ $ticket['memberType'] }}</td>
-  <td id="row_entry_price{{ $ticket['id'] }}">${{ $ticket['ticketPrice'] }}</td>
+  <td id="row_entry_price{{ $ticket['id'] }}">{{ $ticket['ticketPrice'] }}</td>
   <td>
       <a style="cursor:pointer;color:#0069d9" onclick="edit_Entry_row('{{ $ticket['id'] }}')" id="row_entry_edit{{ $ticket['id'] }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>
 

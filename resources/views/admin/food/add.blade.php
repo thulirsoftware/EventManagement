@@ -76,7 +76,7 @@
 
 <div class="col-md-6 form-group ">
   <label class="names">Price ($) :&nbsp;<span style="color:red">*</span></label>
-    <input class="form-control" type="text" name="price" id="FoodticketPrice" required="">
+    <input class="form-control" type="number" name="price" id="FoodticketPrice" required="" min="2">
 </div>
 
    
@@ -101,7 +101,7 @@
 </div>
 </section>
 </div>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script>
  var l=1;
@@ -155,6 +155,17 @@ $(document).on('click', '.spf_btn_remove1', function(){
  $('#row_food'+button_idspf+'').remove();  
  $(this).hide();
 });
+
+  $(document).ready(function () {
+
+      $("#FoodticketPrice").keypress(function (e) {
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+        return false;
+    }
+});
+    
+  });
 </script>
 
 @endsection

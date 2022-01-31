@@ -1,32 +1,19 @@
 
 @section('title', 'Login')
 @include('main')
- <nav class="navbar navbar-expand-md fixed-top" style="background-color: white;box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);height:65px">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#"><img src="../../assets/img/thulir-logo-1.png"></a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-
-   
-
-    </ul>
-  </div>
-</nav> <br>
-      <body style="background-color:#f4f6f9">
-<!-- Main Content -->
-  <div class="container-fluid">
-    <div class="main-content bg-success text-center">
-      <div class="col-md-4 text-center company__info">
-          <h4 class="company_title">தமிழ் சங்கம்</h4>
-        <span class="company__logo"><h2><img src="../../assets/img/thiruvalluvar.webp" width="120px" height="120px"></h2></span>
-        
-      </div>
-      <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
-        <div class="container-fluid"><br>
-          <div class="row">
-            <h4>ADMIN LOGIN</h4>
-          </div>
+<section class="wrapper">
+      <div class="container py-14 py-md-16">
+        <div class="row gx-lg-8 gx-xl-12">
+           <div class="col-lg-2">
+           </div>
+          <div class="col-lg-8">
+            <div class="blog classic-view">
+              <article class="post">
+                <div class="card">
+                     <div class="card-header">
+                        Admin Login
+                     </div>
+                <div class="card-body">
            @if(isset(Auth::user()->email))
                           <script>window.location="/main/dashboard"</script>
                         @endif
@@ -54,33 +41,43 @@
           <div class="row">
            <form id="form-validation" name="form-validation" method="POST" action="{{ route('admin.login.submit') }}">
                @csrf
-              <div class="row">
+              <div class="row pb-4">
                <input id="validation-email"
-                                       class="form__input"
+                                       class="form-control"
                                        placeholder="Email"
                                        name="email"
                                        type="email"
                                       required>
               </div>
-              <div class="row">
+              <div class="row pb-4">
                                  <input id="validation-password"
-                                       class="form__input password"
+                                       class="form-control password"
                                        name="password"
                                        type="password"
                                        placeholder="Password"
                                        required>
                                         <span toggle="#validation-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             </div>
-              <div class="row">
-                <input type="submit" value="Submit" class="btn btn-back">
-              </div><br>
+             <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+
+                              
+                            </div>
+                        </div>
             </form>
           </div>
           
         </div>
       </div>
+      </article>
     </div>
   </div>
+   </div>
+  </div>
+  </section>
   <!-- Footer -->
    <script>
     $(".toggle-password").click(function() {

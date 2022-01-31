@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
   <Style>
     .field-icon {
     float: right;
@@ -46,12 +47,16 @@
   h3{ font-size: 20px ; font-weight: bolder;}
   body{ font-family: "Source Sans Pro", serif; }
   .layout-fixed .main-sidebar{ background-color: #1f5387; }
-  .nav-sidebar .nav-item > .nav-link { color: #fff; }
+  .nav-sidebar .nav-item > .nav-link { color: #fff;padding: 6px; }
   .card-cols{ margin-top: -15px; margin-bottom: 15px; }
   .main-footer{ margin-left: 0px; }
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
     background-color: white;
     color: #1f5387;
+    padding: 6px;
+}
+.nav-sidebar > .nav-item {
+  margin-bottom: 6px;
 }
 .button1 {
   background-color: #1f5387;
@@ -118,13 +123,26 @@
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
-
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #1f5387;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+.openbtn:hover {
+  background-color: #fff;
+  color:#1f5387;
+  border:1px solid #1f5387;
+}
   </Style>
   </head>
-  <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper flex-wrapper">
+  <body class="skin-blue sidebar-mini">
+    <div class="wrapper">
       <div >
       @include('layouts.sidebar')
+      
       @yield('content')
     </div>
     <div>
@@ -133,6 +151,7 @@
       </aside>
     </div>
     </div>
+  
     <!-- jQuery -->
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -140,7 +159,7 @@
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
+    <script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
     <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
     <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
@@ -177,11 +196,7 @@ for (i = 0; i < acc.length; i++) {
   $(function () {
     // Summernote
     $('.textarea').summernote();
-     var x = localStorage.getItem("Emails"); 
-     var nameArr = x.split(',');
-    $exampleMulti = $('.select2').select2();
-    $exampleMulti.val(nameArr);
-    //Flat red color scheme for iCheck
+
     
   });
   $('#phoneNo').keypress(function(e) {
@@ -274,6 +289,9 @@ for (i = 0; i < acc.length; i++) {
                    $('.checked_all').prop('checked',false);
             }
         });
+        function closeNav() {
+  document.getElementsByTagName("body")[0].className = '';
+} 
     </script>
 <style>
 div#example1_filter {

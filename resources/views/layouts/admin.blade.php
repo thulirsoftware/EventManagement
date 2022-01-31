@@ -25,7 +25,8 @@
 <link rel="stylesheet" href="{{ asset('assets/wickedpicker/dist/wickedpicker.min.css') }}">
 
  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+ <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
   <Style>
     .field-icon {
     float: right;
@@ -43,11 +44,12 @@
 }
 
   .layout-fixed .main-sidebar{ background-color: #1f5387; }
-  .nav-sidebar .nav-item > .nav-link { color: #fff; }
+  .nav-sidebar .nav-item > .nav-link { color: #fff;padding: 6px; }
   .main-footer{ margin-left: 0px; }
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
     background-color: white;
     color: #1f5387;
+    padding: 6px;
 }
 .btn-back{
   background-color: #1f5387;
@@ -78,6 +80,7 @@ input.invalid {
 .step.active {
   opacity: 1;
 }
+  body{ font-family: "Source Sans Pro", serif; }
 
 /* Mark the steps that are finished and valid: */
 .step.finish {
@@ -216,12 +219,34 @@ cursor: not-allowed;
 .timepicker {
       z-index: 1050!important;
 }
+.closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #1f5387;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+.openbtn:hover {
+  background-color: #fff;
+  color:#1f5387;
+  border:1px solid #1f5387;
+}
  </Style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper flex-wrapper">
       <div >
       @include('layouts.admin_sidebar')
+      
       @yield('content')
     </div>
     <div>
@@ -259,6 +284,9 @@ cursor: not-allowed;
 
 <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
 <script>
+ function closeNav() {
+  document.getElementsByTagName("body")[0].className = '';
+} 
   $(document).ready(function() {
     $('.js-example-basic-multiple').select2({
        width: 'resolve', // need to override the changed default

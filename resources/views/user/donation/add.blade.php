@@ -3,6 +3,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
 </div>
 <!-- /.content-header -->
@@ -10,22 +11,7 @@
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">   
-   <div class="col-12">
-
-      <div class="row mb-2">
-        <div class="col-sm-2">
-          <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
-        </div>
-        <div class="col-md-3">
-        </div>
-         <div class="col-md-3">
-        </div>
-        <div class="col-md-3">
-        </div>
-        
-        
-      </div>
-    </div>
+  
      <div class="row">
       <div class="col-md-2">
       </div>
@@ -56,11 +42,11 @@
                     
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="phoneNo">Phone No:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phone" maxlength="10"  onkeypress="return onlyNumberKey(event)">
+                        <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phone" maxlength="10" >
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="phoneNo">Amount:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="amount"  placeholder="Amount" name="amount"  onkeypress="return onlyNumberKey(event)">
+                        <input type="number" class="form-control" id="amount"  placeholder="Amount" name="amount" min="2">
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="firstName">Address:&nbsp;<span style="color:red">*</span></label>
@@ -72,7 +58,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="firstName">Zip Code:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="pincode" placeholder="Pincode" name="pincode" required=""  maxlength="7"  onkeypress="return onlyNumberKey(event)">
+                        <input type="text" class="form-control" id="pincode" placeholder="Pincode" name="pincode" required=""  maxlength="7" >
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="firstName">Comments</label>
@@ -83,12 +69,15 @@
                    
                    
                 </div> 
-                            
-                <div style="max-width: 200px; margin: auto;">
-                        <button type="submit" class="btn btn-primary">Donate</button>
+                <div class="row">
+                     <div class="col-md-4 form-group">
+                     </div>
+                     <div class="col-md-8 form-group">
+                          <button type="submit" class="btn btn-primary">Donate</button>
                                                 <a href="/familyMembers" class="btn btn-warning">Cancel</a>
-
-                    </div><br>
+                     </div>
+                </div>
+             <br>
 
                     </form>
 
@@ -107,14 +96,29 @@
              </div>
            </div>
          </div>
-       </div>
 </section>
 </div>
 
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 
 <script type="text/javascript">
+  $(document).ready(function () {
 
+    $("#phoneNo").keypress(function (e) {
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          $("#errmsgDate").html("Digits Only").show().fadeOut("slow");
+          return false;
+      }
+  });
+
+    $("#pincode").keypress(function (e) {
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          $("#errmsgMonth").html("Digits Only").show().fadeOut("slow");
+          return false;
+      }
+    });
+ });
 </script>
 
 @endsection

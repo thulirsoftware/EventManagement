@@ -10,7 +10,7 @@ class SponsorshipCfg extends Model
     protected $fillable =[  
                             'name',
                             'amount',
-                            'benefits'
+                            'benefits','event_id'
                             
                             ];
 }

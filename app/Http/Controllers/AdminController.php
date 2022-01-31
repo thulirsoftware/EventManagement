@@ -314,13 +314,17 @@ class AdminController extends Controller
     {
 
         $MembershipBuy = MembershipBuy::where('user_id',$request->user_id)->orderby('id','desc')->first();
-        $MembershipBuy->membership_code = $request->membershipType;
-        $MembershipBuy->membership_amount = $request->membershipAmount;
+        
+        $Membershipconf= MembershipConfig::where('membership_code',$request->membershipType)->orderby('id','desc')->first();
+
+        $MembershipBuy->membership_code = $Membershipconf->membership_type;
+        $MembershipBuy->membership_id = $Membershipconf->id;
+
         if($MembershipBuy->save())
         {
+            $FamilyMember = FamilyMember::where('user_id',$request->user_id)->delete();
             $Member = Member::where('user_id',$request->user_id)->first();
-            $Member->membershipType =$request->membershipType;
-            $Member->membershipAmount = $request->membershipAmount;
+            $Member->membershipType =$Membershipconf->membership_type;
             $Member->save();
         }
         return redirect()->back()->withSuccess('Membership Updated Successfully');

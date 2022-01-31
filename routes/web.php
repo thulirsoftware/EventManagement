@@ -215,7 +215,7 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
       Route::post('/Save', 'CompetitionController@SaveCompetition')->name('admin.competition.save');
       Route::get('/Edit/{id}', 'CompetitionController@EditCompetition')->name('admin.competition.edit');
       Route::post('/Update','CompetitionController@UpdateCompetition')->name('admin.competition.update');
-      Route::get('/Delete/{id}','CompetitionController@DeleteCompetition');
+      Route::get('/Delete','CompetitionController@DeleteCompetition')->name('admin.competition.delete');
   });
 
 Route::prefix('Location')->group(function() {

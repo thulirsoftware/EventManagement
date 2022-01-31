@@ -4,6 +4,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
   </section>
 
@@ -154,7 +155,7 @@ $dates = $date->toDateString();
               <div class="custom-file">
               
                 
-                 <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()">
+                 <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()" accept="image/*">
                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
             </div>
 
@@ -166,11 +167,14 @@ $dates = $date->toDateString();
 
 
 
-<div style="max-width: 200px; margin: auto;">
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a href="/memberTickets" class="btn btn-warning">Cancel</a>
+ <div class="row">
+                     <div class="col-md-4 form-group">
+                     </div>
+                     <div class="col-md-8 form-group">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                      <a href="/memberTickets" class="btn btn-warning">Cancel</a>
 
-</div><br>
+</div></div><br>
 </form>
 </div>
 
@@ -183,6 +187,8 @@ $dates = $date->toDateString();
 </section>
 <!-- /.content -->
 </div>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script>
   function showname () {
     var name = document.getElementById('exampleInputFile'); 

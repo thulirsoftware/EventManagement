@@ -64,4 +64,18 @@ class CompetitionController extends Controller
         $Competition->save();
             return redirect(route('admin.competition.list'));
     }
+    
+    public function DeleteCompetition(Request $request)
+        {
+            $Competition = Competition::find($request->CompetitionId);
+
+            if($Competition->delete()){
+            return redirect(route('admin.competition.list'))->withSuccess('Competition Removed Successfully');
+
+
+            }else{
+                return redirect(route('admin.competition.list'))->withSuccess('Competition Removed Successfully');
+
+            }
+        }
 }

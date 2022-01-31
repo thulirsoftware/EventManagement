@@ -11,7 +11,7 @@ class Sponsorship extends Model
                             'user_id',
                             'sponsorship_id',
                             'payment_status',
-                            'amount','event_id'
+                            'amount'
                             
                             ];
 }

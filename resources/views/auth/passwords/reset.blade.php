@@ -1,35 +1,52 @@
 
 @section('title', 'Login')
 @include('main')
- <nav class="navbar navbar-expand-md fixed-top" style="background-color: white;box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);height:65px">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#"><img src="../../assets/img/thulir-logo-1.png"></a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
+<section class="wrapper">
+      <div class="container py-14 py-md-16">
+        <div class="row gx-lg-8 gx-xl-12">
+           <div class="col-lg-2">
+           </div>
+          <div class="col-lg-8">
+            <div class="blog classic-view">
+              <article class="post">
+                <div class="card">
+                     <div class="card-header">
+                        Reset password
+                     </div>
+                <div class="card-body">
+                   @if(count($errors)>0)
+              <div class="alert alert-danger">
+                <ul>
+                  @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach 
+                </ul>
+              </div>
+            @endif 
+             @if(Session::has('success'))
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+{{Session::get('success')}}
+</div>
+@endif
+@if (Session::has('message'))
 
-      <li><a href="{{route('login')}}"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
-            <li><a href="{{route('register')}}" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                         <div class="alert alert-success" role="alert">
 
-    </ul>
-  </div>
-</nav> <br>
-<body style="background-color:#f4f6f9">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+                            {{ Session::get('message') }}
 
-                <div class="panel-body">
+                        </div>
+
+                    @endif
                     <form class="form-horizontal" method="POST" action="{{ route('reset.password.post') }}">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-12 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10 pb-4">
                                 <input id="email" type="email" class="form-control" name="email" value="{{  old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
@@ -40,10 +57,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} pb-4">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10 ">
                                 <input id="password" type="password" class="form-control" name="password" required>
 
                                 @if ($errors->has('password'))
@@ -54,9 +71,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }} pb-4">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
+                            <div class="col-md-10 ">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
 
                                 @if ($errors->has('password_confirmation'))
@@ -80,3 +97,10 @@
         </div>
     </div>
 </div>
+</article>
+</div>
+</div>
+</div>
+</div>
+</section>
+

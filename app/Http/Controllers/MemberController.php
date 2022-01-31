@@ -484,7 +484,7 @@ class MemberController extends Controller
             $membershipBuy->payment_status = "Completed";
             $membershipBuy->save();
             
-    $member = Member::where('user_id',Auth::user()->id)->first();
+ $member = Member::where('user_id',Auth::user()->id)->first();
         if($member==null)
         {
               $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
@@ -526,7 +526,7 @@ class MemberController extends Controller
             $Member->maritalStatus = $NonMember->maritalStatus;
             $Member->membershipAmount = $request->membershipAmount;
             $Member->membershipType =$request->membership_code;
-            $Member->membershipExpiryDate = "2021-12-31";
+            $Member->membershipExpiryDate = $request->Validity;
             
             if($Member->save()){
                 $User = User::find(Auth::user()->id);
@@ -546,7 +546,7 @@ class MemberController extends Controller
         else
         {
             $Member = Member::where('Email_Id',$NonMember->Email_Id)->first();
-            $Member->membershipExpiryDate =$request->closing_date;
+            $Member->membershipExpiryDate =$request->Validity;
             $Member->save();
 
         }
@@ -862,7 +862,6 @@ class MemberController extends Controller
             $configs = SponsorshipCfg::get();
             $configsAjax = SponsorshipCfg::get();
             $toDay = Carbon::now()->toDateString();
-            
             return view('user.sponsor.add',compact('configs','configsAjax'));
         }
 
@@ -871,9 +870,7 @@ class MemberController extends Controller
             $sponsorship = new Sponsorship();
             $sponsorship->user_id = Auth::user()->id;
             $sponsorship->sponsorship_id = $request->sponsorship_id;
-            $sponsorship->event_id = $request->event_id;
             $sponsorship->amount = $request->amount;
-            
             $sponsorship->payment_status = "Pending";
             $sponsorship->save();
             return back()->withSuccess('Sponsor package  added Successfully');

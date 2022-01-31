@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://event.thulirsoft.com/'),
+    'url' => env('APP_URL', 'https://staging.netamilsangam.org/event/'),
 
     /*
     |--------------------------------------------------------------------------

@@ -84,7 +84,7 @@
             <label for="exampleInputFile">Event Picture</label>
             <div class="input-group">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" name="eventFlyer" id="exampleInputFile" onchange="showname()">
+                <input type="file" class="custom-file-input" name="eventFlyer" id="exampleInputFile" onchange="showname()" accept="image/*">
                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
             </div>
 
@@ -127,8 +127,10 @@
       <label class="col-md-3">
         <input type="button" class="btn btn-info"  onclick="getFoodforms()" value="Food Ticket" style="font-weight:bold">
       </label>
+      <label class="col-md-1">
+      </label>
       <label class="col-md-3">
-          <input type="checkbox" class="minimal" name="competitionCheck"   id="CompetitionCheck">&nbsp;&nbsp;Competition
+          <input type="checkbox" class="form-check-input" name="competitionCheck"   id="CompetitionCheck">&nbsp;&nbsp;Competition
       </label>
   </div>
   <div id="EntryDIV" style="display:none">

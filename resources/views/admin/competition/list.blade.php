@@ -46,7 +46,7 @@
               <td>{!! nl2br(e($awards)) !!}</td>
               <td>{{ $competition['min_age'] }} - {{ $competition['max_age'] }}</td>
               <td>{{ $competition['competition_type'] }} </td>
-              <td><a href="{{ route('admin.competition.edit', ['id' => $competition['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a></td>
+              <td><a class="btn btn-primary" href="{{ route('admin.competition.edit', ['id' => $competition['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>&nbsp;&nbsp;<a class="btn btn-warning" onclick="Delete({{$competition['id']}})" style="color:white"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
             </tr>
             @endforeach
           </tbody> 
@@ -60,3 +60,20 @@
 </div>
 
 @endsection
+<script>
+    function Delete (value) {
+      if (confirm("Are your sure you want to delete the competition?")) {
+        $.ajax({
+            type : 'get',
+            url : '{{route('admin.competition.delete')}}',
+            data : {'CompetitionId':value},
+            success:function(data){
+              window.location.reload();
+          } 
+      });
+
+    } else {
+     
+    }
+}
+</script>

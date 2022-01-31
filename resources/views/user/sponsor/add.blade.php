@@ -13,6 +13,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
 </div>
 <!-- /.content-header -->
@@ -20,22 +21,7 @@
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">   
-   <div class="col-12">
-
-      <div class="row mb-2">
-        <div class="col-sm-2">
-          <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
-        </div>
-        <div class="col-md-3">
-        </div>
-         <div class="col-md-3">
-        </div>
-        <div class="col-md-3">
-        </div>
-        
-        
-      </div>
-    </div>
+  
      <div class="row">
       <div class="col-md-2">
       </div>
@@ -66,7 +52,7 @@
                     
                    
                 </div> 
-                
+               
                  <div class="row" id="amount">
                      <div class="col-md-12 form-group">
                         <h3 class="amount" id="amountP"></h3>
@@ -102,14 +88,12 @@
              </div>
            </div>
          </div>
-       </div>
 </section>
 </div>
 
 
 
-
-                <script type="text/javascript">
+<script type="text/javascript">
     function getDetails(value)
     {
         if(value!="")
@@ -123,7 +107,7 @@
             var benefits = document.getElementById("benefits");
             benefits.innerHTML ="Benefits : "+filteredArray1[0]['benefits'];
             console.log(filteredArray1[0]['type']);
-            
+           
             
         }
     }

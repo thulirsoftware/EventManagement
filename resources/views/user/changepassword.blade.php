@@ -3,6 +3,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
   </div>
   <!-- /.content-header -->
@@ -94,10 +95,13 @@
 
         </div> 
 
-        <div style="max-width: 200px; margin: auto;">
+        <div class="row">
+                     <div class="col-md-4 form-group">
+                     </div>
+                     <div class="col-md-8 form-group">
             <button type="submit" name="submit" id="submit" class="btn btn-primary">Update</button>
             <a href="/familyMembers" class="btn btn-warning">Cancel</a>
-
+</div>
         </div><br>
 
     </form>
@@ -113,7 +117,6 @@
 
 
 
-</div>
 </div>
 </div>
 </div>

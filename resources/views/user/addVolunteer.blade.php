@@ -3,6 +3,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
 </div>
 <!-- /.content-header -->
@@ -10,22 +11,7 @@
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">   
-   <div class="col-12">
-
-      <div class="row mb-2">
-        <div class="col-sm-2">
-          <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
-        </div>
-        <div class="col-md-3">
-        </div>
-         <div class="col-md-3">
-        </div>
-        <div class="col-md-3">
-        </div>
-        
-        
-      </div>
-    </div>
+  
      <div class="row">
       <div class="col-md-2">
       </div>
@@ -70,18 +56,18 @@
                     </div>
                     <div class="col-md-12 form-group">
                         <label class="control-label" for="lastName">Volunteering Opportunities you are interested in (please select at least one):&nbsp;<span style="color:red">*</span></label><br>
-                        <input type="checkbox" id="vehicle1" name="opportunities[]" value="On Event Day Only">&nbsp;&nbsp;
+                        <input class="col-md-12 form-check-input" type="checkbox" id="vehicle1" name="opportunities[]" value="On Event Day Only">&nbsp;&nbsp;
                           <label for="vehicle1" style="font-weight:normal"> On Event Day Only</label><br>
-                          <input type="checkbox" id="vehicle2" name="opportunities[]" value="Event Logistics (such as help with purchasing/picking up event day items)">&nbsp;&nbsp;
+                          <input class="form-check-input" type="checkbox" id="vehicle2" name="opportunities[]" value="Event Logistics (such as help with purchasing/picking up event day items)">&nbsp;&nbsp;
 
                           <label for="vehicle2" style="font-weight:normal">Event Logistics (such as help with purchasing/picking up event day items)</label><br>
 
-                          <input type="checkbox" id="vehicle3" name="opportunities[]" value="Work with NETS Committee Member in event pre-planning">&nbsp;&nbsp;
+                          <input class="form-check-input" type="checkbox" id="vehicle3" name="opportunities[]" value="Work with NETS Committee Member in event pre-planning">&nbsp;&nbsp;
                           <label for="vehicle3"  style="font-weight:normal">Work with NETS Committee Member in event pre-planning</label><br>
-                          <input type="checkbox" id="vehicle3" name="opportunities[]" value="As Youth volunteer, Interested in Emcee (13 & above)">&nbsp;&nbsp;
+                          <input  class="form-check-input" type="checkbox" id="vehicle3" name="opportunities[]" value="As Youth volunteer, Interested in Emcee (13 & above)">&nbsp;&nbsp;
                           <label for="vehicle3"  style="font-weight:normal">As Youth volunteer, Interested in Emcee (13 & above)</label>
                           <br>
-                          <input type="checkbox" id="othercheckbox"  onclick="other()" >&nbsp;&nbsp;
+                          <input class="form-check-input" type="checkbox" id="othercheckbox"  onclick="other()" >&nbsp;&nbsp;
                           <label for="vehicle3"  style="font-weight:normal">Other</label><input type="text" class="form-control" id="othertext" name="opportunities[]" style="display:none">&nbsp;&nbsp;
                     </div>
                    
@@ -94,10 +80,14 @@
                    
                 </div> 
                             
-                <div style="max-width: 200px; margin: auto;">
+                  <div class="row">
+                     <div class="col-md-4 form-group">
+                     </div>
+                     <div class="col-md-8 form-group">
                         <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="/familyMembers" class="btn btn-warning">Cancel</a>
 
+                    </div>
                     </div><br>
 
                     </form>
@@ -117,7 +107,6 @@
              </div>
            </div>
          </div>
-       </div>
 </section>
 </div>
 <script>

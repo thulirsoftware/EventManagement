@@ -4,7 +4,8 @@
   <!-- Content Header (Page header) -->
   <div class="content-header">
   <div class="container-fluid">
-    
+     <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
 </div>
 </div>
 <!-- /.content-header -->
@@ -68,10 +69,10 @@
         <tr>
           <td>Payment Type</td>
           <td>
-          <input type="radio" class="minimal" id="Cash" name="payment_type" value="cash">&nbsp;&nbsp;Cash&nbsp;&nbsp;&nbsp;
-           
-          <input type="radio" class="minimal" id="cheque" name="payment_type" value="cheque">&nbsp;&nbsp;Cheque&nbsp;&nbsp;&nbsp;
-          <input type="radio" class="minimal" id="paypal" name="payment_type" value="paypal">&nbsp;&nbsp;Paypal
+          <input class="form-check-input" type="radio" class="minimal" id="Cash" name="payment_type" value="cash">&nbsp;&nbsp;Cash&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;
+          <input  class="form-check-input" type="radio" class="minimal" id="cheque" name="payment_type" value="cheque">&nbsp;&nbsp;Cheque&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input class="form-check-input" type="radio" class="minimal" id="paypal" name="payment_type" value="paypal">&nbsp;&nbsp;Paypal
            </td>
 
         </tr>
@@ -79,7 +80,7 @@
         
        </table>
        <div class="form-group" id="submit">     
-        <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">  I solemnly agree that the information provided is true to the best of my knowledge and I am older than 18 years.<br>    
+        <input class="form-check-input" type="checkbox" name="terms" id="terms" onchange="activateButton(this)">  I solemnly agree that the information provided is true to the best of my knowledge and I am older than 18 years.<br>    
                     <center><br>   
                       <button type="submit" class="btn btn-primary btn-sm" name="submit" disabled="" id="myBtn">Pay</button>
                       <a class="btn btn-warning btn-sm" href="{{ url('memberTickets') }}">Cancel</a>

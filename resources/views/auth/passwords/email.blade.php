@@ -1,27 +1,35 @@
 
 @section('title', 'Login')
 @include('main')
- <nav class="navbar navbar-expand-md fixed-top" style="background-color: white;box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);height:65px">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#"><img src="../../assets/img/thulir-logo-1.png"></a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-
-      <li><a href="{{route('login')}}"><span class="glyphicon glyphicon-log-in"></span> Sign In</a></li>
-            <li><a href="{{route('register')}}" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-
-    </ul>
-  </div>
-</nav> <br>
-<body style="background-color:#f4f6f9">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
-                <div class="panel-body">
-                    @if (Session::has('message'))
+<section class="wrapper">
+      <div class="container py-14 py-md-16">
+        <div class="row gx-lg-8 gx-xl-12">
+           <div class="col-lg-2">
+           </div>
+          <div class="col-lg-8">
+            <div class="blog classic-view">
+              <article class="post">
+                <div class="card">
+                     <div class="card-header">
+                        Forgot password
+                     </div>
+                <div class="card-body">
+                   @if(count($errors)>0)
+              <div class="alert alert-danger">
+                <ul>
+                  @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach 
+                </ul>
+              </div>
+            @endif 
+             @if(Session::has('success'))
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+{{Session::get('success')}}
+</div>
+@endif
+@if (Session::has('message'))
 
                          <div class="alert alert-success" role="alert">
 
@@ -34,7 +42,7 @@
                     <form class="form-horizontal" method="POST" action="{{ route('forget.password.post') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} pb-4">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
@@ -61,3 +69,5 @@
         </div>
     </div>
 </div>
+</div>
+</section>

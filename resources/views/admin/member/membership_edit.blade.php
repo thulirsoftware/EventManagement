@@ -82,21 +82,7 @@
 
               </div>
             </div>
-             <div class="row">
-            <div class="col-md-6 form-group">
-              <label class="control-label" for="membershipAmount">Membership Amount:</label>
-               <select name="membershipAmount" id="membershipAmount" class="form-control" required>
-                 <option value="">Choose Membership Amount</option>
-                  @foreach($MembershipAmount as $MembershipAmount)
-                    <option value="{{$MembershipAmount['membership_amount']}}" <?= $MembershipBuy['membership_amount'] == $MembershipAmount['membership_amount']?'selected':'' ?>>{{$MembershipAmount['membership_amount']}}</option> 
-                    @endforeach
-               </select>
-            </div>
-           
-          
-            
-        </div>
-
+       
 
             <div class="form-group">   
             <center>

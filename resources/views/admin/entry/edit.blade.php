@@ -67,7 +67,7 @@
 
 <div class="col-md-6 form-group ">
   <label class="names">Price ($)&nbsp;<span style="color:red">*</span></label>
-    <input class="form-control" type="text" name="price" id="FoodticketPrice"  value="{{$entry->price}}" required="">
+    <input class="form-control" type="number" name="price" id="FoodticketPrice"  value="{{$entry->price}}" required="" min="2">
 </div>
 
    
@@ -92,7 +92,7 @@
 </div>
 </section>
 </div>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script>
  var l=1;

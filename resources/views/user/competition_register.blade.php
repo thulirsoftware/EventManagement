@@ -4,6 +4,7 @@
 <div class="content-wrapper" style="background-color:white">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
 </div>
 <!-- /.content-header -->
@@ -76,11 +77,11 @@
         <label class="names">Email</label>
             <input type="text" class="form-control" id="addedparticpantId">
          </div>
-         <center style="padding-top:5px">
-            <br>
+         <center >
             <button type="button" class="btn btn-primary added-row">ADD</button> 
         </center>
      </div>
+     <br><br>
           
             </div> 
             <p class="alert alert-warning" id="soloParticipantError" style="display:none">Not a Valid Participant</p>
@@ -140,7 +141,7 @@
        
          
       
-  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script>
     

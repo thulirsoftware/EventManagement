@@ -27,6 +27,9 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Include the plugin's CSS and JS: -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" type="text/css"/>
+   <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
+</head>
 
     <style>
         .nav-link{

@@ -1,5 +1,7 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#1f5387">
     <!-- Brand Logo -->
+    
     <a href="#" class="brand-link">
       <center>
       <img src="https://www.thulirsoft.com/assets/img/thulir-logo-1.png" class="img-circle elevation-7"
@@ -12,14 +14,15 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-     
+       <br>
+                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
      <?php
      use Illuminate\Support\Str;
       $path = Request::path();
      ?>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column"  data-widget="treeview" role="menu" data-accordion="true">
          @if(Auth::user()->job_title=='SAdmin')
              <li class="nav-item">
                 <a href="{{ url('/admin/manageAdmin') }}" class="nav-link {{ Str::contains($path, ['manageAdmin','addAdmin','adminEdit']) ? 'active' : '' }}">
@@ -51,6 +54,12 @@
                 <a href="{{ url('/admin/Membership/List') }}" class="nav-link {{ Str::contains($path, ['Membership']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-dollar-sign"></i>
                 <p>Manage Membership</p>
+                </a>
+            </li>
+             <li class="nav-item">
+                <a href="{{ url('/admin/memberDetails') }}" class="nav-link {{ Str::contains($path, ['Membership']) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-dollar-sign"></i>
+                <p>Update Member Package</p>
                 </a>
             </li>
          @endif
@@ -103,7 +112,7 @@
             </li>
             @endif
          @if(Auth::user()->job_title=='SAdmin' || Auth::user()->job_title=='Admin')
-         <li class="nav-item has-treeview menu-open">
+         <li class="nav-item has-treeview ">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tasks"></i>
               <p>

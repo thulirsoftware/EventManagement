@@ -4,6 +4,7 @@
 <div class="content-wrapper" style="background-color:white">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
 </div>
 <!-- /.content-header -->

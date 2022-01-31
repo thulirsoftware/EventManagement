@@ -9,6 +9,7 @@ use App\MembershipConfig;
 use Session;
 use Carbon\Carbon; 
 use App\Volunteer;
+use App\MembershipMandatory;
 
 class FamilyMemberController extends Controller
 {
@@ -23,7 +24,8 @@ class FamilyMemberController extends Controller
     public function ShowFamilyMembers()
     {
         $tagDvId = Auth::user()->Member_Id;
-        return view('user.addFamilyMembers',compact('tagDvId'));
+         $membership = MembershipMandatory::get();
+        return view('user.addFamilyMembers',compact('tagDvId','membership'));
     }   
 
     public function addFamilyMembers(Request $request)

@@ -26,7 +26,7 @@
 						                     @endforeach
            							 </select>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<label>Event Date</label>
 									<select class="form-control" name="event_date" id="event_date">
 						                <option value="">Select Event date</option>
@@ -49,6 +49,8 @@
 								
 								<div class="col-md-1" style="padding-top:33px">
 									<input type="button" value="Submit" class="btn btn-primary" onclick="getEntryReports()">
+								</div>
+								<div class="col-sm-1" style="padding-top:33px">
 								</div>
 								<div class="col-sm-1" style="padding-top:33px">
 						<a class="btn btn-primary" onclick="exportTableToExcel('food_entry_list','food_entry_list')" style="float:right;cursor: pointer;color:white;"><i class="fa fa-download" aria-hidden="true" ></i></a>

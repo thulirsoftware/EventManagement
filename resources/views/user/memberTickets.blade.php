@@ -3,8 +3,9 @@
 @section('content')
 <div class="content-wrapper" style="background-color:white">
   <!-- Content Header (Page header) -->
+ 
   <div class="content-header">
-
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 </div>
 <!-- /.content-header -->
 
@@ -38,9 +39,9 @@
                         $eventDescription = wordwrap($event['eventDescription'], 20, "\n");
                       ?>
 		<div class="card card-info" style="-webkit-box-shadow: none;
-		-moz-box-shadow: none;	box-shadow: none;background-color: #f7f7f7;">
+		-moz-box-shadow: none;	box-shadow: none;background-color: #f7f7f7;height: 220px;">
 				<div class="card-header" style="background-color: #1f5387;">
-				     <h3 class="card-title">{!! nl2br(e($newtext)) !!}</h3>
+				     <h3 class="card-title"  style="color: #fff;">{!! nl2br(e($newtext)) !!}</h3>
 				</div>
 			  <div class="card-body">
 				<p>Date & Time:&nbsp;{{ $event['eventDate'] }} &nbsp;{{ $event['eventTime'] }}<a href="/memberBuyTicket/{{ $event['id'] }}" class="btn btn-primary" style="float:right;margin-right: 40%;">Register</a></p>

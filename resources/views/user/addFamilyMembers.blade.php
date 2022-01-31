@@ -3,6 +3,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
 
 </div>
 <!-- /.content-header -->
@@ -56,21 +57,49 @@
                     <?php
                     $date =  Carbon\Carbon::now();
                     $dates = $date->toDateString();
+                    $member = \App\Member::where('user_id',\auth()->user()->id)->first();
                     ?>
                      <div class="col-md-6 form-group">
                         <label class="control-label" for="lastName">DOB:&nbsp;<span style="color:red">*</span></label>
                         <input type="date" class="form-control" id="dob" placeholder="DOB" name="dob"  max="{{$dates}}">
                     </div>
-                    <div class="col-md-6 form-group">
-                        <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <select class="form-control" name="relationshipType" required="">
-                            <option value="">Select Relationship</option>
-                             <option value="Spouse">Spouse</option>
-                            <option value="Daughter">Daughter</option>
-
-                            <option value="Son">Son</option>
+                    @if($member!=null)
+                     <div class="col-md-6 form-group">
+                        <label class="control-label" for="membershipType">Membership:&nbsp;<span style="color:red">*</span></label>
+                        <select class="form-control" required="" onchange="selectMembership(this.value)" id="membershipType">
+                            <option value="">Select Membership</option>
+                           
+                            <option value="Special Membership" {{ ($member['membershipType']  == "Special Membership") ? 'selected' : '' }}>Special Membership</option>
+                            
+                            <option value="Senior Membership" {{ ($member['membershipType']  == "Senior Membership") ? 'selected' : '' }}>Senior Membership</option>
+                            
+                            <option value="Single" {{ ($member['membershipType']  == "Single") ? 'selected' : '' }}>Single</option>
+                            
+                             <option value="Family" {{ ($member['membershipType']  == "Family") ? 'selected' : '' }}>Family</option>
                         </select>
                     </div>
+                    <div class="col-md-6 form-group" id="relationshipTypeRow">
+                        <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
+                        <select class="form-control" name="relationshipType" id="relationshipType">
+                          
+                        </select>
+                    </div>
+                    @else
+                    <div class="col-md-6 form-group" id="relationshipTypeRow">
+                        <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
+                        <select class="form-control" name="relationshipType" id="relationshipType">
+                            <option value="">Select relationship type</option>
+                            <option value="Spouse">Spouse</option>
+                            <option value="Daughter">Daughter</option>
+                            <option value="Son">Son</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother In Law">Mother In Law</option>
+                            <option value="Father In Law">Father In Law</option>
+                        </select>
+                    </div>
+                    
+                    @endif
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="phoneNo">Phone No:</label>
                         <input type="text" class="form-control" id="phoneNo" maxlength="10" placeholder="Phone No" name="phoneNo" >
@@ -80,10 +109,13 @@
                    
                 </div> 
                             
-                <div style="max-width: 200px; margin: auto;">
+                 <div class="row">
+                     <div class="col-md-4 form-group">
+                     </div>
+                     <div class="col-md-8 form-group">
                         <button type="submit" class="btn btn-primary">Submit</button>
                                                 <a href="/familyMembers" class="btn btn-warning">Cancel</a>
-
+</div>
                     </div><br>
 
                     </form>
@@ -103,13 +135,32 @@
              </div>
            </div>
          </div>
-       </div>
 </section>
 </div>
 
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 
 <script type="text/javascript">
+function selectMembership(type)
+{
+    if(type=='Single')
+    {
+         $('#relationshipTypeRow').hide();
+         alert('you are choosing single membership you cannot add family members')
+    }
+    else
+    {
+        $('#relationshipTypeRow').show();
+        var substateArray1 =  @json($membership);
+        var filteredArray1 = substateArray1.filter(x => x.membership_id == type);
+        $('#relationshipType').empty();
+        $('#relationshipType').append('<option value="">Select Relationship</option>');
+        $.each(filteredArray1, function (index, value) {
+        $('#relationshipType').append('<option value="' + value.name + '">' + value.name +' </option>');
+         });
+     }
+}
   $(document).ready(function () {
 
   $("#dobDate").keypress(function (e) {
@@ -130,6 +181,8 @@
 </script>
 <script language="javascript">
 $(document).ready(function(){
+    var type = document.getElementById('membershipType').value;
+    $("select#membershipType").change(selectMembership(type));
   $("#dobDate").focus(function(){
     $("#day").hide();
   });

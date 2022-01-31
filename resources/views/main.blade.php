@@ -1,109 +1,64 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <!-- Basic page needs -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>@yield('title')</title>
-        <!-- fevicon -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style type="text/css">
-.main-content{
-	width: 36%;
-	border-radius: 20px;
-	box-shadow: 0 5px 5px rgba(0,0,0,.4);
-	margin: 5em auto;
-	display: flex;
-}
-.company__info{
-	background-color: #1f5387;
-	border-top-left-radius: 20px;
-	border-bottom-left-radius: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	color: #fff;
-}
-.fa-android{
-	font-size:3em;
-}
-@media screen and (max-width: 640px) {
-	.main-content{width: 90%;}
-	.company__info{
-		display: none;
-	}
-	.login_form{
-		border-top-left-radius:20px;
-		border-bottom-left-radius:20px;
-	}
-}
-@media screen and (min-width: 642px) and (max-width:800px){
-	.main-content{width: 70%;}
-}
-.row > h4{
-	color:#1f5387;
-}
-.login_form{
-	background-color: #fff;
-	border-top-right-radius:20px;
-	border-bottom-right-radius:20px;
-	border-top:1px solid #ccc;
-	border-right:1px solid #ccc;
-}
-form{
-	padding: 0 2em;
-}
-.form__input{
-	width: 100%;
-	border:0px solid transparent;
-	border-radius: 0;
-	border-bottom: 1px solid #aaa;
-	padding: 1em .5em .5em;
-	padding-left: 2em;
-	outline:none;
-	margin:1.5em auto;
-	transition: all .5s ease;
-}
-.form__input:focus{
-	border-bottom-color: #1f5387;
-	box-shadow: 0 0 5px rgba(0,80,80,.4); 
-	border-radius: 4px;
-}
-input[type=submit]{
-	transition: all .5s ease;
-	width: 70%;
-	border-radius: 30px;
-	color:#1f5387;
-	font-weight: 600;
-	background-color: #fff;
-	border: 1px solid #1f5387;
-	margin-top: 1.5em;
-	margin-bottom: 1em;
-}
-input[type=submit]:hover, input[type=submit]:focus{
-	background-color: #1f5387;
-	color:#fff;
-}
- .field-icon {
-    float: right;
-    margin-right: 2px;
-    margin-top: -45px;
-    position: relative;
-    z-index: 2;
-}
-.fa {
-    display: inline-block;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-       </style>
-        @include('components.header')
-        
-    </head>
-    
-	 @yield('content')
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'NETS') }}</title>
+    <link rel="shortcut icon" href="{{ asset('loginAssets/img/nets-logo.png') }}">
+
+    <!-- Scripts -->
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
+</head>
+<body>
+    <div id="app">
+        <div class="content-wrapper">
+    <header class="wrapper bg-soft-primary">
+        <nav class="navbar navbar-expand-lg classic transparent position-absolute bg-soft-primary">
+        <div class="container flex-lg-row flex-nowrap align-items-center text-black">
+          <div class="navbar-brand w-100">
+            <a href="/">
+              <img class="logo-dark" src="{{ asset('loginAssets/img/nets-logo.png') }}" srcset="{{ asset('loginAssets/img/nets-logo.png') }} 2x" alt="" style="width: 120px;"/>
+              <img class="logo-light" src="{{ asset('loginAssets/img/nets-logo.png') }}" srcset="{{ asset('loginAssets/img/nets-logo.png') }} 2x" alt="" style="width: 120px;"/>
+            </a>
+          </div>
+          <div class="navbar-collapse offcanvas-nav">
+            <div class="offcanvas-header d-lg-none d-xl-none">
+              <a href="/"><img src="{{ asset('loginAssets/img/nets-logo.png') }}" srcset="{{ asset('loginAssets/img/nets-logo.png') }} 2x" alt="" /></a>
+              <button type="button" class="btn-close btn-close-white offcanvas-close offcanvas-nav-close" aria-label="Close"></button>
+            </div>
+            <?php
+            
+            ?>
+            @if (\Request::is('admin/*')!=true)
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{{route('login')}}">Sign In </a></li>
+              
+              <li class="nav-item"><a class="nav-link" href="{{route('register')}}">Sign Up </a></li>
+            </ul>
+            @endif
+            <!-- /.navbar-nav -->
+          </div>
+         
+          <!-- /.navbar-other -->
+        </div>
+        <!-- /.container -->
+      </nav>
+
+    </header>
+</div>
+
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
+</body>
 </html>
-	

@@ -9,7 +9,7 @@
          $member = App\NonMember::where('user_id',Auth::user()->id)->first();
        }
      ?>
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#1f5387">
     <!-- Brand Logo -->
 
 
@@ -17,6 +17,8 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <br>
+                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
         <div class="image">
           <img src="{{ URL::to('/') }}/profiles/{{$member->profile}}" class="img-circle center" alt="User Image">
         </div>
@@ -24,17 +26,15 @@
           <p>{{$member->firstName}}<br>
           {{$member->Member_Id}}</p>
         </div>
-     <hr style="color:white">
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column"   data-widget="tree" role="menu" data-accordion="true">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
            <?php
            $this_year =  Carbon\Carbon::now()->format('Y-m-d');
             $Member = App\Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
        ?>
-         
           <li class="nav-item">
                 <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-dollar-sign"></i>
@@ -127,3 +127,5 @@
     </div>
     <!-- /.sidebar -->
   </aside>
+  <!-- Content Header (Page header) -->
+ 
