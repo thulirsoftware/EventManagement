@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -57,7 +62,7 @@
                 <td>{{ $MembershipBuy->membership_code }}</td>
                 <td>$ {{ $MembershipBuy->membership_amount}}</td>
                 <td>{{ $MembershipBuy->Inst_Type}}</td>
-                @if($MembershipBuy->payment_status=="Completed")
+                @if($MembershipBuy->payment_status=="approved")
                 <td><span class="badge bg-success">{{ $MembershipBuy->payment_status }}</span>
                 </td>
                 @else
@@ -65,7 +70,7 @@
                 </td>
                 @endif
 
-                @if($MembershipBuy->payment_status!="Completed")
+                @if($MembershipBuy->payment_status!="approved")
                 <td><a href="/admin/PaymentEdit/{{ $MembershipBuy->id}}" ><i class="fa fa-edit fa-lg" style="text-align:center;"></i></a></td>
                 @else
                 <td></td>
@@ -111,7 +116,7 @@
                 <td>{{ $TicketPurchase->email }}</td>
                 <td>{{ $TicketPurchase->eventName}}</td>
                 <td>{{ $TicketPurchase->payment_type}}</td>
-                @if($TicketPurchase->paymentStatus=="Completed")
+                @if($TicketPurchase->paymentStatus=="approved")
                 <td><span class="badge bg-success">{{ $TicketPurchase->paymentStatus }}</span>
                 </td>
                 @else
@@ -119,7 +124,7 @@
                 </td>
                 @endif
                  <td>${{ $TicketPurchase->totalAmount}}</td>
-                @if($TicketPurchase->paymentStatus!="Completed")
+                @if($TicketPurchase->paymentStatus!="approved")
                 <td><a href="/admin/RegistrationPaymentEdit/{{ $TicketPurchase->id}}" ><i class="fa fa-edit fa-lg" style="text-align:center;"></i></a></td>
                 @else
                 <td></td>

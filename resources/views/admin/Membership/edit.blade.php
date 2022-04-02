@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -54,7 +59,7 @@
                   </div>
                   <div class="col-md-6 form-group">
                         <label for="membership_type">Membership Type:&nbsp;<span style="color:red">* </span></label>
-                        <select name="membership_type" class="form-control" required>
+                        <select name="membership_type"  class="form-select" required>
                           <option value="">Select Membership Type</option>
                             <option value="Family" <?=($membership['membership_type'] == 'Family')?'selected':''?>>Family</option>
                             <option value="Single" <?=($membership['membership_type'] == 'Single')?'selected':''?>>Single</option>
@@ -78,7 +83,7 @@
                 <div class="col-md-6 form-group">
                   <label for="isVisible">Active:</label>
 
-                  <select name="isVisible" class="form-control">
+                  <select name="isVisible"  class="form-select">
                     <option value="yes" <?=($membership['is_visible'] == 'yes')?'selected':''?> >yes</option>
                     <option value="no" <?=($membership['is_visible'] == 'no')?'selected':''?> >no</option>
                   </select>

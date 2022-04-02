@@ -22,6 +22,11 @@ a.disabled {
 </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
 </div>
@@ -56,13 +61,13 @@ a.disabled {
                         <div class="row">
                             <div class="form-group col-md-1">
                               <div class="radio">
-                                  <label><input type="radio" value="Vip" name="type">&nbsp;&nbsp;Vip</label>
+                                  <label><input type="radio" value="Vip" class="form-check-input" name="type">&nbsp;&nbsp;Vip</label>
                                 </div>
                               
                             </div>
                             <div class="form-group col-md-2">
                               <div class="radio">
-                                  <label><input type="radio"  name="type" value="Judge">&nbsp;&nbsp;Judge</label>
+                                  <label><input type="radio"  class="form-check-input" name="type" value="Judge">&nbsp;&nbsp;Judge</label>
                                 </div>
                               
                             </div>

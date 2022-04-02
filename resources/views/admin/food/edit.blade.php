@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>   
@@ -38,7 +43,7 @@
 
       <div class="col-md-6 form-group ">
          <label class="names">Min Age:&nbsp;<span style="color:red">*</span></label>
-        <select class="form-control"  name="min_age" id="food_min_age" required="">
+        <select  class="form-select"  name="min_age" id="food_min_age" required="">
            @for ($i = 1; $i <=100; $i++)
         <option value="{{ $i }}" <?=($food['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
         @endfor
@@ -47,7 +52,7 @@
         </div>
          <div class="col-md-6 form-group ">
           <label class="names">Max Age:&nbsp;<span style="color:red">*</span></label>
-          <select class="form-control"  name="max_age" id="food_max_age" required="">
+          <select  class="form-select"  name="max_age" id="food_max_age" required="">
             @for ($i = 1; $i <=100; $i++)
         <option value="{{ $i }}" <?=($food['min_age'] == $i)?'selected':''?>>{{ $i }}</option>
         @endfor
@@ -56,7 +61,7 @@
         </div>
   <div class="col-md-6 form-group ">
     <label class="names">Member Type:&nbsp;<span style="color:red">*</span></label>
-    <select class="form-control" name="memberType" id="FoodmemberType" required="">
+    <select  class="form-select" name="memberType" id="FoodmemberType" required="">
       <option value="">Select</option>
       <option value="Member" <?=($food['memberType'] == 'Member')?'selected':''?>>Member</option>
       <option value="NonMember" <?=($food['memberType'] == 'NonMember')?'selected':''?>>NonMember</option>
@@ -64,7 +69,7 @@
 </div>
 <div class="col-md-6 form-group ">
     <label class="names">Food Type&nbsp;<span style="color:red">*</span></label>
-    <select class="form-control" name="food_type" id="food_type" required="">
+    <select  class="form-select" name="food_type" id="food_type" required="">
       <option value="">Select</option>
       <option value="Veg-Box" <?=($food['food_type'] == 'Veg-Box')?'selected':''?>>Veg-Box</option>
       <option value="Veg-Banana-Leaf" <?=($food['food_type'] == 'Veg-Banana-Leaf')?'selected':''?>>Veg-Banana-Leaf</option>
@@ -77,7 +82,8 @@
 
 <div class="col-md-6 form-group ">
   <label class="names">Price ($)&nbsp;<span style="color:red">*</span></label>
-    <input class="form-control" type="text" name="price" id="FoodticketPrice"  value="{{$food->price}}" required="">
+    <input class="form-control" type="text" name="price" id="FoodticketPrice" maxlength="5"   oninput="getPrice(this.value)" value="{{$food->price}}" required="">
+         <span id="lblError" style="color: red"></span>
 </div>
 
    
@@ -167,6 +173,22 @@ $(document).ready(function () {
 });
     
   });
+   function getPrice(price)
+  {
+      
+      var lblError = document.getElementById("lblError");
+      if(Math.abs(price)<='-1')
+      {
+          var FoodticketPrice = document.getElementById("FoodticketPrice");
+            FoodticketPrice.value='';
+           lblError.innerHTML = "Must enter valid price";
+      }
+      else
+      {
+            lblError.innerHTML = "";
+         
+      }
+  }
 </script>
 
 @endsection

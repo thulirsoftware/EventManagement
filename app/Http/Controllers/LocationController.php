@@ -30,6 +30,7 @@ class LocationController extends Controller
             $Location->duration_from = $request->duration_from;
             $Location->duration_to = $request->duration_to;
             $Location->status = $request->status;
+            $Location->location_for = $request->location_for;
             $Location->save();
             return redirect(route('admin.location.list'));
         }
@@ -47,6 +48,7 @@ class LocationController extends Controller
             $Location->duration_from = $request->duration_from;
             $Location->duration_to = $request->duration_to;
             $Location->status = $request->status;
+            $Location->location_for = $request->location_for;
             $Location->save();
                
             return redirect(route('admin.location.list'));

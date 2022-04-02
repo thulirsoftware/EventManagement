@@ -77,7 +77,7 @@
     <div class="col-md-12 pb-4">
       <div class="form-group">
         <label>Mobile No&nbsp;<span style="color:red">*</span><br></label>
-        <input id="phoneNo1" type="text" class="form-control" name="phoneNo1" value="{{ old('phoneNo1') }}" placeholder="Mobile No" required>
+        <input id="mobile_no" type="text" class="form-control" name="phoneNo1" value="{{ old('phoneNo1') }}" maxlength="10" placeholder="Mobile No" required>
     </div>
 </div>
 </div>
@@ -108,11 +108,12 @@
 
 
 
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function () {
 
-      $("#phoneNo1").keypress(function (e) {
+      $("#mobile_no").keypress(function (e) {
        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
         $("#errmsg").html("Digits Only").show().fadeOut("slow");
         return false;

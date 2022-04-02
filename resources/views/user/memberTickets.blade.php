@@ -39,11 +39,11 @@
                         $eventDescription = wordwrap($event['eventDescription'], 20, "\n");
                       ?>
 		<div class="card card-info" style="-webkit-box-shadow: none;
-		-moz-box-shadow: none;	box-shadow: none;background-color: #f7f7f7;height: 220px;">
-				<div class="card-header" style="background-color: #1f5387;">
-				     <h3 class="card-title"  style="color: #fff;">{!! nl2br(e($newtext)) !!}</h3>
+		-moz-box-shadow: none;	box-shadow: none;background-color: #f7f7f7;height: 220px;border: 1px solid rgba(0,0,0.1,0.1);">
+				<div class="card-header" style="background-color: #f5f5fc;color:black">
+				     <h3 class="card-title"  style="color: black;">{!! nl2br(e($newtext)) !!}</h3>
 				</div>
-			  <div class="card-body">
+			  <div class="card-body" style="background-color: white;">
 				<p>Date & Time:&nbsp;{{ $event['eventDate'] }} &nbsp;{{ $event['eventTime'] }}<a href="/memberBuyTicket/{{ $event['id'] }}" class="btn btn-primary" style="float:right;margin-right: 40%;">Register</a></p>
 				<p>Location:&nbsp;{{ $event['eventLocation'] }}</p>
 			 
@@ -58,3 +58,11 @@
 </section>
 </div>
 @endsection
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+ $(document).ready(function() {
+     localStorage.removeItem('Competition_value');
+   
+});
+</script>

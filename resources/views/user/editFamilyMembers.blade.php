@@ -43,11 +43,11 @@
                   <div class="row">
                      <div class="col-md-6 form-group">
                         <label class="control-label" for="firstName">First Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" name="firstName" value="{{ $family['firstName']}}" required="">
+                        <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" name="firstName" value="{{ $family['firstName']}}" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" required="">
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="lastName">Last Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" name="lastName" value="{{ $family['lastName']}}">
+                        <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" name="lastName" value="{{ $family['lastName']}}">
                     </div>
                     <?php
                     $date =  Carbon\Carbon::now();
@@ -59,12 +59,11 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <select class="form-control" name="relationshipType" required="">
+                        <select class="form-select" name="relationshipType" required="">
                             <option value="">Select Relationship</option>
-                             <option value="Spouse" @if( $family['relationshipType']== "Spouse") selected @endif>Spouse</option>
-                            <option value="Daughter" @if( $family['relationshipType'] == "Daughter") selected @endif>Daughter</option>
-
-                            <option value="Son" @if( $family['relationshipType'] == "Son") selected @endif>Son</option>
+                            @foreach($membership as $membership)
+                             <option value="{{$membership->name}}" @if( $family['relationshipType']==$membership->name) selected @endif>{{$membership->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-6 form-group">

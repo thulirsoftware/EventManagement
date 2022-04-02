@@ -1,5 +1,5 @@
 
-									<?php $i=1; 
+							<?php $i=1; 
 
 								?>
 
@@ -9,7 +9,7 @@
 								$event  = App\Event::where('id',$PurchasedEventEntryTickets->eventId)->first();
 								$EventTicket  = App\EventEntryTickets::where('id',$PurchasedEventEntryTickets->ticketId)->first();
 
-								 if($PurchasedEventEntryTickets[$i]['min_age']>=9 && $member[$i]['PurchasedEventEntryTickets']>=16)
+								 if($PurchasedEventEntryTickets['min_age']>=18)
 					            {
 					              $ageGroup = "Adult";
 					            }

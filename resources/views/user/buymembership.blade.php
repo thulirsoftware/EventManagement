@@ -25,6 +25,7 @@
                       <?php 
                       $user = Auth::user()->email;
                       $memberDetails = App\Member::where('Email_Id',$user)->first();
+                     
                       if($memberDetails!=null)
                       {
                         $memberDetails = App\Member::where('Email_Id',$user)->first();
@@ -35,7 +36,6 @@
                         $memberDetails = App\NonMember::where('Email_Id',$user)->first();
 
                     }
-
                 ?>
                 <div class="row">
 
@@ -79,7 +79,7 @@
           </div>
            <div class="col-md-6 form-group">
               <label class="control-label" for="membershipAmount">Payment Method:</label>
-             <select class="form-control" name="payment_method" required="">
+             <select class="form-control form-select" name="payment_method" required="">
                             <option value="">Select Payment Method</option>
                              <option value="Paypal">Paypal</option>
                            
@@ -92,7 +92,7 @@
 
       </div>
 
-<input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">  I solemnly agree that the information provided is true to the best of my knowledge and I am older than 18 years.<br>    
+<input type="checkbox" class="form-check-input" name="terms" id="terms" onchange="activateButton(this)">  I solemnly agree that the information provided is true to the best of my knowledge and I am older than 18 years.<br>    
       <div class="form-group">   <br>
 
           <div class="col-sm-offset-4 col-sm-4">

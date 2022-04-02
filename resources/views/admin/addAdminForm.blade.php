@@ -1,7 +1,29 @@
 @extends('layouts.admin')
 @section('content')
+<style>
+    .select2-selection__rendered {
+    line-height: 31px !important;
+    
+}
+.select2-container .select2-selection--single {
+    height: 50px !important;
+         border: 1px solid rgba(63, 120, 224, 0.7);
+border-radius: 0.4rem;
+color: #959ca9;
+}
+.select2-selection__arrow {
+    height: 50px !important;
+    color: #959ca9;
+
+}
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
 </div>
@@ -31,37 +53,23 @@
 
                   <input type="hidden" class="form-control" id="" placeholder="Role" name="is_active" value="yes">
                   <div class="row">                        
-                  <div class="col-md-6 form-group">
-                    <label for="name">Name:&nbsp;<span style="color:red">*</span></label>
-                       <select class="form-control" name="firstname" id="firstname"   required>
-                <option value=""> Choose Name</option>
-                @foreach($membername as $membername) 
-                <option value="{{$membername->firstName}}">{{ $membername->firstName}}</option>
-                @endforeach
-            </select>
-                  </div>
-                   <div class="col-md-6 form-group">
+                 
+                   <div class="col-md-12 form-group">
                     <label for="email">Email:&nbsp;<span style="color:red">*</span></label>
-                       <select class="form-control" name="userName" id="userName"   required>
+                       <select  class="form-select" name="email" id="addAdmin_email"   required>
                 <option value=""> Choose Email</option>
                 @foreach($memberemail as $memberemail) 
-                <option value="{{$memberemail->Email_Id}}">{{ $memberemail->Email_Id}}</option>
+                <option value="{{$memberemail->email}}">{{ $memberemail->email}}</option>
                 @endforeach
             </select>
                   </div>
                
                 </div>
                 <div class="row"> 
-                  <div class="col-md-6 form-group">
-                    <label for="password">Password:&nbsp;<span style="color:red">*</span></label>
-                      <input type="password" class="form-control" id="password-field" placeholder="Password" name="password" required="">
-                       <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                  </div>
-
-
-                  <div class="col-md-6 form-group">
+             
+                  <div class="col-md-12 form-group">
                     <label for="job_title">Role:&nbsp;<span style="color:red">*</span></label>
-                      <select name="role" class="form-control" required>
+                      <select name="role"  class="form-select" required>
                       <option value="SAdmin">Super Admin</option>
                       <option value="Admin">Admin</option>
                       </select>

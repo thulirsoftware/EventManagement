@@ -25,8 +25,8 @@
                       <th>Description</th>
                       <th>Amount</th>
                        <th>Type</th>
-                      <th>Starting Date</th>
-                       <th>Closing Date</th>
+                      <th>Start Date</th>
+                       <th>Close Date</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -55,6 +55,10 @@
                           <td><a href="/MemberShipAdd/{{ $membership->id }}" class="badge badge-danger">Renew</a></td>
                            @elseif($MembershipBuy->payment_status=="Pending")
                           <td><a  class="badge badge-danger" style="color:white">Pending</a></td>
+                            @elseif($MembershipBuy->payment_status==null)
+                          <td><a  class="badge badge-danger"   style="color:white">Pending</a></td>
+                            @elseif($MembershipBuy->payment_status=="Payment failed")
+                          <td><a  class="badge badge-danger"   style="color:white">{{$MembershipBuy->payment_status}}</a></td>
                           @else
                           <td><a  class="badge badge-success" style="color:white">Member</a></td>
                         @endif

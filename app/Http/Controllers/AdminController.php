@@ -21,6 +21,7 @@ use App\MembershipBuy;
 use App\Volunteer;
 use Auth;
 use App\TicketPurchase;
+use App\MembershipMandatory;
 
 class AdminController extends Controller
 {
@@ -68,20 +69,20 @@ class AdminController extends Controller
     public function addAdmin()
     {
         $admin = Admin::pluck('email');
-        $membername = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->whereNotIn('Email_Id',$admin)->get();
-        $memberemail = Member::where('membershipType','!=',null)->where('membershipExpiryDate','!=',null)->whereNotIn('Email_Id',$admin)->get();
-        return view('admin.addAdminForm',compact('membername','memberemail'));
+        $memberemail = User::whereNotIn('email',$admin)->get();
+        return view('admin.addAdminForm',compact('memberemail'));
     }
 
     public function addAdminPost(Request $request)
     {
+        $user = User::where('email',$request->email)->first();
         $admin = new Admin;
-        $admin->name = $request->firstname;
+        $admin->name = $user->name;
         $admin->job_title = $request->role;
-        $admin->email = $request->userName;
+        $admin->email = $request->email;
         $admin->is_active = $request->is_active;
         $admin->is_deleted = 'yes';
-        $admin->password = Hash::make($request->password);
+        $admin->password = $user->password;
         $admin->save();
        return redirect('/admin/manageAdmin')->withSuccess('Admin Added Successfully');
 
@@ -103,8 +104,6 @@ class AdminController extends Controller
     public function adminUpdate(Request $request)
     {
         $admin = Admin::find($request->id);
-            $admin->name = $request->firstname;
-            $admin->email = $request->userName;
             $admin->job_title = $request->role;
             if($admin->save()){
 
@@ -320,9 +319,14 @@ class AdminController extends Controller
         $MembershipBuy->membership_code = $Membershipconf->membership_type;
         $MembershipBuy->membership_id = $Membershipconf->id;
 
+        $relationships = MembershipMandatory::where('membership_id',$Membershipconf->membership_type)->pluck('name');
+        
+       
+        
         if($MembershipBuy->save())
         {
-            $FamilyMember = FamilyMember::where('user_id',$request->user_id)->delete();
+
+            $FamilyMember = FamilyMember::where('user_id',$request->user_id)->whereNotIn('relationshipType',$relationships)->delete();
             $Member = Member::where('user_id',$request->user_id)->first();
             $Member->membershipType =$Membershipconf->membership_type;
             $Member->save();

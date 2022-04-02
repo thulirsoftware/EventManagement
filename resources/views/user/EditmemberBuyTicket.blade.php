@@ -18,9 +18,9 @@
       </div>
         <div class="col-md-9">
         <div class="card card-info" style="-webkit-box-shadow: none;
-          -moz-box-shadow: none;  box-shadow: none;background-color: #f7f7f7;">
-        <div class="card-header" style="background-color: #1f5387;">
-             <h3 class="card-title">Register For {{$events['eventName'] }}</h3>
+          -moz-box-shadow: none;  box-shadow: none;background-color: #fff;border: 1px solid rgba(0,0,0.1,0.1);">
+        <div class="card-header"  style="background-color: #f5f5fc;color:black">
+             <h3 class="card-title" style="color: black;">Register For {{$events['eventName'] }}</h3>
         </div>
             @if(Session::has('success'))
                   <div class="alert alert-success alert-dismissible" role="alert">
@@ -96,11 +96,11 @@
                 @if($memberEventTickets[$i]['max_age']<=9)
                 <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
-                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
+                  <input type="text" class="form-control" id="ticketQty_{{ $i }}"  maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
                   @else
                   <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
-                  <input type="number" class="form-control" id="ticketQty_{{ $i }}" min="1" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
+                  <input type="text" class="form-control" id="ticketQty_{{ $i }}"  maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
                   @endif
 
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="EntryTicketId[]" value="{{$memberEventTickets[$i]['id'] }}" indexValue="{{ $i }}" >
@@ -136,7 +136,7 @@
               <div class="col-md-6 form-group">
                 <label  for="" style="font-weight:normal">{{ $ageGroup }}-{{ $memberTickets[$i]['foodType'] }} ({{"$".$memberTickets[$i]['ticketPrice'] }}):</label>
 
-                  <input type="number" class="form-control" id="ticketQty{{ $i }}" min="0" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
+                  <input type="text" class="form-control" id="ticketQty{{ $i }}"  maxlength="2" placeholder="" name="FoodticketQty[]" price="{{$memberTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" >
                   <input type="hidden" class="form-control" id="ticketQty{{ $i }}" placeholder="" name="FoodTicketId[]" value="{{$memberTickets[$i]['id'] }}" indexValue="{{ $i }}">
 
 
@@ -153,21 +153,21 @@
 
             <label>Want to participate in competition</label>
 
-           <div class="form-group">
+           <div  class="form-check">
                 <label class="col-md-4">
-                  <input type="radio" name="minimal" value="yes" id="competitionYes" checked>&nbsp;&nbsp;Yes
+                  <input type="radio"  class="form-check-input" name="minimal" value="yes" id="competitionYes" checked>&nbsp;&nbsp;Yes
                 </label>
                 <label class="col-md-4">
-                  <input type="radio" name="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
+                  <input type="radio"  class="form-check-input" name="minimal"  value="no" id="competitionNo">&nbsp;&nbsp;No
                 </label>
                 
               </div>
                
                 @else
-                <div class="form-group" style="display:none">
+                <div  class="form-check" style="display:none">
                 
                 <label class="col-md-4">
-                  <input type="radio" name="minimal"  value="no" id="competitionNo"  checked>&nbsp;&nbsp;No
+                  <input type="radio"  class="form-check-input" name="minimal"  value="no" id="competitionNo"  checked>&nbsp;&nbsp;No
                 </label>
                 
               </div>
@@ -185,6 +185,7 @@
         </div>
     </section>
   </div>
+<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 <script type="text/javascript">
   
@@ -195,7 +196,16 @@
             $(this).val(0);
           }
         });  
+        
+          $('input[type="text"]').keypress(function (e) {
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          $("#errmsgMonth").html("Digits Only").show().fadeOut("slow");
+          return false;
+      }
+  });
+  
     });
+    
 
     function calcTotal(id)
     {

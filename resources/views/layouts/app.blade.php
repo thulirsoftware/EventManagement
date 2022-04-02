@@ -32,6 +32,15 @@
 </head>
 
     <style>
+      .form-control{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+    .form-check-input{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+   .form-select{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
         .nav-link{
             color:white;
         }

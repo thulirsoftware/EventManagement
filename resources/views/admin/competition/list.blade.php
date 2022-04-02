@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 <div class="content-wrapper">
+     <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <!-- Content Header (Page header) -->
   <div class="content-header">
 
@@ -60,6 +64,8 @@
 </div>
 
 @endsection
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script>
     function Delete (value) {
       if (confirm("Are your sure you want to delete the competition?")) {

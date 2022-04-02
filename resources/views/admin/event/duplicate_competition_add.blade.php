@@ -22,6 +22,11 @@ a.disabled {
 </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
 </div>
@@ -87,7 +92,7 @@ a.disabled {
               <td>{{ $competition['non_member_fee'] }}
               <input type="hidden" name="non_member_fee[]"  value="{{$competition['non_member_fee']}}">
           </td>
-              <td><input type="checkbox" name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;&nbsp;Competition </td>
+              <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" class="form-check-input"   name="competition_id[]" value="{{ $competition['id'] }}" onclick="EnableLocation(this)">&nbsp;Competition </td>
                @if($EventCompetition!=null)
               @if($competition['id']==$EventCompetition['competition_id'])
               <td><a class="btn btn-info" data-toggle="modal" data-target="#{{ $competition['id'] }}Modal" id="dis_btn_{{ $competition['id'] }}"style="color:white" href="#{{ $competition['id'] }}Modal"  >Add Location</a></td>
@@ -110,7 +115,7 @@ a.disabled {
       <div class="modal-body">
         <div class="well well-sm ">
     <div class="dlk-radio">
-        <?php $locations = \App\LocationModel::where('status','Y')->get();?>
+        <?php $locations = \App\LocationModel::where('status','Y')->where('location_for','!=','E')->get();?>
          <input type="hidden" id="location_competition_id_{{ $competition['id'] }}" name="location_competition_id[]"  > 
          @foreach($locations as  $Addedlocation)
         <label class=" col-md-10">

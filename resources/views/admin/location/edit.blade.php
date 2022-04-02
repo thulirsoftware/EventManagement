@@ -41,22 +41,35 @@
                       <div class="row">
                           <div class="col-md-6 form-group">
                             <label for="location_name">Duration From :&nbsp;<span style="color:red">* </span></label>
-                            <input type="number" class="form-control" id="duration_from"  name="duration_from" value="{{$Location->duration_from}}" required>
+                            <input type="text" class="form-control" id="duration_from_edit"  name="duration_from" value="{{$Location->duration_from}}" required>
                         </div>
                          <div class="col-md-6 form-group">
                             <label for="location_name">Duration To :&nbsp;<span style="color:red">* </span></label>
-                            <input type="number" class="form-control" value="{{$Location->duration_to}}" id="duration_to"  name="duration_to" required>
+                            <input type="text" class="form-control" value="{{$Location->duration_to}}" id="duration_to_edit"  name="duration_to" required>
                         </div>
 
                      
 
                   
                 </div>
+                   <div class="row">
+                        
+                      <div class="col-md-12 form-group">
+                        <label for="location_for">For:&nbsp;<span style="color:red">* </span></label>
+                        <select name="location_for"  class="form-select">
+                            <option value="E" <?=($Location['location_for'] == 'E')?'selected':''?>>Event</option>
+                            <option value="C" <?=($Location['location_for'] == 'C')?'selected':''?>>Competition</option>
+                            <option value="B" <?=($Location['location_for'] == 'B')?'selected':''?>>Both</option>
+
+                        </select>
+                    </div>
+
+                </div>
                     <div class="row">
                         
                       <div class="col-md-12 form-group">
                         <label for="status">Active:&nbsp;<span style="color:red">* </span></label>
-                        <select name="status" class="form-control">
+                        <select name="status"  class="form-select">
                             <option value="Y" <?=($Location['is_visible'] == 'Y')?'selected':''?>>Yes</option>
                             <option value="N" <?=($Location['is_visible'] == 'N')?'selected':''?>>No</option>
                         </select>

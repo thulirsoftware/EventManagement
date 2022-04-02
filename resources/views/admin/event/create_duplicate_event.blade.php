@@ -3,6 +3,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -61,11 +66,20 @@
 
 
 </div>
+<?php
+$venue = \App\LocationModel::where('location_for','!=','C')->get();
 
+?>
 <div class="row">
     <div class="col-md-4 form-group ">
       <label class="names">Venue&nbsp;<span style="color:red">*</span></label>
-      <input class="form-control" type="text" name="eventLocation" required="" value="{{$events->eventLocation}}">
+       <select  class="form-select"  name="eventLocation" required="">
+          <option value="">Select Venue</option>
+          @foreach($venue as $venue)
+            <option value="{{$venue->location_name}}" <?=($venue->location_name == $events->eventLocation)?'selected':''?>>{{$venue->location_name}}</option>
+          @endforeach
+      </select>
+      
   </div>
   <div class="col-md-4 form-group ">
      <?php
@@ -87,13 +101,15 @@
       <!-- checkbox -->
       <div class="form-group">
         <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getEntryforms()" id="EntryCheck" name="EntryCheck">&nbsp;&nbsp;Entry Ticket 
+          <input type="checkbox" class="form-check-input"  onclick="getEntryforms()" id="EntryCheck" name="EntryCheck">&nbsp;&nbsp;Entry Ticket 
       </label>
       <label class="col-md-3">
-          <input type="checkbox" class="minimal" onclick="getFoodforms()" id="FoodCheck" name="FoodCheck" >&nbsp;&nbsp;Food Ticket
+          <input type="checkbox" class="form-check-input"  onclick="getFoodforms()" id="FoodCheck" name="FoodCheck" >&nbsp;&nbsp;Food Ticket
       </label>
+       <label class="col-md-1">
+           </label>
       <label class="col-md-3">
-          <input type="checkbox" class="minimal" name="competitionCheck"   id="CompetitionCheck" <?=($EventCompetitionsCount >0)?'checked':''?>>&nbsp;&nbsp;Competition
+          <input type="checkbox" class="form-check-input" name="competitionCheck"   id="CompetitionCheck" <?=($EventCompetitionsCount >0)?'checked':''?>>&nbsp;&nbsp;Competition
       </label>
   </div>
   <div id="EntryDIV">

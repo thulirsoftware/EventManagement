@@ -17,7 +17,7 @@
   <?php $i = 1 ?>  
   @foreach($Competition as $Competition)
   <?php
-  $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->first();
+  $EventCompetition = \App\EventCompetition::where('competition_id',$Competition['id'])->where('event_id',$id)->first();
   $CompetitionRegistered = \App\CompetitionRegistered::where('competition_id',$Competition['id'])->where('event_id',$id)->count();
   $CompetitionLocations = \App\CompetitionLocations::where('competition_id',$Competition['id'])->groupBy('location_id')->pluck('location_id');
    $Locations = \App\LocationModel::whereIn('id',$CompetitionLocations)->pluck('location_name')->implode(',');
@@ -37,6 +37,11 @@
     @if($CompetitionRegistered<=0)
     <a onclick="myFunction({{$Competition['id']}})"  id="row_Competition_delete{{ $Competition['id'] }}"  style="cursor:pointer;color:#0069d9"> <i class="fa fa-trash" ></i></a>
     @endif
+     @if($EventCompetition['status']=='Y')
+      <a id="row_competition_approve{{ $EventCompetition['id'] }}" onclick="ApproveCompetition({{ $EventCompetition['id'] }},'N')"><i class="fa fa-thumbs-up fa-lg" style="cursor:pointer;color:green"></i></a>
+      @else
+        <a id="row_competition_approve{{ $EventCompetition['id'] }}" onclick="ApproveCompetition({{ $EventCompetition['id'] }},'Y')"><i class="fa fa-thumbs-down fa-lg" style="cursor:pointer;color:red"></i></a>
+      @endif
 </td>
 
 

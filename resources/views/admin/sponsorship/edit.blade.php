@@ -1,7 +1,19 @@
 @extends('layouts.admin')
 @section('content')
+<style>
+    .btn-group > .btn, .btn-group-vertical > .btn {
+  position: relative;
+  flex: 1 1 auto;
+  color: black !important;
+}
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>   
@@ -29,7 +41,7 @@
           </div>
           @endif
               <div class="card-body">
-                  <form class="form-horizontal" action="{{ route('admin.sponsorship.update') }}" method="POST">
+                  <form class="form-horizontal" action="{{ route('admin.sponsorship.update') }}" method="POST" enctype="multipart/form-data">
                       {{ csrf_field() }}
      
 
@@ -41,7 +53,7 @@
                   </div>
                   <div class="col-md-12 form-group ">
                     <label class="names">Type:&nbsp;<span style="color:red">*</span></label>
-                    <select name="type" class="form-control"  id="package_type" required onchange="getDetails(this.value)" >
+                    <select name="type"  class="form-select"  id="package_type" required onchange="getDetails(this.value)" >
                       <option value="">Select Package Type</option>
                       <option value="General" <?=($sponsorship['type'] == 'General')?'selected':''?>>General</option>
                       <option value="Event Sponsor" <?=($sponsorship['type'] == 'Event Sponsor')?'selected':''?>>Event Sponsor</option>
@@ -52,7 +64,7 @@
                   <div class="row">
                      <div class="col-md-12 form-group">
                         <label class="control-label" for="firstName">Select Event:&nbsp;<span style="color:red">*</span></label>
-                        <select name="event_id" class="form-control">
+                        <select name="event_id"  class="form-select">
                             <option value="">Select Event</option>
                             @foreach($Events as $event)
                                 <option value="{{$event->id}}" <?=($sponsorship['event_id'] == $event->id)?'selected':''?>>{{$event->eventName}}</option>
@@ -61,16 +73,20 @@
                     </div>
                     </div>
                 </div>
+                 <div class="col-md-12 form-group ">
+                    <label for="formFile" class="form-label">Choose File</label>
+                        <input class="form-control" type="file" id="formFile" name="image"  accept="image/*" >
+                  </div>
                
-      <div class="col-md-12 form-group ">
-         <label class="names">Amount:&nbsp;<span style="color:red">*</span></label>
-          <input type="text" name="amount" class="form-control" value="{{$sponsorship->amount}}"required onkeypress="return onlyNumberKey(event)">
-        </div>
-         <div class="col-md-12 form-group ">
-          <label class="names">Benefits:&nbsp;<span style="color:red">*</span></label>
-                        <textarea name="benefits" class="form-control"  required>{{$sponsorship->benefits}}</textarea>
-
-        </div>
+                      <div class="col-md-12 form-group ">
+                         <label class="names">Amount: ($)&nbsp;<span style="color:red">*</span></label>
+                          <input type="text" name="amount" class="form-control" value="{{$sponsorship->amount}}"required onkeypress="return onlyNumberKey(event)">
+                        </div>
+                         <div class="col-md-12 form-group ">
+                          <label class="names">Benefits:&nbsp;<span style="color:red">*</span></label>
+                                        <textarea name="benefits" id="benefits" class="form-control"  required>{{$sponsorship->benefits}}</textarea>
+                
+                        </div>
 
 
 

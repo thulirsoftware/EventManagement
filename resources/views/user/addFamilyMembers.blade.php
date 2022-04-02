@@ -38,21 +38,27 @@
                     {{Session::get('success')}}
                     </div>
                 @endif
+                 @if(Session::has('warning'))
+                  <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  {{Session::get('warning')}}
+                  </div>
+              @endif
               <div class="card-header"><center><h4>Add Family Member</h4></center></div>
 
                 <div class="card-body">
-                  <form class="form-horizontal" action="{{ url('/addFamilyMembers') }}" method="POST">
+                  <form class="form-horizontal" action="{{ url('/addFamilyMembers') }}" method="POST" onsubmit="return validateForm()">
                       {{ csrf_field() }}
                                 <input type="hidden" name="tagDvId" value="{{ $tagDvId }}">
 
                   <div class="row">
                      <div class="col-md-6 form-group">
                         <label class="control-label" for="firstName">First Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName" required="">
+                        <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName"  onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" required="">
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="control-label" for="lastName">Last Name:&nbsp;<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName">
+                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
                     </div>
                     <?php
                     $date =  Carbon\Carbon::now();
@@ -61,33 +67,25 @@
                     ?>
                      <div class="col-md-6 form-group">
                         <label class="control-label" for="lastName">DOB:&nbsp;<span style="color:red">*</span></label>
-                        <input type="date" class="form-control" id="dob" placeholder="DOB" name="dob"  max="{{$dates}}">
+                        <input type="date" class="form-control" id="dob" placeholder="DOB" name="dob"  max="{{$dates}}" >
                     </div>
                     @if($member!=null)
                      <div class="col-md-6 form-group">
                         <label class="control-label" for="membershipType">Membership:&nbsp;<span style="color:red">*</span></label>
-                        <select class="form-control" required="" onchange="selectMembership(this.value)" id="membershipType">
-                            <option value="">Select Membership</option>
-                           
-                            <option value="Special Membership" {{ ($member['membershipType']  == "Special Membership") ? 'selected' : '' }}>Special Membership</option>
-                            
-                            <option value="Senior Membership" {{ ($member['membershipType']  == "Senior Membership") ? 'selected' : '' }}>Senior Membership</option>
-                            
-                            <option value="Single" {{ ($member['membershipType']  == "Single") ? 'selected' : '' }}>Single</option>
-                            
-                             <option value="Family" {{ ($member['membershipType']  == "Family") ? 'selected' : '' }}>Family</option>
-                        </select>
+                         <input type="text" class="form-control" id="membershipType"  value="{{$member['membershipType']}}" disabled>
+
+                    
                     </div>
                     <div class="col-md-6 form-group" id="relationshipTypeRow">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <select class="form-control" name="relationshipType" id="relationshipType">
+                        <select class="form-select" name="relationshipType" id="relationshipType">
                           
                         </select>
                     </div>
                     @else
                     <div class="col-md-6 form-group" id="relationshipTypeRow">
                         <label class="control-label" for="relationshipType">Relationship:&nbsp;<span style="color:red">*</span></label>
-                        <select class="form-control" name="relationshipType" id="relationshipType">
+                        <select class="form-select" name="relationshipType" id="relationshipType">
                             <option value="">Select relationship type</option>
                             <option value="Spouse">Spouse</option>
                             <option value="Daughter">Daughter</option>
@@ -153,10 +151,15 @@ function selectMembership(type)
     {
         $('#relationshipTypeRow').show();
         var substateArray1 =  @json($membership);
-        var filteredArray1 = substateArray1.filter(x => x.membership_id == type);
+        var filteredArray1 = substateArray1.filter(x => x.membership_code == type);
+        console.log(filteredArray1[0]['membership_type']);
+
+        var substateArray2 =  @json($membershipMandatory);
+        var filteredArray2 = substateArray2.filter(x => x.membership_id == filteredArray1[0]['membership_type']);
+
         $('#relationshipType').empty();
         $('#relationshipType').append('<option value="">Select Relationship</option>');
-        $.each(filteredArray1, function (index, value) {
+        $.each(filteredArray2, function (index, value) {
         $('#relationshipType').append('<option value="' + value.name + '">' + value.name +' </option>');
          });
      }
@@ -178,11 +181,36 @@ function selectMembership(type)
    });
 
 });
+function validateForm(){
+    var birthday = document.getElementById('dob').value;
+    var relationshipType = document.getElementById('relationshipType').value;
+	var optimizedBirthday = birthday.replace(/-/g, "/");
+
+	var myBirthday = new Date(optimizedBirthday);
+
+	var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+    if(relationshipType!="Son" && relationshipType!="Daughter")
+    {
+	var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+
+	if(myAge < 18) {
+	        alert('Age must be greater than 18')
+     	    return false;
+        }else{
+	    return true;
+	}
+    }
+    else
+    {
+        return true;
+    }
+
+}
 </script>
 <script language="javascript">
 $(document).ready(function(){
     var type = document.getElementById('membershipType').value;
-    $("select#membershipType").change(selectMembership(type));
+    selectMembership(type);
   $("#dobDate").focus(function(){
     $("#day").hide();
   });

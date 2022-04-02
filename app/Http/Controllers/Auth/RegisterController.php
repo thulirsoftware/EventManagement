@@ -97,6 +97,9 @@ class RegisterController extends Controller
     $NonMember->mobile_number =$request['phoneNo1'];
     $NonMember->user_id =$users->id;
     $NonMember->save();
+    
+   
+    
     $details = [
         'email' => $request->email,
         'token' =>  $users->token
@@ -104,7 +107,7 @@ class RegisterController extends Controller
                 
     \Mail::to($request->email)->send(new \App\Mail\VerifyMail($details));
 
-    return redirect('/')->withSuccess('Registered Successfully Check Your Email To Verify Account');
+    return redirect('/')->withSuccess('Registered Successfully Check Your Email To Verify Account And Also Check in Spam Folder');
 
 }
 }

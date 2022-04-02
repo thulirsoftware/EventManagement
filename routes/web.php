@@ -1,4 +1,5 @@
 <?php
+Route::get('email_template', 'Auth\ForgotPasswordController@email_template');
 
 Route::get('forget-password', 'Auth\ForgotPasswordController@showForgetPasswordForm')->name('forget.password.get');
 
@@ -41,28 +42,53 @@ Route::post('/AddVolunteer/Family', 'FamilyMemberController@AddVolunteerSave');
 
 
 Route::get('/memberTickets','MemberController@memberTickets')->name('member.tickets');
-Route::get('/memberBuyTicket/{id}','MemberController@memberBuyTicket');
-Route::get('/EditmemberBuyTicket/{id}','MemberController@EditmemberBuyTicket');
+Route::get('/memberBuyTicket/{id}','User\PurchaseTicketsController@memberBuyTicket');
 
-Route::post('/memberBuyTicketPost', 'MemberController@memberBuyTicketPost');
-Route::post('/memberAddCompetition', 'MemberController@memberAddCompetition');
-Route::get('/memberAddCompetition/{id}', 'MemberController@memberAddCompetition');
+  Route::prefix('tickets')->group(function() {
+
+    Route::post('/save/entry','User\PurchaseTicketsController@saveEntryTicket')->name('save.entry.ticket');
+
+    Route::get('/get/food/{id}','User\PurchaseTicketsController@getFoodTicket')->name('get.food.ticket');
+
+     Route::post('/save/food','User\PurchaseTicketsController@savefoodTicket')->name('save.food.ticket');
+
+     Route::get('/get/competition/{id}','User\PurchaseTicketsController@getFoodTicket')->name('get.food.ticket');
+
+     Route::get('/competition/add/{id}','User\CompetitionController@getCompetition')->name('user.competition.add');
+
+     Route::post('/group/add','User\CompetitionController@saveGroup')->name('competition.group.save');
+
+     Route::get('/group/list','User\CompetitionController@listGroupParticipants')->name('competition.group.list');
+
+     Route::get('/participant/list','User\CompetitionController@listParticipants')->name('competition.participant.list');
+
+      Route::get('/competition/show/payment','User\CompetitionController@competitionPayment')->name('competition.show.payment');
+  });
+
+
+Route::get('/EditmemberBuyTicket/{id}','User\PurchaseTicketsController@EditmemberBuyTicket');
+
+Route::post('/memberBuyTicketPost', 'User\PurchaseTicketsController@memberBuyTicketPost');
+Route::post('/memberAddCompetition', 'User\PurchaseTicketsController@memberAddCompetition');
+Route::get('/memberAddCompetition/{id}', 'User\PurchaseTicketsController@memberAddCompetition');
 
 
 
-Route::get('/memberTicketView','MemberController@memberTicketView');
-Route::post('memberPaymentCreate', 'MemberController@memberTicketAmountPay')->name('memberPaymentCreate');
+Route::get('/memberTicketView','User\PurchaseTicketsController@memberTicketView');
+Route::post('memberPaymentCreate', 'User\PurchaseTicketsController@memberTicketAmountPay')->name('memberPaymentCreate');
 Route::post('memberEventPaymentCreate', 'PaymentController@memberEventPaymentCreate')->name('memberEventPaymentCreate');
 Route::get('memberEventPaymentExecute','PaymentController@memberEventPaymentExecute');
-Route::post('/MemberCompetitionPost','MemberController@MemberCompetitionPost')->name('member.competition.save');
+Route::post('/MemberCompetitionPost','User\CompetitionController@SaveCompetition')->name('member.competition.save');
+Route::get('/MemberCompetitionget','User\CompetitionController@MemberCompetitionShow')->name('member.competition.show');
 
+Route::post('/CompetitionAddParticipant', 'User\PurchaseTicketsController@GroupCompetitionAddParticipant')->name('member.competition.participant.update');
 
 
 Route::get('/userhome','MemberController@userhome');
 Route::get('/purchase_event_tickets','MemberController@purchase_event_tickets');
 Route::get('/edit_members','MemberController@edit_members');
 Route::get('/user_home','MemberController@user_home');
-Route::get('/renew_membership','MemberController@renew_membership');
+Route::get('/renew_membership','User\MembershipPurchaseController@renew_membership');
 Route::get('/editProfile','MemberController@editProfile');
 Route::post('/editProfilePost','MemberController@editProfilePost');
 Route::get('/ChangePassword','MemberController@ChangePassword');
@@ -70,12 +96,12 @@ Route::post('/UpdatePassword','MemberController@UpdatePassword');
 
 
 
-Route::post('/membershipPost', 'MemberController@membershipPost');
+Route::post('/membershipPost', 'User\MembershipPurchaseController@membershipPost');
 Route::post('membershipPaymentCreate', 'PaymentController@membershipPaymentCreate')->name('membershipPaymentCreate');
 Route::get('membershipPaymentExecute','PaymentController@membershipPaymentExecute');
-Route::get('/MemberShipAdd/{id}', 'MemberController@membershipAdd');
-Route::get('/MemberShip', 'MemberController@membership');
-Route::get('/purchasedmembership', 'MemberController@MemberPurchasedDetails');
+Route::get('/MemberShipAdd/{id}', 'User\MembershipPurchaseController@membershipAdd');
+Route::get('/MemberShip', 'User\MembershipPurchaseController@membership');
+Route::get('/purchasedmembership', 'User\MembershipPurchaseController@MemberPurchasedDetails');
 Route::get('/purchasedticketdetails', 'MemberController@MemberPurchasedTicketDetails');
 
 
@@ -90,9 +116,9 @@ Route::get('/MemberShip/Skip/FamilyMembers', 'FamilyMemberController@SkipFamilyM
 
 Route::post('/MemberShip/Add/FamilyMembers', 'FamilyMemberController@AddMembershipFamilyMembers')->name('membership.save.familyMembers');
 
-Route::get('/MemberShip/Buy', 'FamilyMemberController@MembershipBuy')->name('membership.buy');
+Route::get('/MemberShip/Buy', 'User\MembershipPurchaseController@MembershipBuy')->name('membership.buy');
 
-Route::get('/MemberShip/{id}', 'MemberController@membershipAdd');
+Route::get('/MemberShip/{id}', 'User\MembershipPurchaseController@membershipAdd');
 Route::get('/Competition/AgeValidation', 'MemberController@AgeValidation');
 
 
@@ -100,6 +126,35 @@ Route::get('/donations', 'MemberController@Donation');
 Route::post('/donation/add', 'MemberController@AddDonation');
 Route::get('/sponsors', 'MemberController@Sponsorship');
 Route::post('/sponsors/add', 'MemberController@AddSponsorship');
+
+Route::get('memberpaymentComplete', 'User\PaymentController@memberpaymentComplete')->name('memberpaymentComplete');
+
+Route::get('membershippaymentComplete', 'User\MembershipPaymentController@membershippaymentComplete')->name('membershippaymentComplete');
+
+Route::get('/getStatus','User\PaymentController@getPaymentStatus')->name('status');
+
+Route::get('/getMembershipStatus','User\MembershipPaymentController@getPaymentStatus')->name('membership.status');
+
+Route::get('donationpaymentComplete', 'User\DonationPaymentController@donationpaymentComplete')->name('memberpaymentComplete');
+
+Route::get('sponsorshippaymentComplete', 'User\SponsorshipPaymentController@sponsorshippaymentComplete')->name('sponsorshippaymentComplete');
+
+Route::get('/getDonationStatus','User\DonationPaymentController@getPaymentStatus')->name('donation.status');
+
+Route::get('/getSponsorshipStatus','User\SponsorshipPaymentController@getPaymentStatus')->name('sponsorship.status');
+
+
+
+
+/******** Pay Later *************/
+
+Route::get('/payLater/list','User\PayLaterController@list')->name('payLater.list');
+
+
+Route::get('/payLater/pay/{id}','User\PayLaterController@payNow')->name('payLater.pay');
+
+
+Route::get('/getPayLaterStatus','User\PayLaterController@getPayLaterStatus')->name('payLater.status');
 
 
 // Admin Dashboard
@@ -146,7 +201,9 @@ Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showRes
   Route::get('/Event/addVipTicket/{id}','Admin\VipJudgeController@addVipTicket');
   Route::post('/Event/createVipTicket','Admin\VipJudgeController@createVipTicket');
 
-
+  Route::get('/Event/FoodTicket/Validation','EventController@EventFoodTicketStatusChange');
+  Route::get('/Event/EntryTicket/Validation','EventController@EventEntryTicketStatusChange');
+  Route::get('/Event/Competition/Validation','EventController@EventCompetitionStatusChange');
 
   Route::get('/addEventTicket','EventController@addEventTicket');
   Route::post('/addEventTicket', 'EventController@addEventTicketPost');
@@ -259,6 +316,19 @@ Route::prefix('Entry')->group(function() {
       Route::post('/Update','SponsorshipController@Update')->name('admin.sponsorship.update');
       Route::get('/Delete','SponsorshipController@Delete')->name('admin.sponsorship.delete');
   });
+  
+  
+  Route::prefix('Campaign')->group(function() {
+
+      Route::get('/List','Admin\CampaignController@list')->name('admin.campaign.list');
+
+      Route::get('/Add', 'Admin\CampaignController@add')->name('admin.campaign.add');
+      Route::post('/Save', 'Admin\CampaignController@create')->name('admin.campaign.save');
+      Route::get('/Edit/{id}', 'Admin\CampaignController@edit')->name('admin.campaign.edit');
+      Route::post('/Update','Admin\CampaignController@update')->name('admin.campaign.update');
+      Route::get('/Delete','Admin\CampaignController@delete')->name('admin.campaign.delete');
+  });
+
 
   Route::get('/member_details', 'AdminController@member_details');
   Route::get('/membersearch', 'AdminController@membersearch');
@@ -273,9 +343,16 @@ Route::prefix('Entry')->group(function() {
   Route::get('/EntryTicketsReports/Filter', 'ReportsController@EntryTicketsReportFilter')->name('entryticket.reports.filter');
 
   Route::get('/VolunteerReports', 'ReportsController@VolunteerReports');
+  Route::get('/VolunteerReports/Filter', 'ReportsController@VolunteerReportsFilter')->name('volunteer.reports.filter');
 
   Route::get('/donations', 'ReportsController@DonationsReport');
   Route::get('/sponsors', 'ReportsController@SponsorsReport');
+  Route::get('/sponsors/Filter', 'ReportsController@sponsorsReportsFilter')->name('sponsors.reports.filter');
+  Route::get('/donations/Filter', 'ReportsController@donationsReportsFilter')->name('donations.reports.filter');
+
+  Route::get('/CompetitionReport', 'ReportsController@CompetitionReport');
+
+  Route::get('/CompetitionReport/Filter', 'ReportsController@CompetitionReportFilter')->name('competition.reports.filter');
 
   Route::get('/Payments', 'AdminController@PaymentList');
   Route::get('/PaymentEdit/{id}', 'AdminController@PaymentEdit');

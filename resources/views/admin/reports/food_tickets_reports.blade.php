@@ -19,7 +19,7 @@
 					<div class="row">
 								<div class="col-md-3">
 									<label>Event Name</label>
-									<select class="form-control" name="event_name" id="event_name">
+									<select  class="form-select" name="event_name" id="event_name">
 						                <option value="">Select Event name</option>
 						                    @foreach($events as $event) 
 						                        <option value="{{$event->id}}">{{$event->eventName}}</option>
@@ -27,19 +27,10 @@
 						                     @endforeach
            							 </select>
 								</div>
-								<div class="col-md-2">
-									<label>Event Date</label>
-									<select class="form-control" name="event_date" id="event_date">
-						                <option value="">Select Event date</option>
-						                    @foreach($event_date as $event_date) 
-						                        <option value="{{$event_date->id}}">{{$event_date->eventDate}}</option>
-						                            
-						                     @endforeach
-           							 </select>
-								</div>
+							
 								<div class="col-md-2">
 									<label>Users</label>
-									<select class="form-control" name="user_id" id="user_id">
+									<select  class="form-select" name="user_id" id="user_id">
 						                <option value="">Select User</option>
 						                    @foreach($purchased_users as $purchased_user) 
 						                        <option value="{{$purchased_user->id}}">{{$purchased_user->name}}</option>
@@ -49,7 +40,7 @@
 								</div>
 								<div class="col-md-2">
 									<label>Food Type</label>
-									<select class="form-control" name="food_type" id="food_type" required="">
+									<select  class="form-select" name="food_type" id="food_type" required="">
 								      <option value="">Select</option>
 								      <option value="Veg-Box">Veg-Box</option>
 								      <option value="Veg-Banana-Leaf">Veg-Banana-Leaf</option>
@@ -101,9 +92,7 @@
 	{
 		var event_name = document.getElementById("event_name");
       	event_name = event_name.value;
-      	var event_date = document.getElementById("event_date");
-      	event_date = event_date.value;
-      	console.log(event_date);
+      
       	var user_id = document.getElementById("user_id");
       	user_id = user_id.value;
       	var food_type = document.getElementById("food_type");
@@ -111,7 +100,7 @@
       	$.ajax({
           type : 'get',
           url : '{{route('foodticket.reports.filter')}}',
-          data : {'event_name':event_name,'event_date':event_date,'user_id':user_id,'food_type':food_type},
+          data : {'event_name':event_name,'event_date':null,'user_id':user_id,'food_type':food_type},
           success:function(data){
           	console.log(data);
            $('#foodreport').empty();

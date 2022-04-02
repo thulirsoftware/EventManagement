@@ -1,4 +1,18 @@
-
+<style>
+    .nav-sidebar .nav-item > .nav-link {
+  color: black;
+  padding: 6px;
+}
+[class*="sidebar-dark-"] .nav-sidebar > .nav-item.menu-open > .nav-link, [class*="sidebar-dark-"] .nav-sidebar > .nav-item:hover > .nav-link, [class*="sidebar-dark-"] .nav-sidebar > .nav-item > .nav-link:focus {
+  background-color: rgba(255,255,255,.1);
+  color: black;
+}
+.info {
+  color: black;
+  font-weight: bold;
+  text-align: center;
+}
+</style>
 <?php
      
       use Illuminate\Support\Str;
@@ -9,7 +23,7 @@
          $member = App\NonMember::where('user_id',Auth::user()->id)->first();
        }
      ?>
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#1f5387">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#f5f5fc">
     <!-- Brand Logo -->
 
 
@@ -24,7 +38,7 @@
         </div>
         <div class="pull-left info">
           <p>{{$member->firstName}}<br>
-          {{$member->Member_Id}}</p>
+          {{Auth::user()->Member_Id}}</p>
         </div>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -38,7 +52,7 @@
           <li class="nav-item">
                 <a href="{{ url('MemberShip') }}" class="nav-link {{ Str::contains($path, ['MemberShip']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-dollar-sign"></i>
-                <p>MemberShip</p>
+                <p>Membership</p>
                 </a>
             </li>
             
@@ -51,7 +65,7 @@
             <li class="nav-item">
                 <a href="{{ url('MyEvents') }}" class="nav-link {{ Str::contains($path, ['MyEvents','ViewEvent']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-calendar-plus"></i>
-                <p>My Events</p>
+                <p>My events</p>
                 </a>
             </li>
               <li class="nav-item">
@@ -67,6 +81,7 @@
                 <p>Sponsors</p>
                 </a>
             </li>
+         
             <?php
                 $member = App\Member::where('user_id',Auth::user()->id)->first();
             ?>
@@ -74,21 +89,21 @@
             <li class="nav-item">
                 <a href="{{ url('editProfile') }}" class="nav-link {{ Str::contains($path, ['editProfile']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user"></i>
-                <p>My Profile</p>
+                <p>My profile</p>
                 </a>
             </li>
             @else
                 <li class="nav-item">
                 <a href="{{ url('editProfile') }}" class="nav-link {{ Str::contains($path, ['editProfile']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-user"></i>
-                <p>My Profile</p>
+                <p>My profile</p>
                 </a>
             </li>
             @endif
               <li class="nav-item">
                 <a href="{{ url('ChangePassword') }}" class="nav-link {{ Str::contains($path, ['ChangePassword']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-key"></i>
-                <p>Change Password</p>
+                <p>Change password</p>
                 </a>
             </li>
 
@@ -97,13 +112,13 @@
                 <li class="nav-item">
                 <a href="{{ url('familyMembers') }}" class="nav-link {{ Str::contains($path, ['familyMembers']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
-                <p> Family Members</p>
+                <p> Family members</p>
                 </a>
             </li> 
             <li class="nav-item">
                 <a href="{{ url('AddVolunteer') }}" class="nav-link {{ Str::contains($path, ['AddVolunteer','AddAsVolunteer']) ? 'active' : '' }}">
                 <i class="nav-icon fas fa-handshake"></i>
-                <p> Enroll as Volunteer</p>
+                <p> Enroll as volunteer</p>
                 </a>
             </li>         
              <li class="nav-item">

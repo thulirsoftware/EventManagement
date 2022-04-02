@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>   
@@ -46,7 +51,7 @@
                     </div><span id="errmsg" style="color:red;"></span>
                     <div class="col-md-6 form-group">
                         <label for="membership_type">Membership Type:&nbsp;<span style="color:red">* </span></label>
-                        <select name="membership_type" class="form-control" required>
+                        <select name="membership_type"  class="form-select" required>
                           <option value="">Select Membership Type</option>
                            <option value="Family">Family</option>
                             <option value="Single">Single</option>
@@ -73,7 +78,7 @@
                 </div>
                   <div class="col-md-6 form-group">
                         <label for="isVisible">Active:&nbsp;<span style="color:red">* </span></label>
-                        <select name="isVisible" class="form-control">
+                        <select name="isVisible"  class="form-select">
                             <option value="yes">yes</option>
                             <option value="no">no</option>
                         </select>

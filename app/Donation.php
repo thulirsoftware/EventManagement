@@ -11,6 +11,6 @@ class Donation extends Model
                             'name',
                             'email',
                             'mobile_no',
-                            'amount','address','city','pincode','comments'
+                            'amount','address','city','pincode','comments','donation_for','campaign_id'
                             ];
 }

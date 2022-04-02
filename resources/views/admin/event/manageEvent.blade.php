@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -54,9 +59,10 @@
                   <td>
                    
                     <a href="/admin/eventTickets/{{ $event['id'] }}" class="btn btn-success btn-sm"><i class="fa fa-eye" style="text-align:center;"></i></a>&nbsp;&nbsp; 
-                    @if($EventRegistration==0)
+                    @if($EventRegistration<=0)
                     <a onclick="myFunction({{$event['id']}})"  class="btn btn-warning btn-sm"> <i class="fa fa-trash" style="text-align:center;"></i></a>
                     @endif
+                    
 
                     &nbsp;&nbsp;<a href="/admin/createDuplicateEvent/{{ $event['id'] }}" class="btn btn-info btn-sm"><i class="fa fa-clone" style="text-align:center;"></i></a>
                     
@@ -78,7 +84,7 @@
 
 </section>
 </div>
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
 //redirect to specific tab

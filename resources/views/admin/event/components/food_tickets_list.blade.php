@@ -30,6 +30,11 @@
       </a>
       <input type="button" id="food_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Food_row('{{ $ticket['id'] }}')" style="display:none">
       <a  onclick="DeleteEventFoodTicket({{$ticket['id']}})" id="row_food_delete{{ $ticket['id'] }}"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
+        @if($ticket['status']=='Y')
+      <a id="row_food_approve{{ $ticket['id'] }}" onclick="ApproveFoodTicket({{ $ticket['id'] }},'N')"><i class="fa fa-thumbs-up fa-lg" style="cursor:pointer;color:green"></i></a>
+      @else
+        <a id="row_food_approve{{ $ticket['id'] }}" onclick="ApproveFoodTicket({{ $ticket['id'] }},'Y')"><i class="fa fa-thumbs-down fa-lg" style="cursor:pointer;color:red"></i></a>
+      @endif
   </td>
 
 

@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>   
@@ -38,7 +43,7 @@
 
       <div class="col-md-6 form-group ">
          <label class="names">Min Age:&nbsp;<span style="color:red">*</span></label>
-        <select class="form-control"  name="min_age" id="food_min_age" required="">
+        <select  class="form-select"  name="min_age" id="food_min_age" required="">
            @for ($i = 1; $i <=100; $i++)
         <option value="{{ $i }}">{{ $i }}</option>
         @endfor
@@ -47,7 +52,7 @@
         </div>
          <div class="col-md-6 form-group ">
           <label class="names">Max Age:&nbsp;<span style="color:red">*</span></label>
-          <select class="form-control"  name="max_age" id="food_max_age" required="">
+          <select  class="form-select"  name="max_age" id="food_max_age" required="">
             @for ($i = 1; $i <=100; $i++)
         <option value="{{ $i }}">{{ $i }}</option>
         @endfor
@@ -56,7 +61,7 @@
         </div>
   <div class="col-md-6 form-group ">
     <label class="names">Member Type:&nbsp;<span style="color:red">*</span></label>
-    <select class="form-control" name="member_type" id="FoodmemberType" required="">
+    <select  class="form-select" name="member_type" id="FoodmemberType" required="">
       <option value="">Select</option>
       <option value="Member">Member</option>
       <option value="NonMember">NonMember</option>
@@ -66,7 +71,8 @@
 
 <div class="col-md-6 form-group ">
   <label class="names">Price ($) :&nbsp;<span style="color:red">*</span></label>
-    <input class="form-control" type="number" name="price" id="FoodticketPrice" required="" min="2">
+    <input class="form-control" type="text" name="price" id="FoodticketPrice" required=""  oninput="getPrice(this.value)" maxlength="5" >
+         <span id="lblError" style="color: red"></span>
 </div>
 
    
@@ -155,6 +161,22 @@ $(document).on('click', '.spf_btn_remove1', function(){
  $('#row_food'+button_idspf+'').remove();  
  $(this).hide();
 });
+ function getPrice(price)
+  {
+      
+      var lblError = document.getElementById("lblError");
+      if(Math.abs(price)<='-1')
+      {
+          var FoodticketPrice = document.getElementById("FoodticketPrice");
+            FoodticketPrice.value='';
+           lblError.innerHTML = "Must enter valid price";
+      }
+      else
+      {
+            lblError.innerHTML = "";
+         
+      }
+  }
 </script>
 
 @endsection

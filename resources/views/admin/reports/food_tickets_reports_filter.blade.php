@@ -9,7 +9,7 @@
 								$EventTicket  = App\EventTicket::where('id',$PurchasedEventFoodTickets->ticketId)->first();
 
 								$ageGroup="";
-					            if($EventTicket[$i]['min_age']>=18 && $EventTicket[$i]['max_age']>=18)
+					            if($EventTicket['min_age']>=18)
 					            {
 					              $ageGroup = "Adult";
 					            }

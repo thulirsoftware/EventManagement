@@ -27,7 +27,18 @@
  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
  <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
+    
   <Style>
+    .form-control{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+    .form-check-input{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+   .form-select{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+  
     .field-icon {
     float: right;
     margin-right: 2px;
@@ -242,15 +253,14 @@ cursor: not-allowed;
 }
  </Style>
   </head>
-  <body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper flex-wrapper">
+  <body class="">
+    <div class="wrapper">
       <div >
       @include('layouts.admin_sidebar')
       
       @yield('content')
     </div>
     <div>
-      @include('layouts.footer')
       <aside class="control-sidebar control-sidebar-dark">
       </aside>
     </div>
@@ -258,15 +268,15 @@ cursor: not-allowed;
     <!-- jQuery -->
     <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <script> $.widget.bridge('uibutton', $.ui.button); </script>
-   
+       <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
     <link rel="stylesheet" href="{{ asset('assets/plugins/time-picker-bootstrap/timepicker.css')}}">
     <script src="{{ asset('assets/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
+    <script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
     <script src="{{ asset('assets/dist/js/bootstrap-datetimepicker.js') }}"></script>
     <script src="{{ asset('assets/dist/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
@@ -293,6 +303,9 @@ cursor: not-allowed;
         placeholder: "Select a Location"
     });
 });
+ function closeNav() {
+  document.getElementsByTagName("body")[0].className = '';
+} 
   </script>
 
 <script>
@@ -304,13 +317,33 @@ cursor: not-allowed;
  $('#event_time').wickedpicker();
  $('#start_time').wickedpicker();
  $('#end_time').wickedpicker();
+ 
+ $('#duration_from').wickedpicker();
+ $('#duration_to').wickedpicker();
 
+$('#duration_from_edit').wickedpicker();
+ $('#duration_to_edit').wickedpicker();
 
     $('#editor1').summernote();
-     var x = localStorage.getItem("Emails"); 
-     var nameArr = x.split(',');
+    
+      $("#benefits").summernote({
+        height: 300,
+        toolbar: [
+            [ 'style', [ 'style' ] ],
+            [ 'font', [ 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear'] ],
+            [ 'fontname', [ 'fontname' ] ],
+            [ 'fontsize', [ 'fontsize' ] ],
+            [ 'color', [ 'color' ] ],
+            [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
+            [ 'table', [ 'table' ] ],
+            [ 'insert', [ 'link'] ],
+            [ 'view', [ 'undo', 'redo', 'fullscreen' ] ]
+        ]
+    });
+    
     $exampleMulti = $('.select2').select2();
-    $exampleMulti.val(nameArr);
+     $('#addAdmin_email').select2();
+    
      $('.timepicker').wickedpicker();
 
     //Flat red color scheme for iCheck
@@ -579,7 +612,11 @@ $("#food_max_age").keypress(function(e) {
         "bSort": true,
         "oLanguage": {
         "sEmptyTable": "Food Not available"
-        }  
+        } ,
+     'columnDefs': [ {
+        'targets': [0], // column index (start from 0)
+        'orderable': false, // set orderable false for selected columns
+     }] 
 
       });
       $("#entry_cfg_list").DataTable({

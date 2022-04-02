@@ -163,7 +163,7 @@ class EventController extends Controller
     {
         $toDay = Carbon::now()->toDateString();
         $Competition=Competition::where('closing_date','>=',$toDay)->get();
-        $locations = LocationModel::where('status','Y')->get();
+        $locations =LocationModel::where('location_for','!=','E')->where('status','Y')->get();
 
         $CompetitionModal = Competition::get();
         $CompetitionAjax = Competition::where('closing_date','>=',$toDay)->get();
@@ -372,7 +372,7 @@ class EventController extends Controller
        $competition_added = EventCompetition::where('event_id',$id)->pluck('competition_id');
         $Competition=Competition::where('closing_date','>=',$toDay)->whereNotIn('id',$competition_added)->get();
         $CompetitionId=Competition::where('closing_date','>=',$toDay)->pluck('id');
-        $Locations = LocationModel::get();
+        $Locations =LocationModel::where('location_for','!=','E')->get();
         return view('admin.event.addEventCompetition',compact('id','Competition','CompetitionId','Locations'));
     }
 
@@ -573,6 +573,7 @@ class EventController extends Controller
         $eventFoodTicket = EventTicket::where('eventId',$id)->get();
         $EventCompetition = EventCompetition::where('event_id',$id)->pluck('competition_id');
         $Competition = Competition::whereIn('id',$EventCompetition)->get();
+
         $events = Event::where('id',$id)->first();
                 $event = Event::where('id',$id)->first();
 
@@ -637,14 +638,14 @@ class EventController extends Controller
     {
         $EventCompetition = EventCompetition::where('competition_id',$id)->first();
         $CompetitionLocations = CompetitionLocations::where('competition_id',$id)->groupBy('location_id')->pluck('location_id');
-        $AddedLocations = LocationModel::whereIn('id',$CompetitionLocations)->get();
-        $Locations = LocationModel::whereNotIn('id',$CompetitionLocations)->get();
+        $AddedLocations =LocationModel::where('location_for','!=','E')->whereIn('id',$CompetitionLocations)->get();
+        $Locations =LocationModel::where('location_for','!=','E')->whereNotIn('id',$CompetitionLocations)->get();
         return view('admin.event.editEventCompetition',compact('EventCompetition','CompetitionLocations','id','AddedLocations','Locations','eventId'));
     }
 
     public function UpdateCompetition(Request $request)
     {
-         CompetitionLocations::where('competition_id',$request->competition_id)->delete();
+        
 
         $Competition = EventCompetition::where('competition_id',$request->competition_id)->first();
         $Competition->member_fee = $request->member_fee;
@@ -653,6 +654,7 @@ class EventController extends Controller
 
         if($request->has('location'))
         {
+             CompetitionLocations::where('competition_id',$request->competition_id)->delete();
             $CompetitionLocations_Count = count($request->location); 
         }
         else
@@ -661,7 +663,7 @@ class EventController extends Controller
         }
         for($i = 0;$i < $CompetitionLocations_Count; $i++)
         {
-
+            
             $CompetitionLocations = new CompetitionLocations();
             $CompetitionLocations->event_id = $request->eventId;
             $CompetitionLocations->competition_id = $request->competition_id;
@@ -713,7 +715,53 @@ class EventController extends Controller
             $event['event'] = Event::find($id);
             return view('admin.event.eventEditForm',$event);
         }
+    public function EventEntryTicketStatusChange(Request $request)
+    {
+        $eventTicket = EventEntryTickets::find($request->id);
+        if($eventTicket){
+            $eventTicket->status = $request->status;
+            $eventTicket->save();
+             return response()->json(['success'=>$eventTicket]);
 
+
+        }else{
+            
+          return response()->json(['success'=>$eventTicket]);
+
+        }
+    }
+
+     public function EventFoodTicketStatusChange(Request $request)
+    {
+        $eventTicket = EventTicket::where('id',$request->id)->first();
+        if($eventTicket){
+            $eventTicket->status = $request->status;
+            $eventTicket->save();
+             return response()->json(['success'=>$eventTicket]);
+
+
+        }else{
+            
+          return response()->json(['success'=>$eventTicket]);
+
+        }
+    }
+
+     public function EventCompetitionStatusChange(Request $request)
+    {
+        $eventTicket = EventCompetition::find($request->id);
+        if($eventTicket){
+            $eventTicket->status = $request->status;
+            $eventTicket->save();
+             return response()->json(['success'=>$eventTicket]);
+
+
+        }else{
+            
+          return response()->json(['success'=>$eventTicket]);
+
+        }
+    }
     
 
 }

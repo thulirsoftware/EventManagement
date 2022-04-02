@@ -30,6 +30,11 @@
       <input type="button" id="entry_save_button{{ $ticket['id'] }}" value="Save" class="btn btn-primary" onclick="save_Entry_row('{{ $ticket['id'] }}')" style="display:none">
       &nbsp;&nbsp;
       <a id="row_entry_delete{{ $ticket['id'] }}" onclick="DeleteEntryTicket({{ $ticket['id'] }})"><i class="fa fa-trash fa-lg" style="cursor:pointer;color:#0069d9"></i></a>
+      @if($ticket['status']=='Y')
+      <a id="row_entry_approve{{ $ticket['id'] }}" onclick="ApproveEntryTicket({{ $ticket['id'] }},'N')"><i class="fa fa-thumbs-up fa-lg" style="cursor:pointer;color:green"></i></a>
+      @else
+        <a id="row_entry_approve{{ $ticket['id'] }}" onclick="ApproveEntryTicket({{ $ticket['id'] }},'Y')"><i class="fa fa-thumbs-down fa-lg" style="cursor:pointer;color:red"></i></a>
+      @endif
   </td>
 
 </tr>

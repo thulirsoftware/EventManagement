@@ -38,6 +38,11 @@
 </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -397,6 +402,50 @@ function DeleteEventFoodTicket(id) {
   } else {
 
   }
+}
+
+ function ApproveEntryTicket(id,status) {
+      $.ajax({
+        type : 'get',
+        url : '{{URL::to('admin/Event/EntryTicket/Validation')}}',
+        data : {'id':id,'status':status},
+        success:function(data){
+          localStorage.setItem('nav','nav-profile');
+          window.location.reload();
+      } 
+  });
+
+
+}
+
+  function ApproveFoodTicket(id,status) {
+       console.log(id);
+      $.ajax({
+        type : 'get',
+        url : '{{URL::to('admin/Event/FoodTicket/Validation')}}',
+        data : {'id':id,'status':status},
+        success:function(data){
+          localStorage.setItem('nav','nav-contact');
+          window.location.reload();
+      } 
+  });
+
+
+}
+
+ function ApproveCompetition(id,status) {
+     console.log(id);
+      $.ajax({
+        type : 'get',
+        url : '{{URL::to('admin/Event/Competition/Validation')}}',
+        data : {'id':id,'status':status},
+        success:function(data){
+          localStorage.setItem('nav','nav-competition');
+          window.location.reload();
+      } 
+  });
+
+
 }
 </script>
 

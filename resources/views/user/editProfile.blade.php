@@ -34,7 +34,7 @@
 
     <div class="card-body">
 
-        <form method="post" action="{{ url('editProfilePost') }}" enctype="multipart/form-data">
+        <form method="post" action="{{ url('editProfilePost') }}" enctype="multipart/form-data" onsubmit="return validateForm()">
           {{ csrf_field() }}
 
           <input type="hidden" name="email" value="{{ $member['primaryEmail'] }}">
@@ -42,25 +42,25 @@
             <div class="col-md-6">
                <div class="form-group">
                   <label>First Name<span style="color:red">*</span><br></label>
-                  <input type="text" class="form-control" name="firstName" value="{{ $member['firstName'] }}" placeholder="First Name" required autofocus>
+                  <input type="text" class="form-control" name="firstName" value="{{ $member['firstName'] }}" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" placeholder="First Name" required autofocus>
               </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label>Last Name<span style="color:red">*</span><br></label>
-              <input type="text" class="form-control" name="lastName" value="{{ $member['lastName'] }}" placeholder="Last Name" required autofocus>
+              <input type="text" class="form-control" name="lastName" value="{{ $member['lastName'] }}" placeholder="Last Name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" required autofocus>
           </div>
       </div>
       <div class="col-md-6">
          <div class="form-group">
             <label>Email<span style="color:red">*</span><br></label>
-            <input id="email" type="email" class="form-control"  value="{{ $member['Email_Id'] }}" placeholder="Primary Email" required>
+            <input id="email" type="email" class="form-control"  value="{{ $member['Email_Id'] }}" placeholder="Primary Email" disabled>
         </div>
     </div>
     <div class="col-md-6">
        <div class="form-group">
           <label>Mobile No<span style="color:red">*</span><br></label>
-          <input id="mobile" type="number" class="form-control" name="mobile" value="{{ $member['mobile_number'] }}"  maxlength="10"  placeholder="Mobile No" required>
+          <input id="mobile" type="text" class="form-control" name="mobile" value="{{ $member['mobile_number'] }}"  maxlength="10"  placeholder="Mobile No" required>
       </div>
   </div>
   <div class="col-md-6">
@@ -81,7 +81,7 @@ $dates = $date->toDateString();
 <div class="col-md-6">
    <div class="form-group">
       <label class="control-label" for="dob">DOB&nbsp;<span style="color:red">*</span></label>
-      <input type="date" class="form-control"  name="dob" value="{{$member['dob']}}" max="{{$dates}}" required>
+      <input type="date" class="form-control"  name="dob" value="{{$member['dob']}}" max="{{$dates}}" id="dob" required>
 
   </div>
 
@@ -120,13 +120,13 @@ $dates = $date->toDateString();
       <div class="col-md-6">
           <div class="form-group">
             <label>City<span style="color:red">*</span><br></label>
-            <input id="city" style="border-radius: 4px" type="text" class="form-control" name="city" value="{{ $member['country'] }}" required>
+            <input id="city" style="border-radius: 4px" type="text" class="form-control" name="city" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" value="{{ $member['country'] }}" required>
         </div>
     </div>
     <div class="col-md-6">
       <div class="form-group">
         <label>State<span style="color:red">*</span><br></label>
-        <input id="state" style="border-radius: 4px" type="text" class="form-control" name="state" value="{{ $member['state'] }}" required>
+        <input id="state" style="border-radius: 4px" type="text" class="form-control" name="state" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" value="{{ $member['state'] }}" required>
 
     </div>
 </div>
@@ -138,7 +138,6 @@ $dates = $date->toDateString();
 </div>
 <div class="col-md-6">
   <div class="form-group">
-    @if($member['profile']=="icon-5359553_1280.webp")
     <label>Upload Member Image</label>
  <div class="input-group">
               <div class="custom-file">
@@ -149,17 +148,7 @@ $dates = $date->toDateString();
             </div>
 
         </div>
-         @else
-          <label>Upload Member Image&nbsp;<br></label>
-        <div class="input-group">
-              <div class="custom-file">
-              
-                
-                 <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()" accept="image/*">
-                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-            </div>
-
-        </div>@endif
+        
          <div id="editor"></div>
 </div>
 </div>
@@ -173,6 +162,8 @@ $dates = $date->toDateString();
                      <div class="col-md-8 form-group">
                       <button type="submit" class="btn btn-primary">Update</button>
                       <a href="/memberTickets" class="btn btn-warning">Cancel</a>
+                        <div class="col-md-4 form-group">
+                     </div>
 
 </div></div><br>
 </form>
@@ -265,5 +256,29 @@ $dates = $date->toDateString();
       $("#maritalStatus1").hide();
   });
 });
+
+function validateForm(){
+    var birthday = document.getElementById('dob').value;
+    console.log(birthday);
+	// it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+	var optimizedBirthday = birthday.replace(/-/g, "/");
+
+	//set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+	var myBirthday = new Date(optimizedBirthday);
+
+	// set current day on 01:00:00 hours GMT+0100 (CET)
+	var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+
+	// calculate age comparing current date and borthday
+	var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+
+	if(myAge < 18) {
+	    alert('Age must be greater than 18')
+     	    return false;
+        }else{
+	    return true;
+	}
+
+}
 </script>
 @endsection

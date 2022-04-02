@@ -32,6 +32,9 @@ use App\Donation;
 use App\SponsorshipCfg;
 use App\Sponsorship;
 use App\MembershipMandatory;
+use App\Admin;
+use App\Campaign;
+use App\GroupNames;
 
 class MemberController extends Controller
 {
@@ -44,7 +47,41 @@ class MemberController extends Controller
         //$EventRegistration->user_id = Auth::user()->id;
 
         $events = Event::whereNotIn('id',$EventCompetition)->where('eventDate','>=',$toDay)->orderby('id','desc')->get();
-       
+        $selfCount = FamilyMember::where('is_family_member','N')->where('user_id',Auth::user()->id)->count();
+        if($selfCount<=0)
+        {
+            $member = Member::where('user_id',Auth::user()->id)->first();
+            if($member)
+            {
+                $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $new = new FamilyMember();
+                $new->firstName = 'Self';
+                $new->lastName = '';
+                $new->user_id = Auth::user()->id;
+                $new->Member_Id =$member->Member_Id;
+                $new->age = $age;
+                $new->dob = $member->dob;
+                $new->phoneNo = $member->mobile_number;
+                $new->is_family_member ='N';
+                $new->save();
+            }
+
+            else
+            {
+                 $member = NonMember::where('user_id',Auth::user()->id)->first();
+                 $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $new = new FamilyMember();
+                $new->firstName = 'Self';
+                $new->lastName = '';
+                $new->user_id = Auth::user()->id;
+                $new->dob = $member->dob;
+                $new->age = $age;
+                $new->phoneNo = $member->mobile_number;
+                $new->is_family_member ='N';
+                $new->save();
+            }
+        }
+            
         return view('user.memberTickets',compact('events'));
     }
 
@@ -138,7 +175,9 @@ class MemberController extends Controller
         $compeitionAmounts = "0";
         $events = Event::where('id', $request->eventId)->first();
         Session::put('Events', $events);
-        return view('user.view_purchased_amount_details',compact('totalAmount','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
+        Session::put('CompetitionStore', $request->all());
+         $competitionStore = Session::get('CompetitionStore');
+        return redirect('/MemberCompetitionget');
     }
     else
     {
@@ -163,6 +202,44 @@ class MemberController extends Controller
         $familyMembersAjax = FamilyMember::get();
         return view('user.competition_register',compact('familyMembers','Competition','EventCompetitionAJax','familyMember_list','MembersAjax','familyMembersAjax'));
     }
+    
+    public function MemberCompetitionShow()
+    {
+        $allData = Session::get('CompetitionStore');
+        if($allData['FoodticketType'])
+        {
+            $foodticketCount = count($allData['FoodticketType']); 
+        }
+        else
+        {
+             $foodticketCount = 0;
+        }
+        if($allData['ticketType'])
+        {
+            $ticketCount = count($allData['ticketType']); 
+        }
+        else
+        {
+             $ticketCount = 0;
+        }
+       
+        $totalAmount = 0;
+        $FoodAmount = 0;
+        $EntryTicketAmounts =0;
+        Session::put('TicketStore', $allData);
+        for($i=0; $i<$ticketCount; $i++){
+        $EntryTicketAmounts += (intval($allData['ticketQty'][$i])) * (intval($allData['ticketPrice'][$i])); 
+        }
+        for($i=0; $i<$foodticketCount; $i++){
+        $FoodAmount += (intval($allData['FoodticketQty'][$i])) * (intval($allData['FoodticketPrice'][$i])); 
+        }
+         $totalAmount = $EntryTicketAmounts+$FoodAmount;
+            $compeitionAmounts = "0";
+            $eventName = "";
+              return view('user.view_purchased_amount_details',compact('totalAmount','eventName','ticketCount','foodticketCount','EntryTicketAmounts','FoodAmount','compeitionAmounts'));
+        
+    }
+    
     public function MemberCompetitionPost(Request $request)
     {
         $request = $request->all();
@@ -232,7 +309,7 @@ class MemberController extends Controller
     {
         
         $request = Session::get('TicketStore');
-        $CompetitionStore = Session::get('CompetitionStore');
+        $CompetitionStore = Session::get('CompetitionStore');//need to add
         if(isset($request['FoodticketType']))
         {
              $foodticketCount = count($request['FoodticketType']);
@@ -335,6 +412,17 @@ class MemberController extends Controller
                 $PurchasedEventFoodTickets->ticketAmount = $request['FoodticketPrice'][$i];
                 $PurchasedEventFoodTickets->save();
             }
+        $groupOrSolo = Str::contains($CompetitionStore['Competition'], 'group');
+        $GroupNames = null;
+        if($groupOrSolo)
+        {
+            $GroupNames = new GroupNames();
+            $GroupNames->name = $CompetitionStore['group_name'];
+            $GroupNames->description = $CompetitionStore['group_description'];
+            $GroupNames->no_of_participants = $CompetitionStore['no_of_participants'];
+            $GroupNames->save();
+        }
+
             for($i = 0;$i < $competition_idCount; $i++)
             {
                 $CompetitionRegistered = new CompetitionRegistered();
@@ -342,7 +430,18 @@ class MemberController extends Controller
                 $CompetitionRegistered->participant_id = $CompetitionStore['participant_id'][$i];
                 $CompetitionRegistered->competition_id = $CompetitionStore['competition_id'][$i];
                 $CompetitionRegistered->fees = $CompetitionStore['member_fee'][$i];
-                 $CompetitionRegistered->user_id = Auth::user()->id;
+                $CompetitionRegistered->user_id = Auth::user()->id;
+            
+                $CompetitionRegistered->first_name = $CompetitionStore['first_name'][$i];
+
+                $CompetitionRegistered->last_name = $CompetitionStore['last_name'][$i];
+                $CompetitionRegistered->last_name = $CompetitionStore['last_name'][$i];
+                $CompetitionRegistered->age = $CompetitionStore['age'][$i];
+                if($GroupNames!=null)
+                {
+                    $CompetitionRegistered->group_id = $GroupNames->id;
+                }
+                
                 $CompetitionRegistered->save();
             }
 
@@ -484,7 +583,7 @@ class MemberController extends Controller
             $membershipBuy->payment_status = "Completed";
             $membershipBuy->save();
             
- $member = Member::where('user_id',Auth::user()->id)->first();
+        $member = Member::where('user_id',Auth::user()->id)->first();
         if($member==null)
         {
               $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
@@ -716,11 +815,12 @@ class MemberController extends Controller
 
         public function MyEvents()
         {
+            
             $toDay =Carbon::now()->toDateString();
-            $EventRegistration = EventRegistration::where('user_id',Auth::user()->id)->pluck('event_id');
-
-            $events = Event::whereIn('id',$EventRegistration)->get();
-            return view('user.MyEvents',compact('events'));
+            $EventRegistration = EventRegistration::where('user_id',Auth::user()->id)->groupby('event_id')->pluck('event_id');
+            $events = Event::whereIn('id',$EventRegistration)->where('eventDate','>=',date('Y-m-d'))->get();
+            $pastevents = Event::whereIn('id',$EventRegistration)->where('eventDate','<',date('Y-m-d'))->get();
+            return view('user.MyEvents',compact('events','pastevents'));
         }
 
         public function ViewEvent($id)
@@ -729,8 +829,19 @@ class MemberController extends Controller
             
             $Purchased_Entry_Tickets = PurchasedEventEntryTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
             $Purchased_Food_Tickets = PurchasedEventFoodTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
-            $CompetitionRegistered = CompetitionRegistered::where('event_id',$id)->where('user_id',Auth::user()->id)->get();
-            return view('user.ViewEvents',compact('events','CompetitionRegistered','id','Purchased_Entry_Tickets','Purchased_Food_Tickets'));
+            $CompetitionRegistered = CompetitionRegistered::where('user_id',Auth::user()->id)->where('event_id',$id)->get();
+             $collection = $CompetitionRegistered->map(function ($item) {
+                $group = GroupNames::where('id',$item->group_id)->first();
+                if($group!=null)
+                {
+                     $item->group_name = $group->name;
+                }
+               
+             });
+             $purchased = TicketPurchase::where('user_id',Auth::user()->id)->where('paymentStatus',null)->orwhere('paymentStatus','=',"Payment failed")->get();
+
+         
+            return view('user.ViewEvents',compact('events','CompetitionRegistered','id','Purchased_Entry_Tickets','Purchased_Food_Tickets','purchased'));
         }
 
         public function AddVolunteer()
@@ -744,8 +855,9 @@ class MemberController extends Controller
             {
                 return redirect()->back()->withWarning('Must Enable one opportunities');
             }
-            $Volunteer = Volunteer::where('user_id',Auth::user()->id)->count();
-            if($Volunteer>0)
+            $data = explode("-",$request->volunteer_from);
+            $Volunteer = Volunteer::where('user_id',Auth::user()->id)->where('family_member_id',$data[0])->count();
+          if($Volunteer>0)
             {
                 return redirect()->back()->withWarning('Your Already an volunteer');
             }
@@ -753,34 +865,83 @@ class MemberController extends Controller
             {
                 $str = implode (", ", $request->opportunities);
                 $member = Member::where('user_id',Auth::user()->id)->first();
+                 $FamilyMember = FamilyMember::where('user_id',Auth::user()->id)->where('id',$data[0])->first();
                 if($member!=null)
                 {
                     $Volunteer = new Volunteer();
-                    $Volunteer->user_id = Auth::user()->id;
-                    $Volunteer->name = Auth::user()->name;
-                    $Volunteer->email = Auth::user()->email;
-                    $Volunteer->mobile_number =$member->mobile_number;
-                    $Volunteer->email_group = $request->email_group;;
+                    if($request->volunteer_from!=='self')
+                    {
+                        $Volunteer->volunteer_from = $FamilyMember->relationshipType;
+                         $Volunteer->user_id = Auth::user()->id;
+                        $Volunteer->family_member_id = $FamilyMember->id;
+                        $Volunteer->name = $FamilyMember->firstName;
+                        $Volunteer->email = null;
+                        $Volunteer->mobile_number =$FamilyMember->phoneNo;
+                        
+                        
+                    }
+                    else
+                    {
+                        $Volunteer->volunteer_from = 'self';
+                        $Volunteer->user_id = Auth::user()->id;
+                        $Volunteer->name = Auth::user()->name;
+                        $Volunteer->email = Auth::user()->email;
+                        $Volunteer->mobile_number =$member->mobile_number;
+                    }
+
+                    $Volunteer->email_group = $request->email_group;
                     $Volunteer->opportunities =$str;
                     $Volunteer->comments =$request->comments;
                     $Volunteer->youth_volunteer =$request->youth_volunteer;
+                    $Volunteer->volunteer_for =$request->volunteer_for;
+                    $Volunteer->event_id =$request->event_id;
                     $Volunteer->save();
                 }
                 else
                 {
                     $NonMember = NonMember::where('user_id',Auth::user()->id)->first();
+
                     $Volunteer = new Volunteer();
-                    $Volunteer->user_id = Auth::user()->id;
-                    $Volunteer->name = Auth::user()->name;
-                    $Volunteer->email = Auth::user()->email;
-                    $Volunteer->mobile_number =$NonMember->mobile_number;
+                    if($request->volunteer_from!=='self')
+                    {
+                        $Volunteer->volunteer_from = $FamilyMember->relationshipType;
+                         $Volunteer->user_id = Auth::user()->id;
+                        $Volunteer->family_member_id = $FamilyMember->id;
+                        $Volunteer->name = $FamilyMember->firstName;
+                        $Volunteer->email = null;
+                        $Volunteer->mobile_number =$FamilyMember->phoneNo;
+                    }
+                    else
+                    {
+                        $Volunteer->volunteer_from = 'self';
+                        $Volunteer->user_id = Auth::user()->id;
+                        $Volunteer->name = Auth::user()->name;
+                        $Volunteer->email = Auth::user()->email;
+                        $Volunteer->mobile_number =$NonMember->mobile_number;
+                    }
                     $Volunteer->email_group = $request->email_group;;
                     $Volunteer->opportunities =$str;
                     $Volunteer->comments =$request->comments;
                     $Volunteer->youth_volunteer =$request->youth_volunteer;
+                    $Volunteer->volunteer_for =$request->volunteer_for;
                     $Volunteer->save();
                    
                 }
+                $Volunteer = Volunteer::where('id',$Volunteer->id)->first();
+                 \Mail::send('emails.volunteer_email', ['volunteer' => $Volunteer], function($message) use($request){
+
+              $message->to(Auth::user()->email);
+
+              $message->subject('Volunteer Enrollment');
+
+          });
+           \Mail::send('emails.volunteer_email', ['volunteer' => $Volunteer], function($message) use($request){
+
+              $message->to('tamil@staging.netamilsangam.org');
+
+              $message->subject('Volunteer Enrollment');
+
+          });
                 return redirect()->back()->withSuccess('Volunteer added Successfully');
             }
 
@@ -808,7 +969,15 @@ class MemberController extends Controller
                 {
                     $user = User::find(auth()->user()->id);
                     $user->password = bcrypt($request['password']);
-                    $user->save();
+                     $user->save();
+                    
+                    $admin = Admin::where('email',auth()->user()->email)->first();
+                    if($admin)
+                    {
+                        $admin->password = bcrypt($request['password']);
+                        $admin->save();
+                    }
+                    
                     return back()->withSuccess('Password Updated Successfully');
                 }
         }
@@ -836,23 +1005,46 @@ class MemberController extends Controller
 
         public function Donation()
         {
-            return view('user.donation.add');
+            $campaigns = Campaign::where('start_date','<=',date('y-m-d'))->where('end_date','<=',date('y-m-d'))->get();
+            return view('user.donation.add',compact('campaigns'));
         }
 
         public function AddDonation(Request $request)
         {
-            $donation = new Donation();
-            $donation->user_id = Auth::user()->id;
-            $donation->name = $request->name;
-            $donation->email = $request->email;
-            $donation->mobile_no =$request->phone;
-            $donation->amount =$request->amount;
-            $donation->address =$request->address;
-            $donation->city =$request->city;
-            $donation->pincode =$request->pincode;
-            $donation->comments =$request->comments;
-            $donation->save();
-            return back()->withSuccess('Donation added Successfully');
+            if($request->id==null)
+            {
+                $donation = new Donation();
+                $donation->user_id = Auth::user()->id;
+                $donation->name = $request->name;
+                $donation->email = $request->email;
+                $donation->mobile_no =$request->phone;
+                $donation->amount =$request->amount;
+                $donation->address =$request->address;
+                $donation->city =$request->city;
+                $donation->pincode =$request->pincode;
+                $donation->comments =$request->comments;
+                $donation->donation_for =$request->donation_for;
+                $donation->campaign_id =$request->campaign_id;
+                $donation->save();
+               Session::put('donationshippaymentId',$donation->id);
+                return redirect('donationpaymentComplete');
+            }
+            else
+            {
+                $donation = Donation::find($request->id);
+                $donation->name = $request->name;
+                $donation->email = $request->email;
+                $donation->mobile_no =$request->phone;
+                $donation->amount =$request->amount;
+                $donation->address =$request->address;
+                $donation->city =$request->city;
+                $donation->pincode =$request->pincode;
+                $donation->comments =$request->comments;
+                 $donation->donation_for =$request->donation_for;
+                 $donation->campaign_id =$request->campaign_id;
+                $donation->save();
+                return back()->withSuccess('Donation updated Successfully');
+            }
         }
 
         /******** Sponsorship *********/
@@ -872,9 +1064,32 @@ class MemberController extends Controller
             $sponsorship->sponsorship_id = $request->sponsorship_id;
             $sponsorship->amount = $request->amount;
             $sponsorship->payment_status = "Pending";
+             $sponsorship->sponsorship_for = $request->sponsorship_for;
+            $sponsorship->event_id = $request->event_id;
             $sponsorship->save();
-            return back()->withSuccess('Sponsor package  added Successfully');
+            Session::put('sponsorshippaymentId',$sponsorship->id);
+            return redirect('sponsorshippaymentComplete');
         }
+
+
+public function GroupCompetitionAddParticipant(Request $request)
+{
+    $registered = CompetitionRegistered::where('id',$request->competition_id)->first();
+        $CompetitionRegistered = new CompetitionRegistered();
+        $CompetitionRegistered->event_id =  $registered->event_id;
+        $CompetitionRegistered->participant_id = $request->participant_id;
+        $CompetitionRegistered->competition_id = $registered->competition_id;
+        $CompetitionRegistered->fees = $registered->member_fee;
+        $CompetitionRegistered->user_id = Auth::user()->id;
+
+        $CompetitionRegistered->first_name = $request->first_name;
+
+        $CompetitionRegistered->last_name = $request->last_name;
+        $CompetitionRegistered->age = $request->age;
+        $CompetitionRegistered->group_id = $registered->group_id;
+        $CompetitionRegistered->save();  
+        return back()->withSuccess('Competition added Successfully');   
+}
 
 
 }

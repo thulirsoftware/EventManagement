@@ -34,7 +34,7 @@
 
     <div class="card-body">
 
-        <form method="post" action="{{ url('editProfilePost') }}" enctype="multipart/form-data">
+        <form method="post" action="{{ url('editProfilePost') }}" enctype="multipart/form-data" onsubmit="return validateForm()">
           {{ csrf_field() }}
 
           <input type="hidden" name="email" value="{{ $member['primaryEmail'] }}">
@@ -81,7 +81,7 @@ $dates = $date->toDateString();
 <div class="col-md-6">
    <div class="form-group">
       <label class="control-label" for="dob">DOB&nbsp;<span style="color:red">*</span> </label>
-      <input type="date" class="form-control"  name="dob" value="{{$member['dob']}}" max="{{$dates}}" required="">
+      <input type="date" class="form-control"  name="dob" value="{{$member['dob']}}" max="{{$dates}}" id="dob" required="">
 
   </div>
 
@@ -138,10 +138,10 @@ $dates = $date->toDateString();
 </div>
 <div class="col-md-6">
   <div class="form-group">
-    <label>Upload Member Image&nbsp;<span style="color:red">*</span><br></label>
+    <label>Upload Member Image<br></label>
  <div class="input-group">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()" required>
+                <input type="file" class="custom-file-input" name="profile" id="exampleInputFile" onchange="showname()">
                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
             </div>
 
@@ -246,5 +246,28 @@ $dates = $date->toDateString();
       $("#maritalStatus1").hide();
   });
 });
+function validateForm(){
+    var birthday = document.getElementById('dob').value;
+    console.log(birthday);
+	// it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+	var optimizedBirthday = birthday.replace(/-/g, "/");
+
+	//set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+	var myBirthday = new Date(optimizedBirthday);
+
+	// set current day on 01:00:00 hours GMT+0100 (CET)
+	var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+
+	// calculate age comparing current date and borthday
+	var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+
+	if(myAge < 18) {
+	    alert('Age must be greater than 18')
+     	    return false;
+        }else{
+	    return true;
+	}
+
+}
 </script>
 @endsection

@@ -38,14 +38,37 @@
                 <div class="card-body">
                   <form class="form-horizontal" action="{{ url('/sponsors/add') }}" method="POST">
                       {{ csrf_field() }}
-
+                            <?php
+                             $events = \App\Event::whereDate('eventDate','>=',date('Y-m-d'))->get();
+                           ?>
                   <div class="row">
+                       <div class="col-md-12 form-group">
+                        <label class="control-label" for="sponsorship_for">Sponsorship ?:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-select" name="sponsorship_for" onchange="selectEVent(this.value)" required="">
+                            <option value="">Select</option>
+                             <option value="E">Event</option>
+                            <option value="G">General</option>
+
+                        </select>
+                    </div>
+                     <div class="col-md-12 form-group" id="event_id" style="display:none">
+                        <label class="control-label" for="event_id">Event:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-select" name="event_id" >
+                            <option value="">Select</option>
+                             @foreach($events as $event) 
+						                        <option value="{{$event->id}}">{{$event->eventName}}</option>
+						                            
+						                     @endforeach
+
+                        </select>
+                    </div>
+                    
                      <div class="col-md-12 form-group">
                         <label class="control-label" for="firstName">Select Package:&nbsp;<span style="color:red">*</span></label>
-                        <select name="sponsorship_id" class="form-control" required="" onchange="getDetails(this.value)">
+                        <select name="sponsorship_id" class="form-select" required="" onchange="getDetails(this.value)">
                             <option value="">Select Package</option>
                             @foreach($configs as $config)
-                                <option value="{{$config->id}}">{{$config->benefits}}</option>
+                                <option value="{{$config->id}}">{{$config->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -53,7 +76,7 @@
                    
                 </div> 
                
-                 <div class="row" id="amount">
+                <div class="row" id="amount">
                      <div class="col-md-12 form-group">
                         <h3 class="amount" id="amountP"></h3>
                      </div>
@@ -62,6 +85,9 @@
                   <div class="row" id="amount">
                      <div class="col-md-12 form-group">
                         <h5 class="benefits" id="benefits"></h5>
+                     </div>
+                      <div class="col-md-12 form-group">
+                         <img class="image" id="image" width="520px">
                      </div>
                  </div>
                             
@@ -101,16 +127,33 @@
             var substateArray1 =  @json($configsAjax);
             var filteredArray1 = substateArray1.filter(x => x.id == value);
             var element = document.getElementById("amountP");
-            element.innerHTML ="Amount :"+filteredArray1[0]['amount'];
+            element.innerHTML ="Amount : ($) "+filteredArray1[0]['amount'];
             var element1 = document.getElementById("addedAmount");
             element1.value=filteredArray1[0]['amount'];
             var benefits = document.getElementById("benefits");
             benefits.innerHTML ="Benefits : "+filteredArray1[0]['benefits'];
-            console.log(filteredArray1[0]['type']);
-           
+             document.getElementById("image").src = "";
+            if(filteredArray1[0]['files']!=null)
+            {
+                var img = document.getElementById("image").src="http://events.staging.netamilsangam.org/benefits/"+filteredArray1[0]['files'];
+            }
+
             
         }
     }
+    
+      function selectEVent(eventName)
+  {
+      var x = document.getElementById('event_id');
+      if(eventName=='E')
+      {
+           x.style.display = "block";
+      }
+      else
+      {
+           x.style.display = "none";
+      }
+  }
 </script>
 
 @endsection

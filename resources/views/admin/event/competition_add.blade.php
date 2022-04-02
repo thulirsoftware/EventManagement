@@ -22,6 +22,11 @@ a.disabled {
 </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
 </div>
@@ -101,7 +106,7 @@ a.disabled {
       <div class="modal-body">
         <div class="well well-sm ">
     <div class="dlk-radio">
-        <?php $locations = \App\LocationModel::where('status','Y')->get();?>
+        <?php $locations = \App\LocationModel::where('status','Y')->where('location_for','!=','E')->get();?>
          <input type="hidden" id="location_competition_id_{{ $competition['id'] }}" name="location_competition_id[]"  > 
          @foreach($locations as  $location)
         <label class=" col-md-10">

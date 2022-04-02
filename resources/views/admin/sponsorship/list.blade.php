@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -33,7 +38,6 @@
                      <th>Package Name</th>
                       <th>Type</th>
                     <th>Amount</th>
-                    <th>Benefits</th>
                     <th>Edit</th>
                 </tr>
             </thead>
@@ -41,13 +45,10 @@
               <?php $i=1; ?>  
               @foreach($sponsorship as $sponsorship)
               <tr>
-
                 <td>{{ $i++ }}</td>
                 <td>{{ $sponsorship['name'] }}</td>
                 <td>{{ $sponsorship['type'] }}</td>
-                <td>{{ $sponsorship['amount'] }}</td>
-                <td>{{ $sponsorship['benefits'] }}</td>
-                
+                <td>${{ $sponsorship['amount'] }}</td>
                 <td><a class="btn btn-primary" href="{{ route('admin.sponsorship.edit', ['id' => $sponsorship['id']]) }}" ><i class="fa fa-edit fa-lg" style="text-align:cenetr;"></i></a>&nbsp;&nbsp;<a class="btn btn-warning" onclick="Delete({{$sponsorship['id']}})" style="color:black"><i class="fa fa-trash fa-lg" style="text-align:cenetr;"></i></a></td>
 
             </tr>
@@ -64,6 +65,8 @@
 </div>
 
 @endsection
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script>
     function Delete (value) {
       if (confirm("Are your sure you want to delete the sponsorship?")) {

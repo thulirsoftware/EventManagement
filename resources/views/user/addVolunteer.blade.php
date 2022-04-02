@@ -32,22 +32,73 @@
               <div class="card-header"><center><h4>Enroll as Volunteer</h4></center></div>
 
                 <div class="card-body">
-                  <form class="form-horizontal" action="{{ url('/AddVolunteer') }}" method="POST">
+                  <form class="form-horizontal" action="{{ url('/AddVolunteer') }}"  onsubmit="return validateForm()" method="POST">
                       {{ csrf_field() }}
 
                   <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label class="control-label" for="volunteer_from">Whom to be volunteer?:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-select" name="volunteer_from" required="">
+                            <option value="">Select</option>
+                             <option value="self">Self</option>
+                             <?php
+                             $relationships = \App\FamilyMember::where('user_id',Auth()->user()->id)->get();
+                             $events = \App\Event::whereDate('eventDate','>=',date('Y-m-d'))->get();
+                           ?>
+                           @foreach($relationships as $relationship)
+                           <option value="{{$relationship->id}} - {{$relationship->relationshipType}}">{{$relationship->firstName}} {{$relationship->lastName}}</option>
+                           @endforeach
+                           
+
+                        </select>
+                    </div>
+                     <div class="col-md-12 form-group">
+                        <label class="control-label" for="volunteer_for">Volunteer?:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-select" name="volunteer_for" onchange="selectEVent(this.value)" required="">
+                            <option value="">Select</option>
+                             <option value="E">Event</option>
+                            <option value="G">General</option>
+
+                        </select>
+                    </div>
+                     <div class="col-md-12 form-group" id="event_id" style="display:none">
+                        <label class="control-label" for="event_id">Event:&nbsp;<span style="color:red">*</span></label>
+                       <select class="form-select" name="event_id" >
+                            <option value="">Select</option>
+                             @foreach($events as $event) 
+						                        <option value="{{$event->id}}">{{$event->eventName}}</option>
+						                            
+						                     @endforeach
+
+                        </select>
+                    </div>
+                    <?php
+$date =  Carbon\Carbon::now();
+$dates = $date->toDateString();
+?>
+
+<div class="col-md-12">
+   <div class="form-group">
+      <label class="control-label" for="dob">DOB&nbsp;<span style="color:red">*</span> </label>
+      <input type="date" class="form-control"  name="dob"  max="{{$dates}}" id="dob" required="">
+
+  </div>
+
+</div>
                      <div class="col-md-12 form-group">
                         <label class="control-label" for="youth_volunteer">Youth Volunteer?:&nbsp;<span style="color:red">*</span></label>
-                       <select class="form-control" name="youth_volunteer" required="">
+                       <select class="form-select" name="youth_volunteer" required="">
                             <option value="">Select</option>
                              <option value="Yes">Yes</option>
                             <option value="No">No</option>
 
                         </select>
                     </div>
+                    
+              
                     <div class="col-md-12 form-group">
                         <label class="control-label" for="email_group">Can we add you to Volunteer Email Group? *:&nbsp;<span style="color:red">*</span></label>
-                       <select class="form-control" name="email_group" required="">
+                       <select class="form-select" name="email_group" required="">
                             <option value="">Select</option>
                              <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -121,6 +172,42 @@
      x.style.display = "none";
     }
   }
+  
+  function selectEVent(eventName)
+  {
+      var x = document.getElementById('event_id');
+      if(eventName=='E')
+      {
+           x.style.display = "block";
+      }
+      else
+      {
+           x.style.display = "none";
+      }
+  }
+  function validateForm(){
+    var birthday = document.getElementById('dob').value;
+    console.log(birthday);
+	// it will accept two types of format yyyy-mm-dd and yyyy/mm/dd
+	var optimizedBirthday = birthday.replace(/-/g, "/");
+
+	//set date based on birthday at 01:00:00 hours GMT+0100 (CET)
+	var myBirthday = new Date(optimizedBirthday);
+
+	// set current day on 01:00:00 hours GMT+0100 (CET)
+	var currentDate = new Date().toJSON().slice(0,10)+' 01:00:00';
+
+	// calculate age comparing current date and borthday
+	var myAge = ~~((Date.now(currentDate) - myBirthday) / (31557600000));
+
+	if(myAge < 18) {
+	    alert('Age must be greater than 18')
+     	    return false;
+        }else{
+	    return true;
+	}
+
+}
 </script>
 
 @endsection

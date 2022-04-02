@@ -15,5 +15,7 @@ class Volunteer extends Model
                             'opportunities',
                             'comments',
                             'youth_volunteer',
+                            'volunteer_for',
+                            'event_id'
                             ];
 }

@@ -17,14 +17,14 @@
         <a href="javascript:history.back()" class="btn btn-warning" ><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;</a>
       </div>
         <div class="col-md-10">
-        <div class="card card-info" style="-webkit-box-shadow: none;
-          -moz-box-shadow: none;  box-shadow: none;background-color: #f7f7f7;">
-        <div class="card-header" style="background-color: #1f5387;">
+       <div class="card card-info" style="-webkit-box-shadow: none;
+          -moz-box-shadow: none;  box-shadow: none;background-color: #fff;border: 1px solid rgba(0,0,0.1,0.1);">
+        <div class="card-header"  style="background-color: #f5f5fc;color:black">
             <?php
             $event = Session::get('Events');
             //$event = Event::where('id',$id)->first();
         ?>
-             <h3 class="card-title">Register For {{ $event->eventName }}
+             <h3 class="card-title" style="color: black;">Register For {{ $event->eventName }}
  </h3>
         </div>
             @if(Session::has('success'))
@@ -43,10 +43,10 @@
                     </div>
                     <div class="col-md-4 form-group ">
         <label class="names">Select Competition</label>
-            <select class="form-control" name="Competition" id="getCompetition" onchange="getcompetitionType(this.value)">
+            <select class="form-select" name="Competition" id="getCompetition" onchange="getcompetitionType(this.value)">
                 <option value="">Select Competition</option>
                     @foreach($Competition as $Competition) 
-                        <option value="{{$Competition->id}}_{{$Competition->competition_type}}">{{$Competition->name}}</option>
+                        <option value="{{$Competition->id}}_{{$Competition->competition_type}}_{{$Competition->name}}">{{$Competition->name}}</option>
                             
                      @endforeach
             </select>
@@ -55,32 +55,34 @@
      </div>
      <p class="alert alert-warning" id="competitionError" style="display:none">Select Competition</p>
      
-                <div id="groupForm" style="display:none">
-                <div class="row">
+      <div id="groupForm" style="display:none">
+          <div class="row">
               
          <div class="col-md-3 form-group" id="group">
-        <label class="names">First Name</label>
-                       <input type="text" class="form-control" id="addedparticpantName">
+        <label class="names">Group Name</label>
+                       <input type="text" class="form-control" id="group_name" name="group_name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">
+
+         </div>
+         <div class="col-md-5 form-group" id="group">
+        <label class="names">Group Description</label>
+        <textarea class="form-control" id="competition_description" name="group_description" style="height: 33px;"></textarea>
 
          </div>
          <div class="col-md-3 form-group" id="group">
-        <label class="names">Last Name</label>
-                       <input type="text" class="form-control" id="addedparticpantLastName">
-
+        <label class="names">No of Participants</label>
+              <select  class="form-select"  id="no_of_participants" name="no_of_participants" onchange="selectParticipants(this.value)">
+            @for ($i = 1; $i <=10; $i++)
+        <option value="{{ $i }}">{{ $i }}</option>
+        @endfor
+         </select>  
          </div>
-         <div class="col-md-2 form-group" id="group">
-        <label class="names">Age</label>
-                       <input type="text" class="form-control" id="addedparticpantage">
-
-         </div>
-         <div class="col-md-3 form-group" id="group">
-        <label class="names">Email</label>
-            <input type="text" class="form-control" id="addedparticpantId">
-         </div>
+         </div><br>
+        <div id="group_data_form">
+              
+       </div>
          <center >
             <button type="button" class="btn btn-primary added-row">ADD</button> 
         </center>
-     </div>
      <br><br>
           
             </div> 
@@ -91,7 +93,7 @@
        
     <div class="form-group ">
         <label class="names">Select Participant</label>
-            <select class="form-control" name="familyMembers" id="solofamilyMembers">
+            <select class="form-select" name="familyMembers" id="solofamilyMembers">
                 <option value="">Select</option>
                    
             </select>
@@ -147,6 +149,50 @@
     
 </script>
 <script type="text/javascript">
+$('input').on('focusin', function(){
+    console.log("Saving value " + $(this).val());
+    $(this).data('val', $(this).val());
+});
+
+$('input').on('change', function(){
+    var prev = $(this).data('val');
+    var current = $(this).val();
+    console.log("Prev value " + prev);
+    console.log("New value " + current);
+});
+function selectParticipants(value)
+{
+    const data = [];
+    var row_entry_event_price_data=document.getElementById("group_data_form");
+    for(i=1;i<=value;i++)
+    {
+        var newOne="<div class='row'><div class='col-md-3 form-group'><label class='names'>First Name</label><input type='text' class='form-control' id='addedparticpantName"+i+"' onkeypress='return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)'></div><div class='col-md-3 form-group'><label class='names'>Last Name</label><input type='text' class='form-control' id='addedparticpantLastName"+i+"' onkeypress='return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)'></div><div class='col-md-2 form-group'><label class='names'>Age</label><select  class='form-select'  id='addedparticpantage"+i+"' onchange='selectAge(this.value)'>@for ($i = 1; $i <=100; $i++)<option value='{{ $i }}'>{{ $i }}</option>@endfor</select>  </div><div class='col-md-3 form-group'><label class='names'>Email</label><input type='text' class='form-control' id='addedparticpantId"+i+"'  onkeyup='ValidateEmail("+i+");' ><span id='lblError"+i+"' style='color: red'></span></div></div>";
+        data.push(newOne);
+    }
+   row_entry_event_price_data.innerHTML= data ;
+  
+}
+
+function selectAge(value)
+{
+    Id =  document.getElementById("getCompetition").value;
+    console.log(Id,"Id");
+    var Competition_value1  = Id.split('_', 3);
+    const slug1 = Competition_value1[2];
+    var Competition_value2  = slug1.split('-', 2);
+    const slug2 = Competition_value2[0];
+    console.log(slug2.includes("Senior"),"slug2");
+    if(slug2.includes("Senior") && value<=18)
+    {
+        alert('Must select age above 18');
+        
+    }
+    else if(slug2.includes("Junior") && value>=18)
+    {
+        alert('Must select age below 18');
+        
+    }
+}
     function  getcompetitionType(id) {
         var Competition_value  = id.split('_', 2);
         const slug = Competition_value[1];
@@ -211,7 +257,6 @@
     <script>
 
         let lineNos = 1;
-
         $(document).ready(function () {
             $(".added-row").click(function () {
                 document.getElementById("Submitbtn").disabled=false;
@@ -219,19 +264,24 @@
                 Competition_id = Competition_id.options[Competition_id.selectedIndex].text;
                 var competition_value = document.getElementById("getCompetition");
                 var Competition_values = competition_value.value;
-                 var Competition_value  = Competition_values.split('_', 2);
-                 console.log(Competition_value[0]);
-
-                var addedparticpantId = document.getElementById("addedparticpantId");
+                var Competition_value  = Competition_values.split('_', 2);
+                console.log(Competition_value[0]);
+                var divs = document.getElementById('no_of_participants'); //or getElementsByClassName... or just $('.options-holder').....
+                var rowsCount = divs.value;
+                 const data = [];
+                for(i=1;i<=rowsCount;i++)
+                {
+                                   var addedparticpantId = document.getElementById("addedparticpantId"+i);
                 var addedparticpantId = addedparticpantId.value;
-                var particpant_value = document.getElementById("addedparticpantName");
+                var particpant_value = document.getElementById("addedparticpantName"+i);
                 var particpant_value = particpant_value.value;
 
-                var addedparticpantLastName = document.getElementById("addedparticpantLastName");
+                var addedparticpantLastName = document.getElementById("addedparticpantLastName"+i);
                 var addedparticpantLastName = addedparticpantLastName.value;
-                var addedparticpantAge = document.getElementById("addedparticpantage");
+                var addedparticpantAge = document.getElementById("addedparticpantage"+i);
                 var addedparticpantAge = addedparticpantAge.value;
-                console.log(addedparticpantId);
+
+                
                if(addedparticpantId!="")
                {
                 var substateArray1 =  @json($MembersAjax);
@@ -250,21 +300,23 @@
                 var substateArray =  @json($EventCompetitionAJax);
                 var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
 
-                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>$"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td><input type='hidden' name='first_name[]' value="+ particpant_value +">"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td><input type='hidden' name='last_name[]' value="+ addedparticpantLastName +">"+addedparticpantLastName+"</td><td>input type='hidden' name='age[]' value="+ addedparticpantAge +">"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>$"+filteredArray[0]['member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             }
             else
             {
                 var substateArray =  @json($EventCompetitionAJax);
                 var filteredArray = substateArray.filter(x => x.competition_id == Competition_value[0]);
-                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td>"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td>"+addedparticpantLastName+"</td><td>"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>$"+filteredArray[0]['non_member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['non_member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                 markup = "<tr id=group_"+lineNos+"><td>"+Competition_id+"</td><td><input type='hidden' name='first_name[]' value="+ particpant_value +">"+ particpant_value + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><td><input type='hidden' name='last_name[]' value="+ addedparticpantLastName +">"+addedparticpantLastName+"</td><td><input type='hidden' name='age[]' value="+ addedparticpantAge +">"+addedparticpantAge+"</td><input type='hidden' name='participant_id[]' value="+ addedparticpantId +"></td><td>$"+filteredArray[0]['non_member_fee']+"<input type='hidden' name='member_fee[]' value="+ filteredArray[0]['non_member_fee'] +"></td><td><a  id='group_"+ lineNos +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
             }
                 tableBody = $("table tbody");
                 tableBody.append(markup);
-                document.getElementById("addedparticpantId").value="";
-                document.getElementById("addedparticpantName").value="";
-                document.getElementById("addedparticpantLastName").value="";
-                document.getElementById("addedparticpantage").value="";
+                document.getElementById("addedparticpantId"+i).value="";
+                document.getElementById("addedparticpantName"+i).value="";
+                document.getElementById("addedparticpantLastName"+i).value="";
+                document.getElementById("addedparticpantage"+i).value="";
                 lineNos++;
+                }
+
             });
         }); 
     </script>
@@ -305,7 +357,7 @@
                     fee = filteredArray[0]['non_member_fee'];
                 }
 
-                 markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td>"+ myArr[0] + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ MemberId +"></td><td>"+ myArr[1] + "</td><td>"+filteredArray1[0]['age']+"</td><td>$"+fee+"<input type='hidden' name='member_fee[]' value="+ fee +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
+                 markup = "<tr id=solo_"+lineNo11+"><td>"+Competition_id+"</td><td><input type='hidden' name='first_name[]' value="+ myArr[0] +">"+ myArr[0] + "<input type='hidden' name='competition_id[]' value="+ Competition_value[0] +"></td><input type='hidden' name='participant_id[]' value="+ MemberId +"></td><td><input type='hidden' name='last_name[]' value="+ myArr[1] +">"+ myArr[1] + "</td><td><input type='hidden' name='age[]' value="+ filteredArray1[0]['age'] +">"+filteredArray1[0]['age']+"</td><td>$"+fee+"<input type='hidden' name='member_fee[]' value="+ fee +"></td><td><a  id='solo_"+ lineNo11 +"' onclick='deleterow(this.id)'><i class='fa fa-trash fa-lg' style='cursor:pointer;color:#0069d9'></i></a></td></tr>";
                 
             
                 tableBody = $("table tbody");
@@ -323,4 +375,17 @@
             document.getElementById(rowId).remove();
         }
     </script>
+    
+<script type="text/javascript">
+    function ValidateEmail(i) {
+        var email = document.getElementById("addedparticpantId"+i).value;
+        var lblError = document.getElementById("lblError"+i);
+        lblError.innerHTML = "";
+        var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test(email)) {
+            lblError.innerHTML = "Invalid email address.";
+        }
+    }
+</script>
+
 @endsection

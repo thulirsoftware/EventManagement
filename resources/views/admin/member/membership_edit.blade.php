@@ -4,6 +4,11 @@
 
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
 </div>
@@ -72,7 +77,7 @@
 
             <div class="col-md-6 form-group">
               <label class="control-label" for="membershipType">Membership Code:</label>
-                 <select name="membershipType" id="membershipType" class="form-control" required>
+                 <select name="membershipType" id="membershipType"  class="form-select" required>
                     <option value="">Choose Membership Code</option>
                      @foreach($MembershipCode as $i=>$MembershipCode)
                     <option value="{{$MembershipCode['membership_code']}}" <?= $MembershipBuy['membership_code'] == $MembershipCode['membership_code']?'selected':'' ?>>{{$MembershipCode['membership_code']}}</option> 

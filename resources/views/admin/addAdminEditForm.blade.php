@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
 </div>
@@ -31,14 +36,11 @@
 
                   <input type="hidden" name="id" value="{{ $admin['id']}}">
                 <div class="row">                        
-                  <div class="col-md-6 form-group">
-                    <label for="name">First Name:&nbsp;<span style="color:red">*</span></label>
-                      <input type="text" class="form-control" id="name" placeholder="Enter First Name" name="firstname" value="{{ $admin['name']}}" required>
-                  </div>
+               
 
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-12 form-group">
                     <label for="job_title">Role:&nbsp;<span style="color:red">*</span></label>
-                      <select name="role" class="form-control" required>
+                      <select name="role"  class="form-select" required>
                         <option value="SAdmin" <?= $admin['job_title'] == "SAdmin"?'selected':'' ?> >Super Admin</option>
                         <option value="Admin" <?= $admin['job_title'] == "Admin"?'selected':'' ?> >Admin</option>
                       </select>
@@ -49,9 +51,9 @@
 
                   
 
-                  <div class="col-md-6 form-group">
+                  <div class="col-md-12 form-group">
                     <label for="email">Email :&nbsp;<span style="color:red">*</span></label>
-                      <input type="email" class="form-control" id="email" placeholder="User Name" name="userName" value="{{ $admin['email']}}" required>
+                      <input type="email" class="form-control" id="email" placeholder="User Name" name="userName" value="{{ $admin['email']}}" disabled>
                   </div>
                    
                 </div>

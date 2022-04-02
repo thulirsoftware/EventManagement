@@ -1,8 +1,19 @@
 @extends('layouts.admin')
 @section('content')
-
+<style>
+    .btn-group > .btn, .btn-group-vertical > .btn {
+  position: relative;
+  flex: 1 1 auto;
+  color: black !important;
+}
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>   
@@ -37,7 +48,7 @@
                    <div class="col-md-6 form-group">
                   <label for="type">Type:&nbsp;<span style="color:red">*</span></label>
 
-                  <select name="competition_type" class="form-control" required>
+                  <select name="competition_type"  class="form-select" required>
                     <option value="">Select Type</option>
                     <option value="group">Group</option>
                     <option value="solo">Solo</option>
@@ -67,13 +78,13 @@
                
                
                 <div class="col-md-6 form-group">
-                <label for="Description">Member Fees :&nbsp;<span style="color:red">*</span></label>
-                <input type="text" class="form-control" id="member_fee" name="member_fee" required>
+                <label for="Description">Member Fees : ($)&nbsp;<span style="color:red">*</span></label>
+                <input type="text" class="form-control" id="member_fee" name="member_fee" required maxlength="5"   oninput="getPrice(this.value)">
                  <p id="member_fee_error" style="color:red"></p>
             </div>
            <div class="col-md-6 form-group">
-                    <label for="Description">Non Member Fees :&nbsp;<span style="color:red">*</span></label>
-                      <input type="text" class="form-control" id="non_member_fee" name="non_member_fee" required>
+                    <label for="Description">Non Member Fees :($)&nbsp;<span style="color:red">*</span></label>
+                      <input type="text" class="form-control" id="non_member_fee" name="non_member_fee" maxlength="5"   oninput="getNonMemberPrice(this.value)" required>
                        <p id="non_member_fee_error" style="color:red"></p>
             </div>
                 
@@ -110,6 +121,39 @@
 </section>
 </div>
 
-
+<script>
+     function getPrice(price)
+  {
+      
+      var lblError = document.getElementById("member_fee_error");
+      if(Math.abs(price)<='-1')
+      {
+          var FoodticketPrice = document.getElementById("member_fee");
+            FoodticketPrice.value='';
+           lblError.innerHTML = "Must enter valid price";
+      }
+      else
+      {
+            lblError.innerHTML = "";
+         
+      }
+  }
+function getNonMemberPrice(price)
+  {
+      
+      var lblError = document.getElementById("non_member_fee_error");
+      if(Math.abs(price)<='-1')
+      {
+          var FoodticketPrice = document.getElementById("non_member_fee");
+            FoodticketPrice.value='';
+           lblError.innerHTML = "Must enter valid price";
+      }
+      else
+      {
+            lblError.innerHTML = "";
+         
+      }
+  }
+</script>
 
 @endsection

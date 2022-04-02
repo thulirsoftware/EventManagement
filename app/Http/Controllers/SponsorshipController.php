@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SponsorshipCfg;
 use Carbon\Carbon;
 use App\Event;
+use App\Sponsorship;
 
 class SponsorshipController extends Controller
 {
@@ -29,9 +30,23 @@ class SponsorshipController extends Controller
 
         public function Save(Request $request)
         {
+            $fileName = "";
+                 if ($request->hasFile('image')){  
+                     
+                 $file = $request->file('image');
+                 
+                 $extension = $file->getClientOriginalExtension(); 
+                 
+                 $fileName = time().'.'.$extension;
+                 
+                 $path = public_path().'/benefits';
+                 
+                 $uplaod = $file->move($path,$fileName); 
+             }
             $sponsorship = new SponsorshipCfg;
             $sponsorship->amount = $request->amount;
-            $sponsorship->benefits = $request->benefits;
+            $sponsorship->benefits =$request->benefits;
+            $sponsorship->files =$fileName;
             $sponsorship->name = $request->name;
             $sponsorship->type = $request->type;
             $sponsorship->event_id = $request->event_id;
@@ -50,15 +65,26 @@ class SponsorshipController extends Controller
 
         public function Update(Request $request)
         {
+           $fileName = "";
+           if ($request->hasFile('image')){  
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension(); 
+                $fileName = time().'.'.$extension;
+                $path = public_path().'/benefits';
+                $uplaod = $file->move($path,$fileName); 
+             }
             $sponsorship = SponsorshipCfg::find($request->sponsorshipId);
             $sponsorship->amount = $request->amount;
-            $sponsorship->benefits = $request->benefits;
+            $sponsorship->benefits =$request->benefits;
+             $sponsorship->files =$fileName;
             $sponsorship->name = $request->name;
             $sponsorship->type = $request->type;
             $sponsorship->event_id = $request->event_id;
             $sponsorship->save();
-               
-            return redirect(route('admin.sponsorship.list'));
+            
+            $sponsorship = Sponsorship::where('sponsorship_id',$request->sponsorshipId)->update(['amount'=>$sponsorship->amount,'sponsorship_id'=>$sponsorship->id]);
+
+           return redirect(route('admin.sponsorship.list'))->withSuccess('Sponsorship updated Successfully');
         }
 
 

@@ -18,6 +18,16 @@
     <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
   <Style>
+       .form-control{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+    .form-check-input{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+   .form-select{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+  
     .field-icon {
     float: right;
     margin-left: -15px;
@@ -87,8 +97,8 @@
     text-align: center;
 }
 .accordion {
-  background-color: #1f5387;
-  color: #fff;
+  background-color: #f5f5fc;
+  color: black;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -97,16 +107,17 @@
   outline: none;
   font-size: 15px;
   transition: 0.4s;
+  border: 1px solid rgba(0,0,0.1,0.1);
 }
 
 .active1, .accordion:hover {
- background-color: #1f5387;
-  color: #fff;
+ background-color: #f5f5fc;
+  color:black;
 }
 
 .accordion:after {
   content: '\002B';
-  color: #fff;
+  color: black;
   font-weight: bold;
   float: right;
   margin-left: 5px;
@@ -138,7 +149,7 @@
 }
   </Style>
   </head>
-  <body class="skin-blue sidebar-mini">
+  <body class="">
     <div class="wrapper">
       <div >
       @include('layouts.sidebar')
@@ -146,7 +157,6 @@
       @yield('content')
     </div>
     <div>
-      @include('layouts.footer')
       <aside class="control-sidebar control-sidebar-dark">
       </aside>
     </div>

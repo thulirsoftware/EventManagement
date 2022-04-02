@@ -1,6 +1,16 @@
 @extends('layouts.user')
 
 @section('content')
+<style>
+    .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: #3f78e0;
+  background-color: #fff;
+  border-bottom: 2px solid #4267B2;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+</style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -21,7 +31,7 @@
           <div class="col-sm-7">
           </div>
           <div class="col-sm-3">
-            <a href="/EditmemberBuyTicket/{{$id}}" class="btn btn-primary btn-sm" >Add More Tickets</i>&nbsp;</a>
+            
 
           </div>
       </div>
@@ -43,12 +53,15 @@
           <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Entry Ticket</a>
           <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Food Ticket</a>
           <a class="nav-item nav-link" id="nav-competition-tab" data-toggle="tab" href="#nav-competition" role="tab" aria-controls="nav-competition" aria-selected="false">Competition</a>
+          <a class="nav-item nav-link" id="nav-payment-tab" data-toggle="tab" href="#nav-payment" role="tab" aria-controls="nav-payment" aria-selected="false">Payment</a>
       </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
         <?php
      $TotalEntryTicket = \App\PurchasedEventEntryTickets::where('eventId',$id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->count();
+     
+       $paymentStatus = \App\TicketPurchase::where('eventId',$id)->where('user_id',Auth::user()->id)->first();
     ?>
         <div class="row">
             <div class="col-md-9">
@@ -104,7 +117,7 @@
            $TotalEntryTicket = \App\PurchasedEventEntryTickets::where('eventId',$id)->where('userId',Auth::user()->id)->count();
 
             $ageGroup="";
-            if($EventEntryTickets['max_age']<="9")
+            if($EventEntryTickets['min_age']<18)
             {
               $ageGroup = "Kids";
             }
@@ -126,16 +139,35 @@
 </tbody>
 </table>
 <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h4 style="color:green"><b>Total Amount :</b> </h4>
             </div>
             <div class="col-md-1">
                 <h5>${{$totalAmount}}</h5>
             </div>
         </div><br>
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-3">
+                <h6 style="color:green"><b>Payment Status :</b> </h6>
+            </div>
+            <div class="col-md-1">
+                 @if($paymentStatus)
+                @if($paymentStatus->paymentStatus ==null)
+                <h5 class="badge badge-danger">Pending</h5>
+             @elseif($paymentStatus->paymentStatus =="Payment failed")
+                <h5 class="badge badge-danger">Payment failed</h5>
+                @else
+                 <h5 class="badge badge-success">Completed</h5>
+                @endif
+                @endif
+            </div>
+        </div><br>
 </div>
+
 
 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
     <?php
@@ -195,7 +227,7 @@
            $TotalEntryTicket = \App\PurchasedEventFoodTickets::where('eventId',$id)->where('userId',Auth::user()->id)->count();
 
             $ageGroup="";
-            if($EventTicket['max_age']<="9")
+            if($EventTicket['min_age']<18)
             {
               $ageGroup = "Kids";
             }
@@ -218,13 +250,31 @@
 </tbody>
 </table>
 <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <h4 style="color:green"><b>Total Amount :</b> </h4>
             </div>
             <div class="col-md-1">
                 <h5>${{$totalAmount}}</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-3">
+                <h6 style="color:green"><b>Payment Status :</b> </h6>
+            </div>
+            <div class="col-md-1">
+                 @if($paymentStatus)
+                @if($paymentStatus->paymentStatus ==null)
+                <h5 class="badge badge-danger">Pending</h5>
+             @elseif($paymentStatus->paymentStatus =="Payment failed")
+                <h5 class="badge badge-danger">Payment failed</h5>
+                @else
+                 <h5 class="badge badge-success">Completed</h5>
+                @endif
+                @endif
             </div>
         </div><br>
 </div>
@@ -232,6 +282,8 @@
        <?php
      $noOfParticipants = \App\CompetitionRegistered::where('event_id',$id)->where('user_id',Auth::user()->id)->count();
     ?>
+     
+
         <div class="row">
             <div class="col-md-8">
             </div>
@@ -247,8 +299,8 @@
       <tr>
         <th>Competition Name</th>
          <th>Competition Type</th>
+          <th>Group Name</th>
         <th>Fees </th>
-        <th>No Of Participants </th>
         <th>Participant Names </th>
     </tr>
 </thead>
@@ -257,6 +309,8 @@
   <?php $totalAmount=0; $participant ="";?>
   @foreach($CompetitionRegistered as $CompetitionRegistered)
   <?php
+
+
     $Competition = \App\Competition::where('id',$CompetitionRegistered['competition_id'])->first();
      $EventCompetition = \App\EventCompetition::where('competition_id',$CompetitionRegistered['competition_id'])->first();
     if($Competition->competition_type=="group" && $CompetitionRegistered->participant_id!=null)
@@ -279,33 +333,39 @@
 
     }
     
-    $totalAmount=$totalAmount+$fee;
+    $totalAmount=$noOfParticipants*$fee;
 
 ?>
 <tr >
    <td>{{$Competition->name}}</td>
    <td>{{$Competition->competition_type}}</td>
+   @if($CompetitionRegistered->group_name!=null)
+   <td>
+
+{{$CompetitionRegistered->group_name}}<br>
+</td>
+@else
+<td> - </td>
+@endif
    <td>${{ $fee }}</td>
-<td>{{ $noOfParticipants }}</td>
-@if($participant!=null)
+@if($Competition->competition_type=="solo" && $participant!=null)
 <td>{{$participant->firstName}} {{$participant->lastName}}</td>
 @else
-<td></td>
+<td>
+
+{{$CompetitionRegistered->first_name}} {{$CompetitionRegistered->last_name}}<br>
+</td>
+
 @endif
+
   </tr>
 @endforeach
 </tbody>
 </table>
- <div class="row">
-            <div class="col-md-9">
-            </div>
-            <div class="col-md-2">
-                <h4 style="color:green"><b>Total Amount :</b> </h4>
-            </div>
-            <div class="col-md-1">
-                <h5>${{$totalAmount}}</h5>
-            </div>
-        </div><br>
+ 
+</div>
+<div class="tab-pane fade" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab"><br>
+ @include('user.payLater.list')
 </div>
 </div>
 </section>
@@ -322,6 +382,48 @@
 </div>
 </div>
 </section>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Participant</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+      </div>
+      <div class="modal-body">
+         <form class="form-horizontal" action="{{ route('member.competition.participant.update') }}"   method="POST">
+                      {{ csrf_field() }}
+                      <input type="hidden" name="competition_id"  id="competition_id" >
+                       <input type="hidden" name="event_id"  id="event_id" >
+        <div class="row">
+            <div class="col-md-6 form-group"><label class="names">First Name</label><input type="text" class="form-control" name="first_name" onkeypress="return (event.charCode > 64 &amp;&amp; event.charCode < 91) || (event.charCode > 96 &amp;&amp; event.charCode < 123)"></div>
+            <div class="col-md-6 form-group">
+                <label class="names">Last Name</label>
+                <input type="text" class="form-control" name ="last_name" onkeypress="return (event.charCode > 64 &amp;&amp; event.charCode < 91) || (event.charCode > 96 &amp;&amp; event.charCode < 123)"></div>
+        <div class="col-md-6 form-group">
+            <label class="names">Age</label>
+            <select  class='form-select' name="age" >@for ($i = 1; $i <=100; $i++)<option value='{{ $i }}'>{{ $i }}</option>@endfor</select>
+        </div>
+        <div class="col-md-6 form-group"><label class="names">Email</label><input type="text" class="form-control" name="participant_id"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 form-group">
+        </div>
+        <div class="col-md-2 form-group">
+      <button type="submit" class="btn btn-primary btn-sm" >Save</button>
+  </div>
+  <div class="col-md-2 form-group">
+      <button type="button" class="btn btn-ash btn-sm" data-dismiss="modal">Close</button>
+  </div>
+  </div>
+   
+    </div>
+
+  </div>
 </div>
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
@@ -569,6 +671,12 @@ function DeleteEventFoodTicket(id) {
   } else {
 
   }
+}
+
+function openGroupModal(registrationId)
+{
+    document.getElementById('competition_id').value=registrationId;
+    $('#myModal').modal('show');
 }
 </script>
 

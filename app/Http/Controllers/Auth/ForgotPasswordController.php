@@ -20,6 +20,10 @@ use Hash;
 
 use Illuminate\Support\Str;
 
+use App\Admin; 
+
+use App\TicketPurchase;
+
 class ForgotPasswordController extends Controller
 {
           /**
@@ -79,18 +83,25 @@ class ForgotPasswordController extends Controller
             ]);
 
   
-
-          Mail::send('emails.forgetPassword', ['token' => $token], function($message) use($request){
+        try{
+            Mail::send('emails.forgetPassword', ['token' => $token], function($message) use($request){
 
               $message->to($request->email);
 
               $message->subject('Reset Password');
 
           });
+          
+          return back()->with('message', 'We have e-mailed your password reset link!');
+        }
+          catch (Exception $ex) {
+    dd($ex->getMessage());
+    return "We've got errors!";
+     return back()->with('message', 'Email sent unsuccessfull');
+}
 
   
 
-          return back()->with('message', 'We have e-mailed your password reset link!');
 
       }
 
@@ -159,18 +170,30 @@ class ForgotPasswordController extends Controller
           }
 
   
-
+            
           $user = User::where('email', $request->email)
 
                       ->update(['password' => Hash::make($request->password)]);
 
- 
+        
+            $admin = Admin::where('email', $request->email)->count();
+            if($admin>0)
+            {
+                $admin = Admin::where('email', $request->email)
 
+                      ->update(['password' => Hash::make($request->password)]);
+            }
           DB::table('password_resets')->where(['email'=> $request->email])->delete();
 
   
 
           return redirect('/login')->with('message', 'Your password has been changed!');
 
+      }
+      
+      public function email_template()
+      {
+           $ticketPurchase = TicketPurchase::where('paymentId','PAYID-MI6ZCUQ59D33671D26044844')->first();
+        return view('emails.event_registration_email',compact('ticketPurchase'));
       }
 }

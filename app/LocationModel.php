@@ -11,7 +11,8 @@ class LocationModel extends Model
                             'location_name',
                             'duration_from',
                             'duration_to',
-                            'status'
+                            'status',
+                            'location_for'
                             ];
                         
 }

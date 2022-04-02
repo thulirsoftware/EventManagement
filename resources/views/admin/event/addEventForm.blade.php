@@ -39,6 +39,11 @@
         </style>
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+  <div class="content-header">
+ <a href="#" class="sidebar-toggle openbtn" data-toggle="push-menu" role="button">&#9776;</a>
+
+</div>
   <div class="content-header">
 
   </div>
@@ -96,11 +101,19 @@
 
 
 </div>
+<?php
+$venue = \App\LocationModel::where('location_for','!=','C')->get();
 
+?>
 <div class="row">
     <div class="col-md-4 form-group ">
       <label class="names">Venue&nbsp;<span style="color:red">*</span></label>
-      <input class="form-control" type="text" name="eventLocation" required="">
+      <select  class="form-select"  name="eventLocation" required="">
+          <option value="">Select Venue</option>
+          @foreach($venue as $venue)
+            <option value="{{$venue->location_name}}">{{$venue->location_name}}</option>
+          @endforeach
+      </select>
   </div>
   <div class="col-md-4 form-group ">
      <?php
@@ -128,7 +141,7 @@
         <input type="button" class="btn btn-info"  onclick="getFoodforms()" value="Food Ticket" style="font-weight:bold">
       </label>
       <label class="col-md-1">
-      </label>
+          </label>
       <label class="col-md-3">
           <input type="checkbox" class="form-check-input" name="competitionCheck"   id="CompetitionCheck">&nbsp;&nbsp;Competition
       </label>

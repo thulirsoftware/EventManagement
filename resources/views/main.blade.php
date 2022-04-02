@@ -17,6 +17,17 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
+    <style>
+        .form-control{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+    .form-check-input{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+   .form-select{
+      border: 1px solid rgba(63, 120, 224, 0.7);
+  }
+    </style>
 </head>
 <body>
     <div id="app">
