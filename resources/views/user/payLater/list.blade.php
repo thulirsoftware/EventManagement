@@ -15,12 +15,14 @@
                    <?php 
                     $event = \App\Event::where('id',$purchase->eventId)->first();
                  ?>
+                 @if($purchase->user_id == Auth::user()->id)
                     <tr>
                         <td>{{$i+1}}</td>
                         <td>{{$event->eventName}}</td>
                         <td>$ {{$purchase->totalAmount}}</td>
                         <td><a href="{{route('payLater.pay', ['id' => $purchase['id']])}}" class="btn btn-primary btn-sm">Pay</a></td>
                     </tr>
+                    @endif
                     @endforeach
                     @else
                       <tr style="text-align:center">

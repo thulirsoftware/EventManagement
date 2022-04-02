@@ -21,7 +21,7 @@
                     <table  class="center" align="center" >
                       <tr>
                          <td  style="border:1px solid lightgrey;">
-                            <img src="http://staging.netamilsangam.org/assets/img/nets-logo.png" width='150px'>
+                            <img src="http://netamilsangam.org/assets/img/nets-logo.png" width='150px'>
                         </td>
                         <td style="background-color:#f2f2f2;padding-top:30px;border:1px solid lightgrey;width:330px">
                              <h5 class="font-weight-bold mb-1">நியூ இங்கிலாந்து தமிழ் சங்கம்</h5>

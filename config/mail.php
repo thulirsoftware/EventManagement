@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.thulirsoft.com'),
+    'host' => env('MAIL_HOST', 'mail.netamilsangam.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@thulirsoft.com'),
-        'name' => env('MAIL_FROM_NAME', 'Thulirsoft'),
+        'address' => env('MAIL_FROM_ADDRESS', 'tamil@netamilsangam.org'),
+        'name' => env('MAIL_FROM_NAME', 'N.E Tamil Sangam'),
     ],
 
     /*
@@ -132,7 +132,7 @@ return [
     */
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
-    
+
     'stream' => [
       'ssl' => [
           'allow_self_signed' => true,
@@ -142,4 +142,3 @@ return [
     ],
 
 ];
-

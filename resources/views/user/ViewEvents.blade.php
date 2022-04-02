@@ -139,22 +139,22 @@
 </tbody>
 </table>
 <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
             </div>
             <div class="col-md-3">
                 <h4 style="color:green"><b>Total Amount :</b> </h4>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <h5>${{$totalAmount}}</h5>
             </div>
         </div><br>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
             </div>
             <div class="col-md-3">
                 <h6 style="color:green"><b>Payment Status :</b> </h6>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                  @if($paymentStatus)
                 @if($paymentStatus->paymentStatus ==null)
                 <h5 class="badge badge-danger">Pending</h5>
@@ -250,22 +250,22 @@
 </tbody>
 </table>
 <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
             </div>
             <div class="col-md-3">
                 <h4 style="color:green"><b>Total Amount :</b> </h4>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <h5>${{$totalAmount}}</h5>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
             </div>
             <div class="col-md-3">
                 <h6 style="color:green"><b>Payment Status :</b> </h6>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                  @if($paymentStatus)
                 @if($paymentStatus->paymentStatus ==null)
                 <h5 class="badge badge-danger">Pending</h5>

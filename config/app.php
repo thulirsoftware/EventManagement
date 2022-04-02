@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://staging.netamilsangam.org/event/'),
+    'url' => env('APP_URL', 'https://www.netamilsangam.org/event/'),
 
     /*
     |--------------------------------------------------------------------------

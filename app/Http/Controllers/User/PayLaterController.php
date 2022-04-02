@@ -107,7 +107,7 @@ class PayLaterController extends Controller
 
        
         Session::forget('paymentId');
-        return redirect('/ViewEvent/list/'.$purchased->eventId)->withSuccess('Payment Added Successfully');
+        return redirect('/ViewEvent/'.$purchased->eventId)->withSuccess('Payment Added Successfully');
     }
 
      public function getPayLaterStatus(Request $request)
@@ -121,7 +121,7 @@ class PayLaterController extends Controller
             $purchased->save();
 
             \Session::put('error','Payment failed');
-             return redirect('/ViewEvent/list/'.$purchased->eventId)->withSuccess('Payment Failed');
+             return redirect('/ViewEvent/'.$purchased->eventId)->withSuccess('Payment Failed');
         }
         $payment = Payment::get($payment_id, $this->_api_context);        
         $execution = new PaymentExecution();
@@ -134,7 +134,7 @@ class PayLaterController extends Controller
         $purchased->save();
 
             \Session::put('success','Payment success !!');
-            return redirect('/ViewEvent/list/'.$purchased->eventId)->withSuccess('Payment Added  Successfully');
+            return redirect('/ViewEvent/'.$purchased->eventId)->withSuccess('Payment Added  Successfully');
         }
         $purchased->paymentStatus ='Payment failed';
         $purchased->save();
@@ -142,6 +142,6 @@ class PayLaterController extends Controller
           
           
         \Session::put('error','Payment failed !!');
-       return redirect('/ViewEvent/list/'.$purchased->eventId)->withSuccess('Payment Failed');
+       return redirect('/ViewEvent/'.$purchased->eventId)->withSuccess('Payment Failed');
     }
 }
