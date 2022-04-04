@@ -48,7 +48,7 @@
                                 </tr>
                                 <tr  style="border:1px solid lightgrey;">
                                      <td   style="border:1px solid lightgrey;">Mobile No : </td>
-                                    <td   style="border:1px solid lightgrey;">{{ $volunteer['mobile_nnumber'] }} </td>
+                                    <td   style="border:1px solid lightgrey;">{{ $volunteer['mobile_number'] }} </td>
                                  </tr>
                                   <tr  style="border:1px solid lightgrey;">
                                      <td   style="border:1px solid lightgrey;">Email Group : </td>
@@ -68,7 +68,11 @@
                                  </tr>
                                   <tr  style="border:1px solid lightgrey;">
                                      <td   style="border:1px solid lightgrey;">Volunteer for : </td>
-                                    <td   style="border:1px solid lightgrey;">{{ $volunteer['volunteer_for'] }} </td>
+                                     @if($volunteer['volunteer_for']=="E")
+                                    <td   style="border:1px solid lightgrey;">Event </td>
+                                    @else
+                                     <td   style="border:1px solid lightgrey;">General </td>
+                                    @endif
                                  </tr>
                                  
                                 </table>

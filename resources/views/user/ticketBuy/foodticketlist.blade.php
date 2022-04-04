@@ -102,7 +102,6 @@
            
                 <p><span style="color:red">*</span>&nbsp;Age as of event date</p>
 
-
             <input type="hidden" name="membershipExpiry" id="membershipExpiry" value="{{ $memberDetails['membershipExpiryDate'] }}">
             <input type="hidden" name="todayDate" id="todayDate" value="{{ $todayDate }}">
             
@@ -149,6 +148,10 @@
 
               </div>
             @endfor
+            @else
+            
+                            <h4 style="color:red">Food Ticket is not available now</h4>
+
             @endif
           </div>
            @if($competitionCount>0 && Auth::user()->Member_Id!=null)

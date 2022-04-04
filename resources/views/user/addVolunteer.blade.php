@@ -38,11 +38,11 @@
                   <div class="row">
                     <div class="col-md-12 form-group">
                         <label class="control-label" for="volunteer_from">Whom to be volunteer?:&nbsp;<span style="color:red">*</span></label>
-                       <select class="form-select" name="volunteer_from" required="">
+                       <select class="form-select" name="volunteer_from" onchange="selectFamilyMember(this.value)" required="">
                             <option value="">Select</option>
                              <option value="self">Self</option>
                              <?php
-                             $relationships = \App\FamilyMember::where('user_id',Auth()->user()->id)->get();
+                             $relationships = \App\FamilyMember::where('user_id',Auth()->user()->id)->where('is_family_member','Y')->get();
                              $events = \App\Event::whereDate('eventDate','>=',date('Y-m-d'))->get();
                            ?>
                            @foreach($relationships as $relationship)
@@ -207,6 +207,26 @@ $dates = $date->toDateString();
 	    return true;
 	}
 
+}
+function selectFamilyMember(value)
+{
+    console.log(value);
+    if(value=="self")
+    {
+        var substateArray1 =  @json($familyMember);
+        var filteredArray1 = substateArray1.filter(x => x.firstName == "Self");
+        console.log(filteredArray1[0]['dob']);
+        document.getElementById('dob').value= filteredArray1[0]['dob'];
+    }
+    else
+    {
+       var arr = value.split('-');
+        var substateArray1 =  @json($familyMember);
+        var filteredArray1 = substateArray1.filter(x => x.id == arr[0]);
+        console.log(filteredArray1);
+        document.getElementById('dob').value= filteredArray1[0]['dob'];
+    }
+    
 }
 </script>
 

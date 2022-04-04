@@ -120,17 +120,17 @@
                 
                      @if(count($Purchasedentrytickets)<=0)
                          @if($ageGroup=='Adult')
-                        <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</span></label>
+                        <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{$memberEventTickets[$i]['min_age'] }} - {{$memberEventTickets[$i]['max_age'] }} ) ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</span></label>
     
                         <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
                             @else
-                          <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
+                          <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{$memberEventTickets[$i]['min_age'] }} - {{$memberEventTickets[$i]['max_age'] }} )  ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
                             <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
                     
                         @endif
                         @else
-                          <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
+                          <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{$memberEventTickets[$i]['min_age'] }} - {{$memberEventTickets[$i]['max_age'] }} )  ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
                             <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
                     

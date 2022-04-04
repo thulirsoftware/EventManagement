@@ -17,6 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('loginAssets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('loginAssets/css/plugins.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         .form-control{
       border: 1px solid rgba(63, 120, 224, 0.7);
@@ -27,6 +29,11 @@
    .form-select{
       border: 1px solid rgba(63, 120, 224, 0.7);
   }
+
+.field_icon{
+    margin-left: -60px;
+margin-top: 19px;
+}
     </style>
 </head>
 <body>

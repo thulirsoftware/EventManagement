@@ -26,6 +26,7 @@ use App\FamilyMember;
 use App\NonMember;
 use Carbon\Carbon;
 use App\Member;
+use App\MembershipConfig;
 
 class MembershipPaymentController extends Controller
 {
@@ -113,6 +114,10 @@ class MembershipPaymentController extends Controller
         $payment_id = Session::get('paypal_payment_id');
          $purchased = MembershipBuy::where('Inst_No',$payment_id)->first();
         Session::forget('paypal_payment_id');
+        
+         $memberships = MembershipConfig::where('id',$purchased->membership_id)->first();
+         
+         
         if (empty($request->input('PayerID')) || empty($request->input('token'))) {
 
             $purchased->payment_status = 'Payment failed';
@@ -146,9 +151,9 @@ class MembershipPaymentController extends Controller
             $user = User::whereRaw('id = (select max(`id`) from users)')->get()->toArray();
     
             if($user){
-            $userId=$user[0]['id'];
+            $userId=Auth::user()->id;
     
-            $Member_Id='NETS'.sprintf("%07d", ++$userId);
+            $Member_Id='NETS'.sprintf("%07d", $userId);
             }else{
                 $Member_Id = "NETS0000001";
             }
@@ -173,6 +178,7 @@ class MembershipPaymentController extends Controller
                 $Member->maritalStatus = $NonMember->maritalStatus;
                 $Member->membershipAmount = $purchased->membership_amount;
                 $Member->membershipType =$purchased->membership_code;
+                $Member->membershipExpiryDate =$memberships->closing;
                 $Member->save();
                  $NonMember = NonMember::where('user_id',Auth::user()->id)->delete();
               
@@ -180,7 +186,7 @@ class MembershipPaymentController extends Controller
             else
             {
                 $Member = Member::where('Email_Id',$NonMember->Email_Id)->first();
-                $Member->membershipExpiryDate =$request->Validity;
+                $Member->membershipExpiryDate =$memberships->closing;
                 $Member->save();
     
             }

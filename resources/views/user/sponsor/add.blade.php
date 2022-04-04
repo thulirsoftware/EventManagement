@@ -132,10 +132,10 @@
             element1.value=filteredArray1[0]['amount'];
             var benefits = document.getElementById("benefits");
             benefits.innerHTML ="Benefits : "+filteredArray1[0]['benefits'];
-             document.getElementById("image").src = "";
+             
             if(filteredArray1[0]['files']!=null)
             {
-                var img = document.getElementById("image").src="http://events.staging.netamilsangam.org/benefits/"+filteredArray1[0]['files'];
+                var img = document.getElementById("image").src="http://events.netamilsangam.org/benefits/"+filteredArray1[0]['files'];
             }
 
             

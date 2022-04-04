@@ -86,7 +86,6 @@
           <table class="table table-bordered table-striped">
                 <thead>
                   <th>S.No</th>
-                  <th>Age Group</th>
                   <th>Food Type</th>
                   <th>Qty</th>
                   <th>Ticket Amount</th>
@@ -98,9 +97,9 @@
 
                 @foreach($foodTickets as $Purchasedfoodticket)
                 <?php
-
+    
                 $ageGroup="";
-                      if($Purchasedfoodticket['min_age']>=18)
+                      if($Purchasedfoodticket['max_age']>18)
                       {
                         $ageGroup = "Adult";
                       }
@@ -108,20 +107,19 @@
                       {
                         $ageGroup = "Kids";
                       }
-                      $foodAmount = $FoodAmount *$totalFoodticket;
+                      $foodAmount1 = $FoodAmount *$totalFoodticket;
 
               ?>
               <tr>
                 <td> {{ $i++ }} </td>
 
-                <td>{{ $ageGroup }}</td>
                 <td>{{ $Purchasedfoodticket['foodType'] }}</td>
 
                 <td>{{ $totalFoodticket}}</td>
                 <?php 
                 $totalAmount = $Purchasedfoodticket['no_of_tickets']*$Purchasedfoodticket['ticketAmount'];
               ?>
-                <td>${{ $foodAmount }}</td>
+                <td>${{ $FoodAmount }}</td>
                 
                 
               </tr>
@@ -138,7 +136,6 @@
           <table class="table table-bordered table-striped">
                 <thead>
                   <th>S.No</th>
-                  <th>Age Group</th>
                   <th>Qty</th>
                   <th>Ticket Amount</th>
                 </thead>
@@ -151,7 +148,7 @@
                 <?php
 
                 $ageGroup="";
-                      if($entryTicket['min_age']>=18)
+                      if($entryTicket['max_age']>18)
                       {
                         $ageGroup = "Adult";
                       }
@@ -165,11 +162,10 @@
               <tr>
                 <td> {{ $i++ }} </td>
 
-                <td>{{ $ageGroup }}</td>
 
                 <td>{{ $totalEntryticket}}</td>
                
-                <td>${{ $entryAmount }}</td>
+                <td>${{ $EntryTicketAmounts }}</td>
                 
                 
               </tr>

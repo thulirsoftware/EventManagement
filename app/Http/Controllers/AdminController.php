@@ -135,7 +135,7 @@ class AdminController extends Controller
         public function memberDetails()
         {
             $date = Carbon::now()->format('Y-m-d');
-            $MembershipBuy = MembershipBuy::where('payment_status','Completed')->pluck('user_id');
+            $MembershipBuy = MembershipBuy::where('payment_status','approved')->pluck('user_id');
             $members = Member::whereIn('user_id',$MembershipBuy)->where('membershipExpiryDate','>=',$date)->get();
 
             return view('admin.memberDetails',compact('members'));

@@ -168,9 +168,9 @@ class CompetitionController extends Controller
         {
              $foodticketCount = 0;
         }
-        if(isset($entryTickets['ticketType']))
+        if(isset($entryData['ticketType']))
         {
-             $ticketCount = count($entryTickets['ticketType']);
+             $ticketCount = count($entryData['ticketType']);
         }
         else
         {

@@ -846,7 +846,8 @@ class MemberController extends Controller
 
         public function AddVolunteer()
         {
-            return view('user.addVolunteer');
+            $familyMember = FamilyMember::where('user_id',Auth::user()->id)->get();
+            return view('user.addVolunteer',compact('familyMember'));
         }
 
         public function AddVolunteerSave(Request $request)
@@ -869,13 +870,12 @@ class MemberController extends Controller
                 if($member!=null)
                 {
                     $Volunteer = new Volunteer();
-                    if($request->volunteer_from!=='self')
+                    if($request->volunteer_from!='self')
                     {
                         $Volunteer->volunteer_from = $FamilyMember->relationshipType;
                          $Volunteer->user_id = Auth::user()->id;
-                        $Volunteer->family_member_id = $FamilyMember->id;
                         $Volunteer->name = $FamilyMember->firstName;
-                        $Volunteer->email = null;
+                        $Volunteer->email =  Auth::user()->email;;
                         $Volunteer->mobile_number =$FamilyMember->phoneNo;
                         
                         
@@ -883,8 +883,9 @@ class MemberController extends Controller
                     else
                     {
                         $Volunteer->volunteer_from = 'self';
+                        $Volunteer->family_member_id = $FamilyMember->id;
                         $Volunteer->user_id = Auth::user()->id;
-                        $Volunteer->name = Auth::user()->name;
+                        $Volunteer->name = $FamilyMember->firstName;
                         $Volunteer->email = Auth::user()->email;
                         $Volunteer->mobile_number =$member->mobile_number;
                     }

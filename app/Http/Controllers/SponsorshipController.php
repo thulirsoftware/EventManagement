@@ -30,7 +30,7 @@ class SponsorshipController extends Controller
 
         public function Save(Request $request)
         {
-            $fileName = "";
+            $sponsorship = new SponsorshipCfg;
                  if ($request->hasFile('image')){  
                      
                  $file = $request->file('image');
@@ -42,8 +42,9 @@ class SponsorshipController extends Controller
                  $path = public_path().'/benefits';
                  
                  $uplaod = $file->move($path,$fileName); 
+                 $sponsorship->files =$fileName;
              }
-            $sponsorship = new SponsorshipCfg;
+           
             $sponsorship->amount = $request->amount;
             $sponsorship->benefits =$request->benefits;
             $sponsorship->files =$fileName;

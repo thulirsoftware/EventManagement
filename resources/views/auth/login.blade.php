@@ -56,10 +56,14 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required autocomplete="current-password">
-
+                            
+                                <input id="id_password" type="password" class="form-control" name="password" required autocomplete="current-password" >
+                                           
                               
                             </div>
+                            <div class="col-md-1">
+                                <i id="toggle_pwd" class="fa fa-fw fa-eye-slash field_icon"></i>  
+                                </div>
                         </div>
 
 
@@ -87,5 +91,13 @@
 </div>
 </div>
 </section>
-  
-  <!-- Footer -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+        $(function () {
+            $("#toggle_pwd").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+               var type = $(this).hasClass("fa-eye-slash") ? "password" : "text";
+                $("#id_password").attr("type", type);
+            });
+        });
+    </script>

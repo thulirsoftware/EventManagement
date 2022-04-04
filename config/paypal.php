@@ -1,9 +1,9 @@
 <?php 
 return [ 
-    'client_id' => 'AeZHZIx70f4NHclIkrDk-Nw12Jt3CvdQkLAah_3rSFlpINFAvsXbqbSJFRTd8teNHE5YMiNzrME42hhW',
-	'secret' => 'EA1uRnZx0n--Oqdap9V32BISBmuHwjviEjP-K23jD04xWCiXRRNacCOTIOQktq5M_7VJKZsMup1Y0ac4',
+    'client_id' => 'ATwxvF8fn_2S7H429YghgSSvmIjA3yYzvynsbmAUbqzhThO1-6fr647lmM4RDTQHi7bXmdlV64Ul0olY',
+    'secret' => 'EPPN9hHoEZkRpZ5n0kCMmpWbJG_TCSGKABlmtXQP56DIsf_NTx7IeltCOqzVNMHZw9ouot2excLzZLaN',
     'settings' => array(
-        'mode' => 'live',
+        'mode' => 'sandbox',
         'http.ConnectionTimeOut' => 1000,
         'log.LogEnabled' => true,
         'log.FileName' => storage_path() . '/logs/paypal.log',

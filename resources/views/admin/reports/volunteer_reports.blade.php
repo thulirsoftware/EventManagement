@@ -58,6 +58,7 @@
               <div class="card-body">
 			  <table class="table table-bordered table-striped" id="volunteer_list">
 				 <thead>
+				     	<th>Name</th>
 					<th>Email</th>
 					<th>Mobile No</th>
 					<th>Youth Volunteer</th>

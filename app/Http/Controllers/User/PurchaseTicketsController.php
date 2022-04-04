@@ -55,7 +55,7 @@ class PurchaseTicketsController extends Controller
     public function getFoodTicket($id)
     {
         $events = Event::where('id', $id)->first();
-        $this_year = Carbon::now()->format('Y');
+        $this_year = Carbon::now()->format('Y-m-d');
         $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
          if($Member!=null)
          {

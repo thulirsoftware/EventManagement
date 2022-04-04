@@ -8,7 +8,7 @@
                        $str_arr = explode (",", $Volunteer['opportunities']); 
                       ?>
 			           <tr>
-
+                             <td>{{ $Volunteer['name'] }}</td>
 			              <td>{{ $Volunteer['email'] }}</td>
 			             <td>{{ $Volunteer['mobile_number'] }}</td>
 			              <td>{{ $Volunteer['youth_volunteer'] }}</td>
