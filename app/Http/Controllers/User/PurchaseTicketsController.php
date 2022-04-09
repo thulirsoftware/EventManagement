@@ -25,7 +25,7 @@ class PurchaseTicketsController extends Controller
     public function memberBuyTicket($id)
     {
         $events = Event::where('id', $id)->first();
-        $this_year = Carbon::now()->format('Y');
+        $this_year = date('Y-m-d');
         $Member = Member::where('user_id',Auth::user()->id)->where('membershipExpiryDate','>=',$this_year)->first();
         if($Member!=null)
          {
@@ -65,7 +65,7 @@ class PurchaseTicketsController extends Controller
          else
          {
             $memberTickets = EventTicket::where('eventId', $id)->where('memberType','NonMember')->get();
-            $memberTicketCount = EventTicket::where('eventId',$id)->where('memberType',"=", 'member')->where('status','Y')->count();
+            $memberTicketCount = EventTicket::where('eventId',$id)->where('memberType',"=", 'NonMember')->where('status','Y')->count();
          }
          $todayDate =Carbon::now()->toDateString();
          $Purchasedfoodtickets = PurchasedEventFoodTickets::where('eventId', $id)->where('userId',Auth::user()->id)->where('ticketQty','!=',null)->get();
@@ -174,52 +174,116 @@ class PurchaseTicketsController extends Controller
                 }
         $totalAmount = $totalAmount+$totalAmounts;
 
-        if ($totalAmount < 1) {
-            return redirect()->back()->with('Error', 'Total ticket quantity must be greater than 1!');
-        }
-
-        $request['totalAmount'] = $totalAmount;
-
-        
-
-        
-        if(isset($request['EntryTicketId']))
+       if ($totalAmount <=0) 
         {
-             $EventEntryTickets_count = count($request['EntryTicketId']);
+                for($i = 0;$i < $ticketCount; $i++)
+                {
+                    if($request['ticketQty'][$i]!=null)
+                    {
+                        $PurchasedEventEntryTickets = new PurchasedEventEntryTickets();
+                        $PurchasedEventEntryTickets->eventId = $request['eventId'];
+                        $PurchasedEventEntryTickets->userId = auth()->user()->id;
+                        $PurchasedEventEntryTickets->ticketId = $request['EntryTicketId'][$i];
+                        $PurchasedEventEntryTickets->ticketQty = $request['ticketQty'][$i];
+                        $PurchasedEventEntryTickets->ticketAmount = $request['ticketPrice'][$i];
+                        $PurchasedEventEntryTickets->save();
+                    }
+                }
+                
+    
+                for($i = 0;$i < $foodticketCount; $i++)
+                {
+                     if($foodTickets['ticketQty'][$i]!=null)
+                    {
+                        $PurchasedEventFoodTickets = new PurchasedEventFoodTickets();
+                        $PurchasedEventFoodTickets->eventId = $request['eventId'];
+                        $PurchasedEventFoodTickets->userId = auth()->user()->id;
+                        $PurchasedEventFoodTickets->ticketId = $foodTickets['FoodTicketId'][$i];
+                        $PurchasedEventFoodTickets->ticketQty = $foodTickets['ticketQty'][$i];
+                        $PurchasedEventFoodTickets->ticketAmount = $foodTickets['ticketPrice'][$i];
+                        $PurchasedEventFoodTickets->save();
+                    }
+                }
+            
+    
+                for($i = 0;$i < $competition_idCount; $i++)
+                {
+                    $CompetitionRegistered = new CompetitionRegistered();
+                    $CompetitionRegistered->event_id =  $request['eventId'];
+                    $CompetitionRegistered->participant_id = $CompetitionStore['participant_id'][$i];
+                    $CompetitionRegistered->competition_id = $CompetitionStore['competition_id'][$i];
+                    $CompetitionRegistered->fees = $CompetitionStore['member_fee'][$i];
+                    $CompetitionRegistered->user_id = Auth::user()->id;
+                
+                    $CompetitionRegistered->first_name = $CompetitionStore['first_name'][$i];
+    
+                    $CompetitionRegistered->last_name = $CompetitionStore['last_name'][$i];
+                    $CompetitionRegistered->age = $CompetitionStore['age'][$i];
+                    if(isset($CompetitionStore['group_id']))
+                    {
+                    $CompetitionRegistered->group_id = $CompetitionStore['group_id'][$i];
+                      }              
+                    $CompetitionRegistered->save();
+                }
+                $TicketPurchase = new TicketPurchase();
+                $TicketPurchase->name = $user->name;
+                $TicketPurchase->email = $user->email;
+                $TicketPurchase->eventId = $request['eventId'];
+                $TicketPurchase->totalAmount = $totalAmount;
+                $TicketPurchase->payment_type = $req['payment_type'];
+                $TicketPurchase->user_id = Auth::user()->id;
+                $TicketPurchase->paymentStatus = 'approved';
+                $TicketPurchase->save();
+    
+                $EventRegistration = new EventRegistration();
+                $EventRegistration->user_id = Auth::user()->id;
+                $EventRegistration->event_id = $request['eventId'];
+                $EventRegistration->save();
+                
+                 
+                \Mail::send('emails.event_registration_email', ['ticketPurchase' => $TicketPurchase], function($message) use($request){
+
+                          $message->to(Auth::user()->email);
+            
+                          $message->subject('Event Registration Payment');
+            
+                      });
+                      
+                   return redirect('/memberTickets')->withSuccess('Ticket Purchased Successfully');
         }
         else
         {
-             $EventEntryTickets_count = 0;
-        }
-        
-            for($i = 0;$i < $EventEntryTickets_count; $i++)
-            {
-                $PurchasedEventEntryTickets = new PurchasedEventEntryTickets();
-                $PurchasedEventEntryTickets->eventId = $request['eventId'];
-                $PurchasedEventEntryTickets->userId = auth()->user()->id;
-                $PurchasedEventEntryTickets->ticketId = $request['EntryTicketId'][$i];
-                $PurchasedEventEntryTickets->ticketQty = $request['ticketQty'][$i];
-                $PurchasedEventEntryTickets->ticketAmount = $request['ticketPrice'][$i];
-                $PurchasedEventEntryTickets->save();
-            }
-            if(isset($foodTickets['FoodTicketId']))
-            {
-                 $EventFoodTickets_count = count($foodTickets['FoodTicketId']);
-            }
-            else
-            {
-                 $EventFoodTickets_count = 0;
-            }
+            $request['totalAmount'] = $totalAmount;
 
-            for($i = 0;$i < $EventFoodTickets_count; $i++)
+       
+        
+            for($i = 0;$i < $ticketCount; $i++)
             {
-                $PurchasedEventFoodTickets = new PurchasedEventFoodTickets();
-                $PurchasedEventFoodTickets->eventId = $request['eventId'];
-                $PurchasedEventFoodTickets->userId = auth()->user()->id;
-                $PurchasedEventFoodTickets->ticketId = $foodTickets['FoodTicketId'][$i];
-                $PurchasedEventFoodTickets->ticketQty = $foodTickets['ticketQty'][$i];
-                $PurchasedEventFoodTickets->ticketAmount = $foodTickets['ticketPrice'][$i];
-                $PurchasedEventFoodTickets->save();
+                if($request['ticketQty'][$i]!=null)
+                {
+                    $PurchasedEventEntryTickets = new PurchasedEventEntryTickets();
+                    $PurchasedEventEntryTickets->eventId = $request['eventId'];
+                    $PurchasedEventEntryTickets->userId = auth()->user()->id;
+                    $PurchasedEventEntryTickets->ticketId = $request['EntryTicketId'][$i];
+                    $PurchasedEventEntryTickets->ticketQty = $request['ticketQty'][$i];
+                    $PurchasedEventEntryTickets->ticketAmount = $request['ticketPrice'][$i];
+                    $PurchasedEventEntryTickets->save();
+                }
+            }
+            
+
+            for($i = 0;$i < $foodticketCount; $i++)
+            {
+                 if($foodTickets['ticketQty'][$i]!=null)
+                {
+                    $PurchasedEventFoodTickets = new PurchasedEventFoodTickets();
+                    $PurchasedEventFoodTickets->eventId = $request['eventId'];
+                    $PurchasedEventFoodTickets->userId = auth()->user()->id;
+                    $PurchasedEventFoodTickets->ticketId = $foodTickets['FoodTicketId'][$i];
+                    $PurchasedEventFoodTickets->ticketQty = $foodTickets['ticketQty'][$i];
+                    $PurchasedEventFoodTickets->ticketAmount = $foodTickets['ticketPrice'][$i];
+                    $PurchasedEventFoodTickets->save();
+                }
             }
         
 
@@ -259,6 +323,7 @@ class PurchaseTicketsController extends Controller
             
            
            return redirect('/memberpaymentComplete');
+        }
 
     }
 

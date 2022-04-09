@@ -55,8 +55,8 @@ class MemberController extends Controller
             {
                 $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
                 $new = new FamilyMember();
-                $new->firstName = 'Self';
-                $new->lastName = '';
+                $new->firstName = $member->firstName;
+                $new->lastName =  $member->lastName;
                 $new->user_id = Auth::user()->id;
                 $new->Member_Id =$member->Member_Id;
                 $new->age = $age;
@@ -68,16 +68,40 @@ class MemberController extends Controller
 
             else
             {
-                 $member = NonMember::where('user_id',Auth::user()->id)->first();
-                 $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $member = NonMember::where('user_id',Auth::user()->id)->first();
+                $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
                 $new = new FamilyMember();
-                $new->firstName = 'Self';
-                $new->lastName = '';
+                $new->firstName = $member->firstName;
+                $new->lastName =  $member->lastName;
                 $new->user_id = Auth::user()->id;
                 $new->dob = $member->dob;
                 $new->age = $age;
                 $new->phoneNo = $member->mobile_number;
                 $new->is_family_member ='N';
+                $new->save();
+            }
+        }
+        else
+        {
+            $new = FamilyMember::where('is_family_member','N')->where('user_id',Auth::user()->id)->first();
+            
+             $member = Member::where('user_id',Auth::user()->id)->first();
+            if($member)
+            {
+                $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $new->age = $age;
+                $new->dob = $member->dob;
+                $new->relationshipType ='Self';
+                $new->save();
+            }
+
+            else
+            {
+                $member = NonMember::where('user_id',Auth::user()->id)->first();
+                 $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $new->dob = $member->dob;
+                $new->relationshipType ='Self';
+                $new->age = $age;
                 $new->save();
             }
         }
@@ -1004,16 +1028,21 @@ class MemberController extends Controller
 
         /******** Donation *********/
 
-        public function Donation()
+        public function addDonation()
         {
             $campaigns = Campaign::where('start_date','<=',date('y-m-d'))->where('end_date','<=',date('y-m-d'))->get();
             return view('user.donation.add',compact('campaigns'));
         }
 
-        public function AddDonation(Request $request)
+        public function listDonation()
         {
-            if($request->id==null)
-            {
+            $donations = Donation::where('user_id',Auth::user()->id)->get();
+            return view('user.donation.list',compact('donations'));
+        }
+
+        public function SaveDonation(Request $request)
+        {
+            
                 $donation = new Donation();
                 $donation->user_id = Auth::user()->id;
                 $donation->name = $request->name;
@@ -1027,25 +1056,9 @@ class MemberController extends Controller
                 $donation->donation_for =$request->donation_for;
                 $donation->campaign_id =$request->campaign_id;
                 $donation->save();
-               Session::put('donationshippaymentId',$donation->id);
+                Session::put('donationshippaymentId',$donation->id);
                 return redirect('donationpaymentComplete');
-            }
-            else
-            {
-                $donation = Donation::find($request->id);
-                $donation->name = $request->name;
-                $donation->email = $request->email;
-                $donation->mobile_no =$request->phone;
-                $donation->amount =$request->amount;
-                $donation->address =$request->address;
-                $donation->city =$request->city;
-                $donation->pincode =$request->pincode;
-                $donation->comments =$request->comments;
-                 $donation->donation_for =$request->donation_for;
-                 $donation->campaign_id =$request->campaign_id;
-                $donation->save();
-                return back()->withSuccess('Donation updated Successfully');
-            }
+          
         }
 
         /******** Sponsorship *********/

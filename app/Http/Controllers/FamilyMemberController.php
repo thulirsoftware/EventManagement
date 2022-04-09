@@ -37,14 +37,15 @@ class FamilyMemberController extends Controller
             {
                 $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
                 $new = new FamilyMember();
-                $new->firstName = 'Self';
-                $new->lastName = '';
+                $new->firstName = $member->firstName;
+                $new->lastName =  $member->lastName;
                 $new->user_id = Auth::user()->id;
                 $new->Member_Id =$member->Member_Id;
                 $new->age = $age;
                 $new->dob = $member->dob;
                 $new->phoneNo = $member->mobile_number;
                 $new->is_family_member ='N';
+                $new->relationshipType ='Self';
                 $new->save();
             }
 
@@ -53,16 +54,41 @@ class FamilyMemberController extends Controller
                  $member = Member::where('user_id',Auth::user()->id)->first();
                  $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
                 $new = new FamilyMember();
-                $new->firstName = 'Self';
-                $new->lastName = '';
+                $new->firstName = $member->firstName;
+                $new->lastName =  $member->lastName;
                 $new->user_id = Auth::user()->id;
                 $new->dob = $member->dob;
                 $new->age = $age;
                 $new->phoneNo = $member->mobile_number;
                 $new->is_family_member ='N';
+                $new->relationshipType ='Self';
                 $new->save();
             }
             
+        }
+         else
+        {
+            $new = FamilyMember::where('is_family_member','N')->where('user_id',Auth::user()->id)->first();
+            
+             $member = Member::where('user_id',Auth::user()->id)->first();
+            if($member)
+            {
+                $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $new->age = $age;
+                $new->dob = $member->dob;
+                $new->relationshipType ='Self';
+                $new->save();
+            }
+
+            else
+            {
+                $member = NonMember::where('user_id',Auth::user()->id)->first();
+                 $age = Carbon::parse($member->dob)->diff(Carbon::now())->y;
+                $new->dob = $member->dob;
+                $new->relationshipType ='Self';
+                $new->age = $age;
+                $new->save();
+            }
         }
         return view('user.addFamilyMembers',compact('tagDvId','membership','membershipMandatory'));
     }   

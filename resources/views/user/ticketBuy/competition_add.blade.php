@@ -133,9 +133,9 @@
                     <div  class="col-md-4" >
                     </div>
                     <div class="col-md-4 form-group ">
-        <label class="names">Select Competition</label>
+        <label class="names">Select Competition/Non-Competition</label>
             <select class="form-select" name="Competition" id="getCompetition" onchange="getcompetitionType(this.value)">
-                <option value="">Select Competition</option>
+                <option value="">Select Competition/Non-Competition</option>
                     @foreach($Competition as $Competition) 
                         <option value="{{$Competition->id}}_{{$Competition->competition_type}}_{{$Competition->name}}">{{$Competition->name}}</option>
                             

@@ -17,7 +17,7 @@
       </div>
         <div class="col-md-8">
             <?php
-            $donation = \App\Donation::where('user_id',Auth()->user()->id)->first();
+            $donation = null;
             ?>
             <div class="card panel-default">
                  @if(Session::has('success'))
@@ -29,7 +29,7 @@
               <div class="card-header"><center><h4>Donation</h4></center></div>
             
                 <div class="card-body">
-                  <form class="form-horizontal" action="{{ url('/donation/add') }}" method="POST">
+                  <form class="form-horizontal" action="{{ url('/donation/save') }}" method="POST">
                       {{ csrf_field() }}
                     
                   <div class="row">

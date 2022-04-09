@@ -1,6 +1,7 @@
 
 @section('title', 'Login')
 @include('main')
+<!-- Main Content -->
 <section class="wrapper">
       <div class="container py-14 py-md-16">
         <div class="row gx-lg-8 gx-xl-12">
@@ -14,14 +15,7 @@
                         Admin Login
                      </div>
                 <div class="card-body">
-           
-                         @if($message = Session::get('error'))
-                          <div class="alert alert-danger alert-block">
-                            <button type="button" class="close" data-dismiss="alert">x</button>
-                            <strong>{{ $message }}</strong>
-                          </div>  
-                        @endif    
-            @if (count($errors)>0)
+                   @if(count($errors)>0)
               <div class="alert alert-danger">
                 <ul>
                   @foreach($errors->all() as $error)
@@ -29,34 +23,51 @@
                   @endforeach 
                 </ul>
               </div>
-            @endif  
-            @if(Session::has('success'))
+            @endif 
+             @if(Session::has('success'))
 <div class="alert alert-success alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 {{Session::get('success')}}
 </div>
 @endif
-          <div class="row">
-           <form id="form-validation" name="form-validation" method="POST" action="{{ route('admin.login.submit') }}">
-               @csrf
-              <div class="row pb-4">
-               <input id="validation-email"
-                                       class="form-control"
-                                       placeholder="Email"
-                                       name="email"
-                                       type="email"
-                                      required>
-              </div>
-              <div class="row pb-4">
-                                 <input id="validation-password"
-                                       class="form-control password"
-                                       name="password"
-                                       type="password"
-                                       placeholder="Password"
-                                       required>
-                                        <span toggle="#validation-password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+@if (Session::has('message'))
+
+                         <div class="alert alert-success" role="alert">
+
+                            {{ Session::get('message') }}
+
+                        </div>
+
+                    @endif
+                    <form method="POST" action="{{ route('admin.login.submit') }}">
+                        @csrf
+
+                        <div class="form-group row pb-2">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="email" type="email"  name="email" class="form-control" required autocomplete="email" autofocus>
+
+                              
                             </div>
-             <div class="form-group row mb-0">
+                        </div>
+
+                        <div class="form-group row pb-2">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                            
+                                <input id="id_password" type="password" class="form-control" name="password" required autocomplete="current-password" >
+                                           
+                              
+                            </div>
+                            <div class="col-md-1">
+                                <i id="toggle_pwd" class="fa fa-fw fa-eye-slash field_icon"></i>  
+                                </div>
+                        </div>
+
+
+                        <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
@@ -65,58 +76,24 @@
                               
                             </div>
                         </div>
-            </form>
-          </div>
-          
-        </div>
-      </div>
-      </article>
+                    </form>
+                </div>
+            </div>
+        </article>
     </div>
-  </div>
-   </div>
-  </div>
-  </section>
-  <!-- Footer -->
-   <script>
-    $(".toggle-password").click(function() {
-console.log("click");
-  $(this).toggleClass("fa-eye fa-eye-slash");
-  var input = $($(this).attr("toggle"));
-  if (input.attr("type") == "password") {
-    input.attr("type", "text");
-  } else {
-    input.attr("type", "password");
-  }
-});
-</script>
-<!-- START: page scripts -->
-<script>
-    $(function() {
-
-        // Form Validation
-        $('#form-validation').validate({
-            submit: {
-                settings: {
-                    errorListClass: 'form__input-error',
-                    errorClass: 'has-danger'
-                }
-            }
+</div>
+<div class="col-lg-2">
+           </div>
+</div>
+</div>
+</section>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+        $(function () {
+            $("#toggle_pwd").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+               var type = $(this).hasClass("fa-eye-slash") ? "password" : "text";
+                $("#id_password").attr("type", type);
+            });
         });
-
-        // Show/Hide Password
-        $('.password').password({
-            eyeClass: '',
-            eyeOpenClass: 'icmn-eye',
-            eyeCloseClass: 'icmn-eye-blocked'
-        });
-
-        // Change BG
-        var min = 1, max = 5,
-            next = Math.floor(Math.random()*max) + min,
-            final = next > max ? min : next;
-        $('.random-bg-image').data('img', final);
-    
-    });
-</script>
-<!-- END: page scripts -->
-</body>
+    </script>

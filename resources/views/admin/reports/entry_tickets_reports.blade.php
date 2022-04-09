@@ -68,12 +68,14 @@
 					<div class="card">
 
 						<div class="card-body">
-							<table class="table table-bordered table-striped" id="food_entry_list">
+							<table class="table table-bordered table-striped table-responsive" id="food_entry_list">
 								<thead>
 									<th>S.No</th>
 									<th>Event Name</th>
 									<th>Event Date</th>
-									<th>User Name</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Mobile No</th>
 									<th>Age Group</th>
 									<th>Qty</th>
 									<th>Ticket Amount</th>

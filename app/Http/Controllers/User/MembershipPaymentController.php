@@ -178,7 +178,7 @@ class MembershipPaymentController extends Controller
                 $Member->maritalStatus = $NonMember->maritalStatus;
                 $Member->membershipAmount = $purchased->membership_amount;
                 $Member->membershipType =$purchased->membership_code;
-                $Member->membershipExpiryDate =$memberships->closing;
+                $Member->membershipExpiryDate = date('Y').'-12-31';
                 $Member->save();
                  $NonMember = NonMember::where('user_id',Auth::user()->id)->delete();
               
@@ -186,7 +186,7 @@ class MembershipPaymentController extends Controller
             else
             {
                 $Member = Member::where('Email_Id',$NonMember->Email_Id)->first();
-                $Member->membershipExpiryDate =$memberships->closing;
+                $Member->membershipExpiryDate = date('Y').'-12-31';
                 $Member->save();
     
             }
@@ -198,8 +198,8 @@ class MembershipPaymentController extends Controller
              $FamilyMember = FamilyMember::where('user_id',Auth::user()->id)->first();
             if($FamilyMember)
             {
-                $FamilyMember->Member_Id = $Member_Id;
-                $FamilyMember->save();
+                
+                 $FamilyMember = FamilyMember::where('user_id',Auth::user()->id)->update(['Member_Id' => $Member_Id]);
             }
                     
            

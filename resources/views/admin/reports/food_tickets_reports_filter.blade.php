@@ -17,6 +17,12 @@
 					            {
 					              $ageGroup = "Kids";
 					            }
+					            
+					            $member =  App\Member::where('user_id',$PurchasedEventFoodTickets->userId)->first();
+					            if($member==null)
+					            {
+					                 $member =  App\NonMember::where('user_id',$PurchasedEventFoodTickets->userId)->first();
+					            }
 
 							?>
 							<tr>
@@ -24,7 +30,9 @@
 
 								<td>{{ $event['eventName'] }}</td>
 								<td>{{ $event['eventDate'] }}</td>
-								<td>{{ $user['name']}}</td>
+								<td>{{ $user['name'] }}</td>
+								<td>{{ $user['email'] }}</td>
+								<td>{{ $member['mobile_number'] }}</td>
 								<td>{{ $ageGroup }}</td>
 								<td>{{ $EventTicket['foodType'] }}</td>
 

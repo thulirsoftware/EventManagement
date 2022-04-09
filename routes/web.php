@@ -122,8 +122,10 @@ Route::get('/MemberShip/{id}', 'User\MembershipPurchaseController@membershipAdd'
 Route::get('/Competition/AgeValidation', 'MemberController@AgeValidation');
 
 
-Route::get('/donations', 'MemberController@Donation');
-Route::post('/donation/add', 'MemberController@AddDonation');
+Route::get('/donations', 'MemberController@listDonation');
+
+Route::get('/donation/add', 'MemberController@addDonation');
+Route::post('/donation/save', 'MemberController@SaveDonation');
 Route::get('/sponsors', 'MemberController@Sponsorship');
 Route::post('/sponsors/add', 'MemberController@AddSponsorship');
 

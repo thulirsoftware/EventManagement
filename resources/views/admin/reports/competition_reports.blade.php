@@ -47,13 +47,15 @@
 					<div class="card">
 						
 						<div class="card-body">
-							<table class="table table-bordered table-striped" id="competition_report_list">
+							<table class="table table-bordered table-striped table-responsive" id="competition_report_list">
 								<thead>
 									<th>Event Name</th>
 									<th>Competition Name</th>
 									<th>Group Name</th>
-									<th>User Name</th>
+									<th>Participant Name</th>
 									<th>Participant Id</th>
+									<th>User Email</th>
+									<th>Mobile No</th>
 									<th>Fees</th>
 								</thead>
 								<tbody id="competitionreport">

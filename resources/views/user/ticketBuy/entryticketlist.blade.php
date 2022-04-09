@@ -122,17 +122,17 @@
                          @if($ageGroup=='Adult')
                         <label  for="" style="font-weight:normal">{{ $ageGroup}} ({{$memberEventTickets[$i]['min_age'] }} - {{$memberEventTickets[$i]['max_age'] }} ) ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):&nbsp;<span style="color: red">*</span></label>
     
-                        <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  required>
+                        <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" oninput="getValue(this)" required>
                             @else
                           <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{$memberEventTickets[$i]['min_age'] }} - {{$memberEventTickets[$i]['max_age'] }} )  ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
-                            <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
+                            <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}" oninput="getValue(this)" >
                     
                         @endif
                         @else
                           <label  for="" style="font-weight:normal">{{ $ageGroup }} ({{$memberEventTickets[$i]['min_age'] }} - {{$memberEventTickets[$i]['max_age'] }} )  ({{"$".$memberEventTickets[$i]['ticketPrice'] }}):</label>
 
-                            <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  >
+                            <input type="text" class="form-control" id="ticketQty_{{ $i }}" maxlength="2" placeholder="" name="ticketQty[]" price="{{$memberEventTickets[$i]['ticketPrice'] }}" indexValue="{{ $i }}"  oninput="getValue(this)">
                     
                         @endif
                    
@@ -163,4 +163,31 @@
       </div>
     </section>
   </div>
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script type="text/javascript">
+  
+
+    $(document).ready(function(){
+        $('input[type=text]').keypress(function (e) {
+
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          return false;
+      }
+       
+      
+  });
+     
+    });
+    
+    function getValue(data)
+    {
+        console.log(data);
+        if(data.value=="0")
+        {
+            document.getElementById(data.id).value="";
+            alert("Enter ticket quantity greater than zero");
+        }
+    }
+    </script>
   @endsection
